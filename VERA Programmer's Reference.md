@@ -22,7 +22,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 
 <table>
 	<tr>
-		<th>Addr</th>
+		<th colspan="2">Addr</th>
 		<th>Name</th>
 		<th>Bit&nbsp;7</th>
 		<th>Bit&nbsp;6</th>
@@ -34,35 +34,55 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<th>Bit&nbsp;0</th>
 	</tr>
 	<tr>
+		<td rowspan="3">(ADDRSEL=0)</td>
 		<td>$9F20</td>
-		<td>ADDRx_L (x=ADDRSEL)</td>
+		<td>ADDR0_L</td>
 		<td colspan="8" align="center">VRAM Address (7:0)</td>
 	</tr>
 	<tr>
 		<td>$9F21</td>
-		<td>ADDRx_M (x=ADDRSEL)</td>
+		<td>ADDR0_M</td>
 		<td colspan="8" align="center">VRAM Address (15:8)</td>
 	</tr>
 	<tr>
 		<td>$9F22</td>
-		<td>ADDRx_H (x=ADDRSEL)</td>
+		<td>ADDR0_H</td>
 		<td colspan="4" align="center">Address Increment</td>
 		<td colspan="1" align="center">DECR</td>
 		<td colspan="2" align="center">-</td>
 		<td colspan="1" align="center">VRAM Address (16)</td>
 	</tr>
 	<tr>
-		<td>$9F23</td>
+		<td rowspan="3">(ADDRSEL=1)</td>
+		<td>$9F20</td>
+		<td>ADDR1_L</td>
+		<td colspan="8" align="center">VRAM Address (7:0)</td>
+	</tr>
+	<tr>
+		<td>$9F21</td>
+		<td>ADDR1_M</td>
+		<td colspan="8" align="center">VRAM Address (15:8)</td>
+	</tr>
+	<tr>
+		<td>$9F22</td>
+		<td>ADDR1_H</td>
+		<td colspan="4" align="center">Address Increment</td>
+		<td colspan="1" align="center">DECR</td>
+		<td colspan="2" align="center">-</td>
+		<td colspan="1" align="center">VRAM Address (16)</td>
+	</tr>
+	<tr>
+		<td colspan="2">$9F23</td>
 		<td>DATA0</td>
 		<td colspan="8" align="center">VRAM Data port 0</td>
 	</tr>
 	<tr>
-		<td>$9F24</td>
+		<td colspan="2">$9F24</td>
 		<td>DATA1</td>
 		<td colspan="8" align="center">VRAM Data port 1</td>
 	</tr>
 	<tr>
-		<td>$9F25</td>
+		<td colspan="2">$9F25</td>
 		<td>CTRL</td>
 		<td colspan="1" align="center">Reset</td>
 		<td colspan="5" align="center">-</td>
@@ -70,7 +90,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="1" align="center">ADDRSEL</td>
 	</tr>
 	<tr>
-		<td>$9F26</td>
+		<td colspan="2">$9F26</td>
 		<td>IEN</td>
 		<td colspan="1" align="center">IRQ line (8)</td>
 		<td colspan="3" align="center">-</td>
@@ -80,7 +100,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="1" align="center">VSYNC</td>
 	</tr>
 	<tr>
-		<td>$9F27</td>
+		<td colspan="2">$9F27</td>
 		<td>ISR</td>
 		<td colspan="4" align="center">Sprite collissions</td>
 		<td colspan="1" align="center">AFLOW</td>
@@ -89,13 +109,14 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="1" align="center">VSYNC</td>
 	</tr>
 	<tr>
-		<td>$9F28</td>
+		<td colspan="2">$9F28</td>
 		<td>IRQLINE_L</td>
 		<td colspan="8" align="center">IRQ line (7:0)</td>
 	</tr>
 	<tr>
+		<td rowspan="4">(DCSEL=0)</td>
 		<td>$9F29</td>
-		<td>DC_VIDEO (DCSEL=0)</td>
+		<td>DC_VIDEO</td>
 		<td colspan="1" align="center">Current Field</td>
 		<td colspan="1" align="center">Sprites Enable</td>
 		<td colspan="1" align="center">Layer1 Enable</td>
@@ -106,41 +127,42 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 	</tr>
 	<tr>
 		<td>$9F2A</td>
-		<td>DC_HSCALE (DCSEL=0)</td>
+		<td>DC_HSCALE</td>
 		<td colspan="8" align="center">Active Display H-Scale</td>
 	</tr>
 	<tr>
 		<td>$9F2B</td>
-		<td>DC_VSCALE (DCSEL=0)</td>
+		<td>DC_VSCALE</td>
 		<td colspan="8" align="center">Active Display V-Scale</td>
 	</tr>
 	<tr>
 		<td>$9F2C</td>
-		<td>DC_BORDER (DCSEL=0)</td>
+		<td>DC_BORDER</td>
 		<td colspan="8" align="center">Border Color</td>
 	</tr>
 	<tr>
+		<td rowspan="4">(DCSEL=1)</td>
 		<td>$9F29</td>
-		<td>DC_HSTART (DCSEL=1)</td>
+		<td>DC_HSTART</td>
 		<td colspan="8" align="center">Active Display H-Start (9:2)</td>
 	</tr>
 	<tr>
 		<td>$9F2A</td>
-		<td>DC_HSTOP (DCSEL=1)</td>
+		<td>DC_HSTOP</td>
 		<td colspan="8" align="center">Active Display H-Stop (9:2)</td>
 	</tr>
 	<tr>
 		<td>$9F2B</td>
-		<td>DC_VSTART (DCSEL=1)</td>
+		<td>DC_VSTART</td>
 		<td colspan="8" align="center">Active Display V-Start (8:1)</td>
 	</tr>
 	<tr>
 		<td>$9F2C</td>
-		<td>DC_VSTOP (DCSEL=1)</td>
+		<td>DC_VSTOP</td>
 		<td colspan="8" align="center">Active Display V-Stop (8:1)</td>
 	</tr>
 	<tr>
-		<td>$9F2D</td>
+		<td colspan="2">$9F2D</td>
 		<td>L0_CONFIG</td>
 		<td colspan="2" align="center">Map Height</td>
 		<td colspan="2" align="center">Map Width</td>
@@ -149,41 +171,41 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="2" align="center">Color Depth</td>
 	</tr>
 	<tr>
-		<td>$9F2E</td>
+		<td colspan="2">$9F2E</td>
 		<td>L0_MAPBASE</td>
 		<td colspan="8" align="center">Map Base Address (16:9)</td>
 	</tr>
 	<tr>
-		<td>$9F2F</td>
+		<td colspan="2">$9F2F</td>
 		<td>L0_TILEBASE</td>
 		<td colspan="6" align="center">Tile Base Address (16:11)</td>
 		<td colspan="1" align="center">Tile Height</td>
 		<td colspan="1" align="center">Tile Width</td>
 	</tr>
 	<tr>
-		<td>$9F30</td>
+		<td colspan="2">$9F30</td>
 		<td>L0_HSCROLL_L</td>
 		<td colspan="8" align="center">H-Scroll (7:0)</td>
 	</tr>
 	<tr>
-		<td>$9F31</td>
+		<td colspan="2">$9F31</td>
 		<td>L0_HSCROLL_H</td>
 		<td colspan="4" align="center">-</td>
 		<td colspan="8" align="center">H-Scroll (11:8)</td>
 	</tr>
 	<tr>
-		<td>$9F32</td>
+		<td colspan="2">$9F32</td>
 		<td>L0_VSCROLL_L</td>
 		<td colspan="8" align="center">V-Scroll (7:0)</td>
 	</tr>
 	<tr>
-		<td>$9F33</td>
+		<td colspan="2">$9F33</td>
 		<td>L0_VSCROLL_H</td>
 		<td colspan="4" align="center">-</td>
 		<td colspan="8" align="center">V-Scroll (11:8)</td>
 	</tr>
 	<tr>
-		<td>$9F34</td>
+		<td colspan="2">$9F34</td>
 		<td>L1_CONFIG</td>
 		<td colspan="2" align="center">Map Height</td>
 		<td colspan="2" align="center">Map Width</td>
@@ -192,41 +214,41 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="2" align="center">Color Depth</td>
 	</tr>
 	<tr>
-		<td>$9F35</td>
+		<td colspan="2">$9F35</td>
 		<td>L1_MAPBASE</td>
 		<td colspan="8" align="center">Map Base Address (16:9)</td>
 	</tr>
 	<tr>
-		<td>$9F36</td>
+		<td colspan="2">$9F36</td>
 		<td>L1_TILEBASE</td>
 		<td colspan="6" align="center">Tile Base Address (16:11)</td>
 		<td colspan="1" align="center">Tile Height</td>
 		<td colspan="1" align="center">Tile Width</td>
 	</tr>
 	<tr>
-		<td>$9F37</td>
+		<td colspan="2">$9F37</td>
 		<td>L1_HSCROLL_L</td>
 		<td colspan="8" align="center">H-Scroll (7:0)</td>
 	</tr>
 	<tr>
-		<td>$9F38</td>
+		<td colspan="2">$9F38</td>
 		<td>L1_HSCROLL_H</td>
 		<td colspan="4" align="center">-</td>
 		<td colspan="8" align="center">H-Scroll (11:8)</td>
 	</tr>
 	<tr>
-		<td>$9F39</td>
+		<td colspan="2">$9F39</td>
 		<td>L1_VSCROLL_L</td>
 		<td colspan="8" align="center">V-Scroll (7:0)</td>
 	</tr>
 	<tr>
-		<td>$9F3A</td>
+		<td colspan="2">$9F3A</td>
 		<td>L1_VSCROLL_H</td>
 		<td colspan="4" align="center">-</td>
 		<td colspan="8" align="center">V-Scroll (11:8)</td>
 	</tr>
 	<tr>
-		<td>$9F3B</td>
+		<td colspan="2">$9F3B</td>
 		<td>AUDIO_CTRL</td>
 		<td colspan="1" align="center">FIFO Full / FIFO Reset</td>
 		<td colspan="1" align="center">-</td>
@@ -235,22 +257,22 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="4" align="center">PCM Volume</td>
 	</tr>
 	<tr>
-		<td>$9F3C</td>
+		<td colspan="2">$9F3C</td>
 		<td>AUDIO_RATE</td>
 		<td colspan="8" align="center">PCM Sample Rate</td>
 	</tr>
 	<tr>
-		<td>$9F3D</td>
+		<td colspan="2">$9F3D</td>
 		<td>AUDIO_DATA</td>
 		<td colspan="8" align="center">Audio FIFO data (write-only)</td>
 	</tr>
 	<tr>
-		<td>$9F3E</td>
+		<td colspan="2">$9F3E</td>
 		<td>SPI_DATA</td>
 		<td colspan="8" align="center">Data</td>
 	</tr>
 	<tr>
-		<td>$9F3F</td>
+		<td colspan="2">$9F3F</td>
 		<td>SPI_CTRL</td>
 		<td colspan="1" align="center">Busy</td>
 		<td colspan="5" align="center">-</td>
