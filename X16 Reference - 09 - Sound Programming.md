@@ -1,14 +1,106 @@
-## Chapter 9: Sound Programming
+# Chapter 9: Sound Programming
 
-* VERA PSG and PCM, refer to the [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md).
+## Audio bank API
 
-### YM2151 (OPM) FM Synthesis
+The Commander X16 provides many convenience routines for controlling the YM2151 and VERA PSG. These are called similarly to how KERNAL API calls are done in machine language.
+
+In order to gain access to these routines, you must either use `jsrfar` from the KERNAL API:
+```
+  AUDIO_BANK = $0A
+  
+  jsr jsrfar  ; $FF6E
+  .word ym_init ; $C063
+  .byte AUDIO_BANK
+```
+
+or switch to ROM bank `$0A` directly:
+
+```
+  lda #$0A ; Audio bank number
+  sta $01  ; ROM bank register
+```
+
+Conveniently, the KERNAL API still exists in this bank, and calling a KERNAL API routine will automatically switch your ROM bank back to the KERNAL bank to perform the routine and then switch back right before returning, so there's usually no need for your audio-centric program to switch away from the audio bank to perform the occasional KERNAL API call.
+
+### Audio API routines
+
+For the audio chips, some of the documentation uses the words *channel* and *voice* interchangably. This table of API routines uses *channel* for the 8 on the YM2151, and *voice* for the 16 on the PSG.
+
+| Label | Address | Class | Description | Inputs | Returns | Preserves |
+|-|-|-|-|-|-|-|
+| `bas_fmchordstring` | `$C08D` | BASIC | Starts playing all of notes specified in a string. This uses the same parser as `bas_fmplaystring` but instead of playing the notes in sequence, it starts playback of each note in the string, on many channels as is necessary, then returns to the caller without delay. The first FM channel that is used is the one specified by calling `bas_playstringvoice` prior to calling this routine. The string pointer must point to low RAM (`$0000`-`$9EFF`). | .A = string length <br/> .X .Y = pointer to string | none | none |
+| `bas_fmfreq` | `$C000` | BASIC | Plays a note specified in Hz on an FM channel | .A = channel <br/> .X .Y = 16-bit frequency in Hz <br/> .C clear = normal <br/> .C set = no retrigger | .C clear = success <br/> .C set = error | none |
+| `bas_fmnote` | `$C003` | BASIC | Plays a note specified in BASIC format on an FM channel | .A = channel <br/> .X = note (BASIC format) </br> .Y = fractional semitone <br/> .C clear = normal <br/> .C set = no retrigger | .C clear = success <br/> .C set = error | none |
+| `bas_fmplaystring` | `$C006` | BASIC | Plays a note script using the FM channel which was specified on a previous call to `bas_playstringvoice`. This string pointer must point to low RAM (`$0000`-`$9EFF`). This routine depends on interrupts being enabled. In particular, it uses `WAI` as a delay for timing, so it expects IRQ to be asserted and acknowledged once per video frame, which is the case by default on the system. Stops playback and returns control if the STOP key is pressed. | .A = string length <br/> .X .Y = pointer to string | none | none |
+| `bas_fmvib` | `$C009` | BASIC | Sets the LFO speed and both amplitude and frequency depth based on inputs. Also sets the LFO waveform to triangle. | .A = speed </br> .X = PMD/AMD depth | .C clear = success <br/> .C set = error | none |
+| `bas_playstringvoice` | `$C00C` | BASIC | Preparatory routine for `bas_fmplaystring` and `bas_psgplaystring` to set the voice/channel number for playback | .A = PSG/YM voice/channel | none | .A .X |
+| `bas_psgchordstring` | `$C090` | BASIC | Starts playing all of notes specified in a string. This uses the same parser as `bas_psgplaystring` but instead of playing the notes in sequence, it starts playback of each note in the string, on many voices as is necessary, then returns to the caller without delay. The first PSG voice that is used is the one specified by calling `bas_playstringvoice` prior to calling this routine. The string pointer must point to low RAM (`$0000`-`$9EFF`). | .A = string length <br/> .X .Y = pointer to string | none | none |
+| `bas_psgfreq` | `$C00F` | BASIC | Plays a note specified in Hz on a PSG voice | .A = voice <br/> .X .Y = 16-bit frequency | .C clear = success <br/> .C set = error | none |
+| `bas_psgnote` | `$C012` | BASIC | Plays a note specified in BASIC format on a PSG voice | .A = voice <br/> .X = note (BASIC format) </br> .Y = fractional semitone | .C clear = success <br/> .C set = error | none |
+| `bas_psgwav` | `$C015` | BASIC | Sets a waveform and duty cycle for a PSG voice | .A = voice </br> .X 0-63 = Pulse, 1/128 - 64/128 duty cycle <br/> .X 64-127 = Sawtooth <br/> .X 128-191 = Triangle <br/> .X 192-255 = Noise | .C clear = success <br/> .C set = error | none |
+| `bas_psgplaystring` | `$C018` | BASIC | Plays a note script using the PSG voice which was specified on a previous call to `bas_playstringvoice`. This string pointer must point to low RAM (`$0000`-`$9EFF`). This routine depends on interrupts being enabled. In particular, it uses `WAI` as a delay for timing, so it expects IRQ to be asserted and acknowledged once per video frame, which is the case by default on the system. Stops playback and returns control if the STOP key is pressed. | .A = string length <br/> .X .Y = pointer to string | none | none |
+| `notecon_bas2fm` | `$C01B` | Conversion | Convert a note in BASIC format to a YM2151 KC code | .X = note (BASIC format) | .X = note (YM2151 KC) <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_bas2midi` | `$C01E` | Conversion | Convert a note in BASIC format to a MIDI note number | .X = note (BASIC format) | .X = MIDI note <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_bas2psg` | `$C021` | Conversion | Convert a note in BASIC format to a PSG frequency | .X = note (BASIC format) <br/> .Y = fractional semitone | .X .Y = PSG frequency <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_fm2bas` | `$C024` | Conversion | Convert a note in YM2151 KC format to a note in BASIC format | .X = YM2151 KC  | .X = note (BASIC format) <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_fm2midi` | `$C027` | Conversion | Convert a note in YM2151 KC format to a MIDI note number | .X = YM2151 KC  | .X = MIDI note <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_fm2psg` | `$C02A` | Conversion | Convert a note in YM2151 KC format to a PSG frequency | .X = YM2151 KC <br/> .Y = fractional semitone | .X .Y = PSG frequency <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_freq2bas` | `$C02D` | Conversion | Convert a frequency in Hz to a note in BASIC format and a fractional semitone | .X .Y = 16-bit frequency in Hz | .X = note (BASIC format) <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_freq2fm` | `$C030` | Conversion | Convert a frequency in Hz to YM2151 KC and a fractional semitone (YM2151 KF) | .X .Y = 16-bit frequency in Hz | .X = YM2151 KC <br/> .Y = fractional semitone (YM2151 KF) <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_freq2midi` | `$C033` | Conversion | Convert a frequency in Hz to a MIDI note and a fractional semitone | .X .Y = 16-bit frequency in Hz | .X = MIDI note <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_freq2psg` | `$C036` | Conversion | Convert a frequency in Hz to a VERA PSG frequency | .X .Y = 16-bit frequency in Hz | .X .Y = 16-bit frequency in VERA PSG format <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_midi2bas` | `$C039` | Conversion | Convert a MIDI note to a note in BASIC format | .X = MIDI note | .X = note (BASIC format) <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_midi2fm` | `$C03C` | Conversion | Convert a MIDI note to a YM2151 KC | .X = MIDI note | .X = YM2151 KC <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_midi2psg` | `$C03F` | Conversion | Convert a MIDI note and fractional semitone to a PSG frequency | .X = MIDI note <br/> .Y = fractional semitone | .X .Y = 16-bit frequency in VERA PSG format <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_psg2bas` | `$C042` | Conversion | Convert a frequency in VERA PSG format to a note in BASIC format and a fractional semitone | .X .Y = 16-bit frequency in VERA PSG format | .X = note (BASIC format) <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_psg2fm` | `$C045` | Conversion | Convert a frequency in VERA PSG format to YM2151 KC and a fractional semitone (YM2151 KF) | .X .Y = 16-bit frequency in VERA PSG format | .X = YM2151 KC <br/> .Y = fractional semitone (YM2151 KF) <br/> .C clear = success <br/> .C set = error | none |
+| `notecon_psg2midi` | `$C048` | Conversion | Convert a frequency in VERA PSG format to a MIDI note and a fractional semitone | .X .Y = 16-bit frequency in VERA PSG format | .X = MIDI note <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
+| `psg_getatten` | `$C093` | VERA PSG | Retrieve the attenuation value for a voice previously set by `psg_setatten` | .A = voice | .X = attenuation value | .A |
+| `psg_getpan` | `$C096` | VERA PSG | Retrieve the simple panning value that is currently set for a voice. | .A = voice | .X = pan value | .A |
+| `psg_init` | `$C04B` | VERA PSG | Initialize the state of the PSG. Silence all voices. Reset the attenuation levels to 0. Set "playstring" defaults including `O4`, `T120`, `S1`, and `L4`. Set all PSG voices to the pulse waveform at 50% duty with panning set to both L+R | none | none | none |
+| `psg_playfreq` | `$C04E` | VERA PSG | Turn on a PSG voice at full volume (factoring in attenuation) and set its frequency | .A = voice <br/> .X .Y = 16 bit frequency in VERA PSG format | none | none |
+| `psg_read` | `$C051` | VERA PSG | Read a value from one of the VERA PSG registers. If the selected register is a volume register, return either the cooked value (attenuation applied) or the raw value (as received by `psg_write` or `psg_setvol`, or as set by `psg_playfreq`) depending on the state of the carry flag | .X = PSG register address (offset from `$1F9C0`) <br/> .C clear = if volume, return raw <br/> .C set = if volume, return cooked | .A = register value | .X |
+| `psg_setatten` | `$C054` | VERA PSG | Set the attenuation value for a PSG voice. The valid range is from `$00` (full volume) to `$3F` (fully muted). API routines which affect volume will deduct the attenuation value from the intended volume before setting it. Calls to this routine while a note is playing will change the output volume of the voice immediately. This control can be considered a "master volume" for the voice. | .A = voice <br/> .X = attenuation | none | none |
+| `psg_setfreq` | `$C057` | VERA PSG | Set the frequency of a PSG voice without changing any other attributes of the voice | .A = voice <br/> .X .Y = 16 bit frequency in VERA PSG format | none | none |
+| `psg_setpan` | `$C05A` | VERA PSG | Set the simple panning for the voice. A value of `0` will silence the voice entirely until another pan value is set. | .A = voice <br/> .X 0 = none <br/> .X 1 = left <br/> .X 2 = right <br/> .X 3 = both | none | none |
+| `psg_setvol` | `$C05D` | VERA PSG | Set the volume for the voice. The volume that's written to the VERA has attenuation applied. Valid volumes range from `$00` to `$3F` inclusive | .A = voice <br/> .X = volume | none | none |
+| `psg_write` | `$C060` | VERA PSG | Write a value to one of the VERA PSG registers. If the selected register is a volume register, attenuation will be applied before the value is written to the VERA | .A = value <br/>.X = PSG register address (offset from `$1F9C0`) | none | .A .X |
+| `psg_write_fast` | `$C0A2` | VERA PSG | Same effect as `psg_write` but does not preserve the state of the VERA CTRL and ADDR registers. It also assumes VERA_CTRL bit 0 is clear, VERA_ADDR_H = $01, and VERA_ADDR_M = $9F.  This routine is meant for use by sound engines that typically write out multiple PSG registers in a loop. | .A = value <br/>.X = PSG register address (offset from `$1F9C0`) | none | .A .X |
+| `ym_getatten` | `$C099` | YM2151 | Retrieve the attenuation value for a channel previously set by `ym_setatten` | .A = channel | .X = attenuation value | .A |
+| `ym_getpan` | `$C09C` | YM2151 | Retrieve the simple panning value that is currently set for a channel. | .A = channel | .X = pan value | .A |
+| `ym_init` | `$C063` | YM2151 | Initialize the state of the YM chip. Silence all channels by setting the release part of the ADSR envelope to max and then setting all channels to released. Reset all attenuation levels to 0. Set "playstring" defaults including `O4`, `T120`, `S1`, and `L4`. Set panning for all channels set to both L+R. Reset LFO state. Set all of the other registers to `$00` | none | .C clear = success <br/> .C set = error | none |
+| `ym_loaddefpatches` | `$C066` | YM2151 | Load a default set of patches into the 8 channels.<br/> `C0: Piano (0)`<br/>`C1: E. Piano (5)`<br/>`C2: Vibraphone (11)`<br/>`C3: Fretless (35)`<br/> `C4: Violin (40)`<br/>`C5: Trumpet (56)`<br/>`C6: Blown Bottle (76)`<br/>`C7: Fantasia (88)` | none | .C clear = success <br/> .C set = error | none |
+| `ym_loadpatch` | `$C069` | YM2151 | Load into a channel a patch preset by number (0-161) from the audio bank, or from an arbitrary memory location. High RAM addresses (`$A000`-`$BFFF`) are accepted in this mode. | .A = channel<br/>.C clear = .X .Y = patch address<br/>.C set = .X = patch number | .C clear = success <br/> .C set = error | none |
+| `ym_loadpatchlfn` | `$C06C` | YM2151 | Load patch into a channel by way of an open logical file number. This routine will read 26 bytes from the open file, or possibly fewer bytes if there's an error condition. The routine will leave the file open on return. On return if .C is set, check .A for the error code. | .A = channel<br/>.X = Logical File Number | .C clear = success <br/> .C set .A=0 = YM error <br/> .C set .A&3=2 = read timeout <br/> .C set .A&3=3 = file not open<br/> .C set .A&64=64 = EOF<br/> .C set .A&128=128 = device not present | none |
+| `ym_playdrum` | `$C06F` | YM2151 | Load a patch associated with a MIDI drum note number and trigger it on a channel. Valid drum note numbers mirror the General MIDI percussion standard and range from 25 (Snare Roll) through 87 (Open Surdo). Note 0 will release the note. After the drum is played, the channel will still contain the patch for the drum sound and thus may not sound musical if you attempt to play notes on it before loading another instrument patch. | .A = channel<br/>.X = drum note | .C clear = success <br/> .C set = error | none |
+| `ym_playnote` | `$C072` | YM2151 | Set a KC/KF on a channel and optionally trigger it. | .A = channel<br/>.X = KC<br/>.Y = KF (fractional semitone)<br/>.C clear = trigger<br/>.C set = no trigger | .C clear = success <br/> .C set = error | none |
+| `ym_setatten` | `$C075` | YM2151 | Set the attenuation value for a channel. The valid range is from `$00` (full volume) to `$7F` (fully muted). API routines which affect TL or CON will add the attenuation value to the intended TL on operators that are carriers before setting it. Calls to this routine will change the TL of the channel's carriers immediately. This control can be considered a "master volume" for the channel. | .A = channel <br/> .X = attenuation | .C clear = success <br/> .C set = error | .A .X |
+| `ym_setdrum` | `$C078` | YM2151 | Load a patch associated with a MIDI drum note number and set the KC/KF for it on a channel. Called by `ym_playdrum`. | .A = channel<br/>.X = drum note | .C clear = success <br/> .C set = error | none |
+| `ym_setnote` | `$C07B` | YM2151 | Set a KC/KF on a channel. Called by `ym_playnote`. | .A = channel<br/>.X = KC<br/>.Y = KF (fractional semitone) | .C clear = success <br/> .C set = error | none |
+| `ym_setpan` | `$C07E` | YM2161 | Set the simple panning for the channel. A value of `0` will silence the channel entirely until another pan value is set. | .A = channel <br/> .X 0 = none <br/> .X 1 = left <br/> .X 2 = right <br/> .X 3 = both | .C clear = success <br/> .C set = error | none |
+| `ym_read` | `$C081` | YM2151 | Read a value from the in-RAM shadow of one of the YM2151 registers. The YM2151's internal registers cannot be read from, but this API keeps state of what was written, so this routine will be able to retrieve chip values for you. If the selected register is a TL register, return either the cooked value (attenuation applied) or the raw value (as received by `ym_write`) depending on the state of the carry flag | .X = YM2151 register address <br/> .C clear = if TL, return raw <br/> .C set = if TL, return cooked | .A = register value<br/>.C clear = success <br/> .C set = error | .X |
+| `ym_release` | `$C084` | YM2161 | Release a note on a channel. If a note is not playing, this routine has no tangible effect | .A = channel | .C clear = success <br/> .C set = error | none |
+| `ym_trigger` | `$C087` | YM2161 | Trigger the currently configured note on a channel, optionally releasing the channel first depending on the state of the carry flag. | .A = channel <br/>.C clear = release first<br/> .C set = no release | .C clear = success <br/> .C set = error | none |
+| `ym_write` | `$C08A` | YM2151 | Write a value to one of the YM2151 registers and to the in-RAM shadow copy. If the selected register is a TL register, attenuation will be applied before the value is written. Writes which affect which operators are carriers will have TL values for that channel appropriately recalculated and rewritten | .A = value <br/>.X = YM register address | .C clear = success <br/> .C set = error | .A .X |
+
+## Direct communication with the YM2151 and VERA PSG vs API
+
+Use of the API routines above is not required to access the capabilities of the sound chips. However, mixing raw writes to a chip and API access for the same chip is not recommended, particularly where PSG volumes and YM2151 TL and RLFBCON registers are concerned. The API processes volumes, calculating attenuation and adjusting the output volume accordingly, and the API will be oblivious to direct manipulation of the sound chips.
+
+The sections below describe how to do raw access to the sound chips outside of the API.
+
+
+## VERA PSG and PCM Programming
+
+* For VERA PSG and PCM, refer to the [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md).
+
+## YM2151 (OPM) FM Synthesis
 
 The Yamaha YM2151 (OPM) sound chip is an FM synthesizer ASIC in the Commander X16.
 It is connected to the system bus at I/O address `0x9F40` (address register) and at `0x9F41` (data register). It has 8 independent voices with 4 FM operators each. Each
 voice is capable of left/right/both audio channel output. The four operators of each channel may be connected in one of 8 pre-defined "connection algorithms" in order to produce a wide variety of timbres.
 
-#### YM2151 Communication:
+### YM2151 Communication:
 
 There are 3 basic operations to communicate with the YM chip: Reading its status,
 address select, and data write. These are performed by reading from or writing to
@@ -22,7 +114,7 @@ Address|Name|Read Action|Write Action
 The values stored in the YM's internal registers are write-only. If you need
 to know the values in the registers, you must store a copy of the values somewhere in memory as you write updates to the YM.
 
-#### YM Write Procedure
+### YM Write Procedure
 
 1. Ensure YM is not busy (see Write Timing below).
 2. Select the desired internal register address by writing it into `YM_address`.
@@ -30,7 +122,7 @@ to know the values in the registers, you must store a copy of the values somewhe
 
 *Note:* You may write into the same register multiple times without repeating a write to `YM_address`. The same register will be updated with each data write.
 
-#### Write Timing: ####
+### Write Timing: ###
 
 **The YM2151 is sensitive to the speed at which you write data into it. If you
 make writes when it is not ready to receive them, they will be dropped and the sound output will be corrupted.**
@@ -44,7 +136,7 @@ In order to avoid this, you can use the `BUSY` flag which is bit 7 of the `YM st
 
 Lastly, the `BUSY` flag sometimes takes a (very) short period before it goes high. This has only been observed when IMMEDIATELY polling the flag after a write into `YM_data.` As long as your code does not do so, this quirk should not be an issue.
 
-#### Example Code: ####
+### Example Code: ###
 
   **Assembly Language:**
 
@@ -74,7 +166,7 @@ Lastly, the `BUSY` flag sometimes takes a (very) short period before it goes hig
     80 FOR I=1 TO 100 : NEXT I : REM DELAY WHILE NOTE PLAYS
     90 POKE YD,$00+1 : REM RELEASE THE NOTE
 
-### YM2151 Internal Addressing
+## YM2151 Internal Addressing
 
 The YM register address space can be thought of as being divided into 3 ranges:
 
@@ -84,9 +176,9 @@ Range|Type|Description
 20 .. 3F|Channel CFG|Parameters in groups of 8, one per channel. These affect the whole channel.
 40 .. FF|Operator CFG|Parameters in groups of 32 - these map to individual operators of each voice.
 
-### YM2151 Register Map
+## YM2151 Register Map
 
-##### Global Settings:
+#### Global Settings:
 <table>
   <tr>
     <th rowspan="2">Addr</th>
@@ -245,7 +337,7 @@ Range|Type|Description
 
 
 
-##### Channel CFG Registers:
+#### Channel CFG Registers:
 <table>
   <tr>
     <th rowspan="2">Register Range</th>
@@ -300,7 +392,7 @@ Range|Type|Description
   </tr>
 </table>
 
-##### Operator CFG Registers:
+#### Operator CFG Registers:
 <table>
   <tr>
     <th rowspan="2">Register<br />Range</th>
@@ -458,9 +550,9 @@ Range|Type|Description
   </tr>
 </table>
 
-## YM2151 Register Details
+# YM2151 Register Details
 
-### Global Parameters:
+## Global Parameters:
 
 **LR** (LFO Reset)
 
@@ -581,7 +673,7 @@ Register $1B, Bits 0-1
 Sets the LFO waveform:
 0: Sawtooth, 1: Square (50% duty cycle), 2: Triangle, 3: Noise
 
-### Channel Control Parameters:
+## Channel Control Parameters:
 
 **RL** (Right/Left output enable)
 
@@ -647,7 +739,7 @@ Sensitivity values: (dB)
 -|-|-|-
 0|23.90625|47.8125|95.625
 
-### Operator Control Parameters:
+## Operator Control Parameters:
 
 Operators are arranged as follows:
 
@@ -737,7 +829,7 @@ Sets the rate at which the level drops to zero when a note is released. 0=none, 
 
 ___
 
-## Getting sound out of the YM2151 (a brief tutorial)
+# Getting sound out of the YM2151 (a brief tutorial)
 
 While there is a large number of parameters that affect the sound of the YM2151, its operation can be thought of in simplified terms if you consider that there are basically three components to deal with: Instrument configuration (patch), voice pitch selection,
 and "pressing/releasing" the "key" to trigger (begin) and release (end) notes. It's essentially the
@@ -750,7 +842,7 @@ YM2151, these are two distinct actions.
 
 For this tutorial, we will start with the simplest operation, (triggering notes) and proceed to note selection, and finally patch configuration.
 
-### Triggering and Releasing Notes: ###
+## Triggering and Releasing Notes: ###
 
 **Key On/Off (KON) Register ($08):**
 
@@ -807,7 +899,7 @@ Suppose a note is playing on channel 2 with all 4 operators active. You can rele
   </tr>
 </table>
 
-### Pitch Control
+## Pitch Control
 
 **YM Registers:**
 * `KC` = $28 + channel number
@@ -821,7 +913,7 @@ the pitch selected in `KC` in 1/64th increments of the way up to the next semito
 
 Like all registers in the YM, whenever a channel's `KC` or `KF` value is written, it takes effect immediately. If a note is playing, its pitch immediately changes. When triggering new notes, it is not important whether you write the pitch or key the note first. This happens quickly in real-time and you will not hear any real difference. Changing the pitch without re-triggering the ADSR envelope is how to achieve pitch slides or a legato effect.
 
-###### Key Code (KC):
+##### Key Code (KC):
 
 `KC` codes are "conveniently" arranged so that the upper nybble is the octave (0-7) and the
 lower nybble is the pitch. The pitches are arranged as follows within an octave:
@@ -834,10 +926,10 @@ Low Nybble (hex)|0|1|2|4|5|6|8|9|A|C|D|E
 
 Combine the above with an octave to get a note's `KC` value. For instance: concert A (440hz) is (by sheer coincidence) `$4A`. Middle C is `$3E`, and so forth.
 
-###### Key Fraction (KF):
+##### Key Fraction (KF):
 `KF` values are written into the top 6 bits of the voice's `KF` register. Basically the value is `0, 1<<2, 2<<2, .. 63<<2`
 
-### Loading a patch
+## Loading a patch
 
 The patch configuration is by far the most complicated aspect of using the YM. If you take as given that a voice has a patch loaded, then playing notes on it is fairly straightforward. For the
 moment, we will assume a pre-patched voice.
@@ -859,19 +951,19 @@ Once a voice has been patched as above, you can now POKE notes into it with very
 Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the $20 range register (LR|FB|CON), for the $38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at $40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
 
 
-### Using the LFO
+## Using the LFO
 
 There is a single global LFO in the YM2151 which can affect the level (volume) and/or pitch of all 8 channels simultaneously. It has a single frequency and waveform setting which must be shared among all channels, and shared between both phase and amplitude modulation. The global parameters `AMD` and `PMD` act as modifiers to the sensitivity settings of the channels. While the frequency and waveform of the LFO pattern must be shared, the depths of the two types of modulation are independent of each other.
 
 You can re-trigger the LFO by setting and then clearing the `LR` bit in the test register ($01).
 
-#### Vibrato:
+### Vibrato:
 
 Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of $7F means 100% effectiveness, $40 means all channels' vibrato depths will be reduced by half, etc.
 
 The vibrato speed is global, depending solely on the value set to `LFRQ.`
 
-#### Amplitude Modulation:
+### Amplitude Modulation:
 
 Amplitude modulation works similarly to phase modulation, except that the intensity is a combination of the per-channel `AMS` value modified by the global `AMD` value. Additionally, within channels having non-zero amplitude modulation sensitivity, individual operators must have their `AMS-en` bit enabled in order to be affected by the modulation.
 
