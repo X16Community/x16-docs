@@ -538,7 +538,7 @@ At reset, the palette will contain a predefined palette:
 
 ![A picture of the Commander X16 palette](cx16palette.png)
 
-* Color indexes 0-15 contain the C64 color palette.
+* Color indexes 0-15 contain a palette somewhat similar to the C64 color palette.
 * Color indexes 16-31 contain a grayscale ramp.
 * Color indexes 32-255 contain various hues, saturation levels, brightness levels.
 
