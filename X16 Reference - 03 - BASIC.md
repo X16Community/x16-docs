@@ -194,6 +194,10 @@ SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
 Note: [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines) does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
 
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
+
+In this situation, to restore `$00` with the current set bank, you can simply `PEEK($A000)`.
+
 ### BOOT
 
 **TYPE: Command**  
