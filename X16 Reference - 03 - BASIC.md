@@ -196,7 +196,7 @@ Note: [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-
 
 Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
 
-In this situation, to restore the contents of `$00` to the configured RAM bank, you can simply read or write to any address >= `$A000`.
+In this situation, to restore the contents of `$00` to the configured RAM bank, you can simply read or write to (`PEEK` or `POKE`) any address >= `$A000`.
 
 ### BOOT
 
