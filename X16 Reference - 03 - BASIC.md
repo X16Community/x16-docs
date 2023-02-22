@@ -194,9 +194,9 @@ SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
 Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
 
-Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
+Note: BANK uses its own register to store the desired bank address; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read 4 when PEEKing from BASIC. If you need to know the currently selected ROM and RAM banks, you should explicitly set it and use a variable to track your selected bank number(s).
 
-In this situation, to restore the contents of `$00` to the configured RAM bank, you can simply read or write to (`PEEK` or `POKE`) any address >= `$A000`.
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
 
 ### BOOT
 
