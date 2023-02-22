@@ -15,6 +15,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `AND` | operator | Returns boolean "AND" or bitwise intersection | C64 |
 | `ASC` | function | Returns numeric PETSCII value from string | C64 |
 | `ATN` | function | Returns arctangent of a number | C64 |
+| [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | command | Loads and runs `AUTOBOOT.X16` | X16 |
@@ -178,6 +179,25 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 PRINT BIN$(200)   : REM PRINTS 11001000 AS BINARY REPRESENTATION OF 200
 PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 ```
+### BANK
+
+**TYPE: Command**  
+**FORMAT: BANK m[,n]**
+
+**Action:** Set the active RAM (m) and ROM bank (n) for the purposes of `PEEK`, `POKE`, and `SYS`.  Specifying the ROM bank is optional. If it is not specified, its previous value is retained.
+
+**EXAMPLE of BANK Statement:**
+```BASIC
+BANK 1,10    : REM SETS THE RAM BANK TO 1 AND THE ROM BANK TO 10
+?PEEK($A000) : REM PRINTS OUT THE VALUE STORED IN $A000 IN RAM BANK 1
+SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
+```
+Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
+
+Note: BANK uses its own register to store the desired bank address; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read 4 when PEEKing from BASIC. If you need to know the currently selected ROM and RAM banks, you should explicitly set it and use a variable to track your selected bank number(s).
+
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
+
 ### BOOT
 
 **TYPE: Command**  
@@ -195,7 +215,7 @@ BOOT
 **TYPE: Command**  
 **FORMAT: BLOAD &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;address&gt;**
 	
-**Action:** Loads a binary file directly into RAM, advancing the RAM bank if necessary. The active RAM bank will be left pointing to where the next byte would have been loaded.
+**Action:** Loads a binary file directly into RAM, advancing the RAM bank if necessary. This does not change the active RAM bank as controlled by the `BANK` command, but after this command, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
 **EXAMPLES of BLOAD:**
 ```BASIC	
@@ -846,7 +866,7 @@ SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 **TYPE: Integer Function**  
 **FORMAT: VPEEK (&lt;bank&gt;, &lt;address&gt;)**
 
-**Action:** Return a byte from the video address space. The video address space has 20 bit addresses, which is exposed as 16 banks of 65536 addresses each.
+**Action:** Return a byte from the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 **EXAMPLE of VPEEK Function:**
 ```BASIC
@@ -857,7 +877,7 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 **TYPE: Command**  
 **FORMAT: VPOKE &lt;bank&gt;, &lt;address&gt;, &lt;value&gt;**
 
-**Action:** Set a byte in the video address space. The video address space has 20 bit addresses, which is exposed as 16 banks of 65536 addresses each.
+**Action:** Set a byte in the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 **EXAMPLE of VPOKE Statement:**
 ```BASIC
