@@ -3,12 +3,12 @@ This manual describes Commodore DOS on FAT32, aka CMDR-DOS.
 
 ## CMDR-DOS
 
-Commander-16 duplicates and extends the programming interface used by Commodore's line of disk drives, including the 
+Commander X16 duplicates and extends the programming interface used by Commodore's line of disk drives, including the 
 famous (or infamous) VIC-1541. CMDR-DOS uses the industry-standard FAT-32 format. Partitions can be 32MB up to 
 (in theory) 2TB and supports CMD-style partitions, subdirectories, timestamps and filenames up to 255 characters. 
 It is the DOS built into the [Commander X16](https://www.commanderx16.com).
 
-There are three basic interfaces for CMDR-DOS: the binary interface (SAVE,LOAD), the data file interface (OPEN, 
+There are three basic interfaces for CMDR-DOS: the binary interface (LOAD, SAVE, etc.), the data file interface (OPEN, 
 PRINT#, INPUT#, GET#), and the command interface. We will give a brief summary of BASIC commands here, but please refer
 to the BASIC chapter for full syntax of each command. 
 
@@ -19,9 +19,9 @@ to navigate directories.
 
 The primary use of the binary interface is loading and saving program files and loading binary files into RAM. 
 
-Your binary commands are LOAD, SAVE, BLOAD, VLOAD, and BVLOAD. 
+Your binary commands are LOAD, SAVE, BLOAD, VLOAD, BVLOAD, VERIFY, and BVERIFY. 
 
-This is a brief summary of the BASIC disk commands LOAD and SAVE. For full documentation, refer to Chapter 3: BASIC 
+This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to Chapter 3: BASIC 
 Programming.
 
 ### LOAD
@@ -37,13 +37,11 @@ secondary_address has multiple meanings:
 
 * 0 or not present: load the data to address $0801, regardless of the address header. 
 
-* 1: load to the address specified 
+* 1: load to the address specified in the file's header
 
 * 2: load into VERA RAM bank 0 (at the 16-bit address in the file)
 
 * 3: load into VERA RAM bank 1 (at the 16-bit address in the file)
-
-* 17 or $11: load into VERA RAM bank 16 or $0F 
 
 start_address is the location to read your data into. If you need to relocate your data to banked RAM, for example, you 
 will want to set the address to $A000 or higher. 
@@ -72,12 +70,32 @@ the filename with @:, like this:
 
 `SAVE "@:DEMO.PRG"`
 
-You may need to save arbitrary binary data from other locations. To do this, use the S command in the MONITOR (Chapter 
-6: Machine Language Monitor). 
+You may need to save arbitrary binary data from other locations. To do this, use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md).
 
 `S "filename",8,<start_address>,<end_address>`
 
 Where <start_address> and <end_address> are a 16-bit hexadecimal address. 
+
+It is also a good idea to run the DOS command after a save. The Commodore model does not report certain failures back to BASIC, so you should double-check the result after a write operation.
+
+```
+DOS 
+00, OK,00,00
+
+READY.
+```
+
+An OK reply means the file saved correctly. Any other result is an error that should be addressed:
+
+```
+DOS 
+63,FILE EXISTS,00,00
+```
+
+CMDR-DOS does not allow files to be overwritten without special handling. If you get FILE EXISTS, either change your file's name or save it with the @: prefix, like this: 
+
+`SAVE "@:HELLO"`
+ 
 
 ### BLOAD
 
@@ -88,7 +106,7 @@ or use the 2-byte header. The first byte in the file is the first byte loaded in
 
 ### VLOAD 
 
-Read binary data into VERA. VLOAD requires the 2-byte address header. The third byte in the file is the first byte loaded at <start_address>.
+Read binary data into VERA. VLOAD skips the 2-byte address header and starts reading at the third byte of the file. 
 
 `VLOAD "filename",8,<bank>,<start_address>`
 
@@ -133,8 +151,8 @@ To actually read the error channel and clear the error status, you need to read 
 
 `30 INPUT#15,A,B$,C,D`
 
-A is the error number. B$ is the error message. C and D are unused in CBM-DOS, but will return the track and sector when
-used with a Commodore disk drive. 
+A is the error number. B$ is the error message. C and D are unused in CMDR-DOS, but will return the track and sector when
+used with a disk drive on the IEC connector. 
 
 ```
 40 PRINT A;B$;C;D
@@ -198,7 +216,7 @@ It consists of the following components:
 	* `dir.s`: FAT32 directory listing
 	* `function.s`: command implementations for FAT32
 * FAT32 implementation
-	* `fat32/*`: [FAT32 for 65c02 library](https://github.com/commanderx16/x16-rom/tree/master/dos/fat32)
+	* `fat32/*`: [FAT32 for 65c02 library](https://github.com/X16Community/x16-rom/tree/master/dos/fat32)
 
 All currently unsupported commands are decoded in `cmdch.s` anyway, but hooked into `31,SYNTAX ERROR,00,00`, so adding features should be as easy as adding the implementation.
 
