@@ -15,7 +15,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `AND` | operator | Returns boolean "AND" or bitwise intersection | C64 |
 | `ASC` | function | Returns numeric PETSCII value from string | C64 |
 | `ATN` | function | Returns arctangent of a number | C64 |
-| [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | X16 |
+| [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | command | Loads and runs `AUTOBOOT.X16` | X16 |
