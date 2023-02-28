@@ -1,4 +1,4 @@
-## Chapter 12: Hardware
+## Chapter 12: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and performing firmware updates on the SMC, VERA, and system ROMs.
 
@@ -16,16 +16,6 @@ This chapter covers pinout for the I/O ports and performing firmware updates on 
 * User Port header
 * ATX Power Supply
 * Front Panel
-
-## Flash Procedures
-* System ROM (KERNAL, BASIC, DOS, etc)
-	* With EPROM Programmer
-	* In system using programming software
-* SMC (Keyboard, Mouse, power controller)
-    * Using SparkFun AVR programmer
-* VERA 
-	* USing EPROM Programmer
-
 
 ## Disclaimer
 
