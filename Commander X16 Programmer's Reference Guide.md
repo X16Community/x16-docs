@@ -23,4 +23,7 @@ for GitHub's Markdown flavor. Do not remove!
 [Chapter 8: Video Programming](X16%20Reference%20-%2008%20-%20Video%20Programming.md)  
 [Chapter 9: Sound Programming](X16%20Reference%20-%2009%20-%20Sound%20Programming.md)  
 [Chapter 10: I/O Programming](X16%20Reference%20-%2010%20-%20IO%20Programming.md)  
+[Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS)  
+[Chapter 12: Hardware Pinouts](X16%20Reference%20-%2012%20-%20Hardware.md)  
+[Chapter 12: Upgrade Guide](X16%20Reference%20-%2013%20-%20Upgrade%Guide.md)  
 [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md)  
