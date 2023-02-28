@@ -25,5 +25,5 @@ for GitHub's Markdown flavor. Do not remove!
 [Chapter 10: I/O Programming](X16%20Reference%20-%2010%20-%20IO%20Programming.md)  
 [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS)  
 [Chapter 12: Hardware Pinouts](X16%20Reference%20-%2012%20-%20Hardware.md)  
-[Chapter 12: Upgrade Guide](X16%20Reference%20-%2013%20-%20Upgrade%Guide.md)  
+[Chapter 13: Upgrade Guide](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md)  
 [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md)  
