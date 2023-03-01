@@ -81,7 +81,7 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines. 
 
-<img src="images/expansion_slot_2.png" />
+<img src="images/expansion_slot_2.png" width=256/>
 
 Pins IO3-IO7 should be active when the CPU addresses specific ports in the External Address I/O range. That range extends from $9F60-$9FFF. 
 
