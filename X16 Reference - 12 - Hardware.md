@@ -83,24 +83,24 @@ The expansion ports can be used for ROM cartridges or I/O modules and contain th
 
 <img src="images/expansion_slot_2.png" />
 
-The IO pins should be active when the CPU addresses specific ports in the External Address I/O range. That range extends from $9F60-$9FFF
+Pins IO3-IO7 should be active when the CPU addresses specific ports in the External Address I/O range. That range extends from $9F60-$9FFF. 
 
 | Address     | Description 
 |-------------|------------------
-| $9F60-$9FFF | External devices             |
+| $9F60-$9FFF | External device block
 | $9F60-$9F7F | IO3
 | $9F80-$9F9F | IO4
 | $9FA0-$9FBF | IO5
 | $9FC0-$9FDF | IO6
 | $9FE0-$9FFF | IO7
 
-When using the IO pins, you only need to decode the lowest 5 address lines, 0-4.
+This simplifies address decoding, as you only need to decode address lines 0-4. 
 
-**Implementation Note**: I/O ports are shared across all 4 slots, and users will likely use more than one card at the same time. To avoid conflicts, I/O cards are required to allow the user to select the block(s) the card uses. We suggest using DIP switches or jumpers to route the corresponding IO line to your chips' CS pins. 
+**Implementation Note**: I/O ports are shared across all 4 slots, and users will likely use more than one card at the same time. To avoid conflicts, I/O cards should allow the user to select the block(s) the card uses. We suggest using DIP switches or jumpers to route the corresponding IO line to your chips' CS pins. 
 
 ### User Port Header
 
-By default, the User Port is not routed to a port on the back of the computer. This allows you the greatest flexibility in connecting devices inside or outside the computer. 
+By default, the User Port is not routed to a port on the back of the computer. This allows you the greatest flexibility in connecting devices inside or outside your enclosure.
 
 TODO 
 
