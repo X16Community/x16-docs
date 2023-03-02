@@ -81,7 +81,42 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines. 
 
-<img src="images/expansion_slot_2.png" width=256/>
+The expansion/cartridge port is a 60 pin edge connector with (todo) spacing. Pin 1 is located closest to the rear of the PCB.
+
+
+|   Desc | Pin |   | Pin | Desc |
+|------|------|---|------|------|
+|-12V    |   1 |\[ \]| 2  | +12V  |
+|GND     |   3 |\[ \]| 4  | +5V   |
+|AUDIO_L |   5 |\[ \]| 6  | GND   |
+|AUDIO_R |   7 |\[ \]| 8  | ROMB7 |
+|IO3     |   9 |\[ \]| 10 | ROMB0 |
+|IO4     |  11 |\[ \]| 12 | ROMB1 |
+|IO7     |  13 |\[ \]| 14 | ROMB6 |
+|IO5     |  15 |\[ \]| 16 | ROMB2 |
+|IO6     |  17 |\[ \]| 18 | ROMB5 |
+|RESB    |  19 |\[ \]| 20 | ROMB3 |
+|RDY     |  21 |\[ \]| 22 | ROMB4 |
+|IRQB    |  23 |\[ \]| 24 | PHI2  |
+|BE      |  25 |\[ \]| 26 | RWB   |
+|NMIB    |  27 |\[ \]| 28 | MLB   |
+|SYNC    |  29 |\[ \]| 30 | D0    |
+|     A0 |  31 |\[ \]| 32 | D1    |
+|     A1 |  33 |\[ \]| 34 | D2    |
+|     A2 |  35 |\[ \]| 36 | D3    |
+|     A3 |  37 |\[ \]| 38 | D4    |
+|     A4 |  39 |\[ \]| 40 | D5    |
+|     A5 |  41 |\[ \]| 42 | D6    |
+|     A6 |  43 |\[ \]| 44 | D7    |
+|     A7 |  45 |\[ \]| 46 | A15   |
+|     A8 |  47 |\[ \]| 48 | A14   |
+|     A9 |  49 |\[ \]| 50 | A13   |
+|    A10 |  51 |\[ \]| 52 | A12   |
+|    A11 |  53 |\[ \]| 54 | SDA   |
+|    GND |  55 |\[ \]| 56 | SCL   |
+|    +5V |  57 |\[ \]| 58 | GND   |
+|   +12V |  59 |\[ \]| 60 | -12V  |
+
 
 Pins IO3-IO7 should be active when the CPU addresses specific ports in the External Address I/O range. That range extends from $9F60-$9FFF. 
 
