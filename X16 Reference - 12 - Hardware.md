@@ -81,26 +81,25 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines. 
 
-The expansion/cartridge port is a 60 pin edge connector with (todo) spacing. Pin 1 is located closest to the rear of the PCB.
+The expansion/cartridge port is a 60 pin edge connector with 2.54mm pitch. Pin 1 is in the rear-left corner.
 
-
-|   Desc | Pin |   | Pin | Desc |
-|------|------|---|------|------|
-|-12V    |   1 |\[ \]| 2  | +12V  |
-|GND     |   3 |\[ \]| 4  | +5V   |
+|   Desc |  Pin |   | Pin  | Desc |
+|-------:|-----:|---|------|------|
+|   -12V |   1 |\[ \]| 2  | +12V  |
+|    GND |   3 |\[ \]| 4  | +5V   |
 |AUDIO_L |   5 |\[ \]| 6  | GND   |
 |AUDIO_R |   7 |\[ \]| 8  | ROMB7 |
-|IO3     |   9 |\[ \]| 10 | ROMB0 |
-|IO4     |  11 |\[ \]| 12 | ROMB1 |
-|IO7     |  13 |\[ \]| 14 | ROMB6 |
-|IO5     |  15 |\[ \]| 16 | ROMB2 |
-|IO6     |  17 |\[ \]| 18 | ROMB5 |
-|RESB    |  19 |\[ \]| 20 | ROMB3 |
-|RDY     |  21 |\[ \]| 22 | ROMB4 |
-|IRQB    |  23 |\[ \]| 24 | PHI2  |
-|BE      |  25 |\[ \]| 26 | RWB   |
-|NMIB    |  27 |\[ \]| 28 | MLB   |
-|SYNC    |  29 |\[ \]| 30 | D0    |
+|    IO3 |   9 |\[ \]| 10 | ROMB0 |
+|    IO4 |  11 |\[ \]| 12 | ROMB1 |
+|    IO7 |  13 |\[ \]| 14 | ROMB6 |
+|    IO5 |  15 |\[ \]| 16 | ROMB2 |
+|    IO6 |  17 |\[ \]| 18 | ROMB5 |
+|   RESB |  19 |\[ \]| 20 | ROMB3 |
+|    RDY |  21 |\[ \]| 22 | ROMB4 |
+|   IRQB |  23 |\[ \]| 24 | PHI2  |
+|     BE |  25 |\[ \]| 26 | RWB   |
+|   NMIB |  27 |\[ \]| 28 | MLB   |
+|   SYNC |  29 |\[ \]| 30 | D0    |
 |     A0 |  31 |\[ \]| 32 | D1    |
 |     A1 |  33 |\[ \]| 34 | D2    |
 |     A2 |  35 |\[ \]| 36 | D3    |
@@ -118,20 +117,26 @@ The expansion/cartridge port is a 60 pin edge connector with (todo) spacing. Pin
 |   +12V |  59 |\[ \]| 60 | -12V  |
 
 
-Pins IO3-IO7 should be active when the CPU addresses specific ports in the External Address I/O range. That range extends from $9F60-$9FFF. 
+To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte address ranges. 
 
 | Address     | Description 
 |-------------|------------------
-| $9F60-$9FFF | External device block
+| $9F60-$9FFF | Expansion port I/O range
 | $9F60-$9F7F | IO3
 | $9F80-$9F9F | IO4
 | $9FA0-$9FBF | IO5
 | $9FC0-$9FDF | IO6
 | $9FE0-$9FFF | IO7
 
-This simplifies address decoding, as you only need to decode address lines 0-4. 
+Expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches, to prevent conflicts with other devices. 
 
-**Implementation Note**: I/O ports are shared across all 4 slots, and users will likely use more than one card at the same time. To avoid conflicts, I/O cards should allow the user to select the block(s) the card uses. We suggest using DIP switches or jumpers to route the corresponding IO line to your chips' CS pins. 
+SCL and SDA pins are shared with the i2c connector on j9 and can be used to access i2c peripherals on cartridges or expansion cards. 
+
+ROMB0-ROMB7 are connected to the ROM bank latch at address $01. Values 0-31 ($00-$1F) address the on-board ROM chips, and 32-255 are itended for expansion ROM or RAM chips. This allows for a total of 3.5MB of address space in the $C000-FFFF address range. 
+
+AUDIO_L and AUDIO_R are routed to the J10, the audio option header. 
+
+The other pins are connected to the system bus and directly to the 65C02 processor. 
 
 ### User Port Header
 
@@ -151,17 +156,124 @@ The Commander does not use the 4-pin CPU power, GPU power, 4-pin drive power, or
 
 To save space, when running a bare motherboard, we recommend a "Pico PSU" power supply, which derives all of the necessary power lines from a single 12V source. 
 
-### Front Panel
+
+### J2 VERA Programming Interface
+
+| Pin | Desc          |
+|-----|---------------|
+|  1  | +5V           |
+|  2  | FPGA_CDONE    |
+|  3  | FPGA_CRESET_B |
+|  4  | SPI_MISO      | 
+|  5  | SPI_MOSI      |
+|  6  | SPI_SCK       |
+|  7  | SPI_SSEL_N    |
+|  8  | GND           |
+
+### J3 
+
+Connect J8 for LPT Compat
+
+### J6 System Speed
+
+| Pin    | Desc          |
+|--------|---------------|
+|  1 - 2 | 8 MHz         |
+|  3 - 4 | 4 MHz         |
+|  5 - 6 | 2 MHz         |
+
+
+### VERA J7 Remote SD Card Option
+
+| Pin | Desc |
+|-----|------|
+|  1  | CS   |
+|  2  | SCK  |
+|  3  | MOSI |
+|  4  | MISO | 
+|  5  | +5V  |
+|  6  | GND  |
+
+
+### J1 ROM Write Protect
+
+Remove J1 to write protect system ROM. With J1 installed, users can program the system ROM using an appropriate ROM flash program. 
+
+### J2 NMI
+
+Connect a button to this pin to generate an Non Maskable Interrupt (NMI) on the CPU. This will execute a BASIC warm start, which will stop any existing program, clear the screen, and print the READY prompt.
+
+### J3 
 
 TODO 
 
-| Pin | Description 
-|-----|--------------
-|     | Power LED +
-|     | Power LED -
-|     | Drive LED +
-|     | Drive LED -
-|     | Power Button
-|     | Power Button
-|     | Reset Button
-|     | Reset Button
+### J4 Extra 65C22 Pins 
+
+| Desc  | Pin |   | Pin | Desc |
+|------:|----:|---|-----|------|
+| CA1   |  1  |. .|  2  | CA2  |
+| PB0   |  3  |. .|  4  | PB1  |
+| PB2   |  5  |. .|  6  | CB2  |
+
+## J5 Program Microcontroller 
+
+Remove jumpers from J5 to program microcontroller. 
+
+### J7 SNES 3/4
+
+| Desc  | Pin |   | Pin | Desc |
+|------:|----:|---|-----|------|
+| CLC   |  1  |. .|  2  | VCC  |
+| LATCH |  3  |. .|  4  | DAT4 |
+| DAT3  |  5  |. .|  6  | GND  |
+
+These pins will allow for two more SNES controllers, for a total of four controllers on the system. 
+
+
+### J8 Front Panel
+
+|   Desc    | Pin |   | Pin | Desc      |
+|----------:|----:|---|-----|-----------|
+| HDD LED+  |  1  |. .|  2  | POW LED + |
+| HDD LED-  |  3  |. .|  4  | POW LED - |
+| RESET BUT |  5  |. .|  6  | POW BUT   |
+| RESET BUT |  7  |. .|  7  | POW BUT   |
+| +5VDC     |  9  |. .|  10 | NC        |
+
+
+### J9 I2C/SMC Header
+
+| Desc             | Pin |   | Pin | Desc        |
+|-----------------:|----:|---|-----|-------------|
+| SMC MOSI/I2C SDA  |  1  |. .|  2  | 5V STANDBY |
+| RTC MFP           |  3  |. .|  4  | SMC TX     |
+| SMC Reset         |  5  |. .|  6  | SMC RX     | 
+| SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
+| SMC MISO          |  9  |. .|  10 | GND        |
+
+
+### J10 Audio Option
+
+| Desc   | Pin |   | Pin | Desc  |
+|-------:|----:|---|-----|-------|
+| SDA    |  1  |. .|  2  | RESB  |
+| SCL    |  3  |. .|  4  | VCC   |
+|        |  5  |. .|  6  |       | 
+| +12V   |  7  |. .|  8  | -12V  |
+|        |  9  |. .| 10  |       |
+| VERA_L | 11  |. .| 12  | BUS_L | 
+|        | 13  |. .| 14  |       |
+| VERA_R | 15  |. .| 16  | BUS_R |
+|        | 17  |. .| 18  |       | 
+| YM_L   | 19  |. .| 20  | OUT_L |
+|        | 21  |. .| 22  |       |
+| YM_R   | 23  |. .| 24  | OUT_R | 
+
+5,6,9,10,13,14,17,18,21,22 - GND
+
+Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces allows you to extract isolated audio from each of the system devices: VERA's PSG oscillators, the FM syntheizers (L and R) and audio devices connected to the expansion ports. 
+
+### J12 User Port
+
+(TODO)
+
