@@ -138,12 +138,6 @@ AUDIO_L and AUDIO_R are routed to the J10, the audio option header.
 
 The other pins are connected to the system bus and directly to the 65C02 processor. 
 
-### User Port Header
-
-By default, the User Port is not routed to a port on the back of the computer. This allows you the greatest flexibility in connecting devices inside or outside your enclosure.
-
-TODO 
-
 ### ATX Power Supply
 
 This is an industry standard 20-pin ATX power connector. You don't need an expensive power supply, but it must supply the -12v rail. Not all do, so check your unit to make sure. If you can't tell from the label, you can check Pin 12 and COM. If the clip side is facing away from you, pin 12 will be the second pin on the left on the clip side. 
@@ -157,55 +151,20 @@ The Commander does not use the 4-pin CPU power, GPU power, 4-pin drive power, or
 To save space, when running a bare motherboard, we recommend a "Pico PSU" power supply, which derives all of the necessary power lines from a single 12V source. 
 
 
-### J2 VERA Programming Interface
-
-| Pin | Desc          |
-|-----|---------------|
-|  1  | +5V           |
-|  2  | FPGA_CDONE    |
-|  3  | FPGA_CRESET_B |
-|  4  | SPI_MISO      | 
-|  5  | SPI_MOSI      |
-|  6  | SPI_SCK       |
-|  7  | SPI_SSEL_N    |
-|  8  | GND           |
-
-### J3 
-
-Connect J8 for LPT Compat
-
-### J6 System Speed
-
-| Pin    | Desc          |
-|--------|---------------|
-|  1 - 2 | 8 MHz         |
-|  3 - 4 | 4 MHz         |
-|  5 - 6 | 2 MHz         |
-
-
-### VERA J7 Remote SD Card Option
-
-| Pin | Desc |
-|-----|------|
-|  1  | CS   |
-|  2  | SCK  |
-|  3  | MOSI |
-|  4  | MISO | 
-|  5  | +5V  |
-|  6  | GND  |
-
-
 ### J1 ROM Write Protect
 
 Remove J1 to write protect system ROM. With J1 installed, users can program the system ROM using an appropriate ROM flash program. 
 
+
 ### J2 NMI
 
-Connect a button to this pin to generate an Non Maskable Interrupt (NMI) on the CPU. This will execute a BASIC warm start, which will stop any existing program, clear the screen, and print the READY prompt.
+Connect a button here to generate an Non Maskable Interrupt (NMI) on the CPU. This will execute a BASIC warm start, which will stop any existing program, clear the screen, and print the READY prompt.
 
-### J3 
 
-TODO 
+### J3 (Unknown)
+
+Connect J8 for LPT Compat.
+
 
 ### J4 Extra 65C22 Pins 
 
@@ -215,9 +174,20 @@ TODO
 | PB0   |  3  |. .|  4  | PB1  |
 | PB2   |  5  |. .|  6  | CB2  |
 
+
 ## J5 Program Microcontroller 
 
 Remove jumpers from J5 to program microcontroller. 
+
+
+### J6 System Speed
+
+| Pin    | Desc          |
+|--------|---------------|
+|  1 - 2 | 8 MHz         |
+|  3 - 4 | 4 MHz         |
+|  5 - 6 | 2 MHz         |
+
 
 ### J7 SNES 3/4
 
@@ -273,7 +243,50 @@ These pins will allow for two more SNES controllers, for a total of four control
 
 Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces allows you to extract isolated audio from each of the system devices: VERA's PSG oscillators, the FM syntheizers (L and R) and audio devices connected to the expansion ports. 
 
+
 ### J12 User Port
 
 (TODO)
 
+
+## VERA Ports
+
+### VGA Connector
+
+TODO
+
+### Composite Connector
+
+TODO
+
+### S-Video Connector
+
+TODO
+
+### J2 VERA Programming Interface
+
+| Pin | Desc          |
+|-----|---------------|
+|  1  | +5V           |
+|  2  | FPGA_CDONE    |
+|  3  | FPGA_CRESET_B |
+|  4  | SPI_MISO      | 
+|  5  | SPI_MOSI      |
+|  6  | SPI_SCK       |
+|  7  | SPI_SSEL_N    |
+|  8  | GND           |
+
+### VERA J7 Remote SD Card Option
+
+| Pin | Desc |
+|-----|------|
+|  1  | CS   |
+|  2  | SCK  |
+|  3  | MOSI |
+|  4  | MISO | 
+|  5  | +5V  |
+|  6  | GND  |
+
+This requires an EEPROM programmer and an interface board to program. 
+
+TODO diagram
