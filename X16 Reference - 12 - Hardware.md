@@ -306,7 +306,9 @@ VERA is connected to I/O ports at $9F20-$9F3F. See [VERA Programmer's Reference]
 
 The VGA connector is a female [DE-15](https://en.wikipedia.org/wiki/D-subminiature#Description,_nomenclature,_and_variants) jack. 
 
-The video resolution is 640x480 60FPS progressive scan, RGB color, and separated H/V sync. (TODO: does VGA go to 15KHz when interlace mode is turned on?) VGA signals are 0-1V analog. The VGA connector will not drive a CGA or RGBI monitor.
+The video resolution is 640x480 60FPS progressive scan, RGB color, and separated H/V sync.
+
+In interlace mode, both horizontal and vertial sync pulses will appear on the HSync pin. (TODO: Test with OSSC).
 
 VERA does not use the ID/DDC lines.
 
