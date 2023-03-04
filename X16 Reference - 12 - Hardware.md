@@ -42,7 +42,7 @@ Thanks to [Console Mods Wiki](https://consolemods.org/wiki/SNES:Connector_Pinout
 
 ### IEC Port
 
-The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 4800 bits/sec.
+The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 3200 bits/sec.
 
 <img src="images/iec_port.gif" alt-text="IEC Serial Port" />
 
