@@ -1,14 +1,9 @@
 ## Chapter 12: Hardware Pinouts
 
-This chapter covers pinout for the I/O ports and performing firmware updates on the SMC, VERA, and system ROMs.
+This chapter covers pinout for the I/O ports and headers.
 
 ### Port and Socket Listing
 * VERA Connectors
-  * VERA Mainboard socket
-  * SD Card
-  * Composite Video
-  * S-Video
-  * VGA
 * SNES Controller Ports (x2)
 * IEC Port
 * PS/2 Keyboard and mouse
@@ -17,15 +12,13 @@ This chapter covers pinout for the I/O ports and performing firmware updates on 
 * ATX Power Supply
 * Front Panel
 
+Chip sockets are not listed; pinouts are available on their respective data sheets. 
+
 ## Disclaimer
 
 The instructions and information in this document are the best available information at the time of writing. This information is subject to change, and no warranty is implied. We are not liable for damage or injury caused by use or misuse of this information, including damage caused by inaccurate information. Interfacing and modifying your Commander X16 is done solely at your own risk.
 
 If you attempt to upgrade your firmware and the process fails, one of our community members may be able to help. Please visit the forums or the Discord community, both of which can be reached through https://commanderx16.com.
-
-### VERA Connectors
-
-TODO
 
 ### SNES Ports
 
@@ -163,7 +156,7 @@ Connect a button here to generate an Non Maskable Interrupt (NMI) on the CPU. Th
 
 ### J3 (Unknown)
 
-Connect J8 for LPT Compat.
+Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lorin hinted at early on?)
 
 
 ### J4 Extra 65C22 Pins 
@@ -174,10 +167,11 @@ Connect J8 for LPT Compat.
 | PB0   |  3  |. .|  4  | PB1  |
 | PB2   |  5  |. .|  6  | CB2  |
 
+These pins are connected to VIA 1 at $9F00-$9F0F. 
 
 ## J5 Program Microcontroller 
 
-Remove jumpers from J5 to program microcontroller. 
+Remove jumpers from J5 to program microcontroller.  
 
 
 ### J6 System Speed
@@ -197,7 +191,7 @@ Remove jumpers from J5 to program microcontroller.
 | LATCH |  3  |. .|  4  | DAT4 |
 | DAT3  |  5  |. .|  6  | GND  |
 
-These pins will allow for two more SNES controllers, for a total of four controllers on the system. 
+These pins will allow for two additional SNES controllers, for a total of four controllers on the system.  
 
 
 ### J8 Front Panel
@@ -246,22 +240,99 @@ Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces a
 
 ### J12 User Port
 
-(TODO)
+| Desc    | Pin |   | Pin | Desc    |
+|--------:|----:|---|-----|---------|
+| PB0     |  1  |. .|  2  | PB4     |
+| PA0     |  3  |. .|  4  | PB5     |
+| PA1     |  5  |. .|  6  | PB6/CB1 | 
+| PA2     |  7  |. .|  8  | PB7/CB2 |
+| PA3     |  9  |. .| 10  | GND     |
+| PA4     | 11  |. .| 12  | GND     |
+| PA5     | 13  |. .| 14  | GND     |
+| PA6     | 15  |. .| 16  | GND     |
+| PA7     | 17  |. .| 18  | GND     | 
+| CA1     | 19  |. .| 20  | GND     |
+| PB1     | 21  |. .| 22  | GND     |
+| PB2     | 23  |. .| 24  | GND     | 
+| PB3/CA2 | 25  |. .| 16  | VCC     |
 
+User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. No KERNAL routines are provided; all communications will need to be provided by user software. 
 
-## VERA Ports
+## VERA Video Header
+
+| Desc    | Pin |   | Pin | Desc    |
+|--------:|----:|---|-----|---------|
+| VCC     |  1  |. .|  2  | GND     |
+| D7      |  3  |. .|  4  | D6      |
+| D5      |  5  |. .|  6  | D4      | 
+| D3      |  7  |. .|  8  | D2      |
+| D1      |  9  |. .| 10  | D0      |
+| \IO1    | 11  |. .| 12  | RESB    |
+| \MEMWE  | 13  |. .| 14  | IRQB    |
+| A4      | 15  |. .| 16  | \MEMOE  |
+| A2      | 17  |. .| 18  | A3      | 
+| A0      | 19  |. .| 20  | A1      |
+| GND     | 21  |. .| 22  | GND     |
+| VERA_L  | 23  |. .| 24  | VERA_R  | 
+
+VERA is connected to I/O ports at $9F20-$9F3F. See [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for details.
 
 ### VGA Connector
 
-TODO
+<img src="images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
+
+| Pin | Desc      |
+|-----|-----------|
+| 1   | RED
+| 2   | GREEN
+| 3   | BLUE 
+| 4   | 
+| 5   | GND
+| 6   | RED_RTN   
+| 7   | GREEN_RTN
+| 8   | BLUE_RTN
+| 9   | 
+| 10  | GND
+| 11  | 
+| 12  |
+| 13  | HSync
+| 14  | VSync
+| 15  |
+
+
+The VGA connector is a female [DE-15](https://en.wikipedia.org/wiki/D-subminiature#Description,_nomenclature,_and_variants) jack. 
+
+The video resolution is 640x480 60FPS progressive scan, RGB color, and separated H/V sync. (TODO: does VGA go to 15KHz when interlace mode is turned on?) VGA signals are 0-1V analog. The VGA connector will not drive a CGA or RGBI monitor.
+
+VERA does not use the ID/DDC lines.
+
 
 ### Composite Connector
 
-TODO
+The Composite video is a standard RCA connector. Center pin carries signal. Sheild is signal ground.
+
+The signal is NSTSC Composite baseband video.
+
+The video is 480 lines 60Hz interlaced. (TODO confirm:) Composite is not available when VGA is running at 60Hz progressive scan.
+
 
 ### S-Video Connector
 
-TODO
+<img src="images/s_video.svg" width="128" alt-text="S-Video Connector" />
+
+| Pin | Desc      |                       |
+|-----|-----------|-----------------------|
+| 1   | GND (Y)   |                       |
+| 2   | GND (C)   |                       |
+| 3   | Y         | Intensity (Luminance) |
+| 4   | C         | Color (Chrominance)   |
+
+The connector is a 4-pin Mini-DIN connector. While the same size as a PS/2 connector, the PS/2 connector has a plastic key at the bottom. Do not attempt to plug a keyboard or mouse into the S-Video port, or bent pins will occur.
+
+The signal is NTSC baseband Y/C separated video. S-Video provides better resolution than composite, since the color and intensity are provided on separate pins. you can use a splitter cable to separate the Y and C signals to drive a Commodore 1702 or compatible monitor. 
+
+The video is 480 lines 60Hz interlaced. (TODO confirm:) Composite is not available when VGA is running at 60Hz progressive scan.
+
 
 ### J2 VERA Programming Interface
 
@@ -287,6 +358,4 @@ TODO
 |  5  | +5V  |
 |  6  | GND  |
 
-This requires an EEPROM programmer and an interface board to program. 
-
-TODO diagram
+This requires an EEPROM programmer and an interface board to program. See chapter 13 for the programming adapter and instructions.
