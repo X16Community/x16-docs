@@ -42,7 +42,7 @@ Thanks to [Console Mods Wiki](https://consolemods.org/wiki/SNES:Connector_Pinout
 
 ### IEC Port
 
-The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 3200 bits/sec.
+The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 400-600 bytes/sec.
 
 <img src="images/iec_port.gif" alt-text="IEC Serial Port" />
 
@@ -204,6 +204,9 @@ These pins will allow for two additional SNES controllers, for a total of four c
 | RESET BUT |  7  |. .|  7  | POW BUT   |
 | +5VDC     |  9  |. .|  10 | NC        |
 
+This pinout is compatible with newer ATX style motherboards. AT motherboards and older ATX cases may still have a 3-pin power LED connector (with a blank pin in the middle.) You will need to move the + (red) wire on the power LED connector to the center pin, if this is the case. Or you can use two Male-Female breadboard cables to jumper the header to your power LED connector. 
+
+There is no on-board speaker header. Instead, all audio is routed to the rear panel headphone jack via the Audio Option header.
 
 ### J9 I2C/SMC Header
 
@@ -235,8 +238,9 @@ These pins will allow for two additional SNES controllers, for a total of four c
 
 5,6,9,10,13,14,17,18,21,22 - GND
 
-Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces allows you to extract isolated audio from each of the system devices: VERA's PSG oscillators, the FM syntheizers (L and R) and audio devices connected to the expansion ports. 
+Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces allows you to extract isolated audio from each of the system devices or build a mixer to adjust the relative balance of the audio devices. 
 
+In order to avoid ground loop and power supply noise, we recommend installing a ground loop isolator when using an external mixer. 2 or 3 isolators will be required (one for each stereo pair.)  (Todo: measure noise and test with pro audio gear.)
 
 ### J12 User Port
 
@@ -256,7 +260,7 @@ Next to the audio header is a set of jumer pads, JP1-JP6. Cutting these traces a
 | PB2     | 23  |. .| 24  | GND     | 
 | PB3/CA2 | 25  |. .| 16  | VCC     |
 
-User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. No KERNAL routines are provided; all communications will need to be provided by user software. 
+User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. Commander does not have a serial port device in the KERNAL. 
 
 ## VERA Video Header
 
