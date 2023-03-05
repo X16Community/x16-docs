@@ -172,6 +172,21 @@ The BASIC interpreter also currently shares all problems of the C64 version, lik
 There are several new statement and functions. Note that all BASIC keywords (such as `FOR`) get converted into tokens (such as `$81`), and the tokens for the new keywords have not been finalized yet. Therefore, loading BASIC program saved from a different revision of BASIC may mix up keywords.
 
 
+### ASC
+
+**TYPE: Integer Function**  
+**FORMAT: ASC(&lt;string&gt;)**
+
+**Action:** Returns an integer value representing the PETSCII code for the first character of `string`. If `string` is the empty string, `ASC()` returns 0.
+
+**EXAMPLE of BIN$ Function:**
+```BASIC
+?ASC("A")
+ 65
+
+?ASC("")
+ 0
+```
 ### BIN$
 
 **TYPE: String Function**  
@@ -513,7 +528,7 @@ PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 
 **EXAMPLE of I2CPEEK Function:**
 ```BASIC
-PRINT HEX$(I2CPEEK($6F,0) and $7F)
+PRINT HEX$(I2CPEEK($6F,0) AND $7F)
 ```
 This command reports the seconds counter from the RTC by converting its internal BCD representation to a string.
 ### I2CPOKE
