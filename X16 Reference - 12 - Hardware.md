@@ -22,7 +22,7 @@ If you attempt to upgrade your firmware and the process fails, one of our commun
 
 ### SNES Ports
 
-The computer contains two SNES style ports and will work with Super Nintendo compatible game pads. Two additional ports are accessible via a pin header on the board.
+The computer contains two SNES style ports and will work with Super Nintendo compatible game pads. An on-board pin header is accessible to connect two additional SNES ports.
 
 <img src="images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
 
@@ -55,7 +55,7 @@ The IEC port is a female 6 pin DIN 45322 connector. The pinout and specification
 | 5	 | SERIAL DATA	| IN/OUT	        | Data
 | 6	 | SERIAL RESET	| OUT(/IN)	        | Reset 
 
-The IEC protocol is beyond the scope of this document. Please see [Wikipedia](https://en.wikipedia.org/wiki/Commodore_bus) for more information. 
+The IEC protocol is beyond the scope of this document. Please see [Wikipedia](https://en.wikipedia.org/wiki/Commodore_bus) for more information.
 
 ### PS/2 Keyboard and Mouse
 
@@ -72,7 +72,7 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 ### Expansion Ports
 
-The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines. 
+The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines.
 
 The expansion/cartridge port is a 60-pin edge connector with 2.54mm pitch. Pin 1 is in the rear-left corner.
 
@@ -110,7 +110,7 @@ The expansion/cartridge port is a 60-pin edge connector with 2.54mm pitch. Pin 1
 |   +12V |  59 |\[ \]| 60 | -12V  |
 
 
-To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte address ranges. 
+To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte address ranges.
 
 | Address     | Description 
 |-------------|------------------
@@ -121,21 +121,24 @@ To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte addr
 | $9FC0-$9FDF | IO6
 | $9FE0-$9FFF | IO7
 
-Expansion boards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches. 
+Expansion boards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
 
-SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards. 
+SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards.
 
-ROMB0-ROMB7 are connected to the ROM bank latch at address $01. Values 0-31 ($00-$1F) address the on-board ROM chips, and 32-255 are itended for expansion ROM or RAM chips. This allows for a total of 3.5MB of address space in the $C000-FFFF address range. 
+ROMB0-ROMB7 are connected to the ROM bank latch at address $01. Values 0-31 ($00-$1F) address the on-board ROM chips, and 32-255 are itended for expansion ROM or RAM chips. This allows for a total of 3.5MB of address space in the $C000-FFFF address range.
 
-AUDIO_L and AUDIO_R are routed to J10, the audio option header. 
+AUDIO_L and AUDIO_R are routed to J10, the audio option header.
 
-The other pins are connected to the system bus and directly to the 65C02 processor. 
+The other pins are connected to the system bus and directly to the 65C02 processor.
 
 ### ATX Power Supply
 
-The Commander X16 has a socket for an industry standard 24-pin ATX power supply connector. Either a 24-pin or 20-pin PSU connector can be plugged in, though only the pins for the older 20-pin standard are used by the computer. You don't need an expensive power supply, but it must supply the -12v rail. Not all do, so check your unit to make sure. If you can't tell from the label, you can check Pin 12 and COM. If the clip side is facing away from you, pin 12 will be the second pin on the left on the clip side. 
+The Commander X16 has a socket for an industry standard 24-pin ATX power supply connector. Either a 24-pin or 20-pin PSU connector can be plugged in, though only the pins for the older 20-pin standard are used by the computer. You don't need an expensive power supply, but it must supply the -12v rail. Not all do, so check your unit to make sure. If you can't tell from the label, you can check Pin 12 and COM. If the clip side is facing away from you, pin 12 will be the second pin on the left on the clip side.
 
-<img src="images/atx_20_pin.png" />
+<figure>
+<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>
+<figcaption>24-pin ATX power connector, cable end</figcaption>
+</figure>
 
 By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
 
