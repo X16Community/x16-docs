@@ -135,10 +135,11 @@ The other pins are connected to the system bus and directly to the 65C02 process
 
 The Commander X16 has a socket for an industry standard 24-pin ATX power supply connector. Either a 24-pin or 20-pin PSU connector can be plugged in, though only the pins for the older 20-pin standard are used by the computer. You don't need an expensive power supply, but it must supply the -12v rail. Not all do, so check your unit to make sure. If you can't tell from the label, you can check Pin 12 and COM. If the clip side is facing away from you, pin 12 will be the second pin on the left on the clip side.
 
-|24-pin ATX power connector, cable end|
-|-|
-|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
 
+
+|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
+|-|
+|24-pin ATX power connector, cable end|
 
 By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
 
