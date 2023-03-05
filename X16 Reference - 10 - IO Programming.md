@@ -99,4 +99,6 @@ The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (
 | $1F      | Power-up month     |
 | $20-$5F  | 64 Bytes SRAM      |
 
+The first half of the RTC's SRAM (NVRAM) is reserved for use by the KERNAL.  $40-$5F is available for use by user programs.
+
 For more information, please refer to this device's datasheet.
