@@ -13,7 +13,7 @@ for GitHub's Markdown flavor. Do not remove!
 |-|-|-|-|
 | `ABS` | function | Returns absolute value of a number | C64 |
 | `AND` | operator | Returns boolean "AND" or bitwise intersection | C64 |
-| `ASC` | function | Returns numeric PETSCII value from string | C64 |
+| [`ASC`](#asc) | function | Returns numeric PETSCII value from string | C64 |
 | `ATN` | function | Returns arctangent of a number | C64 |
 | [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
@@ -58,6 +58,8 @@ for GitHub's Markdown flavor. Do not remove!
 | `GOSUB` | command | Jumps to a BASIC subroutine | C64 |
 | `GOTO` | command | Branches immediately to a line number | C64 |
 | [`HEX$`](#hex) | function | Converts numeric to a hexadecimal string | X16 |
+| [`I2CPEEK`](#i2cpeek) | function | Reads a byte from a device on the I²C bus | X16 |
+| [`I2CPOKE`](#i2cpoke) | command | Writes a byte to a device on the I²C bus | X16 |
 | `IF` | command | Tests a boolean condition and branches on result | C64 |
 | `INPUT` | command | Reads a line or values from the keyboard | C64 |
 | `INPUT#` | command | Reads lines or values from a logical file | C64 |
@@ -87,6 +89,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `π` | function | Returns the constant for the value of pi | C64 |
 | `POKE` | command | Assigns a value to a memory address | C64 |
 | `POS` | function | Returns the column position of the text cursor | C64 |
+| [`POWEROFF`](#poweroff) | command | Immediately powers down the Commander X16 | X16 |
 | `PRINT` | command | Prints data to the screen or other output | C64 |
 | `PRINT#` | command | Prints data to an open logical file | C64 |
 | [`PSET`](#pset) | command | Changes a pixel's color in graphics mode | X16 |
@@ -101,8 +104,9 @@ for GitHub's Markdown flavor. Do not remove!
 | `READ` | command | Assigns the next `DATA` constant to one or more variables | C64 |
 | [`RECT`](#rect) | command | Draws a filled rectangle in graphics mode | X16 |
 | `REM` | command | Declares a comment | C64 |
+| [`REBOOT`](#reboot) | command | Performs a hard reboot on the system | X16 |
 | [`RESET`](#reset) | command | Performs a warm reset on the system | X16 |
-| `RESTORE` | command | Resets the `READ` pointer to the first `DATA` constant | C64 |
+| [`RESTORE`](#restore) | command | Resets the `READ` pointer to a `DATA` constant | C64 |
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
@@ -111,6 +115,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
 | `SGN` | function | Returns the sign of a numeric value | C64 |
 | `SIN` | function | Returns the sine of an angle in radians | C64 | 
+| [`SLEEP`](#sleep) | command | Introduces a delay in program execution | X16 |
 | `SPC` | function | Returns a string with a set number of spaces | C64 |
 | `SQR` | function | Returns the square root of a numeric value | C64 |
 | `ST` | variable | Returns the status of certain DOS/peripheral operations | C64 |
@@ -499,6 +504,30 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
 PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 ```
+### I2CPEEK
+
+**TYPE: Integer Function**  
+**FORMAT: I2CPEEK(&lt;device&gt;,&lt;register&gt;)**
+
+**Action:** Returns the value from a register on an I²C device.
+
+**EXAMPLE of I2CPEEK Function:**
+```BASIC
+PRINT HEX$(I2CPEEK($6F,0) and $7F)
+```
+This command reports the seconds counter from the RTC by converting its internal BCD representation to a string.
+### I2CPOKE
+
+**TYPE: Command**  
+**FORMAT: I2CPOKE &lt;device&gt;,&lt;register&gt;,&lt;value&gt;**
+
+**Action:** Sets the value to a register on an I²C device.
+
+**EXAMPLE of I2CPOKE Function:**
+```BASIC
+I2CPOKE $6F,$40,$80
+```
+This command sets a byte in NVRAM on the RTC to the value `$80`
 ### JOY
 
 **TYPE: Integer Function**  
@@ -675,7 +704,17 @@ REM SIMPLE DRAWING PROGRAM
 ```
 OLD
 ```
+### POWEROFF
 
+**TYPE: Command**  
+**FORMAT: POWEROFF**
+
+**Action:** This command instructs the SMC to power down the system. This is equivalent to pressing the physical power switch.
+
+**EXAMPLE of RESET Statement:**
+```BASIC
+POWEROFF
+```
 ### PSET
 
 **TYPE: Command**  
@@ -835,6 +874,17 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 20 FORI=1TO20:RECTRND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*256:NEXT
 30 GOTO20
 ```
+### REBOOT
+
+**TYPE: Command**  
+**FORMAT: REBOOT**
+
+**Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
+
+**EXAMPLE of RESET Statement:**
+```BASIC
+REBOOT
+```
 ### RESET
 
 **TYPE: Command**  
@@ -846,6 +896,24 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 ```BASIC
 RESET
 ```
+### RESTORE
+
+**TYPE: Command**  
+**FORMAT: RESTORE \[&lt;linenum&gt;\]**
+
+**Action:** This command resets the pointer for the `READ` command. Without arguments, it will reset the pointer to the first `DATA` constant in the program.  With a parameter `linenum`, the command will reset the pointer to the first `DATA` constant at or after that line number.
+
+**EXAMPLE of RESTORE Statement:**
+```BASIC
+10 DATA 1,2,3
+20 DATA 4,5,6
+30 READ Y
+40 PRINT Y
+50 RESTORE 20
+60 READ Y
+70 PRINT Y
+```
+This program will output the number 1 followed by the number 4.
 ### SCREEN
 
 **TYPE: Command**  
@@ -860,6 +928,22 @@ For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%
 SCREEN 3 : REM SWITCH TO 40 CHARACTER MODE
 SCREEN 0 : REM SWITCH TO 80 CHARACTER MODE
 SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
+```
+### SLEEP
+
+**TYPE: Command**  
+**FORMAT: SLEEP \[&lt;jiffies&gt;\]**
+
+**Action:** With the default interrupt source configured and enabled, this command waits for `jiffies`+1 VSYNC events and then resumes program execution. In other words, `SLEEP` with no arguments is equivalent to `SLEEP 0`, which waits until the beginning of the next frame. Another useful example, `SLEEP 60`, pauses for approximately 1 second.
+
+Allowed values for `jiffies` is from 0 to 65535, inclusive.
+
+**EXAMPLE of SLEEP Statement:**
+```BASIC
+10 FOR I=1 TO 10
+20 PRINT I
+30 SLEEP 60
+40 NEXT
 ```
 ### VPEEK
 
