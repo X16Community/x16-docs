@@ -179,7 +179,7 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 
 **Action:** Returns an integer value representing the PETSCII code for the first character of `string`. If `string` is the empty string, `ASC()` returns 0.
 
-**EXAMPLE of BIN$ Function:**
+**EXAMPLE of ASC Function:**
 ```BASIC
 ?ASC("A")
  65
