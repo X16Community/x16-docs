@@ -668,22 +668,31 @@ Call address: $FEC9
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
-Stack requirements: [?]  
+Stack requirements: [?]
 Registers affected: .A
 
 **Description:** The routine `i2c_write_byte` writes the byte in .A at offset .Y of I2C device .X. .C is 0 if the write was successful, and 1 if no such device exists.
 
 **EXAMPLES:**
 
-	LDX #$6F ; RTC device
-	LDY #$20 ; start of NVRAM inside RTC
-	LDA #'X'
-	JSR i2c_write_byte ; write first byte of NVRAM
+```
+LDX #$6F ; RTC device
+LDY #$20 ; start of NVRAM inside RTC
+LDA #'X'
+JSR i2c_write_byte ; write first byte of NVRAM
 
-	LDX #$42 ; System Management Controller
-	LDY #$01 ; magic location for system poweroff
-	LDA #$00 ; magic value for system poweroff
-	JSR i2c_write_byte ; power off the system
+
+LDX #$42 ; System Management Controller
+LDY #$01 ; magic location for system poweroff
+LDA #$00 ; magic value for system poweroff
+JSR i2c_write_byte ; power off the system
+
+; Reset system at the end of your program
+LDX #$42  ; System Management Controller
+LDY #$02  ; magic location for system reset
+LDA #$00  ; magic value for system poweroff
+JSR $FEC9 ; power off the system
+```
 
 ___
 #### Sprites

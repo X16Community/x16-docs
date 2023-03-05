@@ -23,7 +23,6 @@ Your binary commands are LOAD, SAVE, BLOAD, VLOAD, BVLOAD, VERIFY, and BVERIFY.
 
 This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to [Chapter 3: BASIC Programming](X16%20Reference%20-%2003%20-%20BASIC.md).
 
-
 ### LOAD
 
 `LOAD <filename> [,device][,secondary_address][,start_address]`
