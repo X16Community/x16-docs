@@ -37,7 +37,9 @@ This is the allocation of the banks of banked ROM:
 |6   |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
 |7   |CODEX  |CodeX16 Interactive Assembly Environment / Monitor     |
 |8   |GRAPH  |Kernal graph and font routines                         |
-|9-31|–      |*[Currently unused]*                                   |
+|9   |DEMO   |Demo routines                                          |
+|10  |AUDIO  |Audio routines                                         |
+|11-31|–      |*[Currently unused]*                                   |
 
 **Important**: The layout of the banks is still constantly changing.
 
