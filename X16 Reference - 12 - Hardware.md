@@ -135,22 +135,20 @@ The other pins are connected to the system bus and directly to the 65C02 process
 
 The Commander X16 has a socket for an industry standard 24-pin ATX power supply connector. Either a 24-pin or 20-pin PSU connector can be plugged in, though only the pins for the older 20-pin standard are used by the computer. You don't need an expensive power supply, but it must supply the -12v rail. Not all do, so check your unit to make sure. If you can't tell from the label, you can check Pin 12 and COM. If the clip side is facing away from you, pin 12 will be the second pin on the left on the clip side.
 
-
-
-|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
-|-|
 |24-pin ATX power connector, cable end|
+|-|
+|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
 
 By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
 
-The Commander X16 does not use the 4-pin CPU power, GPU power, 4-pin drive power, or SATA power connectors. 
+The Commander X16 does not use the 4-pin CPU power, GPU power, 4-pin drive power, or SATA power connectors.
 
-To save space, when running a bare motherboard, we recommend a "Pico PSU" power supply, which derives all of the necessary power lines from a single 12V source. 
+To save space, when running a bare motherboard, we recommend a "Pico PSU" power supply, which derives all of the necessary power lines from a single 12V source.
 
 
 ### J1 ROM Write Protect
 
-Remove J1 to write protect system ROM. With J1 installed, users can program the system ROM using an appropriate ROM flash program. 
+Remove J1 to write protect system ROM. With J1 installed, users can program the system ROM using an appropriate ROM flash program.
 
 
 ### J2 NMI
@@ -171,12 +169,11 @@ Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lori
 | PB0   |  3  |. .|  4  | PB1  |
 | PB2   |  5  |. .|  6  | CB2  |
 
-These pins are connected to VIA 1 at $9F00-$9F0F. 
+These pins are connected to VIA 1 at $9F00-$9F0F.
 
-## J5 Program Microcontroller 
+## J5 Program Microcontroller
 
-Remove jumpers from J5 to program microcontroller.  
-
+Remove jumpers from J5 to program microcontroller.
 
 ### J6 System Speed
 
@@ -195,7 +192,7 @@ Remove jumpers from J5 to program microcontroller.
 | LATCH |  3  |. .|  4  | DAT4 |
 | DAT3  |  5  |. .|  6  | GND  |
 
-These pins will allow for two additional SNES controllers, for a total of four controllers on the system.  
+These pins will allow for two additional SNES controllers, for a total of four controllers on the system.
 
 
 ### J8 Front Panel
@@ -208,7 +205,7 @@ These pins will allow for two additional SNES controllers, for a total of four c
 | RESET BUT |  7  |. .|  7  | POW BUT   |
 | +5VDC     |  9  |. .|  10 | NC        |
 
-This pinout is compatible with newer ATX style motherboards. AT motherboards and older ATX cases may still have a 3-pin power LED connector (with a blank pin in the middle.) You will need to move the + (red) wire on the power LED connector to the center pin, if this is the case. Or you can use two Male-Female breadboard cables to jumper the header to your power LED connector. 
+This pinout is compatible with newer ATX style motherboards. AT motherboards and older ATX cases may still have a 3-pin power LED connector (with a blank pin in the middle.) You will need to move the + (red) wire on the power LED connector to the center pin, if this is the case. Or you can use two Male-Female breadboard cables to jumper the header to your power LED connector.
 
 There is no on-board speaker header. Instead, all audio is routed to the rear panel headphone jack via the Audio Option header.
 
