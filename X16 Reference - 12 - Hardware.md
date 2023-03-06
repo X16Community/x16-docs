@@ -307,7 +307,7 @@ VERA is connected to I/O ports at $9F20-$9F3F. See [VERA Programmer's Reference]
 
 The VGA connector is a female [DE-15](https://en.wikipedia.org/wiki/D-subminiature#Description,_nomenclature,_and_variants) jack. 
 
-The video resolution is 640x480 59.95FPS progressive scan, RGB color, and separated H/V sync.
+The video resolution is 640x480 59.5FPS progressive scan, RGB color, and separated H/V sync.
 
 In interlace mode, both horizontal and vertical sync pulses will appear on the HSync pin. (TODO: Test with OSSC).
 
@@ -320,7 +320,7 @@ The Composite video is a standard RCA connector. Center pin carries signal. Shie
 
 The signal is NTSC Composite baseband video.
 
-The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA is running at 59.95Hz progressive scan.
+The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA is running at 59.5Hz progressive scan.
 
 
 ### S-Video Connector
@@ -338,7 +338,7 @@ The connector is a 4-pin Mini-DIN connector. While the same size as a PS/2 conne
 
 The signal is NTSC baseband Y/C separated video. S-Video provides better resolution than composite, since the color and intensity are provided on separate pins. you can use a splitter cable to separate the Y and C signals to drive a Commodore 1702 or compatible monitor. 
 
-The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA is running at 59.95Hz progressive scan.
+The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA is running at 59.5Hz progressive scan.
 
 
 ### J2 VERA Programming Interface
