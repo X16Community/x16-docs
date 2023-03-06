@@ -19,6 +19,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | command | Loads and runs `AUTOBOOT.X16` | X16 |
+| [`BSAVE`](#bsave) | command | Saves a headerless copy of a range of memory to a file | X16 |
 | `BVERIFY` | command | Verifies that a file on disk matches RAM contents | X16 |
 | [`BVLOAD`](#bvload) | command | Loads a headerless binary file from disk to VRAM | X16 |
 | [`CHAR`](#char) | command | Draws a text string in graphics mode | X16 |
@@ -242,6 +243,27 @@ BOOT
 BLOAD "MYFILE.BIN",8,1,$A000:REM LOADS A FILE NAMED MYFILE.BIN FROM DEVICE 8 STARTING IN BANK 1 AT $A000.
 BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN BANK 10 AT $B000.
 ```
+
+### BSAVE
+
+**TYPE: Command**  
+**FORMAT: BSAVE &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;start address&gt;, &lt;end address&gt;**
+	
+**Action:** Saves a region of memory to a binary file.
+
+Note: The save will stop one byte before `end address`.
+
+This command does not allow for automatic bank advancing, but you can achieve a similar result with successive BSAVE invocations to append additional memory locations to the same file.
+
+**EXAMPLES of BSAVE:**
+```BASIC
+BSAVE "MYFILE.BIN",8,1,$A000,$C000
+```
+The above example saves a region of memory from $A000 in bank 1 through and including $BFFF, stopping before $C000.
+```BASIC
+BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
+```
+The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 
 ### BVLOAD
