@@ -748,7 +748,7 @@ OLD
 
 **Action:** This command instructs the SMC to power down the system. This is equivalent to pressing the physical power switch.
 
-**EXAMPLE of RESET Statement:**
+**EXAMPLE of POWEROFF Statement:**
 ```BASIC
 POWEROFF
 ```
@@ -918,7 +918,7 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 
 **Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
 
-**EXAMPLE of RESET Statement:**
+**EXAMPLE of REBOOT Statement:**
 ```BASIC
 REBOOT
 ```
