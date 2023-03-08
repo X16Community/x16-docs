@@ -157,7 +157,7 @@ Note Spacing | 1     | S1
 
 
 ##### Using Tokens:
-The valid tokens are: **`A-G,K,L,O,P,R,S,T,V,<,>`**.
+The valid tokens are: **`A-G,I,K,L,O,P,R,S,T,V,<,>`**.
 
 Each token may be followed by optional modifiers such as numbers or symbols. Options to a token must be given in the order they are expected, and must have no spacing between them. Tokens may have spaces between them as desired. Any unknown
 characters are ignored.
@@ -325,3 +325,17 @@ Example:
 40 PSGPLAY 0,"P3C"
 ```
 On the VERA PSG using voice 0, in the current octave, repeatedly plays a **C** out of the left speaker, then a **B&#9839;** (effectively a **C** one octave higher) out of the right speaker.  After 4 such loops, it plays a **C** out of both speakers.
+
+### Instrument change
+* Synopsis: Sets the FM instrument (like FMINST) or PSG waveform (like PSGWAV)
+* Syntax: `I<0-255>` (0-162 for FM)
+
+Note: This macro is available starting in ROM version R43.
+
+Example:
+```BASIC
+10 FMINIT
+20 FMVIB 200,15
+30 FMCHORD 0,"I11CI11EI11G"
+```
+This program sets up appropriate vibrato/tremolo and plays a C major chord with the vibraphone patch across FM channels 0, 1, and 2.
