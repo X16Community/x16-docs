@@ -91,7 +91,6 @@ This is the memory map of the I/O Area:
 |Addresses  |Description                  |
 |-----------|-----------------------------|
 |$9F00-$9F0F|VIA I/O controller #1        |
-|$9F10-$9F1F|VIA I/O controller #2        |
 |$9F20-$9F3F|VERA video controller        |
 |$9F40-$9F41|YM2151 audio controller      |
 |$9F42-$9F5F|Reserved                     |
