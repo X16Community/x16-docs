@@ -123,7 +123,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `STEP` | keyword | Used in a `FOR` declaration to declare the iterator step | C64 |
 | `STOP` | command | Breaks out of a BASIC program | C64 |
 | `STR$` | function | Converts a numeric value to a string | C64 |
-| `SYS` | command | Transfers control to machine language at a memory address | C64 |
+| [`SYS`](#sys) | command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | function | Returns a string with spaces used for column alignment | C64 |
 | `TAN` | function | Return the tangent for an angle in radians | C64 |
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
@@ -153,11 +153,7 @@ The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commod
 	* `CHR$(14)`: switch to upper/lowercase font
 	* `CHR$(142)`: switch to uppercase/graphics font
 * The BASIC vector table ($0300-$030B, $0311/$0312)
-* SYS arguments in RAM ($030C-$030F).
-	* `$030C`: X Register
-	* `$030D`: Y Register
-	* `$030E`: Status Register/Flags
-	* `$030F`: Accumulator
+* [SYS](#sys) arguments in RAM
 
 Because of the differences in hardware, the following functions and statements are incompatible between C64 and X16 BASIC programs.
 
@@ -982,6 +978,38 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 30 SLEEP 60
 40 NEXT
 ```
+
+### SYS 
+
+**TYPE: Command**  
+**FORMAT: SYS &lt;address&gt;**
+
+**Action:** The SYS command executes a machine language subroutine located at &lt;address&gt;. 
+Execution continues until an RTS is executed, and control returns to the BASIC program. 
+
+In order to communicate with the routine, you can pre-load the CPU registers by using POKE to write to the following
+memory locations:
+ 
+ * `$030C`: Accumulator
+ * `$030D`: X Register
+ * `$030E`: Y Register
+ * `$030F`: Status Register/Flags
+
+When the routine is over, the CPU registers will be loaded back in to these locations. So you can read the results of a machine language routine by PEEKing these locations. 
+
+**EXAMPLE of SYS statemet:**
+
+Push a &lt;CR&gt; into the keyboard buffer. 
+```
+POKE $30C,13
+SYS $FEC3
+```
+
+Run the Machine Language Monitor (Supermon)
+```
+SYS  $FECC
+```
+
 ### VPEEK
 
 **TYPE: Integer Function**  
