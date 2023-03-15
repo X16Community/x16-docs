@@ -1,4 +1,4 @@
-## Chapter 12: Hardware Pinouts
+# Chapter 12: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and headers.
 

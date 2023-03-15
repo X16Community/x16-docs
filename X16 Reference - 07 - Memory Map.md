@@ -1,4 +1,4 @@
-## Chapter 7: Memory Map
+# Chapter 7: Memory Map
 
 The Commander X16 has 64 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM. Some of the ROM and RAM is always visible at certain address ranges, while the remaining ROM and RAM is banked into one of two address windows.
 
@@ -11,7 +11,7 @@ This is an overview of the X16 memory map:
 |$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)|
 |$C000-$FFFF|Banked ROM (16 KB window into one of 32 banks for a total of 512 KB) |
 
-### Banked Memory
+## Banked Memory
 
 The currently enabled RAM and ROM banks can be configured by writing to zero page locations 0 and 1:
 
@@ -22,7 +22,7 @@ The currently enabled RAM and ROM banks can be configured by writing to zero pag
 
 The currently set banks can also be read back from the respective memory locations. Both settings default to 0 on RESET. The upper three bits of location 1 are undefined.
 
-### ROM Allocations
+## ROM Allocations
 
 This is the allocation of the banks of banked ROM:
 
@@ -43,7 +43,7 @@ This is the allocation of the banks of banked ROM:
 
 **Important**: The layout of the banks is still constantly changing.
 
-### RAM Contents
+## RAM Contents
 
 This is the allocation of fixed RAM in the KERNAL/BASIC environment.
 
@@ -57,7 +57,7 @@ This is the allocation of fixed RAM in the KERNAL/BASIC environment.
 
 The $0400-$07FF can be seen as the equivalent of $C000-$CFFF on a C64. A typical use would be for helper machine code called by BASIC.
 
-#### Zero Page
+### Zero Page
 
 |Addresses  |Description                            |
 |-----------|---------------------------------------|
@@ -71,7 +71,7 @@ The $0400-$07FF can be seen as the equivalent of $C000-$CFFF on a C64. A typical
 
 Machine code applications are free to reuse the BASIC area, and if they don't use the Math library, also that area.
 
-#### Banking
+### Banking
 
 This is the allocation of banked RAM in the KERNAL/BASIC environment.
 
@@ -84,7 +84,7 @@ This is the allocation of banked RAM in the KERNAL/BASIC environment.
 
 During startup, the KERNAL activates RAM bank 1 as the default for the user.
 
-### I/O Area
+## I/O Area
 
 This is the memory map of the I/O Area:
 
