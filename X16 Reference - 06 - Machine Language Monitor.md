@@ -1,4 +1,4 @@
-## Chapter 6: Machine Language Monitor
+# Chapter 6: Machine Language Monitor
 
 The built-in machine language monitor can be started with the `MON` BASIC command. It is based on the monitor of the Final Cartridge III and supports most of its features.
 

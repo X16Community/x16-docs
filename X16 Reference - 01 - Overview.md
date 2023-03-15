@@ -1,4 +1,4 @@
-## Chapter 1: Overview
+# Chapter 1: Overview
 
 The Commander X16 is a modern home computer in the philosophy of Commodore computers like the VIC-20 and the C64.
 

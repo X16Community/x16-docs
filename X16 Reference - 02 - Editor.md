@@ -1,8 +1,8 @@
-## Chapter 2: Editor
+# Chapter 2: Editor
 
 The X16 has a built-in screen editor that is backwards-compatible with the C64, but has many new features.
 
-### Modes
+## Modes
 
 The editor's default mode is 80x60 text mode. The following text mode resolutions are supported:
 
@@ -21,7 +21,7 @@ Mode $80 contains two layers: a text layer on top of a graphics screen. In this 
 
 To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In BASIC, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
 
-### ISO Mode
+## ISO Mode
 
 In addition to PETSCII, the X16 also supports the ISO-8859-15 character encoding. In ISO-8859-15 mode ("ISO mode"):
 
@@ -62,7 +62,7 @@ You can also enable ISO mode in direct mode by pressing Ctrl+`O`.
 
 **Important:** In ISO mode, BASIC keywords need to be written in upper case, that is, they have to be entered with the Shift key down, and abbreviating keywords is no longer possible.
 
-### Background Color
+## Background Color
 
 In regular BASIC text mode, the video controller supports 16 foreground colors and 16 background colors for each character on the screen.
 
@@ -78,11 +78,11 @@ To set the background color of the complete screen, it just has to be cleared af
 
       PRINT CHR$(147);
 
-### Scrolling
+## Scrolling
 
 The C64 editor could only scroll the screen up (when overflowing the last line or printing or entering DOWN on the last line). The X16 editor scrolls both ways: When the cursor is on the first line and UP is printed or entered, the screen contents scroll down by a line.
 
-### New Control Characters
+## New Control Characters
 
 This is the set of all supported PETSCII control characters. Entries in bold indicate new codes compared to the C64:
 
@@ -130,11 +130,11 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 * $84: This code is generated when pressing SHIFT+END.
 * Additionally, the codes $04/$06/$0B/$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
 
-### Keyboard Layouts
+## Keyboard Layouts
 
 The editor supports multiple keyboard layouts.
 
-### Default Layout
+## Default Layout
 
 On boot, the US layout (`ABC/X16`) is active:
 
@@ -270,7 +270,7 @@ They generate additional characters when combined with a second keypress:
 
 "␣" denotes the space bar.
 
-#### ROM Keyboard Layouts
+### ROM Keyboard Layouts
 
 Pressing the `F9` key cycles through the keyboard layouts stored in ROM, in the following order:
 
@@ -312,7 +312,7 @@ The BASIC command `KEYMAP` allows activating a specific keyboard layout. It can 
 	10 KEYMAP"NB-NO"
 	SAVE"AUTOBOOT.X16
 
-#### Loadable Keyboard Layouts
+### Loadable Keyboard Layouts
 
 The tables for the active keyboard layout reside in banked RAM, at $A000 on bank 0:
 
@@ -386,7 +386,7 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 	180 REM *** DOING THE SAME FOR SHIFTED CHARACTERS
 	190 REM *** IS LEFT AS AN EXERCISE TO THE READER
 
-#### Custom Keyboard Scancode Handler
+### Custom Keyboard Scancode Handler
 
 If you need more control over the translation of scancodes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at $032E/$032F.
 

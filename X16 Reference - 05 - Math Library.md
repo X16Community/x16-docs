@@ -1,10 +1,10 @@
-## Chapter 5: Math Library
+# Chapter 5: Math Library
 
 The Commander X16 contains a floating point Math library with a precision of 40 bits, which corresponds to 9 decimal digits. It is a stand-alone derivative of the library contained in Microsoft BASIC. Except for the different base address, it is compatible with the C128 and C65 libraries.
 
 The following functions are available from machine language code after setting the ROM bank to 4.
 
-### Format Conversions
+## Format Conversions
 
 | C128  | C65   | X16   | Symbol   | Description                            |
 |-------|-------|-------|----------|----------------------------------------|
@@ -15,7 +15,7 @@ The following functions are available from machine language code after setting t
 | $AF0C | $7F0C | $FE0C | `GETADR` | convert floating point to an address   |
 | $AF0F | $7F0F | $FE0F | `FLOATC` | convert address to floating point      |
 
-### Math Functions
+## Math Functions
 
 | C128  | C65   | X16   | Symbol   | Description                            |
 |-------|-------|-------|----------|----------------------------------------|
@@ -44,7 +44,7 @@ The following functions are available from machine language code after setting t
 | $AF54 | $7F54 | $FE54 | `FCOMP`  | compare FACC with MEM                  |
 | $AF57 | $7F57 | $FE57 | `RND_0`  | generate random floating point number  |
 
-### Movement
+## Movement
 
 | C128  | C65   | X16   | Symbol   | Description                            |
 |-------|-------|-------|----------|----------------------------------------|
@@ -56,7 +56,7 @@ The following functions are available from machine language code after setting t
 | $AF69 | $7F69 | $FE69 | `MOVFA`  | move ARG to FACC                       |
 | $AF6C | $7F6C | $FE6C | `MOVAF`  | move FACC to ARG                       |
 
-### X16 Additions
+## X16 Additions
 
 The following calls are not part of the C128/C65 API.
 
@@ -78,7 +78,7 @@ The following calls are not part of the C128/C65 API.
 | $FE96 | POLYX    | Polynomial Evaluation 1 (SIN/COS/ATN/LOG)       |
 | $FE99 | POLY     | Polynomial Evaluation 2 (EXP)                   |
 
-### Notes
+## Notes
 
 * The full documentation of these functions can be found in the book [C128 Developers Package for Commodore 6502 Development](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf).
 * `RND_0`: For .Z=1, the C128 and C65 versions get entropy from the CIA timers. The X16 version takes entropy from .A/.X/.Y instead. So in order to get a "real" random number, you would use code like this:
