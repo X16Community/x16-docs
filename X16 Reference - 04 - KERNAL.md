@@ -408,7 +408,7 @@ ___
 
 $FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
 $FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
-$FEC3: `kbdbuf_put` - append a char to the keyboard queue
+$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
 $FED2: `keymap` - set or get the current keyboard layout
 
 ___
