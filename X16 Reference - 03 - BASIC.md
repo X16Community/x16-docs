@@ -164,10 +164,17 @@ Because of the differences in hardware, the following functions and statements a
 
 The BASIC interpreter also currently shares all problems of the C64 version, like the slow garbage collector.
 
+## Saving Files
+
+By default, you cannot automatically overwrite a file with SAVE, BSAVE, or OPEN. To overwrite a file, you must prefix the filename with `@:`, like this: `SAVE "@:HELLO WORLD"`. (`"@0:filename` is also acceptable.)
+
+This follows the Commodore convention, which extended to all of their diskette drives and third party hard drives and flash drive readers.
+
+Always confirm you have successfully saved a file with the DOS command (with no arguments). This will print either `00,OK,00,00` or a FILE EXISTS error if you forgot to prepend the @: prefix.
+
 ## New Statements and Functions
 
 There are several new statement and functions. Note that all BASIC keywords (such as `FOR`) get converted into tokens (such as `$81`), and the tokens for the new keywords have not been finalized yet. Therefore, loading BASIC program saved from a different revision of BASIC may mix up keywords.
-
 
 ### ASC
 
