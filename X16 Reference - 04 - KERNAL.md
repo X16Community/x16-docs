@@ -1293,10 +1293,12 @@ If .A is zero, .X (lo) and .Y (hi) contain a pointer to a 2 KB RAM area that get
 
 **EXAMPLE:**
 
- LDA #0
- LDX #<MY_CHARSET
- LDY #>MY_CHARSET
- JSR screen_set_charset ; UPLOAD CUSTOM CHARSET "MY_CHARSET"
+```ASM
+LDA #0
+LDX #<MY_CHARSET
+LDY #>MY_CHARSET
+JSR screen_set_charset ; UPLOAD CUSTOM CHARSET "MY_CHARSET"
+```
 
 ---
 
