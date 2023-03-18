@@ -402,11 +402,11 @@ The handler has to return a key event the same way in .X/.A/.C.
 * To manually add a key to the keyboard queue, use the `kbdbuf_put` KERNAL API.
 
 You can even write a completely custom keyboard translation layer:
+
 * Place the code at $A000-$A58F – this is safe, since the tables won't be used in this case.
 * Fill the locale at $A590.
 * For every scancode that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
 * For all scancodes, return .A = 0.
-
 
 ```
 ;EXAMPLE: A custom handler that prints "A" on Alt key down
@@ -434,8 +434,27 @@ keyhandler:
     jsr $ffd2
 
 exit:
-    plx		;Restore input
+    plx     ;Restore input
     pla
     plp
     rts
 ```
+
+### Function Key Shortcuts
+
+The following Function key macros are pre-defined for your convenience. These shortcuts only work in immediate mode. When a program is running, the F-keys generate the corresponding PETSCII character code.
+
+| Key | Function   | Comment
+|-----|------------|-----------
+| F1  | LIST:      | Lists the current program
+| F2  | SAVE"      | Press F2 and then type a filename to save your program.<br/>Remember the @: if necessary.
+| F3  | LOAD "     | Load a file directly, or cursor up over a file listing and press F3 to load a program.
+| F4  | 40/80      | Toggles the 40/80 column screen mode, clearing the screen.
+| F5  | RUN:       | Run the current program.
+| F6  | MONITOR    | Opens the Supermon machine language monitor.
+| F7  | DOS"$`<cr>`| Displays a directory listing.
+| F8  | DOS"       | Issue DOS commands.
+| F9  | layout     | Cycles through keyboard layouts. <br/> `LAYOUT "ABC/X16"` to reset
+| F10 | -          | Not defined
+| F11 | -          | Not defined
+| F12 | debug      | debug features in emulators
