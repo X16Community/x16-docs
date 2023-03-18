@@ -115,7 +115,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `SAVE` | command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
 | `SGN` | function | Returns the sign of a numeric value | C64 |
-| `SIN` | function | Returns the sine of an angle in radians | C64 | 
+| `SIN` | function | Returns the sine of an angle in radians | C64 |
 | [`SLEEP`](#sleep) | command | Introduces a delay in program execution | X16 |
 | `SPC` | function | Returns a string with a set number of spaces | C64 |
 | `SQR` | function | Returns the square root of a numeric value | C64 |
@@ -138,7 +138,6 @@ for GitHub's Markdown flavor. Do not remove!
 | [`VLOAD`](#vload) | command | Loads a file to VERA's VRAM | X16 |
 | `WAIT` | command | Waits for a memory location to match a condition | C64 |
 
-
 ## Commodore 64 Compatibility
 
 The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commodore 64 one. This includes the following features:
@@ -147,11 +146,11 @@ The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commod
 * Strings, arrays, integers, floats
 * Max. 80 character BASIC lines
 * Printing control characters like cursor control and color codes, e.g.:
-	* `CHR$(147)`: clear screen
-	* `CHR$(5)`: white text
-	* `CHR$(18)`: reverse
-	* `CHR$(14)`: switch to upper/lowercase font
-	* `CHR$(142)`: switch to uppercase/graphics font
+  * `CHR$(147)`: clear screen
+  * `CHR$(5)`: white text
+  * `CHR$(18)`: reverse
+  * `CHR$(14)`: switch to upper/lowercase font
+  * `CHR$(142)`: switch to uppercase/graphics font
 * The BASIC vector table ($0300-$030B, $0311/$0312)
 * [SYS](#sys) arguments in RAM
 
@@ -170,7 +169,21 @@ By default, you cannot automatically overwrite a file with SAVE, BSAVE, or OPEN.
 
 This follows the Commodore convention, which extended to all of their diskette drives and third party hard drives and flash drive readers.
 
-Always confirm you have successfully saved a file with the DOS command (with no arguments). This will print either `00,OK,00,00` or a FILE EXISTS error if you forgot to prepend the @: prefix.
+Always confirm you have successfully saved a file by checking the DOS status. When you use the SAVE command from Immediate (or Direct) mode, the system does this for you. In Program mode, you have to do it yourself.
+
+There are two ways to check the error channel from inside a program:
+
+1. You can use the DOS command and make the user perform actions necessary to recover from an error (such as re-saving the file with an @: prefix).
+2. You can read the error yourself, using the following BASIC code:
+
+```BASIC
+10 OPEN 15,8,15
+20 INPUT#15,A,B$
+30 PRINT A;B$
+40 CLOSE 15
+```
+
+Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
@@ -184,6 +197,7 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 **Action:** Returns an integer value representing the PETSCII code for the first character of `string`. If `string` is the empty string, `ASC()` returns 0.
 
 **EXAMPLE of ASC Function:**
+
 ```BASIC
 ?ASC("A")
  65
@@ -191,6 +205,7 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 ?ASC("")
  0
 ```
+
 ### BIN$
 
 **TYPE: String Function**  
@@ -199,10 +214,12 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 **Action:** Return a string representing the binary value of n. If n <= 255, 8 characters are returned and if 255 < n <= 65535, 16 characters are returned.
 
 **EXAMPLE of BIN$ Function:**
+
 ```BASIC
 PRINT BIN$(200)   : REM PRINTS 11001000 AS BINARY REPRESENTATION OF 200
 PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 ```
+
 ### BANK
 
 **TYPE: Command**  
@@ -211,11 +228,13 @@ PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 **Action:** Set the active RAM (m) and ROM bank (n) for the purposes of `PEEK`, `POKE`, and `SYS`.  Specifying the ROM bank is optional. If it is not specified, its previous value is retained.
 
 **EXAMPLE of BANK Statement:**
+
 ```BASIC
 BANK 1,10    : REM SETS THE RAM BANK TO 1 AND THE ROM BANK TO 10
 ?PEEK($A000) : REM PRINTS OUT THE VALUE STORED IN $A000 IN RAM BANK 1
 SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
+
 Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
 
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
@@ -230,6 +249,7 @@ Note: Memory address `$00`, which is the hardware RAM bank register, will usuall
 **Action:** Load and run a PRG file named `AUTOBOOT.X16` from device 8. If the file is not found, nothing is done and no error is printed.
 
 **EXAMPLE of BOOT Statement:**
+
 ```BASIC
 BOOT
 ```
@@ -238,11 +258,12 @@ BOOT
 
 **TYPE: Command**  
 **FORMAT: BLOAD &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;address&gt;**
-	
+ 
 **Action:** Loads a binary file directly into RAM, advancing the RAM bank if necessary. This does not change the active RAM bank as controlled by the `BANK` command, but after this command, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
 **EXAMPLES of BLOAD:**
-```BASIC	
+
+```BASIC 
 BLOAD "MYFILE.BIN",8,1,$A000:REM LOADS A FILE NAMED MYFILE.BIN FROM DEVICE 8 STARTING IN BANK 1 AT $A000.
 BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN BANK 10 AT $B000.
 ```
@@ -251,7 +272,7 @@ BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN B
 
 **TYPE: Command**  
 **FORMAT: BSAVE &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;start address&gt;, &lt;end address&gt;**
-	
+ 
 **Action:** Saves a region of memory to a binary file.
 
 Note: The save will stop one byte before `end address`.
@@ -259,25 +280,29 @@ Note: The save will stop one byte before `end address`.
 This command does not allow for automatic bank advancing, but you can achieve a similar result with successive BSAVE invocations to append additional memory locations to the same file.
 
 **EXAMPLES of BSAVE:**
+
 ```BASIC
 BSAVE "MYFILE.BIN",8,1,$A000,$C000
 ```
+
 The above example saves a region of memory from $A000 in bank 1 through and including $BFFF, stopping before $C000.
+
 ```BASIC
 BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 ```
-The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
+The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 ### BVLOAD
 
 **TYPE: Command**  
 **FORMAT: BVLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
-	
+ 
 **Action:** Loads a binary file directly into VERA RAM.
 
 **EXAMPLES of BVLOAD:**
-```BASIC	
+
+```BASIC 
 BVLOAD "MYFILE.BIN", 8, 0, $4000  :REM LOADS MYFILE.BIN FROM DEVICE 8 TO VRAM $4000.
 BVLOAD "MYFONT.BIN", 8, 1, $F000  :REM LOAD A FONT INTO THE DEFAULT FONT LOCATION ($1F000).
 ```
@@ -312,6 +337,7 @@ The string can contain printable ASCII characters (`CHR$($20)` to `CHR$($7E)`), 
 **Action:** Clears the screen. Same effect as `?CHR$(147);`.
 
 **EXAMPLE of CLS Statement:**
+
 ```BASIC
 CLS
 ```
@@ -324,6 +350,7 @@ CLS
 **Action:** This command works sets the text mode foreground color, and optionally the background color.
 
 **EXAMPLES of COLOR Statement:**
+
 ```BASIC
 COLOR 2   : REM SET FG COLOR TO RED, KEEP BG COLOR
 COLOR 2,0 : REM SET FG COLOR TO RED, BG COLOR TO BLACK
@@ -342,6 +369,7 @@ COLOR 2,0 : REM SET FG COLOR TO RED, BG COLOR TO BLACK
 * Any other argument will be sent as a DOS command.
 
 **EXAMPLES of DOS Statement:**
+
 ```BASIC
 DOS"$"          : REM SHOWS DIRECTORY
 DOS"S:BAD_FILE" : REM DELETES "BAD_FILE"
@@ -349,16 +377,18 @@ DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 ```
 
 ### FMCHORD
+
 **TYPE: Command**  
 **FORMAT: FMCHORD &lt;first channel&gt;,&lt;string&gt;**
 
 **Action:** This command uses the same syntax as `FMPLAY`, but instead of playing a series of notes, it will start all of the notes in the string simultaneously on one or more channels. The first parameter to `FMCHORD` is the first channel to use, and will be used for the first note in the string, and subsequent notes in the string will be started on subsequent channels, with the channel after 7 being channel 0.
 
-All macros are supported, even the ones that only affect the behavior of `PSGPLAY` and `FMPLAY`. 
+All macros are supported, even the ones that only affect the behavior of `PSGPLAY` and `FMPLAY`.
 
 The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#basic-fmplay-and-psgplay-string-macros).
 
 **EXAMPLE of FMCHORD statement:**
+
 ```BASIC
 10 FMINIT
 20 FMVIB 195,10
@@ -376,22 +406,25 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 140 FMPLAY 0,"O5C2C4<G2." : REM PLAY THE REST OF THE MELODY
 150 FMCHORD 1,"RRR" : REM RELEASE THE CHANNELS THAT ARE PLAYING THE CHORD
 ```
+
 This will play the first few lines of *Silent Night* with a vibraphone lead and organ accompaniment.
 
-
 ### FMDRUM
+
 **TYPE: Command**  
 **FORMAT: FMDRUM &lt;channel&gt;,&lt;drum number&gt;**
 
 **Action:** Loads a [drum preset](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#drum-presets "list of drum presets") onto the YM2151 and triggers it. Valid range is from 25 to 87, corresponding to the General MIDI percussion note values. FMDRUM will load a patch preset corresponding to the selected drum into the channel. If you then try to play notes on that same channel without loading an instrument patch, it will use the drum patch that was loaded for the drum sound instead, which may not sound particularly musical.
 
 ### FMFREQ
+
 **TYPE: Command**  
 **FORMAT: FMFREQ &lt;channel&gt;,&lt;frequency&gt;**
 
 **Action:** Play a note by frequency on the YM2151. The accepted range is in Hz from 17 to 4434. FMFREQ also accepts a frequency of 0 to release the note.
 
 **EXAMPLE of FMFREQ statement:**
+
 ```BASIC
 0 FMINST 0,160 : REM LOAD PURE SINE PATCH
 10 FMINST 1,160 : REM HERE TOO
@@ -400,6 +433,7 @@ This will play the first few lines of *Silent Night* with a vibraphone lead and 
 40 FOR X=1 TO 10000 : NEXT X : REM DELAY A BIT
 50 FMFREQ 0,0 : FMFREQ 1,0 : REM RELEASE BOTH CHANNELS
 ```
+
 The above BASIC program plays a sound similar to a North American dial tone for a few seconds.
 
 ### FMINIT
@@ -430,6 +464,7 @@ Load an instrument onto the YM2151 in the form of a [patch preset](X16%20Referen
 Notes can also be represented by negative numbers to skip retriggering, and will thus snap to another note without restarting the playback of the note.
 
 **EXAMPLE of FMNOTE statement:**
+
 ```BASIC
 0 FMINST 1,64 : REM LOAD SOPRANO SAX
 10 FMNOTE 1,$4A : REM PLAYS CONCERT A
@@ -449,12 +484,13 @@ Notes can also be represented by negative numbers to skip retriggering, and will
 **FORMAT: FMPAN &lt;channel&gt;,&lt;panning&gt;**
 
 **Action:** Sets the simple stereo panning on a YM2151 channel. Valid values are as follows:
+
 * 1 = left
 * 2 = right
 * 3 = both
 
-
 ### FMPLAY
+
 **TYPE: Command**  
 **FORMAT: FMPLAY &lt;channel&gt;,&lt;string&gt;**
 
@@ -463,6 +499,7 @@ Notes can also be represented by negative numbers to skip retriggering, and will
 The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#basic-fmplay-and-psgplay-string-macros).
 
 **EXAMPLE of FMPLAY statement:**
+
 ```BASIC
 10 FMINIT : REM INITIALIZE AND LOAD DEFAULT PATCHES, WILL USE E.PIANO
 20 FMPLAY 1,"T90 O4 L4" : REM TEMPO 90 BPM, OCTAVE 4, NOTE LENGTH 4 (QUARTER)
@@ -472,12 +509,14 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 ```
 
 ### FMPOKE
+
 **TYPE: Command**  
 **FORMAT: FMPOKE &lt;register&gt;,&lt;value&gt;**
 
 **Action:** This command uses the AUDIO API to write a value to one of the the YM2151's registers at a low level.
 
 **EXAMPLE of FMPOKE statement:**
+
 ```BASIC
 10 FMINIT
 20 FMPOKE $28,$4A : REM SET KC TO A4 (A-440) ON CHANNEL 0
@@ -486,6 +525,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 ```
 
 ### FMVIB
+
 **TYPE: Command**  
 **FORMAT: FMVIB &lt;speed&gt;,&lt;depth&gt;**
 
@@ -496,6 +536,7 @@ Only some patch presets (instruments) are sensitive to the LFO. Those are marked
 Good values for most instruments are speed somewhere between 190-220. A good light vibrato for most wind instruments would have a depth of 10-15, while tremolo instruments like the Vibraphone or Tremolo Strings are most realistic around 20-30.
 
 **EXAMPLE of FMVIB statement:**
+
 ```BASIC
 10 FMVIB 200,30
 20 FMINST 0,11 : REM VIBRAPHONE
@@ -503,9 +544,11 @@ Good values for most instruments are speed somewhere between 190-220. A good lig
 40 FMVIB 0,0
 50 FMPLAY 0,"C<BAGFEDC"
 ```
+
 The above BASIC program plays a C major scale with a vibraphone patch, first with a vibrato/tremolo effect, and then plays the scale in reverse with the vibrato turned off.
 
 ### FMVOL
+
 **TYPE: Command**  
 **FORMAT: FMVOL &lt;channel&gt;,&lt;volume&gt;**
 
@@ -519,6 +562,7 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 **Action:** This command draws a rectangle frame on the graphics screen in a given color.
 
 **EXAMPLE of FRAME Statement:**
+
 ```BASIC
 10 SCREEN$80
 20 FORI=1TO20:FRAMERND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*128:NEXT
@@ -540,10 +584,12 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 **Action:** Return a string representing the hexadecimal value of n. If n <= 255, 2 characters are returned and if 255 < n <= 65535, 4 characters are returned.
 
 **EXAMPLE of HEX$ Function:**
+
 ```BASIC
 PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
 PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 ```
+
 ### I2CPEEK
 
 **TYPE: Integer Function**  
@@ -552,10 +598,13 @@ PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 **Action:** Returns the value from a register on an I²C device.
 
 **EXAMPLE of I2CPEEK Function:**
+
 ```BASIC
 PRINT HEX$(I2CPEEK($6F,0) AND $7F)
 ```
+
 This command reports the seconds counter from the RTC by converting its internal BCD representation to a string.
+
 ### I2CPOKE
 
 **TYPE: Command**  
@@ -564,10 +613,13 @@ This command reports the seconds counter from the RTC by converting its internal
 **Action:** Sets the value to a register on an I²C device.
 
 **EXAMPLE of I2CPOKE Function:**
+
 ```BASIC
 I2CPOKE $6F,$40,$80
 ```
+
 This command sets a byte in NVRAM on the RTC to the value `$80`
+
 ### JOY
 
 **TYPE: Integer Function**  
@@ -597,6 +649,7 @@ If no controller is connected to the SNES port (or no keyboard is connected), th
 Note that this bitfield is different from the `joystick_get` KERNEL API one. Also note that the keyboard joystick will allow LEFT and RIGHT as well as UP and DOWN to be pressed at the same time, while controllers usually prevent this mechanically.
 
 **EXAMPLE of JOY Function:**
+
 ```BASIC
 10 REM DETECT CONTROLLER, FALL BACK TO KEYBOARD
 20 J = 0: FOR I=1 TO 4: IF JOY(I) >= 0 THEN J = I: GOTO40
@@ -611,6 +664,7 @@ Note that this bitfield is different from the `joystick_get` KERNEL API one. Als
 110 IF V AND 1 THEN PRINT"RIGHT ";
 120 GOTO50
 ```
+
 ### KEYMAP
 
 **TYPE: Command**  
@@ -619,10 +673,12 @@ Note that this bitfield is different from the `joystick_get` KERNEL API one. Als
 **Action:** This command sets the current keyboard layout. It can be put into an AUTOBOOT file to always set the keyboard layout on boot.
 
 **EXAMPLE of KEYMAP Statement:**
+
 ```BASIC
 10 KEYMAP"SV-SE"    :REM SMALL BASIC PROGRAM TO SET LAYOUT TO SWEDISH/SWEDEN
 SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 ```
+
 ### LINE
 
 **TYPE: Command**  
@@ -631,6 +687,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 **Action:** This command draws a line on the graphics screen in a given color.
 
 **EXAMPLE of LINE Statement:**
+
 ```BASIC
 10 SCREEN128
 20 FORA=0TO2*πSTEP2*π/200
@@ -639,13 +696,13 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 ```
 
 **If you're pasting this example into the Commander X16 emulator, use this code block instead so that the &pi; symbol is properly received.**
+
 ```BASIC
 10 SCREEN128
 20 FORA=0TO2*\XFFSTEP2*\XFF/200
 30 :  LINE100,100,100+SIN(A)*100,100+COS(A)*100
 40 NEXT
 ```
-
 
 ### LOCATE
 
@@ -655,6 +712,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 **Action:** This command positions the text mode cursor at the given location. The values are 1-based. If no column is given, only the line is changed.
 
 **EXAMPLE of LOCATE Statement:**
+
 ```BASIC
 100 REM DRAW CIRCLE ON TEXT SCREEN
 110 SCREEN0
@@ -667,6 +725,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 180 :  LOCATEY,X:PRINTCHR$($12);" ";
 190 NEXT
 ```
+
 ### MON
 
 **TYPE: Command**  
@@ -680,6 +739,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 MON
 MONITOR
 ```
+
 ### MOUSE
 
 **TYPE: Command**  
@@ -698,10 +758,12 @@ MONITOR
 The size of the mouse pointer's area will be configured according to the current screen mode. If the screen mode is changed, the MOUSE statement has to be repeated.
 
 **EXAMPLES of MOUSE Statement:**
+
 ```BASIC
 MOUSE 1 : REM ENABLE MOUSE
 MOUSE 0 : REM DISABLE MOUSE
 ```
+
 ### MX/MY/MB
 
 **TYPE: System variable**  
@@ -721,6 +783,7 @@ MOUSE 0 : REM DISABLE MOUSE
 | 4     | third  |
 
 **EXAMPLE of MX/MY/MB variables:**
+
 ```BASIC
 REM SIMPLE DRAWING PROGRAM
 10 SCREEN$80
@@ -733,6 +796,7 @@ REM SIMPLE DRAWING PROGRAM
 60 OX=TX:OY=TY:OB=TB
 70 GOTO30
 ```
+
 ### OLD
 
 **TYPE: Command**  
@@ -741,9 +805,11 @@ REM SIMPLE DRAWING PROGRAM
 **Action:** This command recovers the BASIC program in RAM that has been previously deleted using the `NEW` command or through a RESET.
 
 **EXAMPLE of OLD Statement:**
+
 ```
 OLD
 ```
+
 ### POWEROFF
 
 **TYPE: Command**  
@@ -752,9 +818,11 @@ OLD
 **Action:** This command instructs the SMC to power down the system. This is equivalent to pressing the physical power switch.
 
 **EXAMPLE of POWEROFF Statement:**
+
 ```BASIC
 POWEROFF
 ```
+
 ### PSET
 
 **TYPE: Command**  
@@ -763,22 +831,26 @@ POWEROFF
 **Action:** This command sets a pixel on the graphics screen to a given color.
 
 **EXAMPLE of PSET Statement:**
+
 ```BASIC
 10 SCREEN$80
 20 FORI=1TO20:PSETRND(1)*320,RND(1)*200,RND(1)*256:NEXT
 30 GOTO20
 ```
+
 ### PSGCHORD
+
 **TYPE: Command**  
 **FORMAT: PSGCHORD &lt;first voice&gt;,&lt;string&gt;**
 
 **Action:** This command uses the same syntax as `PSGPLAY`, but instead of playing a series of notes, it will start all of the notes in the string simultaneously on one or more voices. The first parameter to `PSGCHORD` is the first voice to use, and will be used for the first note in the string, and subsequent notes in the string will be started on subsequent voices, with the voice after 15 being voice 0.
 
-All macros are supported, even the ones that only affect `PSGPLAY` and `FMPLAY`. 
+All macros are supported, even the ones that only affect `PSGPLAY` and `FMPLAY`.
 
 The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#basic-fmplay-and-psgplay-string-macros).
 
 **EXAMPLE of PSGCHORD statement:**
+
 ```BASIC
 10 PSGINIT
 20 PSGCHORD 15,"O3G>CE" : REM STARTS PLAYING A CHORD ON VOICES 15, 0, AND 1
@@ -790,14 +862,15 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 80 PSGCHORD 0,"RRR" : REM RELEASES CHORD ON VOICES 0, 1, AND 2
 ```
 
-
 ### PSGFREQ
+
 **TYPE: Command**  
 **FORMAT: PSGFREQ &lt;voice&gt;,&lt;frequency&gt;**
 
 **Action:** Play a note by frequency on the VERA PSG. The accepted range is in Hz from 1 to 24319. PSGFREQ also accepts a frequency of 0 to release the note.
 
 **EXAMPLE of PSGFREQ statement:**
+
 ```BASIC
 10 PSGINIT : REM RESET ALL VOICES TO SQUARE WAVEFORM
 20 PSGFREQ 0,350 : REM PLAY A SQUARE WAVE AT 350 HZ
@@ -805,8 +878,8 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 40 FOR X=1 TO 10000 : NEXT X : REM DELAY A BIT
 50 PSGFREQ 0,0 : PSGFREQ 1,0 : REM RELEASE BOTH VOICES
 ```
-The above BASIC program plays a sound similar to a North American dial tone for a few seconds.
 
+The above BASIC program plays a sound similar to a North American dial tone for a few seconds.
 
 ### PSGINIT
 
@@ -827,6 +900,7 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 | Release | C | C&#9839;/D&#9837; | D | D&#9839;/E&#9837; | E | F | F&#9839;/G&#9837; | G | G&#9839;/A&#9837; | A | A&#9839;/B&#9837; | B | no-op |
 
 **EXAMPLE of PSGNOTE statement:**
+
 ```BASIC
 10 PSGNOTE 1,$4A : REM PLAYS CONCERT A
 20 FOR X=1 TO 5000 : NEXT X : REM DELAYS FOR A BIT
@@ -843,11 +917,13 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 **FORMAT: PSGPAN &lt;voice&gt;,&lt;panning&gt;**
 
 **Action:** Sets the simple stereo panning on a VERA PSG voice. Valid values are as follows:
+
 * 1 = left
 * 2 = right
 * 3 = both
 
 ### PSGPLAY
+
 **TYPE: Command**  
 **FORMAT: PSGPLAY &lt;voice&gt;,&lt;string&gt;**
 
@@ -856,6 +932,7 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#basic-fmplay-and-psgplay-string-macros).
 
 **EXAMPLE of PSGPLAY statement:**
+
 ```BASIC
 10 PSGWAV 0,31 : REM PULSE, 25% DUTY
 20 PSGPLAY 0,"T180 S0 O5 L32" : REM TEMPO 180 BPM, LEGATO, OCTAVE 5, 32ND NOTES
@@ -864,8 +941,8 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 50 PSGPLAY 0,"E-<<B->DFB-FB->DFB-F" : REM GRAB YOURSELF A MUSHROOM
 ```
 
-
 ### PSGVOL
+
 **TYPE: Command**  
 **FORMAT: PSGVOL &lt;voice&gt;,&lt;volume&gt;**
 
@@ -877,12 +954,14 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 **FORMAT: PSGWAV &lt;voice&gt;,&lt;w&gt;**
 
 **Action:** Sets the waveform and duty cycle for a PSG voice.
+
 * w = 0-63 -> Pulse: Duty cycle is `(w+1)/128`. A value of 63 means 50% duty.
 * w = 64-127 -> Sawtooth (all values have identical effect)
 * w = 128-191 -> Triangle (all values have identical effect)
 * w = 192-255 -> Noise (all values have identical effect)
 
 **EXAMPLE of PSGWAV Statement:**
+
 ```BASIC
 10 FOR O=$20 TO $50 STEP $10:REM OCTAVE LOOP
 20 FOR N=1 TO 11 STEP 2:REM NOTE LOOP, EVERY OTHER NOTE
@@ -900,7 +979,9 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 140 NEXT O
 150 PSGNOTE 0,0:REM STOP SOUND
 ```
+
 This example plays a chromatic scale while applying pulse-width modulation on the voice.
+
 ### RECT
 
 **TYPE: Command**  
@@ -909,11 +990,13 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 **Action:** This command draws a solid rectangle on the graphics screen in a given color.
 
 **EXAMPLE of RECT Statement:**
+
 ```BASIC
 10 SCREEN$80
 20 FORI=1TO20:RECTRND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*256:NEXT
 30 GOTO20
 ```
+
 ### REBOOT
 
 **TYPE: Command**  
@@ -922,9 +1005,11 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 **Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
 
 **EXAMPLE of REBOOT Statement:**
+
 ```BASIC
 REBOOT
 ```
+
 ### RESET
 
 **TYPE: Command**  
@@ -933,9 +1018,11 @@ REBOOT
 **Action:** Performs a software reset of the system.
 
 **EXAMPLE of RESET Statement:**
+
 ```BASIC
 RESET
 ```
+
 ### RESTORE
 
 **TYPE: Command**  
@@ -944,6 +1031,7 @@ RESET
 **Action:** This command resets the pointer for the `READ` command. Without arguments, it will reset the pointer to the first `DATA` constant in the program.  With a parameter `linenum`, the command will reset the pointer to the first `DATA` constant at or after that line number.
 
 **EXAMPLE of RESTORE Statement:**
+
 ```BASIC
 10 DATA 1,2,3
 20 DATA 4,5,6
@@ -953,7 +1041,9 @@ RESET
 60 READ Y
 70 PRINT Y
 ```
+
 This program will output the number 1 followed by the number 4.
+
 ### SCREEN
 
 **TYPE: Command**  
@@ -964,11 +1054,13 @@ This program will output the number 1 followed by the number 4.
 For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md). The value of -1 toggles between modes $00 and $03.
 
 **EXAMPLE of SCREEN Statement:**
+
 ```BASIC
 SCREEN 3 : REM SWITCH TO 40 CHARACTER MODE
 SCREEN 0 : REM SWITCH TO 80 CHARACTER MODE
 SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 ```
+
 ### SLEEP
 
 **TYPE: Command**  
@@ -979,6 +1071,7 @@ SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 Allowed values for `jiffies` is from 0 to 65535, inclusive.
 
 **EXAMPLE of SLEEP Statement:**
+
 ```BASIC
 10 FOR I=1 TO 10
 20 PRINT I
@@ -986,33 +1079,35 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 40 NEXT
 ```
 
-### SYS 
+### SYS
 
 **TYPE: Command**  
 **FORMAT: SYS &lt;address&gt;**
 
-**Action:** The SYS command executes a machine language subroutine located at &lt;address&gt;. 
-Execution continues until an RTS is executed, and control returns to the BASIC program. 
+**Action:** The SYS command executes a machine language subroutine located at &lt;address&gt;.
+Execution continues until an RTS is executed, and control returns to the BASIC program.
 
 In order to communicate with the routine, you can pre-load the CPU registers by using POKE to write to the following
 memory locations:
- 
- * `$030C`: Accumulator
- * `$030D`: X Register
- * `$030E`: Y Register
- * `$030F`: Status Register/Flags
 
-When the routine is over, the CPU registers will be loaded back in to these locations. So you can read the results of a machine language routine by PEEKing these locations. 
+* `$030C`: Accumulator
+* `$030D`: X Register
+* `$030E`: Y Register
+* `$030F`: Status Register/Flags
+
+When the routine is over, the CPU registers will be loaded back in to these locations. So you can read the results of a machine language routine by PEEKing these locations.
 
 **EXAMPLE of SYS statemet:**
 
-Push a &lt;CR&gt; into the keyboard buffer. 
+Push a &lt;CR&gt; into the keyboard buffer.
+
 ```
 POKE $30C,13
 SYS $FEC3
 ```
 
 Run the Machine Language Monitor (Supermon)
+
 ```
 SYS  $FECC
 ```
@@ -1025,9 +1120,11 @@ SYS  $FECC
 **Action:** Return a byte from the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 **EXAMPLE of VPEEK Function:**
+
 ```BASIC
 PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 ```
+
 ### VPOKE
 
 **TYPE: Command**  
@@ -1036,22 +1133,26 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 **Action:** Set a byte in the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 **EXAMPLE of VPOKE Statement:**
+
 ```BASIC
 VPOKE 1,$B000+1,1 * 16 + 2 : REM SETS THE COLORS OF THE CHARACTER
-							 REM AT 0/0 TO RED ON WHITE
+        REM AT 0/0 TO RED ON WHITE
 ```
+
 ### VLOAD
 
 **TYPE: Command**  
 **FORMAT: VLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
-	
+ 
 **Action:** Loads a file directly into VERA RAM, skipping the two-byte header that is presumed to be in the file.
 
 **EXAMPLES of VLOAD:**
-```BASIC	
+
+```BASIC 
 VLOAD "MYFILE.PRG", 8, 0, $4000  :REM LOADS MYFILE.PRG FROM DEVICE 8 TO VRAM $4000
                                   REM WHILE SKIPPING THE FIRST TWO BYTES OF THE FILE.
 ```
+
 To load a raw binary file without skipping the first two bytes, use [`BVLOAD`](#bvload)
 
 ## Other New Features
@@ -1059,9 +1160,11 @@ To load a raw binary file without skipping the first two bytes, use [`BVLOAD`](#
 ### Hexadecimal and Binary Literals
 
 The numeric constants parser supports both hex (`$`) and binary (`%`) literals, like this:
+
 ```BASIC
 PRINT $EA31 + %1010
 ```
+
 The size of hex and binary values is only restricted by the range that can be represented by BASIC's internal floating point representation.
 
 ### LOAD into VRAM
@@ -1069,6 +1172,7 @@ The size of hex and binary values is only restricted by the range that can be re
 In BASIC, the contents of files can be directly loaded into VRAM with the `LOAD` statement. When a secondary address greater than one is used, the KERNAL will now load the file into the VERA's VRAM address space. The first two bytes of the file are used as lower 16 bits of the address. The upper 4 bits are `(SA-2) & 0x0ff` where `SA` is the secondary address.
 
 Examples:
+
 ```BASIC
 10 REM LOAD VERA SETTINGS
 20 LOAD"VERA.BIN",1,17 : REM SET ADDRESS TO $FXXXX
@@ -1077,6 +1181,7 @@ Examples:
 50 REM LOAD MAP
 60 LOAD"MAP.BIN",1,2 : REM SET ADDRESS TO $0XXXX
 ```
+
 ### Default Device Numbers
 
 In BASIC, the LOAD, SAVE and OPEN statements default to the last-used IEEE device (device numbers 8 and above), or 8.

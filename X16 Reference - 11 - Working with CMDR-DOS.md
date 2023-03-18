@@ -153,12 +153,12 @@ To actually read the error channel and clear the error status, you need to read 
 A is the error number. B$ is the error message. C and D are unused in CMDR-DOS, but will return the track and sector when
 used with a disk drive on the IEC connector. 
 
-```
+```BASIC
 40 PRINT A;B$;C;D
 50 CLOSE 15
 ```
 
-So the entire program looks like: 
+So the entire program looks like:
 
 ```BASIC
 10 OPEN 15,8,15, "CD:/"
@@ -172,7 +172,7 @@ You can also use the DOS command to send a command to CMDR-DOS. Entering DOS by 
 the screen. Entering a command in quotes or a string variable will execute the command. We will talk more about the 
 status variable and DOS status message in the next section. 
 
-```
+```BASIC
 DOS
 00, 0K, 00, 00
 READY.
