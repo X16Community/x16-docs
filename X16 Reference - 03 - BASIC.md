@@ -258,12 +258,12 @@ BOOT
 
 **TYPE: Command**  
 **FORMAT: BLOAD &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;address&gt;**
- 
+
 **Action:** Loads a binary file directly into RAM, advancing the RAM bank if necessary. This does not change the active RAM bank as controlled by the `BANK` command, but after this command, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
 **EXAMPLES of BLOAD:**
 
-```BASIC 
+```BASIC
 BLOAD "MYFILE.BIN",8,1,$A000:REM LOADS A FILE NAMED MYFILE.BIN FROM DEVICE 8 STARTING IN BANK 1 AT $A000.
 BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN BANK 10 AT $B000.
 ```
@@ -272,7 +272,7 @@ BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN B
 
 **TYPE: Command**  
 **FORMAT: BSAVE &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;start address&gt;, &lt;end address&gt;**
- 
+
 **Action:** Saves a region of memory to a binary file.
 
 Note: The save will stop one byte before `end address`.
@@ -297,12 +297,12 @@ The above example appends a region of memory from $A000 through and including $A
 
 **TYPE: Command**  
 **FORMAT: BVLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
- 
+
 **Action:** Loads a binary file directly into VERA RAM.
 
 **EXAMPLES of BVLOAD:**
 
-```BASIC 
+```BASIC
 BVLOAD "MYFILE.BIN", 8, 0, $4000  :REM LOADS MYFILE.BIN FROM DEVICE 8 TO VRAM $4000.
 BVLOAD "MYFONT.BIN", 8, 1, $F000  :REM LOAD A FONT INTO THE DEFAULT FONT LOCATION ($1F000).
 ```
@@ -627,7 +627,7 @@ This command sets a byte in NVRAM on the RTC to the value `$80`
 
 **Action:** Return the state of a joystick.
 
-`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](#function-name-joystick_get) for details.
+`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](X16%20Reference%20-%2004%20-%20KERNAL.md#function-name-joystick_get) for details.
 
 If no controller is connected to the SNES port (or no keyboard is connected), the function returns -1. Otherwise, the result is a bit field, with pressed buttons `OR`ed together:
 
@@ -1108,7 +1108,7 @@ SYS $FEC3
 
 Run the Machine Language Monitor (Supermon)
 
-```
+```BASIC
 SYS  $FECC
 ```
 
@@ -1136,19 +1136,19 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 
 ```BASIC
 VPOKE 1,$B000+1,1 * 16 + 2 : REM SETS THE COLORS OF THE CHARACTER
-        REM AT 0/0 TO RED ON WHITE
+                           : REM AT 0/0 TO RED ON WHITE
 ```
 
 ### VLOAD
 
 **TYPE: Command**  
 **FORMAT: VLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
- 
+
 **Action:** Loads a file directly into VERA RAM, skipping the two-byte header that is presumed to be in the file.
 
 **EXAMPLES of VLOAD:**
 
-```BASIC 
+```BASIC
 VLOAD "MYFILE.PRG", 8, 0, $4000  :REM LOADS MYFILE.PRG FROM DEVICE 8 TO VRAM $4000
                                   REM WHILE SKIPPING THE FIRST TWO BYTES OF THE FILE.
 ```

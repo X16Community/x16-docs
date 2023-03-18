@@ -1,0 +1,8 @@
+{
+    "default":true,
+    "MD036": false,
+    "MD013":false,
+    "code-block-style" :{
+        "style": "fenced"
+    }
+}
