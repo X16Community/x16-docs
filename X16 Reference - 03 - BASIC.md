@@ -75,6 +75,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
 | `LOG` | function | Returns the natural logarithm of a number | C64 |
+| [`MENU`](#menu) | command | Invokes the Commander X16 utility menu | X16 |
 | `MID$` | function | Returns a substring from the middle of a string | C64 |
 | [`MON`](#mon) | command | Enters the machine language monitor | X16 |
 | [`MOUSE`](#mouse) | command | Hides or shows mouse pointer | X16 |
@@ -724,6 +725,19 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 170 :  Y=Y0+R*SIN(T)
 180 :  LOCATEY,X:PRINTCHR$($12);" ";
 190 NEXT
+```
+
+### MENU
+
+**TYPE: Command**  
+**FORMAT: MENU**
+
+**Action:** This command currently invokes the Commander X16 Control Panel. In the future, the menu may instead present a menu of ROM-based applications and routines.
+
+**EXAMPLE of MON Statement:**
+
+```BASIC
+MENU
 ```
 
 ### MON

@@ -15,11 +15,16 @@ The editor's default mode is 80x60 text mode. The following text mode resolution
 | $04  | 40x15 text  |
 | $05  | 20x30 text  |
 | $06  | 20x15 text  |
+| $07  | 22x23 text  |
+| $08  | 64x50 text  |
+| $09  | 64x25 text  |
+| $0A  | 32x50 text  |
+| $0B  | 32x25 text  |
 | $80  | 320x240@256c<br/>40x30 text |
 
 Mode $80 contains two layers: a text layer on top of a graphics screen. In this mode, text color 0 is translucent instead of black.
 
-To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In BASIC, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
+To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In the BASIC editor, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
 
 ## ISO Mode
 
