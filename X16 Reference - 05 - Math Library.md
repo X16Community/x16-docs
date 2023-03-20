@@ -70,7 +70,7 @@ The following calls are not part of the C128/C65 API.
 | $FE7E | DIV10    | FAC /= 10                                       |
 | $FE81 | MOVEF    | ARG = FAC                                       |
 | $FE84 | SGN      | FAC = sgn(FAC)                                  |
-| $FE87 | FLOAT    | FAC = (u8).A                                    |
+| $FE87 | FLOAT    | FAC = (s8).A                                    |
 | $FE8A | FLOATS   | FAC = (s16)facho+1:facho                        |
 | $FE8D | QINT     | facho:facho+1:facho+2:facho+2 = u32(FAC)        |
 | $FE90 | FINLOG   | FAC += (s8).A                                   |
