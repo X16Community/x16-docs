@@ -28,7 +28,7 @@ For the audio chips, some of the documentation uses the words *channel* and *voi
 
 | Label | Address | Class | Description | Inputs | Returns | Preserves |
 |-|-|-|-|-|-|-|
-| `audio_init` | `$C09F` | - | Wrapper routine that calls both `psg_init` and `ym_init`. This is the routine called by the KERNAL at reset. | none | none | none |
+| `audio_init` | `$C09F` | - | Wrapper routine that calls both `psg_init` and `ym_init` followed by `ym_loaddefpatches`. This is the routine called by the KERNAL at reset. | none | none | none |
 | `bas_fmchordstring` | `$C08D` | BASIC | Starts playing all of notes specified in a string. This uses the same parser as `bas_fmplaystring` but instead of playing the notes in sequence, it starts playback of each note in the string, on many channels as is necessary, then returns to the caller without delay. The first FM channel that is used is the one specified by calling `bas_playstringvoice` prior to calling this routine. The string pointer must point to low RAM (`$0000`-`$9EFF`). | .A = string length <br/> .X .Y = pointer to string | none | none |
 | `bas_fmfreq` | `$C000` | BASIC | Plays a note specified in Hz on an FM channel | .A = channel <br/> .X .Y = 16-bit frequency in Hz <br/> .C clear = normal <br/> .C set = no retrigger | .C clear = success <br/> .C set = error | none |
 | `bas_fmnote` | `$C003` | BASIC | Plays a note specified in BASIC format on an FM channel | .A = channel <br/> .X = note (BASIC format) </br> .Y = fractional semitone <br/> .C clear = normal <br/> .C set = no retrigger | .C clear = success <br/> .C set = error | none |
