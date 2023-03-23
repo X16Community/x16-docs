@@ -762,6 +762,8 @@ Error returns: None
 
 **Description:** This function shows a given sprite (.A) at a certain position or hides it. The position is passed in r0 and r1. If the x position is negative (>$8000), the sprite will be hidden.
 
+**Note**: This routine only supports setting the position for sprite numbers 0-31.
+
 ---
 
 ### Framebuffer
