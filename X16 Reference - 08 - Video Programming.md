@@ -6,15 +6,17 @@ See the [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for th
 
 The X16 KERNAL uses the following video memory layout:
 
-|Addresses    |Description                                   |
-|-------------|----------------------------------------------|
-|$00000-$12BFF|320x240@256c Bitmap                           |
-|$12C00-$12FFF|*unused*                                      |
-|$13000-$1AFFF|Sprites ($1000 per sprite)                    |
-|$1B000-$1EBFF|Text Mode                                     |
-|$1EC00-$1EFFF|*unused*                                      |
-|$1F000-$1F7FF|Charset                                       |
-|$1F800-$1F9BF|*unused*                                      |
-|$1F9C0-$1FFFF|VERA internal (PSG, Palette, Sprite Registers)|
+| Addresses     | Description                                               |
+|---------------|-----------------------------------------------------------|
+| $00000-$12BFF | 320x240@256c Bitmap                                       |
+| $12C00-$12FFF | *unused*                                                  |
+| $13000-$1AFFF | Sprite image data (up to $1000 per sprite at 64x64 8-bit) |
+| $1B000-$1EBFF | Text Mode                                                 |
+| $1EC00-$1EFFF | *unused*                                                  |
+| $1F000-$1F7FF | Charset                                                   |
+| $1F800-$1F9BF | *unused*                                                  |
+| $1F9C0-$1F9FF | VERA PSG registers (16 x 4 bytes)                         |
+| $1FA00-$1FBFF | VERA color Palette (256 x 2 bytes)                        |
+| $1FC00-$1FFFF | VERA Sprite attributes (128 x 8 bytes)                    |
 
 Application software is free to use any part of video RAM if it does not use the corresponding KERNAL functionality. To restore text mode, call `CINT` ($FF81).
