@@ -224,7 +224,6 @@ $FF44: `MACPTR` - read multiple bytes from peripheral bus
 
 #### Function Name: ACPTR
 
----
 Purpose: Read a byte from the peripheral bus  
 Call address: $FFA5  
 Communication registers: .A  
@@ -238,7 +237,6 @@ Registers affected: .A, .X, .Y, .P
 
 #### Function Name: MACPTR
 
----
 Purpose: Read multiple bytes from the peripheral bus  
 Call address: $FF44  
 Communication registers: .A, .X, .Y, .C  
