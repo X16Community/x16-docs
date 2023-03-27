@@ -184,7 +184,7 @@ On boot, the US layout (`ABC/X16`) is active:
 | Shift+Alt+`b`     | ²      |
 | Shift+Alt+`/`     | ¿      |
 
-(The X16 logo is code point \xad, SHY, soft-hyphen.)
+(The X16 logo is code point \\xad, SHY, soft-hyphen.)
 
 The following combinations are dead keys:
 
@@ -206,7 +206,7 @@ The following combinations are dead keys:
 
 They generate additional characters when combined with a second keypress:
 
-| First<br/>Key      | Second<br/>Key | Result |
+| First <br/>Key      | Second <br/>Key | Result |
 |--------------------|-----|---|
 | Alt+<tt>&#96;</tt> | `a` | à |
 | Alt+<tt>&#96;</tt> | `e` | è |
@@ -218,7 +218,7 @@ They generate additional characters when combined with a second keypress:
 | Alt+<tt>&#96;</tt> | `I` | Ì |
 | Alt+<tt>&#96;</tt> | `O` | Ò |
 | Alt+<tt>&#96;</tt> | `U` | Ù |
-| Alt+<tt>&#96;</tt> | `␣` | ` |
+| Alt+<tt>&#96;</tt> | `␣` | &#96; |
 | Alt+`6`            | `e` | ê |
 | Alt+`6`            | `u` | û |
 | Alt+`6`            | `i` | î |
@@ -270,14 +270,14 @@ They generate additional characters when combined with a second keypress:
 | Alt+`n`            | `O` | Õ |
 | Alt+`n`            | `A` | Ã |
 | Alt+`n`            | `N` | Ñ |
-| Shift+Alt+`s`      | `␣` | \xa0 |
+| Shift+Alt+`s`      | `␣` | \\xa0 |
 | Shift+Alt+`;`      | `=` | × |
 
 "␣" denotes the space bar.
 
 ### ROM Keyboard Layouts
 
-Pressing the `F9` key cycles through the keyboard layouts stored in ROM, in the following order:
+The following keyboard layouts are available from ROM. You can select one directly with the BASIC `KEYMAP` command, e.g. `KEYMAP"ABC/X16"`, or via the X16 Control Panel with the BASIC `MENU` command.
 
 | Identifier  | Description                         | Code                                       |
 |-------------|-------------------------------------|--------------------------------------------|
@@ -321,7 +321,7 @@ The BASIC command `KEYMAP` allows activating a specific keyboard layout. It can 
 
 The tables for the active keyboard layout reside in banked RAM, at $A000 on bank 0:
 
-| Adresses    | Description |
+| Addresses   | Description |
 |-------------|-------------|
 | $A000-$A07F | Table 0     |
 | $A080-$A0FF | Table 1     |
@@ -452,14 +452,14 @@ The following Function key macros are pre-defined for your convenience. These sh
 | Key | Function   | Comment
 |-----|------------|-----------
 | F1  | LIST:      | Lists the current program
-| F2  | SAVE"      | Press F2 and then type a filename to save your program.<br/>Remember the @: if necessary.
+| F2  | SAVE"@:    | Press F2 and then type a filename to save your program. The `@:` instructs DOS to allow overwrite.
 | F3  | LOAD "     | Load a file directly, or cursor up over a file listing and press F3 to load a program.
-| F4  | 40/80      | Toggles the 40/80 column screen mode, clearing the screen.
+| F4  | 40/80      | Toggles between 40 and 80 column screen modes, clearing the screen. Pressing return is required to prevent accidental mode switches.
 | F5  | RUN:       | Run the current program.
 | F6  | MONITOR    | Opens the Supermon machine language monitor.
 | F7  | DOS"$`<cr>`| Displays a directory listing.
 | F8  | DOS"       | Issue DOS commands.
-| F9  | layout     | Cycles through keyboard layouts. <br/> `LAYOUT "ABC/X16"` to reset
+| F9  | -          | Not defined.  Formerly cycled through keyboard layouts. Instead, use the `MENU` command to enter the X16 Control Panel, select one, and optionally save the layout as a boot preference.
 | F10 | -          | Not defined
 | F11 | -          | Not defined
 | F12 | debug      | debug features in emulators

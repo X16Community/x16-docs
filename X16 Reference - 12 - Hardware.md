@@ -272,9 +272,9 @@ User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for ser
 | D5      |  5  |. .|  6  | D4      | 
 | D3      |  7  |. .|  8  | D2      |
 | D1      |  9  |. .| 10  | D0      |
-| \IO1    | 11  |. .| 12  | RESB    |
-| \MEMWE  | 13  |. .| 14  | IRQB    |
-| A4      | 15  |. .| 16  | \MEMOE  |
+| /IO1    | 11  |. .| 12  | RESB    |
+| /MEMWE  | 13  |. .| 14  | IRQB    |
+| A4      | 15  |. .| 16  | /MEMOE  |
 | A2      | 17  |. .| 18  | A3      | 
 | A0      | 19  |. .| 20  | A1      |
 | GND     | 21  |. .| 22  | GND     |

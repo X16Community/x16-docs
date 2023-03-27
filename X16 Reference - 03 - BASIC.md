@@ -166,7 +166,7 @@ The BASIC interpreter also currently shares all problems of the C64 version, lik
 
 ## Saving Files
 
-By default, you cannot automatically overwrite a file with SAVE, BSAVE, or OPEN. To overwrite a file, you must prefix the filename with `@:`, like this: `SAVE "@:HELLO WORLD"`. (`"@0:filename` is also acceptable.)
+By default, you cannot automatically overwrite a file with SAVE, BSAVE, or OPEN. To overwrite a file, you must prefix the filename with `@:`, like this: `SAVE "@:HELLO WORLD"`. (`"@0:filename"` is also acceptable.)
 
 This follows the Commodore convention, which extended to all of their diskette drives and third party hard drives and flash drive readers.
 
@@ -188,7 +188,7 @@ Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.m
 
 ## New Statements and Functions
 
-There are several new statement and functions. Note that all BASIC keywords (such as `FOR`) get converted into tokens (such as `$81`), and the tokens for the new keywords have not been finalized yet. Therefore, loading BASIC program saved from a different revision of BASIC may mix up keywords.
+There are several new statement and functions. Note that all BASIC keywords (such as `FOR`) get converted into tokens (such as `$81`), and the tokens for the new keywords have likely shifted from one ROM version to the next. Therefore, loading BASIC program saved from an old revision of BASIC may mix up keywords. As of ROM version R42, the keyword token positions should no longer shift and programs saved in R42 BASIC should be compatible with future versions.
 
 ### ASC
 
