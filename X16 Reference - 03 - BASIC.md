@@ -104,11 +104,11 @@ for GitHub's Markdown flavor. Do not remove!
 | [`PSGVOL`](#psgvol) | command | Sets voice volume on VERA PSG | X16 |
 | [`PSGWAV`](#psgwav) | command | Sets waveform on VERA PSG | X16 |
 | `READ` | command | Assigns the next `DATA` constant to one or more variables | C64 |
+| [`REBOOT`](#reboot) | command | Performs a warm reboot of the system | X16 |
 | [`RECT`](#rect) | command | Draws a filled rectangle in graphics mode | X16 |
 | `REM` | command | Declares a comment | C64 |
-| [`REBOOT`](#reboot) | command | Performs a hard reboot on the system | X16 |
-| [`REN`](#ren) | command | Renumbers a BASIC program | TED |
-| [`RESET`](#reset) | command | Performs a warm reset on the system | X16 |
+| [`REN`](#ren) | command | Renumbers a BASIC program | X16 |
+| [`RESET`](#reset) | command | Performs a hard reset of the system | X16 |
 | [`RESTORE`](#restore) | command | Resets the `READ` pointer to a `DATA` constant | C64 |
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
@@ -1017,7 +1017,7 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 **TYPE: Command**  
 **FORMAT: REBOOT**
 
-**Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
+**Action:** Performs a software reset of the system by calling the ROM reset vector.
 
 **EXAMPLE of REBOOT Statement:**
 
@@ -1072,7 +1072,7 @@ READY.
 **TYPE: Command**  
 **FORMAT: RESET**
 
-**Action:** Performs a software reset of the system.
+**Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
 
 **EXAMPLE of RESET Statement:**
 
