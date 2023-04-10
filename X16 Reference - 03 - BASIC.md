@@ -104,10 +104,11 @@ for GitHub's Markdown flavor. Do not remove!
 | [`PSGVOL`](#psgvol) | command | Sets voice volume on VERA PSG | X16 |
 | [`PSGWAV`](#psgwav) | command | Sets waveform on VERA PSG | X16 |
 | `READ` | command | Assigns the next `DATA` constant to one or more variables | C64 |
+| [`REBOOT`](#reboot) | command | Performs a warm reboot of the system | X16 |
 | [`RECT`](#rect) | command | Draws a filled rectangle in graphics mode | X16 |
 | `REM` | command | Declares a comment | C64 |
-| [`REBOOT`](#reboot) | command | Performs a hard reboot on the system | X16 |
-| [`RESET`](#reset) | command | Performs a warm reset on the system | X16 |
+| [`REN`](#ren) | command | Renumbers a BASIC program | X16 |
+| [`RESET`](#reset) | command | Performs a hard reset of the system | X16 |
 | [`RESTORE`](#restore) | command | Resets the `READ` pointer to a `DATA` constant | C64 |
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
@@ -1016,7 +1017,7 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 **TYPE: Command**  
 **FORMAT: REBOOT**
 
-**Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
+**Action:** Performs a software reset of the system by calling the ROM reset vector.
 
 **EXAMPLE of REBOOT Statement:**
 
@@ -1024,12 +1025,54 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 REBOOT
 ```
 
+### REN
+
+**TYPE: Command**  
+**FORMAT: REN [&lt;new line num&gt;[, &lt;increment&gt;[, &lt;first old line num&gt;]]]**
+
+**Action:** Renumbers a BASIC program while updating the line number arguments of GOSUB, GOTO, RESTORE, RUN, and THEN.
+
+Optional arguments:
+- The line number of the first line after renumbering, default: **10**
+- The value of the increment for subsequent lines, default **10**
+- The earliest old line to start renumbering at, default: **0**
+
+**THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
+
+**EXAMPLE of REN Statement:**
+
+```BASIC
+10 PRINT "HELLO"
+20 DATA 1,2,3
+30 DATA 4,5,6
+40 READ X
+50 PRINT X
+60 RESTORE 30
+70 READ X
+80 PRINT X
+90 GOTO 10
+
+REN 100,5
+
+LIST
+100 PRINT "HELLO"
+105 DATA 1,2,3
+110 DATA 4,5,6
+115 READ X
+120 PRINT X
+125 RESTORE 110
+130 READ X
+135 PRINT X
+140 GOTO 100
+READY.
+```
+
 ### RESET
 
 **TYPE: Command**  
 **FORMAT: RESET**
 
-**Action:** Performs a software reset of the system.
+**Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
 
 **EXAMPLE of RESET Statement:**
 
