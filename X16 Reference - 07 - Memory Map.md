@@ -120,7 +120,7 @@ essentially expansion cards which are housed in an external enclosure and may co
 and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space, though
 this could cause conflicts.
 
-For more informaiton, consult the (Hardware)[X16%20Reference%20-12%20-%20Hardware.md] section of the manual.
+For more informaiton, consult the [Hardware](X16%20Reference%20-12%20-%20Hardware.md) section of the manual.
 
 ---
 
