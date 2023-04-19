@@ -70,9 +70,9 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 | 5	  |+CLK	  | Clock
 | 6	  | NC    | Not Connected
 
-### Expansion Ports
+### Expansion Cards / Cartridges
 
-The expansion ports can be used for ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines.
+The expansion slots can be used for RAM/ROM cartridges or I/O modules and contain the full CPU address and data bus, plus the ROM bank select lines, stereo audio, and 5 IO select lines.
 
 The expansion/cartridge port is a 60-pin edge connector with 2.54mm pitch. Pin 1 is in the rear-left corner.
 
@@ -109,8 +109,8 @@ The expansion/cartridge port is a 60-pin edge connector with 2.54mm pitch. Pin 1
 |    +5V |  57 |\[ \]| 58 | GND   |
 |   +12V |  59 |\[ \]| 60 | -12V  |
 
-
-To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte address ranges.
+To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO (MMIO)
+address ranges.
 
 | Address     | Description 
 |-------------|------------------
@@ -121,15 +121,41 @@ To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte addr
 | $9FC0-$9FDF | IO6
 | $9FE0-$9FFF | IO7
 
-Expansion boards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
+Expansion cards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
+
+ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips (typically used by cartridges,
+see below). This allows for a total of 3.5MB of address space in the $C000-FFFF address range.
 
 SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards.
-
-ROMB0-ROMB7 are connected to the ROM bank latch at address $01. Values 0-31 ($00-$1F) address the on-board ROM chips, and 32-255 are itended for expansion ROM or RAM chips. This allows for a total of 3.5MB of address space in the $C000-FFFF address range.
 
 AUDIO_L and AUDIO_R are routed to J10, the audio option header.
 
 The other pins are connected to the system bus and directly to the 65C02 processor.
+
+#### Cartridges
+
+Cartridges are essentially an expansion card housed in an external enclosure. Typically they are 
+used for applications (e.g. games) with the X16 being able to boot directly from a cartridge at
+power on. Typically they contain a mix of banked ROM and/or RAM and an optional I2C EEPROM 
+(for storing game save states).
+
+They can also function as an expansion card which means they can also use MMIO. Similarly an internal
+expansion card could contain RAM/ROM as well.
+
+Because of this, while develoeprs are free to use the hardware as they please, there are open 
+discussions on suggested best practices for using cartridges and expansion cards. For example, 
+there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. Similarly,
+a cartridge can use MMIO (and doing so allows for nice features such as accelerator co-processors),
+but care must be taken to avoid MMIO being used by internal cards. 
+
+One proposal is to reserve one of the MMIO address ranges for cartridges. These conversations
+are on-going such that the final best practices as well as the final cartridge and expansion card
+designs may change.
+
+##### Booting from Cartridges
+
+After the X16 finishes it's hardware initialization, the kernel checks bank 32 for the signature "CX16"
+at `$C000`. If found, it then jumps to `$C004` and leaves interrupts disabled.
 
 ### ATX Power Supply
 
