@@ -1,30 +1,32 @@
 # Chapter 7: Memory Map
 
-The Commander X16 has 64 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM. Some of the ROM and RAM is always visible at certain address ranges, while the remaining ROM and RAM is banked into one of two address windows.
+The Commander X16 has 512 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM with up to 3.5MB of RAM or ROM available to cartridges.
+
+Some of the ROM/RAM is always visible at certain address ranges, while the remaining ROM/RAM is banked into one of two address windows. 
 
 This is an overview of the X16 memory map:
 
-|Addresses  |Description                                                       |
-|-----------|------------------------------------------------------------------|
-|$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)								   |
-|$9F00-$9FFF|I/O Area (256 bytes)											   |
-|$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)|
-|$C000-$FFFF|Banked ROM (16 KB window into one of 32 banks for a total of 512 KB) |
+|Addresses  |Description                                                                             |
+|-----------|----------------------------------------------------------------------------------------|
+|$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)						                                 |
+|$9F00-$9FFF|I/O Area (256 bytes)										                             |
+|$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)                      |
+|$C000-$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 255 banks, see below) |
 
 ## Banked Memory
 
-The currently enabled RAM and ROM banks can be configured by writing to zero page locations 0 and 1:
+Writing to the following zero-page addresses sets the desired RAM or ROM bank:
 
-|Address  |Description              |
-|---------|-------------------------|
-|$0000    |Current RAM bank (0-255) |
-|$0001    |Current ROM bank (0-31)  |
+|Address  |Description                                                   |
+|---------|--------------------------------------------------------------|
+|$0000    |Current RAM bank (0-255)                                      |
+|$0001    |Current ROM/Cartridge bank (ROM is 0-31, Cartridge is 32-255) |
 
-The currently set banks can also be read back from the respective memory locations. Both settings default to 0 on RESET. The upper three bits of location 1 are undefined.
+The currently set banks can also be read back from the respective memory locations. Both settings default to 0 on RESET.
 
 ## ROM Allocations
 
-This is the allocation of the banks of banked ROM:
+Here is the ROM/Cartridge bank allocation:
 
 |Bank|Name   |Description                                            |
 |----|-------|-------------------------------------------------------|
@@ -39,9 +41,17 @@ This is the allocation of the banks of banked ROM:
 |8   |GRAPH  |Kernal graph and font routines                         |
 |9   |DEMO   |Demo routines                                          |
 |10  |AUDIO  |Audio routines                                         |
-|11-31|–      |*[Currently unused]*                                   |
+|11-31|–     |*[Currently unused]*                                   |
+|32-255|–    |Cartridge RAM/ROM                                      |
 
-**Important**: The layout of the banks is still constantly changing.
+**Important**: The layout of the banks may still change.
+
+#### Cartridge Allocation
+
+Cartridges can use the remaining 32-255 banks in any combination of ROM, RAM, Memory-Mapped IO, etc. See Kevin's reference cartridge design
+for ideas on how this may be used. This provides up to 3.5MB of additional RAM or ROM.
+
+**Important**: The layout of the banks is not yet final.
 
 ## RAM Contents
 
@@ -55,7 +65,7 @@ This is the allocation of fixed RAM in the KERNAL/BASIC environment.
 |$0400-$07FF|Available for machine code programs or custom data storage      |
 |$0800-$9EFF|BASIC program/variables; available to the user                  |
 
-The $0400-$07FF can be seen as the equivalent of $C000-$CFFF on a C64. A typical use would be for helper machine code called by BASIC.
+The `$0400-$07FF` can be seen as the equivalent of `$C000-$CFFF` on a C64. A typical use would be for helper machine code called by BASIC.
 
 ### Zero Page
 
