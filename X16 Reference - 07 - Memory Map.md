@@ -115,18 +115,18 @@ This is the memory map of the I/O Area:
 
 #### Expansion Cards & Cartridges
 
-Expansion cards can be access via memory-mapped I/O as well as I2C.
+Expansion cards can be access via memory-mapped I/O (MMIO) as well as I2C.
 
 For memory-mapped IO, `$9F60-$9FFF` can be used. Cards can use as much of this memory as desired though
 it is *highly* recommended to only use the above 32-byte seqments which can be set via jumpers on an expansion card. 
 This allows multiple cards to be used in a system without conflicts.
 
-Cartriges are a special type of expansion card that is meant to be housed in an internal shell and and typically
+Cartriges are a special type of expansion card that is meant to be housed in an external shell and and typically
 would come with a mix of RAM, ROM and EEPROM. The intent is to use these for applications (games) but they can
 also function like an internal expansion card and in fact both are really two sides of the same coin.
 
 This means cartridges can also use expansion card MMIO. Currently there is no standard on how this should work,
-but a loose proposal was suggested (on Discord) for pre-allocating one of the above segments for cartridge us
+but a loose proposal was suggested (on Discord) for pre-allocating one of the above segments for cartridge 
 by default. This would allow cartridges to have expansion chips while making it easy to interface with those 
 devices via memory mapped I/O (just as one would if using an expansion card).
 
