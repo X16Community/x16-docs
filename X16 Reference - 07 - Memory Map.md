@@ -28,21 +28,23 @@ The currently set banks can also be read back from the respective memory locatio
 
 Here is the ROM/Cartridge bank allocation:
 
-|Bank|Name   |Description                                            |
-|----|-------|-------------------------------------------------------|
-|0   |KERNAL |KERNAL operating system and drivers                    |
-|1   |KEYBD  |Keyboard layout tables                                 |
-|2   |CBDOS  |The computer-based CBM-DOS for FAT32 SD cards          |
-|3   |GEOS   |GEOS KERNAL                                            |
-|4   |BASIC  |BASIC interpreter                                      |
-|5   |MONITOR|Machine Language Monitor                               |
-|6   |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
-|7   |CODEX  |CodeX16 Interactive Assembly Environment / Monitor     |
-|8   |GRAPH  |Kernal graph and font routines                         |
-|9   |DEMO   |Demo routines                                          |
-|10  |AUDIO  |Audio routines                                         |
-|11-31|–     |*[Currently unused]*                                   |
-|32-255|–    |Cartridge RAM/ROM                                      |
+|Bank  |Name   |Description                                            |
+|------|-------|-------------------------------------------------------|
+|0     |KERNAL |KERNAL operating system and drivers                    |
+|1     |KEYBD  |Keyboard layout tables                                 |
+|2     |CBDOS  |The computer-based CBM-DOS for FAT32 SD cards          |
+|3     |GEOS   |GEOS KERNAL                                            |
+|4     |BASIC  |BASIC interpreter                                      |
+|5     |MONITOR|Machine Language Monitor                               |
+|6     |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
+|7     |CODEX  |CodeX16 Interactive Assembly Environment / Monitor     |
+|8     |GRAPH  |Kernal graph and font routines                         |
+|9     |DEMO   |Demo routines                                          |
+|10    |AUDIO  |Audio routines                                         |
+|11    |UTIL   |System Configuration (Date/Time,Screen,Autoboot)       |
+|12    |BANNEX |BASIC Annex                                            |
+|13-31 |–      |*[Currently unused]*                                   |
+|32-255|–      |Cartridge RAM/ROM                                      |
 
 **Important**: The layout of the banks may still change.
 
@@ -98,14 +100,38 @@ During startup, the KERNAL activates RAM bank 1 as the default for the user.
 
 This is the memory map of the I/O Area:
 
-|Addresses  |Description                  |
-|-----------|-----------------------------|
-|$9F00-$9F0F|VIA I/O controller #1        |
-|$9F10-$9F1F|VIA I/O controller #2        |
-|$9F20-$9F3F|VERA video controller        |
-|$9F40-$9F41|YM2151 audio controller      |
-|$9F42-$9F5F|Reserved                     |
-|$9F60-$9FFF|External devices             |
+|Addresses  |Description                         |
+|-----------|------------------------------------|
+|$9F00-$9F0F|VIA I/O controller #1               |
+|$9F10-$9F1F|VIA I/O controller #2               |
+|$9F20-$9F3F|VERA video controller               |
+|$9F40-$9F41|YM2151 audio controller             |
+|$9F42-$9F5F|Reserved                            |
+|$9F60-$9F7F|Expansion Card Memory Mapped IO3    |
+|$9F80-$9F9F|Expansion Card Memory Mapped IO4    |
+|$9FA0-$9FBF|Expansion Card Memory Mapped IO5    |
+|$9FC0-$9FDF|Expansion Card Memory Mapped IO6    |
+|$9FE0-$9FFF|Expansion Card Memory Mapped IO7    |
+
+#### Expansion Cards & Cartridges
+
+Expansion cards can be access via memory-mapped I/O as well as I2C.
+
+For memory-mapped IO, `$9F60-$9FFF` can be used. Cards can use as much of this memory as desired though
+it is *highly* recommended to only use the above 32-byte seqments which can be set via jumpers on an expansion card. 
+This allows multiple cards to be used in a system without conflicts.
+
+Cartriges are a special type of expansion card that is meant to be housed in an internal shell and and typically
+would come with a mix of RAM, ROM and EEPROM. The intent is to use these for applications (games) but they can
+also function like an internal expansion card and in fact both are really two sides of the same coin.
+
+This means cartridges can also use expansion card MMIO. Currently there is no standard on how this should work,
+but a loose proposal was suggested (on Discord) for pre-allocating one of the above segments for cartridge us
+by default. This would allow cartridges to have expansion chips while making it easy to interface with those 
+devices via memory mapped I/O (just as one would if using an expansion card).
+
+This also means expansion cards could contain their own RAM/ROM but this could have implications for cases
+where someone wants to, say, play a game via a cartrdge and use an expansion card at the same time.
 
 ---
 
