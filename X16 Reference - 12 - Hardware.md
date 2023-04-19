@@ -7,8 +7,8 @@ This chapter covers pinout for the I/O ports and headers.
 * SNES Controller Ports (x2)
 * IEC Port
 * PS/2 Keyboard and mouse
-* Expansion Ports (x4)
-* User Port header
+* Expansion Slots (x4 in Gen1)
+* User Port Header
 * ATX Power Supply
 * Front Panel
 
@@ -143,14 +143,17 @@ They can also function as an expansion card which means they can also use MMIO. 
 expansion card could contain RAM/ROM as well.
 
 Because of this, while develoeprs are free to use the hardware as they please, there are open 
-discussions on suggested best practices for using cartridges and expansion cards. For example, 
-there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. Similarly,
-a cartridge can use MMIO (and doing so allows for nice features such as accelerator co-processors),
-but care must be taken to avoid MMIO being used by internal cards. 
+discussions on suggested best practices for using cartridges and expansion cards to avoid a
+poor user experience and or compatibility issues. 
+
+For example, there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. 
+Similarly, a cartridge can use MMIO (and doing so allows for nice features such as accelerator 
+co-processors), but care must be taken to avoid MMIO being used by internal cards. 
 
 One proposal is to reserve one of the MMIO address ranges for cartridges. These conversations
 are on-going such that the final best practices as well as the final cartridge and expansion card
-designs may change.
+designs may change. To emphasize as well, these are neighborly best practices and not 
+hard standards.
 
 ##### Booting from Cartridges
 
