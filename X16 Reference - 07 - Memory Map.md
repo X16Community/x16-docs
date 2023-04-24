@@ -11,7 +11,7 @@ This is an overview of the X16 memory map:
 |$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)						                                 |
 |$9F00-$9FFF|I/O Area (256 bytes)										                             |
 |$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)                      |
-|$C000-$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 255 banks, see below) |
+|$C000-$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 256 banks, see below) |
 
 ## Banked Memory
 
