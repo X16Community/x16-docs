@@ -282,10 +282,10 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 
 | Address range   | Description                |
 | --------------- | -------------------------- |
-| $00000 - $1F9BF | Video RAM                  |
-| $1F9C0 - $1F9FF | PSG registers              |
-| $1FA00 - $1FBFF | Palette                    |
-| $1FC00 - $1FFFF | Sprite attributes          |
+| \$00000 - \$1F9BF | Video RAM                  |
+| \$1F9C0 - \$1F9FF | PSG registers              |
+| \$1FA00 - \$1FBFF | Palette                    |
+| \$1FC00 - \$1FFFF | Sprite attributes          |
 
 ***Important note:
 Video RAM locations 1F9C0-1FFFF contain registers for the PSG/Palette/Sprite attributes. Reading anywhere in VRAM will always read back the 128kB VRAM itself (not the contents of the (write-only) PSG/Palette/Sprite attribute registers). Writing to a location in the register area will write to the registers in addition to writing the value also to VRAM. Since the VRAM contains random values at startup the values read back in the register area will not correspond to the actual values in the write-only registers until they are written to once.

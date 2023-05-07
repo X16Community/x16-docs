@@ -7,7 +7,7 @@ The Commander X16 is a modern home computer in the philosophy of Commodore compu
 * 8-bit 65C02 CPU at 8 MHz
 * 512 KB or 2 MB RAM banked RAM
 * 512 KB ROM
-* Expansion Cards (Gen 1) & Catridges (Gen 1 and Gen 2)
+* Expansion Cards (Gen 1) & Cartridges (Gen 1 and Gen 2)
 	* Up to 3.5MB of RAM/ROM
 	* 5 32-byte Memory-Mapped IO slots
 * VERA video controller
@@ -30,4 +30,4 @@ As a modern sibling of the line of Commodore home computers, the Commander X16 i
 
 * Pure BASIC programs are fully backwards compatible with the VIC-20 and the C64.
 * POKEs for video and audio are not compatible with any Commodore computer. (There are no VIC or SID chips, for example.)
-* Pure machine language programs ($FF81+ KERNAL API) are compatible with Commodore computers.
+* Pure machine language programs (\$FF81+ KERNAL API) are compatible with Commodore computers.

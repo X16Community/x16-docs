@@ -48,16 +48,16 @@ The system management controller (SMC) is device $42 on the I2C bus. It controls
 
 | Register | Value    | Description               |
 |----------|----------|---------------------------|
-| $01      | $00      | Power off                 |
-| $01      | $01      | Hard reboot               |
-| $02      | $00      | Inject RESET              |
-| $03      | $00      | Inject NMI                |
-| $04      | $00..$FF | Power LED brightness      |
-| $05      | $00..$FF | Activity LED brightness   |
-| $07      | -        | Read from keyboard buffer |
-| $18      | -        | Read ps2 status           |
-| $19      | $00..$FF | Send ps2 command          |
-| $21      | -        | Read from mouse buffer    |
+| \$01      | \$00      | Power off                 |
+| \$01      | \$01      | Hard reboot               |
+| \$02      | \$00      | Inject RESET              |
+| \$03      | \$00      | Inject NMI                |
+| \$04      | \$00..\$FF | Power LED brightness      |
+| \$05      | \$00..\$FF | Activity LED brightness   |
+| \$07      | -        | Read from keyboard buffer |
+| \$18      | -        | Read ps2 status           |
+| \$19      | \$00..\$FF | Send ps2 command          |
+| \$21      | -        | Read from mouse buffer    |
 
 #### Real-Time-Clock
 
@@ -65,40 +65,40 @@ The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (
 
 | Register | Description        |
 |----------|--------------------|
-| $00      | Clock seconds      |
-| $01      | Clock minutes      |
-| $02      | Clock hours        |
-| $03      | Clock weekday      |
-| $04      | Clock day          |
-| $05      | Clock month        |
-| $06      | Clock year         |
-| $07      | Control            |
-| $08      | Oscillator trim    |
-| $09      | *reserved*         |
-| $0A      | Alarm 0 seconds    |
-| $0B      | Alarm 0 minutes    |
-| $0C      | Alarm 0 hours      |
-| $0D      | Alarm 0 weekday    |
-| $0E      | Alarm 0 day        |
-| $0F      | Alarm 0 month      |
-| $10      | *reserved*         |
-| $11      | Alarm 1 seconds    |
-| $12      | Alarm 1 minutes    |
-| $13      | Alarm 1 hours      |
-| $14      | Alarm 1 weekday    |
-| $15      | Alarm 1 day        |
-| $16      | Alarm 1 month      |
-| $17      | *reserved*         |
-| $18      | Power-fail minutes |
-| $19      | Power-fail hours   |
-| $1A      | Power-fail day     |
-| $1B      | Power-fail month   |
-| $1C      | Power-up minutes   |
-| $1D      | Power-up hours     |
-| $1E      | Power-up day       |
-| $1F      | Power-up month     |
-| $20-$5F  | 64 Bytes SRAM      |
+| \$00      | Clock seconds      |
+| \$01      | Clock minutes      |
+| \$02      | Clock hours        |
+| \$03      | Clock weekday      |
+| \$04      | Clock day          |
+| \$05      | Clock month        |
+| \$06      | Clock year         |
+| \$07      | Control            |
+| \$08      | Oscillator trim    |
+| \$09      | *reserved*         |
+| \$0A      | Alarm 0 seconds    |
+| \$0B      | Alarm 0 minutes    |
+| \$0C      | Alarm 0 hours      |
+| \$0D      | Alarm 0 weekday    |
+| \$0E      | Alarm 0 day        |
+| \$0F      | Alarm 0 month      |
+| \$10      | *reserved*         |
+| \$11      | Alarm 1 seconds    |
+| \$12      | Alarm 1 minutes    |
+| \$13      | Alarm 1 hours      |
+| \$14      | Alarm 1 weekday    |
+| \$15      | Alarm 1 day        |
+| \$16      | Alarm 1 month      |
+| \$17      | *reserved*         |
+| \$18      | Power-fail minutes |
+| \$19      | Power-fail hours   |
+| \$1A      | Power-fail day     |
+| \$1B      | Power-fail month   |
+| \$1C      | Power-up minutes   |
+| \$1D      | Power-up hours     |
+| \$1E      | Power-up day       |
+| \$1F      | Power-up month     |
+| \$20-\$5F  | 64 Bytes SRAM      |
 
-The second half of the RTC's SRAM (NVRAM) is reserved for use by the KERNAL.  $20-$3F is available for use by user programs.
+The second half of the RTC's SRAM (NVRAM) is reserved for use by the KERNAL.  \$20-\$3F is available for use by user programs.
 
 For more information, please refer to this device's datasheet.

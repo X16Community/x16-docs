@@ -1,0 +1,42 @@
+name: Build PRG PDF
+on: [push, pull_request]
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential make fonts-noto fonts-dejavu texlive-full
+      - name: Install pandoc 3.1.2
+        run: |
+          wget https://github.com/jgm/pandoc/releases/download/3.1.2/pandoc-3.1.2-1-amd64.deb
+          sudo apt install ./pandoc-3.1.2-1-amd64.deb
+      - name: Create output directory
+        run: |
+          mkdir artifacts
+      - name: Create PRG PDF
+        run: |
+          pandoc Comm*.md X16*0[1-9]*.md X16*[1-9][0-9]*.md X16*Appendix*.md \
+            -f gfm \
+            --file-scope \
+            --template=.gh/template.tex \
+            --from=markdown-markdown_in_html_blocks+grid_tables \
+            --lua-filter=.gh/parse-html.lua \
+            -V linkcolor:blue \
+            -V geometry:letterpaper \
+            -V geometry:landscape \
+            -V geometry:margin=2cm \
+            -V fontsize=8pt \
+            -V mainfont="Noto Serif" \
+            -V monofont="Noto Sans Mono" \
+            --pdf-engine=lualatex \
+            -o artifacts/Programmers_Reference_Guide.pdf
+      - uses: actions/upload-artifact@v3
+        with:
+          name: x16-docs-pdf
+          path: artifacts/*
+
