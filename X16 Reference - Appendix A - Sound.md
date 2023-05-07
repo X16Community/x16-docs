@@ -1,4 +1,4 @@
-# Appendix A - Sound
+# Appendix A: Sound
 
 ## FM instrument patch presets
 | # | Instrument Name | | # | Instrument Name |

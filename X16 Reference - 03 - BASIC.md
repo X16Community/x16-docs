@@ -153,7 +153,7 @@ The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commod
   * `CHR$(18)`: reverse
   * `CHR$(14)`: switch to upper/lowercase font
   * `CHR$(142)`: switch to uppercase/graphics font
-* The BASIC vector table ($0300-$030B, $0311/$0312)
+* The BASIC vector table (\$0300-\$030B, \$0311/\$0312)
 * [SYS](#sys) arguments in RAM
 
 Because of the differences in hardware, the following functions and statements are incompatible between C64 and X16 BASIC programs.
@@ -211,11 +211,11 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 ### BIN$
 
 **TYPE: String Function**  
-**FORMAT: BIN$(n)**
+**FORMAT: BIN\$(n)**
 
 **Action:** Return a string representing the binary value of n. If n <= 255, 8 characters are returned and if 255 < n <= 65535, 16 characters are returned.
 
-**EXAMPLE of BIN$ Function:**
+**EXAMPLE of BIN\$ Function:**
 
 ```BASIC
 PRINT BIN$(200)   : REM PRINTS 11001000 AS BINARY REPRESENTATION OF 200
@@ -287,13 +287,13 @@ This command does not allow for automatic bank advancing, but you can achieve a 
 BSAVE "MYFILE.BIN",8,1,$A000,$C000
 ```
 
-The above example saves a region of memory from $A000 in bank 1 through and including $BFFF, stopping before $C000.
+The above example saves a region of memory from \$A000 in bank 1 through and including \$BFFF, stopping before \$C000.
 
 ```BASIC
 BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 ```
 
-The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
+The above example appends a region of memory from \$A000 through and including \$AFFF, stopping before \$B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 ### BVLOAD
 
@@ -578,14 +578,14 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 
 **Action:** Enter the GEOS UI.
 
-### HEX$
+### HEX\$
 
 **TYPE: String Function**  
-**FORMAT: HEX$(n)**
+**FORMAT: HEX\$(n)**
 
 **Action:** Return a string representing the hexadecimal value of n. If n <= 255, 2 characters are returned and if 255 < n <= 65535, 4 characters are returned.
 
-**EXAMPLE of HEX$ Function:**
+**EXAMPLE of HEX\$ Function:**
 
 ```BASIC
 PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
@@ -635,18 +635,18 @@ If no controller is connected to the SNES port (or no keyboard is connected), th
 
 | Value  | Button |
 |--------|--------|
-| $800   | A      |
-| $400   | X      |
-| $200   | L      |
-| $100   | R      |
-| $080   | B      |
-| $040   | Y      |
-| $020   | SELECT |
-| $010   | START  |
-| $008   | UP     |
-| $004   | DOWN   |
-| $002   | LEFT   |
-| $001   | RIGHT  |
+| \$800   | A      |
+| \$400   | X      |
+| \$200   | L      |
+| \$100   | R      |
+| \$080   | B      |
+| \$040   | Y      |
+| \$020   | SELECT |
+| \$010   | START  |
+| \$008   | UP     |
+| \$004   | DOWN   |
+| \$002   | LEFT   |
+| \$001   | RIGHT  |
 
 Note that this bitfield is different from the `joystick_get` KERNEL API one. Also note that the keyboard joystick will allow LEFT and RIGHT as well as UP and DOWN to be pressed at the same time, while controllers usually prevent this mechanically.
 
@@ -1032,10 +1032,10 @@ REBOOT
 
 **Action:** Renumbers a BASIC program while updating the line number arguments of GOSUB, GOTO, RESTORE, RUN, and THEN.
 
-Optional arguments:
-- The line number of the first line after renumbering, default: **10**
-- The value of the increment for subsequent lines, default **10**
-- The earliest old line to start renumbering at, default: **0**
+Optional arguments:  
+- The line number of the first line after renumbering, default: **10**  
+- The value of the increment for subsequent lines, default **10**  
+- The earliest old line to start renumbering at, default: **0**  
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
@@ -1108,7 +1108,7 @@ This program will output the number 1 followed by the number 4.
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md). The value of -1 toggles between modes $00 and $03.
+For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md). The value of -1 toggles between modes \$00 and \$03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1247,12 +1247,12 @@ In BASIC, the LOAD, SAVE and OPEN statements default to the last-used IEEE devic
 
 Like on the C64, BASIC keywords are tokenized.
 
-* The C64 BASIC V2 keywords occupy the range of $80 (`END`) to $CB (`GO`).
-* BASIC V3.5 also used $CE (`RGR`) to $FD (`WHILE`).
-* BASIC V7 introduced the $CE escape code for function tokens $CE-$02 (`POT`) to $CE-$0A (`POINTER`), and the $FE escape code for statement tokens $FE-$02 (`BANK`) to $FE-$38 (`SLOW`).
-* The unreleased BASIC V10 extended the escaped tokens up to $CE-$0D (`RPALETTE`) and $FE-$45 (`EDIT`).
+* The C64 BASIC V2 keywords occupy the range of \$80 (`END`) to \$CB (`GO`).
+* BASIC V3.5 also used \$CE (`RGR`) to \$FD (`WHILE`).
+* BASIC V7 introduced the \$CE escape code for function tokens \$CE-\$02 (`POT`) to \$CE-\$0A (`POINTER`), and the \$FE escape code for statement tokens \$FE-\$02 (`BANK`) to \$FE-\$38 (`SLOW`).
+* The unreleased BASIC V10 extended the escaped tokens up to \$CE-\$0D (`RPALETTE`) and \$FE-\$45 (`EDIT`).
 
-The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges $CE-$80+ and $FE-$80+.
+The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges \$CE-\$80+ and \$FE-\$80+.
 
 ## Auto-Boot
 

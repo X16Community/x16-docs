@@ -5,19 +5,19 @@
 The Commander X16 provides many convenience routines for controlling the YM2151 and VERA PSG. These are called similarly to how KERNAL API calls are done in machine language.
 
 In order to gain access to these routines, you must either use `jsrfar` from the KERNAL API:
-```
-  AUDIO_BANK = $0A
+```ASM
+AUDIO_BANK = $0A
   
-  jsr jsrfar  ; $FF6E
-  .word ym_init ; $C063
-  .byte AUDIO_BANK
+jsr jsrfar  ; $FF6E
+.word ym_init ; $C063
+.byte AUDIO_BANK
 ```
 
 or switch to ROM bank `$0A` directly:
 
-```
-  lda #$0A ; Audio bank number
-  sta $01  ; ROM bank register
+```ASM
+lda #$0A ; Audio bank number
+sta $01  ; ROM bank register
 ```
 
 Conveniently, the KERNAL API still exists in this bank, and calling a KERNAL API routine will automatically switch your ROM bank back to the KERNAL bank to perform the routine and then switch back right before returning, so there's usually no need for your audio-centric program to switch away from the audio bank to perform the occasional KERNAL API call.
@@ -139,33 +139,36 @@ Lastly, the `BUSY` flag sometimes takes a (very) short period before it goes hig
 
 ### Example Code: ###
 
-  **Assembly Language:**
+**Assembly Language:**
 
-    check_busy:
-      BIT YM_data      ; check busy flag
-      BMI check_busy   ; wait until busy flag is clear
-      LDA #$08         ; Select YM register $08 (Key-Off/On)
-      STA YM_addr      ;
-      NOP              ;<-+
-      NOP              ;  |
-      NOP              ;  +--slight pause before writing data
-      NOP              ;  |
-      NOP              ;<-+
-      LDA #$04         ; Write $04 (Release note on channel 4).
-      STA YM_data
-      RTS
+```ASM
+check_busy:
+    BIT YM_data      ; check busy flag
+    BMI check_busy   ; wait until busy flag is clear
+    LDA #$08         ; Select YM register $08 (Key-Off/On)
+    STA YM_addr      ;
+    NOP              ;<-+
+    NOP              ;  |
+    NOP              ;  +--slight pause before writing data
+    NOP              ;  |
+    NOP              ;<-+
+    LDA #$04         ; Write $04 (Release note on channel 4).
+    STA YM_data
+    RTS
+```
 
-  **BASIC:**
-
-    10 YA=$9F40      : REM YM_ADDRESS
-    20 YD=$9F41      : REM YM_DATA
-    30 POKE YA,$29   : REM CHANNEL 1 NOTE SELECT
-    40 POKE YD,$4A   : REM SET NOTE = CONCERT A
-    50 POKE YA,$08   : REM SELECT THE KEY ON/OFF REGISTER
-    60 POKE YD,$00+1 : REM RELEASE ANY NOTE ALREADY PLAYING ON CHANNEL 1
-    70 POKE YD,$78+1 : REM KEY-ON VOICE 1 TO PLAY THE NOTE
-    80 FOR I=1 TO 100 : NEXT I : REM DELAY WHILE NOTE PLAYS
-    90 POKE YD,$00+1 : REM RELEASE THE NOTE
+**BASIC:**
+```BASIC
+10 YA=$9F40      : REM YM_ADDRESS
+20 YD=$9F41      : REM YM_DATA
+30 POKE YA,$29   : REM CHANNEL 1 NOTE SELECT
+40 POKE YD,$4A   : REM SET NOTE = CONCERT A
+50 POKE YA,$08   : REM SELECT THE KEY ON/OFF REGISTER
+60 POKE YD,$00+1 : REM RELEASE ANY NOTE ALREADY PLAYING ON CHANNEL 1
+70 POKE YD,$78+1 : REM KEY-ON VOICE 1 TO PLAY THE NOTE
+80 FOR I=1 TO 100 : NEXT I : REM DELAY WHILE NOTE PLAYS
+90 POKE YD,$00+1 : REM RELEASE THE NOTE
+```
 
 ## YM2151 Internal Addressing
 
@@ -182,20 +185,17 @@ Range|Type|Description
 #### Global Settings:
 <table>
   <tr>
-    <th rowspan="2">Addr</th>
-    <th rowspan="2">Register</th>
-    <th colspan="8">Bits</th>
-    <th rowspan="2">Description</th>
-  </tr>
-  <tr>
-    <th>7</th>
-    <th>6</th>
-    <th>5</th>
-    <th>4</th>
-    <th>3</th>
-    <th>2</th>
-    <th>1</th>
-    <th>0</th>
+    <th>Addr</th>
+    <th>Register</th>
+    <th>Bit 7</th>
+    <th>Bit 6</th>
+    <th>Bit 5</th>
+    <th>Bit 4</th>
+    <th>Bit 3</th>
+    <th>Bit 2</th>
+    <th>Bit 1</th>
+    <th>Bit 0</th>
+    <th>Description</th>
   </tr>
   <tr>
     <td>$01</td>
@@ -269,19 +269,6 @@ Range|Type|Description
     <td>Timer B period setting</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-    <th>7</th>
-    <th>6</th>
-    <th>5</th>
-    <th>4</th>
-    <th>3</th>
-    <th>2</th>
-    <th>1</th>
-    <th>0</th>
-    <td></td>
-  </tr>
-
-  <tr>
     <td>$14</td>
     <td>IRQ Control</td>
     <td>CSM</td>
@@ -317,7 +304,8 @@ Range|Type|Description
   </tr>
   <tr>
     <td>1</td>
-    <td colspan="7">PMD
+    <td colspan="7">PMD</td>
+  </tr>
   <tr>
     <td>$1B</td>
     <td>CT / LFO Waveform</td>
@@ -341,19 +329,16 @@ Range|Type|Description
 #### Channel CFG Registers:
 <table>
   <tr>
-    <th rowspan="2">Register Range</th>
-    <th colspan="8">Register bits</th>
-    <th rowspan="2">Description
-  </tr>
-  <tr>
-    <th>7</th>
-    <th>6</th>
-    <th>5</th>
-    <th>4</th>
-    <th>3</th>
-    <th>2</th>
-    <th>1</th>
-    <th>0</th>
+    <th>Register Range</th>
+    <th>Bit 7</th>
+    <th>Bit 6</th>
+    <th>Bit 5</th>
+    <th>Bit 4</th>
+    <th>Bit 3</th>
+    <th>Bit 2</th>
+    <th>Bit 1</th>
+    <th>Bit 0</th>
+    <th>Description</th>
   </tr>
   <tr>
     <td>$20 + channel</td>
@@ -396,20 +381,17 @@ Range|Type|Description
 #### Operator CFG Registers:
 <table>
   <tr>
-    <th rowspan="2">Register<br />Range</th>
-    <th rowspan="2">Operator</th>
-    <th colspan="8">Register Bits</th>
-    <th rowspan="2">Description</th>
-  </tr>
-  <tr>
-    <th>7</th>
-    <th>6</th>
-    <th>5</th>
-    <th>4</th>
-    <th>3</th>
-    <th>2</th>
-    <th>1</th>
-    <th>0</th>
+    <th>Register Range</th>
+    <th>Operator</th>
+    <th>Bit 7</th>
+    <th>Bit 6</th>
+    <th>Bit 5</th>
+    <th>Bit 4</th>
+    <th>Bit 3</th>
+    <th>Bit 2</th>
+    <th>Bit 1</th>
+    <th>Bit 0</th>
+    <th>Description</th>
   </tr>
   <tr>
     <td rowspan="4" valign="top">$40</td>
@@ -557,14 +539,14 @@ Range|Type|Description
 
 **LR** (LFO Reset)
 
-Register $01, bit 1
+Register \$01, bit 1
 
 Setting this bit will disable the LFO and hold it at level 0. Clearing this bit
 allows the LFO to operate as normal. (See LFRQ for further info)
 
 **KON** (KeyON)
 
-Register $08
+Register \$08
 
 * Bits 0-2: Channel_Number
 
@@ -574,31 +556,31 @@ Register $08
   * 1->1: No effect
 
 Use this register to start/stop notes. Typically, all 4 operators are triggered/released
-together at once. Writing a value of $78+channel_number will start a note on all 4 OPs,
-and writing a value of $00+channel_number will stop a note on all 4 OPs.
+together at once. Writing a value of \$78+channel_number will start a note on all 4 OPs,
+and writing a value of \$00+channel_number will stop a note on all 4 OPs.
 
 **NE** (Noise Enable)
 
-Register $0F, Bit 7
+Register \$0F, Bit 7
 
 When set, the C2 operator of channel 7 will use a noise waveform instead of a sine.
 
 **NFRQ** (Noise Frequency)
 
-Register $0F, Bits 0-4
+Register \$0F, Bits 0-4
 
-Sets the noise frequency, $00 is the lowest and $1F is the highest. NE bit must be
+Sets the noise frequency, \$00 is the lowest and \$1F is the highest. NE bit must be
 set in order for this to have any effect. Only affects operator C2 on channel 7.
 
 **CLKA1** (Clock A, high order bits)
 
-Register $10, Bits 0-7
+Register \$10, Bits 0-7
 
 This is the high-order value for Clock A (a 10-bit value).
 
 **CLKA2** (Clock A, low order bits)
 
-Register $11, Bits 0-1
+Register \$11, Bits 0-1
 
 Sets the 2 low-order bits for Clock A (a 10-bit value).
 
@@ -607,25 +589,25 @@ Computed as (64*(1024-ClkA)) / PhiM ms.  (PhiM = 3579.545Khz)
 
 **CLKB** (Clock B)
 
-Register $12, Bits 0-7
+Register \$12, Bits 0-7
 
 Sets the Clock B period. The period for Timer B is computed as (1024*(256-CLKB)) / PhiM ms. (PhiM = 3579.545Khz)
 
 **CSM**
 
-Register $14, Bit 7
+Register \$14, Bit 7
 
 When set, the YM2151 will generate a KeyON attack on all 8 channels whenever TimerA overflows.
 
 **Clock ACK**
 
-Register $14, Bits 4-5
+Register \$14, Bits 4-5
 
 Clear (acknowledge) IRQ status generated by TimerA and TimerB (respectively).
 
 **IRQ EN**
 
-Register $14, Bits 2-3
+Register \$14, Bits 2-3
 
 When set, enables IRQ generation when TimerA or TimerB (respectively) overflow.
 The IRQ status of the two timers is checked by reading from the YM2151_STATUS byte.
@@ -634,42 +616,42 @@ bits are only active if the timer has overflowed AND has its IRQ_EN bit set.
 
 **Clock Start**
 
-Register $14, Bits 0-1
+Register \$14, Bits 0-1
 
 When set, these bits clear the TimerA and TimerB (respectively) counters and starts
 it running.
 
 **LFRQ** (LFO Frequency)
 
-Register $18, Bits 0-7
+Register \$18, Bits 0-7
 
 Sets the LFO frequency.
-* $00 = ~0.008Hz
-* $FF = ~32.6Hz
+* \$00 = ~0.008Hz
+* \$FF = ~32.6Hz
 
-Note that even setting the value zero here results in a positive LFO frequency. Any channels sensitive to the LFO will still be affected by the LFO unless the `LR` bit is set in register $01 to completely disable it.
+Note that even setting the value zero here results in a positive LFO frequency. Any channels sensitive to the LFO will still be affected by the LFO unless the `LR` bit is set in register \$01 to completely disable it.
 
 **AMD** (Amplitude Modulation Depth)
 
-Register $19 Bits 0-6, Bit 7 clear
+Register \$19 Bits 0-6, Bit 7 clear
 
-Sets the peak strength of the LFO's Amplitude Modulation effect. Note that bit 7 of the value written into $19 must be clear in order to set the AMD. If bit 7 is set, the write will be interpreted as PMD.
+Sets the peak strength of the LFO's Amplitude Modulation effect. Note that bit 7 of the value written into \$19 must be clear in order to set the AMD. If bit 7 is set, the write will be interpreted as PMD.
 
 **PMD** (Phase Modulation Depth)
 
-Register $19 Bits 0-6, Bit 7 set
+Register \$19 Bits 0-6, Bit 7 set
 
-Sets the peak strength of the LFO's Phase Modulation effect. Note that bit 7 of the value written into $19 must be set in order to set the PMD. If bit 7 is clear, the value is interpreted as AMD.
+Sets the peak strength of the LFO's Phase Modulation effect. Note that bit 7 of the value written into \$19 must be set in order to set the PMD. If bit 7 is clear, the value is interpreted as AMD.
 
 **CT** (Control pins)
 
-Register $1B, Bits 6-7
+Register \$1B, Bits 6-7
 
 These bits set the electrical state of the two CT pins to on/off. These pins are not connected to anything in the X16 and have no effect.
 
 **W** (LFO Waveform)
 
-Register $1B, Bits 0-1
+Register \$1B, Bits 0-1
 
 Sets the LFO waveform:
 0: Sawtooth, 1: Square (50% duty cycle), 2: Triangle, 3: Noise
@@ -678,19 +660,19 @@ Sets the LFO waveform:
 
 **RL** (Right/Left output enable)
 
-Register $20 (+ channel), Bits 6-7
+Register \$20 (+ channel), Bits 6-7
 
 Setting/Clearing these bits enables/disables audio output for the selected channel. (bit6=left, bit7=right)
 
 **FB** (M1 Self-Feedback)
 
-Register $20 (+ channel), bits 3-5
+Register \$20 (+ channel), bits 3-5
 
 Sets the amount of self feedback on operator M1 for the selected channel. 0=none, 7=max
 
 **CON** (Connection Algorithm)
 
-Register $20 (+ channel), bits 0-2
+Register \$20 (+ channel), bits 0-2
 
 Sets the selected channel to connect the 4 operators in one of 8 arrangements.
 
@@ -698,27 +680,27 @@ Sets the selected channel to connect the 4 operators in one of 8 arrangements.
 
 **KC** (Key Code - Note selection)
 
-Register $28 + channel, bits 0-6
+Register \$28 + channel, bits 0-6
 
 Sets the octave and semitone for the selected channel.
 Bits 4-6 specify the octave (0-7) and bits 0-3 specify the semitone:
 
 0|1|2|4|5|6|8|9|A|C|D|E
 -|-|-|-|-|-|-|-|-|-|-|-
-c#|d|d#|e|f|f#|g|g#|a|a#|b|c
+C&#9839;|D|D&#9839;|E|F|F&#9839;|G|G&#9839;|A|A&#9839;|B|C
 
 Note that natural C is at the TOP of the selected octave, and that
-each 4th value is skipped. Thus if concert A (A-4, 440hz) is KC=$4A, then middle C is KC=$3E
+each 4th value is skipped. Thus if concert A (A-4, 440hz) is KC=\$4A, then middle C is KC=\$3E
 
 **KF** (Key Fraction)
 
-Register $30 + channel, Bits 2-7
+Register \$30 + channel, Bits 2-7
 
 Raises the pitch by 1/64th of a semitone * the KF value.
 
 **PMS** (Phase Modulation Sensitivity)
 
-Register $38 + channel, Bits 4-6
+Register \$38 + channel, Bits 4-6
 
 Sets the Phase Modulation (vibrato) sensitivity of the selected channel. The resulting vibrato depth is determined by the combination of the global PMD setting (see above) modified by each channel's PMS.
 
@@ -730,7 +712,7 @@ Sensitivity values: (+/- cents)
 
 **AMS** (Amplitude Modulation Sensitivity)
 
-Register $38 + channel, Bits 0-1
+Register \$38 + channel, Bits 0-1
 
 Sets the Amplitude Modulation sensitivity of the selected channel. Note that each operator may individually enable or disable this effect on its output by setting/clearing the AMS-Ena bit (see below). Operators acting as outputs will exhibit a tremolo effect (varying volume) and operators acting as modulators will vary their effectiveness on the timbre when enabled for amplitude modulation.
 
@@ -750,12 +732,12 @@ index|0|1|2|3
 
 These are the names used throughout this document for consistency, but they may function as either modulators or carriers, depending on which `CON` ALG is used.
 
-The Operator Control parameters are mapped to channels/operators as follows: Register + 8\*op + channel. You may also choose to think of these register addresses as using bits 0-2 = channel, bits 3-4 = operator, and bits 5-7 = parameter. This reference will refer to them using the address range, e.g. $60-$7F = TL. To set TL for channel 2, operator 1, the register address would be $6A ($60 + 1\*8 + 2).
+The Operator Control parameters are mapped to channels/operators as follows: Register + 8\*op + channel. You may also choose to think of these register addresses as using bits 0-2 = channel, bits 3-4 = operator, and bits 5-7 = parameter. This reference will refer to them using the address range, e.g. \$60-\$7F = TL. To set TL for channel 2, operator 1, the register address would be \$6A (\$60 + 1\*8 + 2).
 
 
 **DT1** (Detune 1 - fine detune)
 
-Registers $40-$5F, Bits 4-6
+Registers \$40-\$5F, Bits 4-6
 
 Detunes the operator from the channel's main pitch. Values 0 and 4=no detuning.
 Values 1-3=detune up, 5-7 = detune down.<br/>
@@ -763,68 +745,68 @@ The amount of detuning varies with pitch. It decreases as the channel's pitch in
 
 **MUL** (Frequency Multiplier)
 
-Registers $40-$5F, Bits 0-3
+Registers \$40-\$5F, Bits 0-3
 
 If MUL=0, it multiplies the operator's frequency by 0.5<br/>
 Otherwise, the frequency is multiplied by the value in MUL (1,2,3...etc)
 
 **TL** (Total Level - attenuation)
 
-Registers $60-$7F, Bits 0-6
+Registers \$60-\$7F, Bits 0-6
 
-This is essentially "volume control" - It is an attenuation value, so $00 = maximum level and $7F is minimum level. On output operators, this is the volume output by that operator. On modulating operators, this affects the amount of modulation done to other operators.
+This is essentially "volume control" - It is an attenuation value, so \$00 = maximum level and \$7F is minimum level. On output operators, this is the volume output by that operator. On modulating operators, this affects the amount of modulation done to other operators.
 
 **KS** (Key Scaling)
 
-Registers $80-$9F, Bits 6-7
+Registers \$80-\$9F, Bits 6-7
 
 Controls the speed of the ADSR progression. The KS value sets four different levels of scaling. Key scaling increases along with the pitch set in KC. 0=min, 3=max
 
 **AR** (Attack Rate)
 
-Registerss $80-$9F, Bits 0-4
+Registers \$80-\$9F, Bits 0-4
 
-Sets the attack rate of the ADSR envelope. 0=slowest, $1F=fastest
+Sets the attack rate of the ADSR envelope. 0=slowest, \$1F=fastest
 
 **AMS-Enable** (Amplitude Modulation Sensitivity Enable)
 
-Registers $A0-$BF, Bit 7
+Registers \$A0-\$BF, Bit 7
 
 If set, the operator's output level will be affected by the LFO according to the channel's AMS setting. If clear, the operator will not be affected.
 
 **D1R** (Decay Rate 1)
 
-Registers $A0-$BF, Bits 0-4
+Registers \$A0-\$BF, Bits 0-4
 
-Controls the rate at which the level falls from peak down to the sustain level (D1L). 0=none, $1F=fastest.
+Controls the rate at which the level falls from peak down to the sustain level (D1L). 0=none, \$1F=fastest.
 
 **DT2** (Detune 2 - coarse)
 
-Registers $C0-$DF, Bits 6-7
+Registers \$C0-\$DF, Bits 6-7
 
 Sets a strong detune amount to the operator's frequency. Yamaha suggests that this is most useful for sound effects. 0=off,
 
 **D2R** (Decay Rate 2)
 
-Registers $C0-$DF, Bits 0-4
+Registers \$C0-\$DF, Bits 0-4
 
 Sets the Decay2 rate, which takes effect once the level has fallen from peak down to the sustain level (D1L). This rate continues
 until the level reaches zero or until the note is released.
 
-0=none, $1F=fastest
+0=none, \$1F=fastest
 
 **D1L**
 
-Registers $E0-$FF, Bits 4-7
+Registers \$E0-\$FF, Bits 4-7
 
-Sets the level at which the ADSR envelope changes decay rates from D1R to D2R. 0=minimum (no D2R), $0F=maximum (immediately at peak, which effectively disables D1R)
+Sets the level at which the ADSR envelope changes decay rates from D1R to D2R. 0=minimum (no D2R), \$0F=maximum (immediately at peak, which effectively disables D1R)
 
 
 **RR**
 
-Registers $E0-$FF, Bitst 0-3
+Registers \$E0-\$FF, Bitst 0-3
 
-Sets the rate at which the level drops to zero when a note is released. 0=none, $0F=fastest
+Sets the rate at which the level drops to zero when a note is released. 0=none, \$0F=fastest
 
 <br/>
 
@@ -845,7 +827,7 @@ For this tutorial, we will start with the simplest operation, (triggering notes)
 
 ## Triggering and Releasing Notes: ###
 
-**Key On/Off (KON) Register ($08):**
+**Key On/Off (KON) Register (\$08):**
 
 This is probably the most important single register in the YM2151. It is used to trigger and release notes. It controls the key on/off state for all 8 channels. A note is triggered whenever its key state changes from off to on, and is released whenever the state changes from on to off. Repeated writes of the same state (off->off or on->on) have no effect.
 
@@ -853,20 +835,22 @@ Whenever an operator is triggered, it progresses through the states of attack, d
 
 Key state and voice selection are both contained in the value written into the KON register as follows:
 
-* Key ON = $78 + channel number
-* Key OFF = $0 + channel number
+* Key ON = \$78 + channel number
+* Key OFF = \$0 + channel number
 
 **Simple Examples:**
 
-To release the note in channel 4: write $08 to `YM_address` ($9F40) and then write $04 ($00+4) to `YM_data` ($9F41).
+To release the note in channel 4: write \$08 to `YM_address` (\$9F40) and then write \$04 (\$00+4) to `YM_data` (\$9F41).
 
-To begin a note on channel 7, write $08 into `YM_address` to select the KON register. Then write $7F ($78+7) into `YM_data`
+To begin a note on channel 7, write \$08 into `YM_address` to select the KON register. Then write \$7F (\$78+7) into `YM_data`
 
 If the current key state of a channel is not known, you can write key off and then key on immediately (after waiting for the YM busy period to end, of course):
 
-    POKE $9F40,$08 : REM SELECT KEY ON/OFF REGISTER
-    POKE $9F41,$07 : REM KEY OFF FOR VOICE 7
-    POKE $9F41,$7F : REM KEY ON  FOR VOICE 7
+```BASIC
+POKE $9F40,$08 : REM SELECT KEY ON/OFF REGISTER
+POKE $9F41,$07 : REM KEY OFF FOR VOICE 7
+POKE $9F41,$7F : REM KEY ON  FOR VOICE 7
+```
 
 *Remember: BASIC is slow enough that you do not need to poll the `YM_status` byte, but assembly and other languages will need to do so.*
 
@@ -874,11 +858,12 @@ The ADSR parameters will be discussed in more detail later.
 
 **Advanced:**
 
-Each channel (voice) of the YM2151 uses 4 operators which can be gated together or independently. Independent triggering gives lots of advanced possibilities. To trigger and release operators independently, you use different values than $78 or $00. These values are composed by 4 bits which signal the on/off state for each operator.
+Each channel (voice) of the YM2151 uses 4 operators which can be gated together or independently. Independent triggering gives lots of advanced possibilities. To trigger and release operators independently, you use different values than \$78 or \$00. These values are composed by 4 bits which signal the on/off state for each operator.
 
-Suppose a note is playing on channel 2 with all 4 operators active. You can release only the M1 operator by writing $72 into register $08.
+Suppose a note is playing on channel 2 with all 4 operators active. You can release only the M1 operator by writing \$72 into register \$08.
 
 **The KON value format:**
+
 <table>
   <tr>
     <td>7</td>
@@ -903,11 +888,11 @@ Suppose a note is playing on channel 2 with all 4 operators active. You can rele
 ## Pitch Control
 
 **YM Registers:**
-* `KC` = $28 + channel number
-* `KF` = $30 + channel number
+* `KC` = \$28 + channel number
+* `KF` = \$30 + channel number
 
 For note selection, each voice has two parameters: `KC` (Key Code) and `KF` (Key Fraction).
-These are set in register ranges $28 and $30, respectively. The KC codes correspond
+These are set in register ranges \$28 and \$30, respectively. The KC codes correspond
 directly to the notes of the chromatic scale. Each value maps to a specific octave & semitone. The `KF` value can even be ignored
 for basic musical playback. It is mostly useful for vibrato or pitch bend effects. `KF` raises
 the pitch selected in `KC` in 1/64th increments of the way up to the next semitone.
@@ -919,7 +904,7 @@ Like all registers in the YM, whenever a channel's `KC` or `KF` value is written
 `KC` codes are "conveniently" arranged so that the upper nybble is the octave (0-7) and the
 lower nybble is the pitch. The pitches are arranged as follows within an octave:
 
-Note|C#|D|D#|E|F|F#|G|G#|A|A#|B|C
+Note|C&#9839;|D|D&#9839;|E|F|F&#9839;|G|G&#9839;|A|A&#9839;|B|C
 --|-|-|-|-|-|-|-|-|-|-|-|-
 Low Nybble (hex)|0|1|2|4|5|6|8|9|A|C|D|E
 
@@ -935,32 +920,34 @@ Combine the above with an octave to get a note's `KC` value. For instance: conce
 The patch configuration is by far the most complicated aspect of using the YM. If you take as given that a voice has a patch loaded, then playing notes on it is fairly straightforward. For the
 moment, we will assume a pre-patched voice.
 
-  To get started quickly, here is some BASIC code to patch voice 0 with a marimba tone:
+To get started quickly, here is some BASIC code to patch voice 0 with a marimba tone:
 
-    5 YA=$9F40 : YD=$9F41 : V=0
-    10 REM: MARIMBA PATCH FOR YM VOICE 0 (SET V=0..7 FOR OTHER VOICES)
-    20 DATA $DC,$00,$1B,$67,$61,$31,$21,$17,$1F,$0A,$DF,$5F,$DE
-    30 DATA $DE,$0E,$10,$09,$07,$00,$05,$07,$04,$FF,$A0,$16,$17
-    40 READ D
-    50 POKE YA,$20+V : POKE YD,D
-    60 FOR A=$38 TO $F8 STEP 8
-    70 READ D : POKE YA,A+V : POKE YD,D
-    80 NEXT A
+```BASIC
+5 YA=$9F40 : YD=$9F41 : V=0
+10 REM: MARIMBA PATCH FOR YM VOICE 0 (SET V=0..7 FOR OTHER VOICES)
+20 DATA $DC,$00,$1B,$67,$61,$31,$21,$17,$1F,$0A,$DF,$5F,$DE
+30 DATA $DE,$0E,$10,$09,$07,$00,$05,$07,$04,$FF,$A0,$16,$17
+40 READ D
+50 POKE YA,$20+V : POKE YD,D
+60 FOR A=$38 TO $F8 STEP 8
+70 READ D : POKE YA,A+V : POKE YD,D
+80 NEXT A
+```
 
 Once a voice has been patched as above, you can now POKE notes into it with very few commands for each note.
 
-Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the $20 range register (LR|FB|CON), for the $38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at $40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
+Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the \$20 range register (LR|FB|CON), for the \$38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at \$40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
 
 
 ## Using the LFO
 
 There is a single global LFO in the YM2151 which can affect the level (volume) and/or pitch of all 8 channels simultaneously. It has a single frequency and waveform setting which must be shared among all channels, and shared between both phase and amplitude modulation. The global parameters `AMD` and `PMD` act as modifiers to the sensitivity settings of the channels. While the frequency and waveform of the LFO pattern must be shared, the depths of the two types of modulation are independent of each other.
 
-You can re-trigger the LFO by setting and then clearing the `LR` bit in the test register ($01).
+You can re-trigger the LFO by setting and then clearing the `LR` bit in the test register (\$01).
 
 ### Vibrato:
 
-Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of $7F means 100% effectiveness, $40 means all channels' vibrato depths will be reduced by half, etc.
+Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of \$7F means 100% effectiveness, \$40 means all channels' vibrato depths will be reduced by half, etc.
 
 The vibrato speed is global, depending solely on the value set to `LFRQ.`
 

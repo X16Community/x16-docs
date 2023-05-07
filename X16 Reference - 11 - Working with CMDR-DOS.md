@@ -183,7 +183,7 @@ The special case of `DOS "$"` will print a directory listing.
 
 `DOS "$"`
 
-You can also read the name of the current directory with "$=C"
+You can also read the name of the current directory with DOS"\$=C"
 
 `DOS "$=C"`
 
@@ -342,14 +342,14 @@ address of the data channel.
 
 ### Example
 
-```
+```BASIC
 OPEN 1,8,2,"LEVEL.DAT,S,R"
 OPEN 15,8,15,"P"+CHR$(2)+CHR$(0)+CHR$(1)+CHR$(0)+CHR$(0)
 ```
 
 This opens LEVEL.DAT for reading and positions the read/write pointer at byte 256. 
 
-```
+```BASIC
 OPEN 2,8,5,"LEVEL.DAT,S,R"
 OPEN 15,8,15,"P"+CHR$(5)+CHR$(128)+CHR$(0)+CHR$(0)+CHR$(0)
 ```
@@ -358,10 +358,10 @@ This time, the secondary address is 5, and the pointer is at byte 128.
 
 ### Current Working Directory
 
-The $=C command will list the current working directory and its parent path. The current directory will be at the top of the listing, with each parent
+The \$=C command will list the current working directory and its parent path. The current directory will be at the top of the listing, with each parent
 directory beneath, with / at the bottom.
 
-```
+```BASIC
 DOS"$=C"
 
 0 "/TEST            " 
@@ -372,7 +372,7 @@ DOS"$=C"
 
 ## License
 
-Copyright 2020 Michael Steil <<mist64@mac.com>>
+Copyright 2020, 2023 Michael Steil <<mist64@mac.com>>, et al.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
