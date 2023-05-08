@@ -909,8 +909,6 @@ Purpose: Fill pixels with constant color, update cursor
 
 **Description:** `FB_fill_pixels` sets pixels with a constant color. The argument `step` specifies the increment between pixels. A value of 0 or 1 will cause consecutive pixels to be set. Passing a `step` value of the screen width will set vertically adjacent pixels going top down. Smaller values allow drawing dotted horizontal lines, and multiples of the screen width allow drawing dotted vertical lines.
 
-*[Note: Only the values 0/1 and screen width are currently supported.]*
-
 ---
 
 #### Function Name: FB_filter_pixels
