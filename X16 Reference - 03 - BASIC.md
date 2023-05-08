@@ -89,6 +89,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `OR` | operator | Bitwise or boolean "OR" | C64 |
 | `PEEK` | function | Returns a value from a memory address | C64 |
 | `π` | function | Returns the constant for the value of pi | C64 |
+| [`POINTER`](#pointer) | function | Returns the address of a BASIC variable | C128 |
 | `POKE` | command | Assigns a value to a memory address | C64 |
 | `POS` | function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | command | Immediately powers down the Commander X16 | X16 |
@@ -125,6 +126,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `STEP` | keyword | Used in a `FOR` declaration to declare the iterator step | C64 |
 | `STOP` | command | Breaks out of a BASIC program | C64 |
 | `STR$` | function | Converts a numeric value to a string | C64 |
+| [`STRPTR`](#strptr) | function | Returns the address of a BASIC string | X16 |
 | [`SYS`](#sys) | command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | function | Returns a string with spaces used for column alignment | C64 |
 | `TAN` | function | Return the tangent for an angle in radians | C64 |
@@ -825,6 +827,23 @@ REM SIMPLE DRAWING PROGRAM
 OLD
 ```
 
+### POINTER
+
+**TYPE: Function**  
+**FORMAT: POINTER(<variable>)**
+
+**Action:** Returns the memory address of the internal structure representing a BASIC variable.
+
+**EXAMPLE of POINTER function:**
+
+```BASIC
+10 A$="MOO"
+20 PRINT HEX$(POINTER(A$))
+RUN
+0823
+```
+
+
 ### POWEROFF
 
 **TYPE: Command**  
@@ -1135,6 +1154,33 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 30 SLEEP 60
 40 NEXT
 ```
+
+### STRPTR
+
+**TYPE: Function**  
+**FORMAT: STRPTR(<variable>)**
+
+**Action:** Returns the memory address of the first character of a string contained within a string variable. If the string variable has zero length, this function will likely still return a non-zero value pointing either to the close quotation mark in the literal assignment, or to somewhere undefined in string memory. Programs should check the `LEN()` of string variables before using the pointer returned from `STRPTR`.
+
+**EXAMPLE of STRPTR function:**
+
+```BASIC
+10 A$="MOO"
+20 P=STRPTR(A$)
+30 FOR I=0 TO LEN(A$)-1
+40 PRINT CHR$(PEEK(P+I));
+50 NEXT
+60 A$=""
+70 P=STRPTR(A$)
+80 FOR I=0 TO LEN(A$)-1 : REM THIS LOOP WILL STILL ALWAYS HAPPEN ONCE
+90 PRINT CHR$(PEEK(P+I));
+100 NEXT
+RUN
+MOO"
+READY.
+```
+
+In this case, the pointer returned on line 70 pointed to the first character after the open quote on line 60. Since it was an empty string, the pointer ended up pointing to the close quote. To avoid this scenario, we should have checked the `LEN(A$)` before line 80 and skipped over the loop.
 
 ### SYS
 
