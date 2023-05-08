@@ -830,7 +830,7 @@ OLD
 ### POINTER
 
 **TYPE: Function**  
-**FORMAT: POINTER(<variable>)**
+**FORMAT: POINTER(&lt;variable&gt;)**
 
 **Action:** Returns the memory address of the internal structure representing a BASIC variable.
 
@@ -1158,7 +1158,7 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 ### STRPTR
 
 **TYPE: Function**  
-**FORMAT: STRPTR(<variable>)**
+**FORMAT: STRPTR(&lt;variable&gt;)**
 
 **Action:** Returns the memory address of the first character of a string contained within a string variable. If the string variable has zero length, this function will likely still return a non-zero value pointing either to the close quotation mark in the literal assignment, or to somewhere undefined in string memory. Programs should check the `LEN()` of string variables before using the pointer returned from `STRPTR`.
 
