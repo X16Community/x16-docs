@@ -7,15 +7,16 @@ Version 0.9
 **This is preliminary documentation and the specification can still change at any point.**
 
 This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA. The VERA consists of:
-- Video generator featuring:
-  - Multiple output formats (VGA, NTSC Composite, NTSC S-Video, RGB video) at a fixed resolution of 640x480@60Hz
-  - Support for 2 layers, both supporting either tile or bitmap mode.
-  - Support for up to 128 sprites.
-  - Embedded video RAM of 128kB.
-  - Palette with 256 colors selected from a total range of 4096 colors.
-- 16-channel Programmable Sound Generator with multiple waveforms (Pulse, Sawtooth, Triangle, Noise)
-- High quality PCM audio playback from an 4kB FIFO buffer featuring up to 48kHz 16-bit stereo sound.
-- SPI controller for SecureDigital storage.
+
+* Video generator featuring:
+	* Multiple output formats (VGA, NTSC Composite, NTSC S-Video, RGB video) at a fixed resolution of 640x480@60Hz
+	* Support for 2 layers, both supporting either tile or bitmap mode.
+	* Support for up to 128 sprites.
+	* Embedded video RAM of 128kB.
+	* Palette with 256 colors selected from a total range of 4096 colors.
+* 16-channel Programmable Sound Generator with multiple waveforms (Pulse, Sawtooth, Triangle, Noise)
+* High quality PCM audio playback from an 4kB FIFO buffer featuring up to 48kHz 16-bit stereo sound.
+* SPI controller for SecureDigital storage.
 
 
 # Registers
