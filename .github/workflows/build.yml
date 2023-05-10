@@ -18,7 +18,7 @@ jobs:
       - name: Create output directory
         run: |
           mkdir artifacts
-      - name: Create PRG PDF
+      - name: Create Programmer's Reference Guide PDF
         run: |
           pandoc Comm*.md X16*0[1-9]*.md X16*[1-9][0-9]*.md X16*Appendix*.md \
             -f gfm \
@@ -34,7 +34,24 @@ jobs:
             -V mainfont="Noto Serif" \
             -V monofont="Noto Sans Mono" \
             --pdf-engine=lualatex \
-            -o artifacts/Programmers_Reference_Guide.pdf
+            -o artifacts/Programmer\'s_Reference_Guide.pdf
+      - name: Create VERA Programmer's Reference PDF
+        run: |
+          pandoc VERA*.md \
+            -f gfm \
+            --file-scope \
+            --template=.gh/template.tex \
+            --from=markdown-markdown_in_html_blocks+grid_tables \
+            --lua-filter=.gh/parse-html.lua \
+            -V linkcolor:blue \
+            -V geometry:letterpaper \
+            -V geometry:portrait \
+            -V geometry:margin=2cm \
+            -V fontsize=8pt \
+            -V mainfont="Noto Serif" \
+            -V monofont="Noto Sans Mono" \
+            --pdf-engine=lualatex \
+            -o artifacts/VERA_Programmer\'s_Reference.pdf
       - uses: actions/upload-artifact@v3
         with:
           name: x16-docs-pdf
