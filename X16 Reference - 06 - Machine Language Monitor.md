@@ -1,4 +1,4 @@
-## Chapter 6: Machine Language Monitor
+# Chapter 6: Machine Language Monitor
 
 The built-in machine language monitor can be started with the `MON` BASIC command. It is based on the monitor of the Final Cartridge III and supports most of its features.
 
@@ -46,10 +46,10 @@ These are the remaining commands:
 * All bytes have to be 2 digits (including device numbers).
 * The end address of `S` is exclusive.
 * The bank argument for `O` is
-        * `00`-`FF`: switch to main RAM, set RAM and ROM banks
-        * `V0`-`V1`: switch to Video RAM, set bank
-        * `I`: switch to the I2C address space
+	* `00`-`FF`: switch to main RAM, set RAM and ROM banks
+	* `V0`-`V1`: switch to Video RAM, set bank
+	* `I`: switch to the I2C address space
 * `@` takes:
-        * `8`, `9` to change the default drive (also for `L`)
-        * `$` to display the disk directory
-        * anything else as a disk command
+	* `8`, `9` to change the default drive (also for `L`)
+	* `$` to display the disk directory
+	* anything else as a disk command 

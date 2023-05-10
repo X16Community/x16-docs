@@ -65,8 +65,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td>$9F25</td>
 		<td>CTRL</td>
 		<td colspan="1" align="center">Reset</td>
-		<td colspan="5" align="center">-</td>
-		<td colspan="1" align="center">DCSEL</td>
+		<td colspan="6" align="center">DCSEL</td>
 		<td colspan="1" align="center">ADDRSEL</td>
 	</tr>
 	<tr>
@@ -100,8 +99,8 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="1" align="center">Sprites Enable</td>
 		<td colspan="1" align="center">Layer1 Enable</td>
 		<td colspan="1" align="center">Layer0 Enable</td>
-		<td colspan="1" align="center">-</td>
-		<td colspan="1" align="center">Chroma Disable</td>
+		<td colspan="1" align="center">NTSC/RGB: 240P</td>
+		<td colspan="1" align="center">NTSC: Chroma Disable / RGB: HV Sync </td>
 		<td colspan="2" align="center">Output Mode</td>
 	</tr>
 	<tr>
@@ -138,6 +137,26 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td>$9F2C</td>
 		<td>DC_VSTOP (DCSEL=1)</td>
 		<td colspan="8" align="center">Active Display V-Stop (8:1)</td>
+	</tr>
+	<tr>
+		<td>$9F29</td>
+		<td>DC_VER0 (DCSEL=63)</td>
+		<td colspan="8" align="center">Read only: the ASCII character "V"</td>
+	</tr>
+	<tr>
+		<td>$9F2A</td>
+		<td>DC_VER1 (DCSEL=63)</td>
+		<td colspan="8" align="center">Read only: Major release</td>
+	</tr>
+	<tr>
+		<td>$9F2B</td>
+		<td>DC_VER2 (DCSEL=63)</td>
+		<td colspan="8" align="center">Read only: Minor release</td>
+	</tr>
+	<tr>
+		<td>$9F2C</td>
+		<td>DC_VER3 (DCSEL=63)</td>
+		<td colspan="8" align="center">Read only: Minor build number</td>
 	</tr>
 	<tr>
 		<td>$9F2D</td>
@@ -263,10 +282,10 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 
 | Address range   | Description                |
 | --------------- | -------------------------- |
-| $00000 - $1F9BF | Video RAM                  |
-| $1F9C0 - $1F9FF | PSG registers              |
-| $1FA00 - $1FBFF | Palette                    |
-| $1FC00 - $1FFFF | Sprite attributes          |
+| \$00000 - \$1F9BF | Video RAM                  |
+| \$1F9C0 - \$1F9FF | PSG registers              |
+| \$1FA00 - \$1FBFF | Palette                    |
+| \$1FC00 - \$1FFFF | Sprite attributes          |
 
 ***Important note:
 Video RAM locations 1F9C0-1FFFF contain registers for the PSG/Palette/Sprite attributes. Reading anywhere in VRAM will always read back the 128kB VRAM itself (not the contents of the (write-only) PSG/Palette/Sprite attribute registers). Writing to a location in the register area will write to the registers in addition to writing the value also to VRAM. Since the VRAM contains random values at startup the values read back in the register area will not correspond to the actual values in the write-only registers until they are written to once.
@@ -326,10 +345,14 @@ The video output mode can be selected using OUT_MODE in DC_VIDEO.
 | -------: | -------------------------------------------------- |
 | 0        | Video disabled                                     |
 | 1        | VGA output                                         |
-| 2        | NTSC composite                                     |
-| 3        | RGB interlaced, composite sync (via VGA connector) |
+| 2        | NTSC (composite/S-Video)                           |
+| 3        | RGB 15KHz, composite or separate H/V sync, via VGA connector |
 
 Setting **'Chroma Disable'** disables output of chroma in NTSC composite mode and will give a better picture on a monochrome display. *(Setting this bit will also disable the chroma output on the S-video output.)*
+
+Setting **'HV Sync'** enables separate HSync/VSync signals in RGB output mode. Clearing the bit will enable the default of composite sync over RGB.
+
+Setting **'240P'** enables 240P progressive mode over NTSC or RGB. It has no effect if the VGA output mode is active. Instead of 262.5 scanlines per field, this mode outputs 263 scanlines per field.  On CRT displays, the scanlines from both the even and odd fields will be displayed on even scanlines.
 
 **'Current Field'** is a read-only bit which reflects the active interlaced field in composite and RGB modes. In non-interlaced modes, this reflects if the current line is even or odd. (0: even, 1: odd)
 
@@ -340,6 +363,8 @@ Setting **'Layer0 Enable'** / **'Layer1 Enable'** / **'Sprites Enable'** will re
 **DC_BORDER** determines the palette index which is used for the non-active area of the screen.
 
 **DC_HSTART**/**DC_HSTOP** and **DC_VSTART**/**DC_VSTOP** determines the active part of the screen. The values here are specified in the native 640x480 display space. HSTART=0, HSTOP=640, VSTART=0, VSTOP=480 will set the active area to the full resolution. Note that the lower 2 bits of **DC_HSTART**/**DC_HSTOP** and the lower 1 bit of **DC_VSTART**/**DC_VSTOP** isn't available. This means that horizontally the start and stop values can be set at a multiple of 4 pixels, vertically at a multiple of 2 pixels.
+
+**DC_VER0**, **DC_VER1**, **DC_VER2**, and **DC_VER3** can be queried for the version number of the VERA bitstream.  If reading **DC_VER0** returns `$56`, the remaining registers returns values forming the major, minor, and build numbers respectively.  If **DC_VER0** returns a value other than `$56`, the VERA bitstream version number is undefined.
 
 ## Layer 0/1 registers
 
@@ -538,7 +563,7 @@ At reset, the palette will contain a predefined palette:
 
 ![A picture of the Commander X16 palette](cx16palette.png)
 
-* Color indexes 0-15 contain the C64 color palette.
+* Color indexes 0-15 contain a palette somewhat similar to the C64 color palette.
 * Color indexes 16-31 contain a grayscale ramp.
 * Color indexes 32-255 contain various hues, saturation levels, brightness levels.
 
