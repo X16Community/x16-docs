@@ -18,7 +18,7 @@ jobs:
       - name: Create output directory
         run: |
           mkdir artifacts
-      - name: Create Programmer\'s Reference Guide PDF
+      - name: Create Programmer's Reference Guide PDF
         run: |
           pandoc Comm*.md X16*0[1-9]*.md X16*[1-9][0-9]*.md X16*Appendix*.md \
             -f gfm \
@@ -35,7 +35,7 @@ jobs:
             -V monofont="Noto Sans Mono" \
             --pdf-engine=lualatex \
             -o artifacts/Programmer\'s_Reference_Guide.pdf
-      - name: Create VERA Programmer\'s Reference PDF
+      - name: Create VERA Programmer's Reference PDF
         run: |
           pandoc VERA*.md \
             -f gfm \
