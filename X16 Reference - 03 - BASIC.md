@@ -73,7 +73,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `LET` | command | Explicitly declares a variable | C64 |
 | [`LINE`](#line) | command | Draws a line in graphics mode | X16 |
 | [`LINPUT`](#linput) | command | Reads a line from the keyboard | X16 |
-| [`LINPUT#`](#linput) | command | Reads a line or other delimited data from an open file | X16 |
+| [`LINPUT#`](#linput-1) | command | Reads a line or other delimited data from an open file | X16 |
 | `LIST` | command | Outputs the program listing to the screen | C64 |
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
