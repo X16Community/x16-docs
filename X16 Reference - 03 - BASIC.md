@@ -17,6 +17,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `ATN` | function | Returns arctangent of a number | C64 |
 | [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
+| [`BINPUT#`](#binput) | command | Reads a fixed-length block of data from an open file | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | command | Loads and runs `AUTOBOOT.X16` | X16 |
 | [`BSAVE`](#bsave) | command | Saves a headerless copy of a range of memory to a file | X16 |
@@ -71,6 +72,8 @@ for GitHub's Markdown flavor. Do not remove!
 | `LEN` | function | Returns the length of a string | C64 |
 | `LET` | command | Explicitly declares a variable | C64 |
 | [`LINE`](#line) | command | Draws a line in graphics mode | X16 |
+| [`LINPUT`](#linput) | command | Reads a line from the keyboard | X16 |
+| [`LINPUT#`](#linput) | command | Reads a line or other delimited data from an open file | X16 |
 | `LIST` | command | Outputs the program listing to the screen | C64 |
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
@@ -244,6 +247,24 @@ Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
 Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
+
+
+### BINPUT&#35;
+
+**TYPE: Command**  
+**FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var\$&gt;,&lt;len&gt;**
+
+**Action:** `BINPUT#` Reads a block of data from an open file and stores the data into a string variable. If there are fewer than `<len>` bytes available to be read from the file, fewer bytes will be stored.  If the end of the file is reached, `ST AND 64` will be true.
+
+**EXAMPLE of BINPUT&#35; Statement:**
+
+```BASIC
+10 OPEN 8,8,8,"FILE.BIN,S,R"
+20 BINPUT#8,A$,10
+30 PRINT "I GOT";LEN(A$);"BYTES"
+40 IF ST<>0 THEN 20
+50 CLOSE 8
+```
 
 ### BOOT
 
@@ -707,6 +728,56 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 30 :  LINE100,100,100+SIN(A)*100,100+COS(A)*100
 40 NEXT
 ```
+
+### LINPUT
+
+**TYPE: Command**  
+**FORMAT: LINPUT &lt;var\$&gt;
+
+**Action:** `LINPUT` Reads a line of data from the keyboard and stores the data into a string variable. Unlike `INPUT`, no parsing or cooking of the input is done, and therefore quotes, commas, and colons are stored in the string as typed. No prompt is displayed, either.
+
+The input is taken from the KERNAL editor, hence the user will have the freedom of all of the features of the editor such as cursor movement, mode switching, and color changing.
+
+Due to how the editor works, an empty line will return `" "`&ndash; a string with a single space, and trailing spaces are not preserved.
+
+**EXAMPLE of LINPUT Statement:**
+
+```BASIC
+10 LINPUT A$
+20 IF A$=" " THEN 50
+30 PRINT "YOU TYPED: ";A$
+40 END
+50 PRINT "YOU TYPED AN EMPTY STRING: ";A$
+```
+
+
+### LINPUT&#35;
+
+**TYPE: Command**  
+**FORMAT: LINPUT&#35; &lt;n&gt;,&lt;var\$&gt;\[,&lt;delimiter&gt;\]**
+
+**Action:** `LINPUT#` Reads a line of data from an open file and stores the data into a string variable. The delimiter of a line by default is 13 (carriage return). The delimiter is not part of the stored value. If the end of the file is reached while reading, `ST AND 64` will be true.
+
+`LINPUT#` can be used to read structured data from files. It can be particularly useful to extract quoted or null-terminated strings from files while reading.
+
+**EXAMPLE of LINPUT&#35; Statement:**
+
+```BASIC
+10 I=0
+20 OPEN 1,8,0,"$"
+30 LINPUT#1,A$,$22
+40 IF ST<>0 THEN 130
+50 LINPUT#1,A$,$22
+60 IF I=0 THEN 90
+70 PRINT "ENTRY: ";
+80 GOTO 100
+90 PRINT "LABEL: ";
+100 PRINT CHR$($22);A$;CHR$($22)
+110 I=I+1
+120 IF ST=0 THEN 30
+130 CLOSE 1
+```
+The above example parses and prints out the filenames from a directory listing.
 
 ### LOCATE
 
