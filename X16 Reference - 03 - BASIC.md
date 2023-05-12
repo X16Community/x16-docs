@@ -24,7 +24,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `BVERIFY` | command | Verifies that a file on disk matches RAM contents | X16 |
 | [`BVLOAD`](#bvload) | command | Loads a headerless binary file from disk to VRAM | X16 |
 | [`CHAR`](#char) | command | Draws a text string in graphics mode | X16 |
-| `CHR$` | function | Returns PETSCII character from numeric value | X16 |
+| `CHR$` | function | Returns PETSCII character from numeric value | C64 |
 | `CLOSE` | command | Closes a logical file number | C64 |
 | `CLR` | command | Clears BASIC variable state | C64 |
 | [`CLS`](#cls) | command | Clears the screen | X16 |
@@ -117,6 +117,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
+| [`RPT$`](#rpt) | function | Returns a string of repeated characters | X16 |
 | `RUN` | command | Clears the variable state and starts a BASIC program | C64 |
 | `SAVE` | command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
@@ -1190,6 +1191,28 @@ RESET
 ```
 
 This program will output the number 1 followed by the number 4.
+
+### RPT\$
+
+**TYPE: Function**  
+**FORMAT: RPT\$(&lt;byte&gt;,&lt;count&gt;)**
+
+**Action:** Returns a string of &lt;count&gt; instances of the PETSCII character represented by the numeric value &lt;byte&gt;.  This function is similar in behavior to `CHR$()` but takes a second argument as a repeat count.
+
+`RPT$(A,1)` is functionally equivalent to `CHR$(A)`.
+
+**EXAMPLE of RPT\$ function:**
+
+```BASIC
+10 REM TEN EXCLAMATION MARKS
+20 PRINT RPT$(33,10)
+READY.
+RUN
+!!!!!!!!!!
+
+READY.
+```
+
 
 ### SCREEN
 
