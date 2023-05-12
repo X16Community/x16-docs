@@ -59,6 +59,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `GET#` | command | Polls an open logical file for a single character | C64 |
 | `GOSUB` | command | Jumps to a BASIC subroutine | C64 |
 | `GOTO` | command | Branches immediately to a line number | C64 |
+| [`HELP`](#help) | command | Displays a brief summary of online help resources | X16 |
 | [`HEX$`](#hex) | function | Converts numeric to a hexadecimal string | X16 |
 | [`I2CPEEK`](#i2cpeek) | function | Reads a byte from a device on the I²C bus | X16 |
 | [`I2CPOKE`](#i2cpoke) | command | Writes a byte to a device on the I²C bus | X16 |
@@ -615,6 +616,13 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
 PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 ```
+
+### HELP
+
+**TYPE: Command**  
+**FORMAT: HELP**
+
+**Action:** The `HELP` command displays a brief summary of the ROM build, and points users to this guide at its home on GitHub, and to the community forums website.
 
 ### I2CPEEK
 
