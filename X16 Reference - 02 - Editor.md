@@ -1,3 +1,4 @@
+
 # Chapter 2: Editor
 
 The X16 has a built-in screen editor that is backwards-compatible with the C64, but has many new features.
@@ -25,6 +26,9 @@ The editor's default mode is 80x60 text mode. The following text mode resolution
 Mode \$80 contains two layers: a text layer on top of a graphics screen. In this mode, text color 0 is translucent instead of black.
 
 To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In the BASIC editor, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>
 
 ## ISO Mode
 
@@ -91,12 +95,12 @@ The C64 editor could only scroll the screen up (when overflowing the last line o
 
 This is the set of all supported PETSCII control characters. Entries in bold indicate new codes compared to the C64:
 
-| Code |                            |                           | Code |
-|------|----------------------------|---------------------------|------|
+| Code  |                            |                           | Code  |
+|-------|----------------------------|---------------------------|-------|
 | \$00  | NULL                       | **VERBATIM MODE**         | \$80  |
 | \$01  | **SWAP COLORS**            | COLOR: ORANGE             | \$81  |
-| \$02  <td colspan=2 align="center"> PAGE DOWN/UP               | \$82  |
-| \$03  <td colspan=2 align="center"> STOP/RUN                   | \$83  |
+| \$02  | PAGE DOWN                  | PAGE UP                   | \$82  |
+| \$03  | STOP                       | RUN                       | \$83  |
 | \$04  | **END**                    | **HELP**                  | \$84  |
 | \$05  | COLOR: WHITE               | F1                        | \$85  |
 | \$06  | **MENU**                   | F3                        | \$86  |
@@ -106,14 +110,14 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 | \$0A  | **LF**                     | F4                        | \$8A  |
 | \$0B  | -                          | F6                        | \$8B  |
 | \$0C  | -                          | F8                        | \$8C  |
-| \$0D  <td colspan=2 align="center"> REGULAR/SHIFTED RETURN     | \$8D  |
-| \$0E  <td colspan=2 align="center"> CHARSET: LOWER/UPPER CASE  | \$8E  |
-| \$0F  <td colspan=2 align="center"> **CHARSET: ISO ON/OFF**    | \$8F  |
+| \$0D  | RETURN                     | SHIFTED RETURN            | \$8D  |
+| \$0E  | CHARSET: LOWER/UPPER       | CHARSET: UPPER/PETSCII    | \$8E  |
+| \$0F  | **CHARSET: ISO ON**        | **CHARSET: ISO OFF**      | \$8F  |
 | \$10  | **F9**                     | COLOR: BLACK              | \$90  |
-| \$11  <td colspan=2 align="center"> CURSOR: DOWN/UP            | \$91  |
-| \$12  <td colspan=2 align="center"> REVERSE ON/OFF             | \$92  |
-| \$13  <td colspan=2 align="center"> HOME/CLEAR                 | \$93  |
-| \$14  <td colspan=2 align="center"> DEL/INSERT                 | \$94  |
+| \$11  | CURSOR: DOWN               | CURSOR: UP                | \$91  |
+| \$12  | REVERSE ON                 | REVERSE OFF               | \$92  |
+| \$13  | HOME                       | CLEAR                     | \$93  |
+| \$14  | DEL                        | INSERT                    | \$94  |
 | \$15  | **F10**                    | COLOR: BROWN              | \$95  |
 | \$16  | **F11**                    | COLOR: LIGHT RED          | \$96  |
 | \$17  | **F12**                    | COLOR: DARK GRAY          | \$97  |
@@ -134,6 +138,9 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 * F9-F12: these codes match the C65 additions
 * \$84: This code is generated when pressing SHIFT+END.
 * Additionally, the codes \$04/\$06/\$0B/\$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>
 
 ## Keyboard Layouts
 
@@ -466,3 +473,6 @@ The following Function key macros are pre-defined for your convenience. These sh
 | F10 | -          | Not defined
 | F11 | -          | Not defined
 | F12 | debug      | debug features in emulators
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

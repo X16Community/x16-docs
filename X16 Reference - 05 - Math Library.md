@@ -1,3 +1,4 @@
+
 # Chapter 5: Math Library
 
 The Commander X16 contains a floating point Math library with a precision of 40 bits, which corresponds to 9 decimal digits. It is a stand-alone derivative of the library contained in Microsoft BASIC. Except for the different base address, it is compatible with the C128 and C65 libraries.
@@ -94,3 +95,6 @@ JSR RND_0
 * For more information on the additional calls, refer to [Mapping the Commodore 64](http://unusedino.de/ec64/technical/project64/mapping_c64.html) by Sheldon Leemon, ISBN 0-942386-23-X, but note these errata:
    * `FMULT` at \$BA28 adds mem to FAC, not ARG to FAC
    * `NORMAL` at \$B8D7 is incorrectly documented as being at \$B8FE
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

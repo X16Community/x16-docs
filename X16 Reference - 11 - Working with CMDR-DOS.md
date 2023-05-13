@@ -1,3 +1,4 @@
+
 # Chapter 11: Working With CMDR-DOS
 This manual describes Commodore DOS on FAT32, aka CMDR-DOS. 
 
@@ -10,7 +11,7 @@ It is the DOS built into the [Commander X16](https://www.commanderx16.com).
 
 There are three basic interfaces for CMDR-DOS: the binary interface (LOAD, SAVE, etc.), the data file interface (OPEN, 
 PRINT#, INPUT#, GET#), and the command interface. We will give a brief summary of BASIC commands here, but please refer
-to the BASIC chapter for full syntax of each command. 
+to the [BASIC chapter](X16%20Reference%20-%2003%20-%20BASIC.md#chapter-3-basic-programming) for full syntax of each command. 
 
 If you are familiar with the SD2IEC or the CMD hard drive, navigating partitions and subdirectories is similar, with "CD", "MD", and "RD" commands
 to navigate directories.
@@ -21,7 +22,7 @@ The primary use of the binary interface is loading and saving program files and 
 
 Your binary commands are LOAD, SAVE, BLOAD, VLOAD, BVLOAD, VERIFY, and BVERIFY. 
 
-This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to [Chapter 3: BASIC Programming](X16%20Reference%20-%2003%20-%20BASIC.md).
+This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to [Chapter 3: BASIC Programming](X16%20Reference%20-%2003%20-%20BASIC.md#chapter-3-basic-programming).
 
 ### LOAD
 
@@ -69,7 +70,7 @@ the filename with @:, like this:
 
 `SAVE "@:DEMO.PRG"`
 
-You may need to save arbitrary binary data from other locations. To do this, use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md).
+You may need to save arbitrary binary data from other locations. To do this, use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor).
 
 `S "filename",8,<start_address>,<end_address>`
 
@@ -383,3 +384,5 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>

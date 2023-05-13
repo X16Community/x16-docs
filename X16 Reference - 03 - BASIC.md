@@ -192,7 +192,7 @@ There are two ways to check the error channel from inside a program:
 40 CLOSE 15
 ```
 
-Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md) for more details on CMDR-DOS and the command channel.
+Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md#chapter-11-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
@@ -828,7 +828,7 @@ MENU
 **TYPE: Command**  
 **FORMAT: MON (Alternative: MONITOR)**
 
-**Action:** This command enters the machine language monitor. See the dedicated chapter for a  description.
+**Action:** This command enters the machine language monitor. See the [dedicated chapter](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor) for a  description.
 
 **EXAMPLE of MON Statement:**
 
@@ -1229,7 +1229,7 @@ READY.
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md). The value of -1 toggles between modes \$00 and \$03.
+For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes \$00 and \$03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1409,3 +1409,6 @@ When BASIC starts, it automatically executes the `BOOT` command, which tries to 
 * An SD card with a game can auto-boot this way.
 * An SD card with a collection of applications can show a menu that allows selecting an application to load.
 * The user's "work" SD card can contain a small auto-boot BASIC program that sets the keyboard layout and changes the screen colors, for example.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

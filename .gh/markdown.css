@@ -25,6 +25,9 @@ body > :last-child {
 	padding-bottom: 0;
 }
 
+thead {display: table-header-group;}
+tfoot {display: table-footer-group;}
+
 h1,
 h2,
 h3,
