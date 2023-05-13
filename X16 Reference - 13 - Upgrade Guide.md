@@ -1,3 +1,4 @@
+
 # Chapter 13: Upgrade Guide
 
 This chapter provides tips for running upgrades on the various programmable chips.
@@ -47,3 +48,6 @@ Official community VERA bitstreams will be posted as releases at [X16Community/v
 | Commander X16 | - | - | - | flashvera |
 | XGecu TL866II+ | Xgpro | minipro | minipro | - |
 | XGecu TL866-3G / T48 | Xgpro | - | - | - |
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

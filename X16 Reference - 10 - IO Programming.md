@@ -1,3 +1,4 @@
+
 # Chapter 10: Commander X16 Programmer's Reference Guide
 
 ## I/O Programming
@@ -102,3 +103,6 @@ The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (
 The second half of the RTC's SRAM (NVRAM) is reserved for use by the KERNAL.  \$20-\$3F is available for use by user programs.
 
 For more information, please refer to this device's datasheet.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

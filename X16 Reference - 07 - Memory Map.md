@@ -1,3 +1,4 @@
+
 # Chapter 7: Memory Map
 
 The Commander X16 has 512 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM with up to 3.5MB of RAM or ROM available to cartridges.
@@ -126,3 +127,5 @@ For more informaiton, consult the [Hardware](X16%20Reference%20-%2012%20-%20Hard
 
 [^1]: Current development systems have 2 MB of bankable RAM. Actual hardware is currently planned to have an option of either 512 KB or 2 MB of RAM.
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>

@@ -686,6 +686,7 @@ Registers affected: .A
 **Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. .C is 0 if the read was successful, and 1 if no such device exists.
 
 **EXAMPLE:**
+
 ```ASM
 LDX #$6F ; RTC device
 LDY #$20 ; start of NVRAM inside RTC
@@ -1339,3 +1340,5 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   
+<!-- For PDF formatting -->
+<div class="page-break"></div>

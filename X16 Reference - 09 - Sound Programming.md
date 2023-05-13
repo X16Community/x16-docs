@@ -1,3 +1,4 @@
+
 # Chapter 9: Sound Programming
 
 ## Audio bank API
@@ -958,3 +959,6 @@ Amplitude modulation works similarly to phase modulation, except that the intens
 If the active operators are acting as carriers (generating output directly), then amplitude modulation will vary the volume of the sound being produced by that operator. This can be described as a "tremelo" effect. If the operators are acting as modulators, then the timbre of the voice will vary as the output level of the affected operators increases and decreases. You may simultaneously enable amplitude modulation on both types of operators.
 
 The amplitude modulation speed is global, depending solely on the value set to `LFRQ.`
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

@@ -1,3 +1,4 @@
+
 # Appendix A: Sound
 
 ## FM instrument patch presets
@@ -339,3 +340,6 @@ Example:
 30 FMCHORD 0,"I11CI11EI11G"
 ```
 This program sets up appropriate vibrato/tremolo and plays a C major chord with the vibraphone patch across FM channels 0, 1, and 2.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>
