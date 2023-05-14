@@ -403,25 +403,27 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 
 ### Custom Keyboard Scancode Handler
 
-If you need more control over the translation of scancodes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at \$032E/\$032F.
+**Note**: This is new behavior for R43, differing from previous releases.
+
+If you need more control over the translation of keynum codes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at \$032E/\$032F.
 
 On all key down and key up events, the keyboard driver calls this vector with
 
-* .X: PS/2 prefix (\$00, \$E0 or \$E1)
-* .A: PS/2 scancode
-* .C: clear if key down, set if key up event
+* .A: keycode, where bit 7 (most-significant) is clear on key down, and set on key up.
 
-The handler has to return a key event the same way in .X/.A/.C.
+The keynum codes are enumerated [here](https://github.com/X16Community/x16-rom/blob/master/inc/keycode.inc), and their names, similar to that of PS/2 codes, are based on their function in the US layout.
+
+The handler needs to return a key event the same way in .A
 
 * To remove a keypress so that it is not added to the keyboard queue, return .A = 0.
 * To manually add a key to the keyboard queue, use the `kbdbuf_put` KERNAL API.
 
 You can even write a completely custom keyboard translation layer:
 
-* Place the code at \$A000-\$A58F – this is safe, since the tables won't be used in this case.
+* Place the code at \$A000-\$A58F in RAM bank 0. This is safe, since the tables won't be used in this case, and the active RAM bank will be set to 0 before entry to the handler.
 * Fill the locale at \$A590.
-* For every scancode that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
-* For all scancodes, return .A = 0.
+* For every keynum that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
+* Always set .A = 0 before return from the custom handler.
 
 ```ASM
 ;EXAMPLE: A custom handler that prints "A" on Alt key down
@@ -436,22 +438,19 @@ setup:
     rts
 
 keyhandler:
-    php         ;Save input on stack
     pha
-    phx
 
-    bcs exit    ;C=1 is key up
+    and #$ff    ;ensure A sets flags
+    bmi exit    ;A & 0x80 is key up
 
-    cmp #$11    ;Alt key scancode
+    cmp #$3c    ;Left Alt keynum
     bne exit
 
     lda #'a'
     jsr $ffd2
 
 exit:
-    plx     ;Restore input
     pla
-    plp
     rts
 ```
 
