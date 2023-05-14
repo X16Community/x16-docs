@@ -341,7 +341,7 @@ The tables for the active keyboard layout reside in banked RAM, at \$A000 on ban
 | \$A400-\$A47F | Table 8     |
 | \$A480-\$A4FF | Table 9     |
 | \$A500-\$A57F | Table 10    |
-| \$A580-\$A58F | big-endian bitfield:<br/>PS/2 scancodes for which Caps means Shift |
+| \$A580-\$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
 | \$A590-\$A66F | dead key table |
 | \$A670-\$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
 
@@ -360,9 +360,8 @@ The first byte of each of the 11 tables is the table ID which contains the encod
 * ID \$C7 represents Shift+Alt *or* Shift+AltGr (ISO only)
 * Empty tables have an ID of \$FF.
 
-The identifier is followed by 127 output codes for the scancode inputs 1-127.
+The identifier is followed by 127 output codes for the keynum inputs 1-127.
 
-* The regular PS/2 scancode for the F7 key is \$83, but in these tables, F7 has a scancode of \$02.
 * Dead keys (i.e. keys that don't generate anything by themselves but modify the next key) have a code of 0 and are further described in the dead key table (ISO only)
 * Keys that produce nothing have an entry of 0. (They can be distinguished from dead keys as they don't have an entry in the dead key table.)
 
