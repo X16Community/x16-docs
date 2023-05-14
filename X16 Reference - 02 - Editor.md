@@ -366,8 +366,6 @@ The identifier is followed by 127 output codes for the scancode inputs 1-127.
 * Dead keys (i.e. keys that don't generate anything by themselves but modify the next key) have a code of 0 and are further described in the dead key table (ISO only)
 * Keys that produce nothing have an entry of 0. (They can be distinguished from dead keys as they don't have an entry in the dead key table.)
 
-Keys with \$E0/\$E1-prefixed PS/2 scancodes (cursor keys etc.) are hardcoded and cannot be changed using these tables.
-
 The dead key table has one section for every dead key with the following layout:
 
 | Byte | Description                                  |
@@ -385,17 +383,17 @@ The dead key table has one section for every dead key with the following layout:
 
 Custom layouts can be loaded from disk like this:
 ```BASIC
-LOAD"KEYMAP",8,0,$A000
+BLOAD"KEYMAP",8,0,$A000
 ```
 
 Here is an example that activates a layout derived from "ABC/X16", with unshifted Y and Z swapped in PETSCII mode:
 
 ```BASIC
 100 KEYMAP"ABC/X16"                               :REM START WITH DEFAULT LAYOUT
-110 POKE0,0                                       :REM ACTIVATE RAM BANK 0
+110 BANK 0                                        :REM ACTIVATE RAM BANK 0
 120 FORI=0TO11:B=$A000+128*I:IFPEEK(B)<>0THENNEXT :REM SEARCH FOR TABLE $00
-130 POKEB+$1A,ASC("Y")                            :REM SET SCAN CODE $1A ('Z') to 'Y'
-140 POKEB+$35,ASC("Z")                            :REM SET SCAN CODE $35 ('Y') to 'Z'
+130 POKEB+$2E,ASC("Y")                            :REM SET KEYNUM $2E ('Z') to 'Y'
+140 POKEB+$16,ASC("Z")                            :REM SET KEYNUM $16 ('Y') to 'Z'
 170 REM
 180 REM *** DOING THE SAME FOR SHIFTED CHARACTERS
 190 REM *** IS LEFT AS AN EXERCISE TO THE READER
