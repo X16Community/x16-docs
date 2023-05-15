@@ -398,7 +398,7 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 190 REM *** IS LEFT AS AN EXERCISE TO THE READER
 ```
 
-### Custom Keyboard Scancode Handler
+### Custom Keyboard Keynum Code Handler
 
 **Note**: This is new behavior for R43, differing from previous releases.
 
