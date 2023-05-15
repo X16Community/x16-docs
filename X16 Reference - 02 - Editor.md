@@ -341,7 +341,7 @@ The tables for the active keyboard layout reside in banked RAM, at \$A000 on ban
 | \$A400-\$A47F | Table 8     |
 | \$A480-\$A4FF | Table 9     |
 | \$A500-\$A57F | Table 10    |
-| \$A580-\$A58F | big-endian bitfield:<br/>PS/2 scancodes for which Caps means Shift |
+| \$A580-\$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
 | \$A590-\$A66F | dead key table |
 | \$A670-\$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
 
@@ -360,13 +360,10 @@ The first byte of each of the 11 tables is the table ID which contains the encod
 * ID \$C7 represents Shift+Alt *or* Shift+AltGr (ISO only)
 * Empty tables have an ID of \$FF.
 
-The identifier is followed by 127 output codes for the scancode inputs 1-127.
+The identifier is followed by 127 output codes for the keynum inputs 1-127.
 
-* The regular PS/2 scancode for the F7 key is \$83, but in these tables, F7 has a scancode of \$02.
 * Dead keys (i.e. keys that don't generate anything by themselves but modify the next key) have a code of 0 and are further described in the dead key table (ISO only)
 * Keys that produce nothing have an entry of 0. (They can be distinguished from dead keys as they don't have an entry in the dead key table.)
-
-Keys with \$E0/\$E1-prefixed PS/2 scancodes (cursor keys etc.) are hardcoded and cannot be changed using these tables.
 
 The dead key table has one section for every dead key with the following layout:
 
@@ -385,17 +382,17 @@ The dead key table has one section for every dead key with the following layout:
 
 Custom layouts can be loaded from disk like this:
 ```BASIC
-LOAD"KEYMAP",8,0,$A000
+BLOAD"KEYMAP",8,0,$A000
 ```
 
 Here is an example that activates a layout derived from "ABC/X16", with unshifted Y and Z swapped in PETSCII mode:
 
 ```BASIC
 100 KEYMAP"ABC/X16"                               :REM START WITH DEFAULT LAYOUT
-110 POKE0,0                                       :REM ACTIVATE RAM BANK 0
+110 BANK 0                                        :REM ACTIVATE RAM BANK 0
 120 FORI=0TO11:B=$A000+128*I:IFPEEK(B)<>0THENNEXT :REM SEARCH FOR TABLE $00
-130 POKEB+$1A,ASC("Y")                            :REM SET SCAN CODE $1A ('Z') to 'Y'
-140 POKEB+$35,ASC("Z")                            :REM SET SCAN CODE $35 ('Y') to 'Z'
+130 POKEB+$2E,ASC("Y")                            :REM SET KEYNUM $2E ('Z') to 'Y'
+140 POKEB+$16,ASC("Z")                            :REM SET KEYNUM $16 ('Y') to 'Z'
 170 REM
 180 REM *** DOING THE SAME FOR SHIFTED CHARACTERS
 190 REM *** IS LEFT AS AN EXERCISE TO THE READER
@@ -403,25 +400,27 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 
 ### Custom Keyboard Scancode Handler
 
-If you need more control over the translation of scancodes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at \$032E/\$032F.
+**Note**: This is new behavior for R43, differing from previous releases.
+
+If you need more control over the translation of keynum codes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at \$032E/\$032F.
 
 On all key down and key up events, the keyboard driver calls this vector with
 
-* .X: PS/2 prefix (\$00, \$E0 or \$E1)
-* .A: PS/2 scancode
-* .C: clear if key down, set if key up event
+* .A: keycode, where bit 7 (most-significant) is clear on key down, and set on key up.
 
-The handler has to return a key event the same way in .X/.A/.C.
+The keynum codes are enumerated [here](https://github.com/X16Community/x16-rom/blob/master/inc/keycode.inc), and their names, similar to that of PS/2 codes, are based on their function in the US layout.
+
+The handler needs to return a key event the same way in .A
 
 * To remove a keypress so that it is not added to the keyboard queue, return .A = 0.
 * To manually add a key to the keyboard queue, use the `kbdbuf_put` KERNAL API.
 
 You can even write a completely custom keyboard translation layer:
 
-* Place the code at \$A000-\$A58F – this is safe, since the tables won't be used in this case.
+* Place the code at \$A000-\$A58F in RAM bank 0. This is safe, since the tables won't be used in this case, and the active RAM bank will be set to 0 before entry to the handler.
 * Fill the locale at \$A590.
-* For every scancode that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
-* For all scancodes, return .A = 0.
+* For every keynum that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
+* Always set .A = 0 before return from the custom handler.
 
 ```ASM
 ;EXAMPLE: A custom handler that prints "A" on Alt key down
@@ -436,22 +435,19 @@ setup:
     rts
 
 keyhandler:
-    php         ;Save input on stack
     pha
-    phx
 
-    bcs exit    ;C=1 is key up
+    and #$ff    ;ensure A sets flags
+    bmi exit    ;A & 0x80 is key up
 
-    cmp #$11    ;Alt key scancode
+    cmp #$3c    ;Left Alt keynum
     bne exit
 
     lda #'a'
     jsr $ffd2
 
 exit:
-    plx     ;Restore input
     pla
-    plp
     rts
 ```
 
