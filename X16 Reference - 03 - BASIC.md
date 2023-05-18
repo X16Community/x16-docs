@@ -1138,6 +1138,17 @@ Optional arguments:
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
+**KNOWN BUG**:
+In release R43, due to improper parsing of escape tokens, REN will improperly treat arguments to these statements as line numbers:
+
+* `FRAME`
+* `RECT`
+* `MOUSE`
+* `COLOR`
+* `PSGWAV`
+
+This behavior has been fixed in development versions since R43 and will be fixed in R44.
+
 **EXAMPLE of REN Statement:**
 
 ```BASIC
