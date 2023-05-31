@@ -3,6 +3,8 @@
 
 The Commander X16 contains a floating point Math library with a precision of 40 bits, which corresponds to 9 decimal digits. It is a stand-alone derivative of the library contained in Microsoft BASIC. Except for the different base address, it is compatible with the C128 and C65 libraries.
 
+The full documentation of these functions can be found in the book [C128 Developers Package for Commodore 6502 Development](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf). The Math Library documentation starts in Chapter 13. (PDF page 257)
+
 The following functions are available from machine language code after setting the ROM bank to 4.
 
 ## Format Conversions
@@ -81,7 +83,6 @@ The following calls are not part of the C128/C65 API.
 
 ## Notes
 
-* The full documentation of these functions can be found in the book [C128 Developers Package for Commodore 6502 Development](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf).
 * `RND_0`: For .Z=1, the C128 and C65 versions get entropy from the CIA timers. The X16 version takes entropy from .A/.X/.Y instead. So in order to get a "real" random number, you would use code like this:
 
 ```ASM
@@ -91,10 +92,12 @@ JSR entropy_get ; KERNAL call to get entropy into .A/.X/.Y
 PLP             ; restore .Z=1
 JSR RND_0
 ```
-* The calls `FADDT`, `FMULTT`, `FDIVT` and `FPWRT` were broken on on the C128/C65. They are fixed on the X16.
+
+* The calls `FADDT`, `FMULTT`, `FDIVT` and `FPWRT` were broken on on the C128/C65. They are fixed on 
+the X16.
 * For more information on the additional calls, refer to [Mapping the Commodore 64](http://unusedino.de/ec64/technical/project64/mapping_c64.html) by Sheldon Leemon, ISBN 0-942386-23-X, but note these errata:
-   * `FMULT` at \$BA28 adds mem to FAC, not ARG to FAC
-   * `NORMAL` at \$B8D7 is incorrectly documented as being at \$B8FE
+  * `FMULT` at \$BA28 adds mem to FAC, not ARG to FAC
+  * `NORMAL` at \$B8D7 is incorrectly documented as being at \$B8FE
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
