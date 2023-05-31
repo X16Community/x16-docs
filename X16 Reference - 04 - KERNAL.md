@@ -40,6 +40,11 @@ The following features must not be relied upon:
 
 The KERNAL [fully supports](#kernal-api-functions) the C64 KERNAL API.
 
+These routines have been stable ever since the C64 came out and are extensively documented
+in various resources dedicated to the C64. Currently, they are not documented *here* so if you
+need to look them up, here is a very thorough [reference of these standard kernal routines](https://www.pagetable.com/c64ref/kernal/) (hosted on M. Steil's website).
+It integrates a dozen or so different sources for documentation about these routines.
+
 ## Commodore 128 API Compatibility
 
 In addition, the X16 [supports a subset](#kernal-api-functions) of the C128 API.
