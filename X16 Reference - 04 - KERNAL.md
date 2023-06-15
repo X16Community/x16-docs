@@ -150,7 +150,7 @@ The 16 bit ABI generally follows the following conventions:
 | `LISTEN` | `$FFB1` | CPB | Send LISTEN command | A | A X | C64 |
 | `LKUPLA` | `$FF59` | ChIO | Search tables for given LA | | | C128 |
 | `LKUPSA` | `$FF5C` | ChIO | Search tables for given SA | | | C128 |
-| `LOAD` | `$FFD5` | ChIO | Load a file into memory | A X Y | A X Y | C64 |
+| [`LOAD`](#function-name-load) | `$FFD5` | ChIO | Load a file into main memory or VRAM | A X Y | A X Y | C64 |
 | `MACPTR` | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
@@ -278,6 +278,28 @@ Error returns: None
 Registers affected: .A, .X, .Y, .P
 
 **Description:** `CLOSE` releases resources associated with a logical file number.  If the associated device is a serial device on the IEC bus or is a simulated serial device such as CMDR-DOS backed by the X16 SD card, and the file was opened with a secondary address, a close command is sent to the device or to CMDR-DOS.  
+
+---
+
+#### Function Name: `LOAD`
+
+Purpose: Load the contents of a file from disk to memory
+Call address: \$FFD5  
+Communication registers: .A .X .Y
+Preparatory routines: SETNAM, SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y, .P
+
+**Description:** Loads a file from disk to memory. X and Y is the memory address to load
+the file into. A controls where the file is to be loaded. On the X16, LOAD has an 
+additional feature to load the contents of a file directly into VRAM.
+
+  * If the A register is zero, the kernal loads into system memory.
+  * If the A register is 1, the kernal performs a verify.
+  * If the A register is 2, the kernal loads into VRAM, starting from $00000 + the specified starting address.
+  * If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
+
+(On the C64, if A is greater than or equal to 1, the kernal performs a verify)
 
 ---
 
