@@ -150,7 +150,7 @@ The 16 bit ABI generally follows the following conventions:
 | `LISTEN` | `$FFB1` | CPB | Send LISTEN command | A | A X | C64 |
 | `LKUPLA` | `$FF59` | ChIO | Search tables for given LA | | | C128 |
 | `LKUPSA` | `$FF5C` | ChIO | Search tables for given SA | | | C128 |
-| `LOAD`(#function-name-load) | `$FFD5` | ChIO | Load a file into memory or VRAM | A X Y | A X Y | C64 |
+| [`LOAD`](#function-name-load) | `$FFD5` | ChIO | Load a file into memory or VRAM | A X Y | A X Y | C64 |
 | `MACPTR` | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
