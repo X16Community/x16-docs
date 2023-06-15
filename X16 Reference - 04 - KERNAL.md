@@ -291,15 +291,15 @@ Error returns: None
 Registers affected: .A, .X, .Y, .P
 
 **Description:** Loads a file from disk to memory. X and Y is the memory address to load
-the file into. A controls where the file is to be loaded. On the X16, LOAD an additional 
-feature to load the contents of a file directly into VRAM.
+the file into. A controls where the file is to be loaded. On the X16, LOAD has an 
+additional feature to load the contents of a file directly into VRAM.
 
   * If the A register is zero, the kernal loads into system memory.
   * If the A register is 1, the kernal performs a verify.
   * If the A register is 2, the kernal loads into VRAM, starting from $00000 + the specified starting address.
   * If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
 
-(On the C64, is A is greater than or equal to 1, the kernal performs a verify)
+(On the C64, if A is greater than or equal to 1, the kernal performs a verify)
 
 ---
 
