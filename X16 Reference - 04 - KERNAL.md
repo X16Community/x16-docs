@@ -40,6 +40,11 @@ The following features must not be relied upon:
 
 The KERNAL [fully supports](#kernal-api-functions) the C64 KERNAL API.
 
+These routines have been stable ever since the C64 came out and are extensively documented
+in various resources dedicated to the C64. Currently, they are not documented *here* so if you
+need to look them up, here is a very thorough [reference of these standard kernal routines](https://www.pagetable.com/c64ref/kernal/) (hosted on M. Steil's website).
+It integrates a dozen or so different sources for documentation about these routines.
+
 ## Commodore 128 API Compatibility
 
 In addition, the X16 [supports a subset](#kernal-api-functions) of the C128 API.
@@ -145,7 +150,7 @@ The 16 bit ABI generally follows the following conventions:
 | `LISTEN` | `$FFB1` | CPB | Send LISTEN command | A | A X | C64 |
 | `LKUPLA` | `$FF59` | ChIO | Search tables for given LA | | | C128 |
 | `LKUPSA` | `$FF5C` | ChIO | Search tables for given SA | | | C128 |
-| `LOAD` | `$FFD5` | ChIO | Load a file into memory | A X Y | A X Y | C64 |
+| [`LOAD`](#function-name-load) | `$FFD5` | ChIO | Load a file into main memory or VRAM | A X Y | A X Y | C64 |
 | `MACPTR` | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
@@ -273,6 +278,28 @@ Error returns: None
 Registers affected: .A, .X, .Y, .P
 
 **Description:** `CLOSE` releases resources associated with a logical file number.  If the associated device is a serial device on the IEC bus or is a simulated serial device such as CMDR-DOS backed by the X16 SD card, and the file was opened with a secondary address, a close command is sent to the device or to CMDR-DOS.  
+
+---
+
+#### Function Name: `LOAD`
+
+Purpose: Load the contents of a file from disk to memory
+Call address: \$FFD5  
+Communication registers: .A .X .Y
+Preparatory routines: SETNAM, SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y, .P
+
+**Description:** Loads a file from disk to memory. X and Y is the memory address to load
+the file into. A controls where the file is to be loaded. On the X16, LOAD has an 
+additional feature to load the contents of a file directly into VRAM.
+
+  * If the A register is zero, the kernal loads into system memory.
+  * If the A register is 1, the kernal performs a verify.
+  * If the A register is 2, the kernal loads into VRAM, starting from $00000 + the specified starting address.
+  * If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
+
+(On the C64, if A is greater than or equal to 1, the kernal performs a verify)
 
 ---
 
@@ -686,6 +713,7 @@ Registers affected: .A
 **Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. .C is 0 if the read was successful, and 1 if no such device exists.
 
 **EXAMPLE:**
+
 ```ASM
 LDX #$6F ; RTC device
 LDY #$20 ; start of NVRAM inside RTC
@@ -1339,3 +1367,5 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   
+<!-- For PDF formatting -->
+<div class="page-break"></div>

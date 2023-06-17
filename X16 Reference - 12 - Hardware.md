@@ -1,3 +1,4 @@
+
 # Chapter 12: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and headers.
@@ -396,4 +397,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 |  5  | +5V  |
 |  6  | GND  |
 
-This requires an EEPROM programmer and an interface board to program. See chapter 13 for the programming adapter and instructions.
+This requires an EEPROM programmer and an interface board to program. See [chapter 13](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md#chapter-13-upgrade-guide) for the programming adapter and instructions.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

@@ -27,3 +27,6 @@ for GitHub's Markdown flavor. Do not remove!
 [Chapter 12: Hardware Pinouts](X16%20Reference%20-%2012%20-%20Hardware.md#chapter-12-hardware-pinouts)  
 [Chapter 13: Upgrade Guide](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md#chapter-13-upgrade-guide)  
 [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#appendix-a-sound)  
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

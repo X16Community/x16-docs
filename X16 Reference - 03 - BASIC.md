@@ -17,13 +17,14 @@ for GitHub's Markdown flavor. Do not remove!
 | `ATN` | function | Returns arctangent of a number | C64 |
 | [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
+| [`BINPUT#`](#binput) | command | Reads a fixed-length block of data from an open file | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | command | Loads and runs `AUTOBOOT.X16` | X16 |
 | [`BSAVE`](#bsave) | command | Saves a headerless copy of a range of memory to a file | X16 |
 | `BVERIFY` | command | Verifies that a file on disk matches RAM contents | X16 |
 | [`BVLOAD`](#bvload) | command | Loads a headerless binary file from disk to VRAM | X16 |
 | [`CHAR`](#char) | command | Draws a text string in graphics mode | X16 |
-| `CHR$` | function | Returns PETSCII character from numeric value | X16 |
+| `CHR$` | function | Returns PETSCII character from numeric value | C64 |
 | `CLOSE` | command | Closes a logical file number | C64 |
 | `CLR` | command | Clears BASIC variable state | C64 |
 | [`CLS`](#cls) | command | Clears the screen | X16 |
@@ -58,6 +59,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `GET#` | command | Polls an open logical file for a single character | C64 |
 | `GOSUB` | command | Jumps to a BASIC subroutine | C64 |
 | `GOTO` | command | Branches immediately to a line number | C64 |
+| [`HELP`](#help) | command | Displays a brief summary of online help resources | X16 |
 | [`HEX$`](#hex) | function | Converts numeric to a hexadecimal string | X16 |
 | [`I2CPEEK`](#i2cpeek) | function | Reads a byte from a device on the I²C bus | X16 |
 | [`I2CPOKE`](#i2cpoke) | command | Writes a byte to a device on the I²C bus | X16 |
@@ -71,6 +73,8 @@ for GitHub's Markdown flavor. Do not remove!
 | `LEN` | function | Returns the length of a string | C64 |
 | `LET` | command | Explicitly declares a variable | C64 |
 | [`LINE`](#line) | command | Draws a line in graphics mode | X16 |
+| [`LINPUT`](#linput) | command | Reads a line from the keyboard | X16 |
+| [`LINPUT#`](#linput-1) | command | Reads a line or other delimited data from an open file | X16 |
 | `LIST` | command | Outputs the program listing to the screen | C64 |
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
@@ -114,6 +118,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
+| [`RPT$`](#rpt) | function | Returns a string of repeated characters | X16 |
 | `RUN` | command | Clears the variable state and starts a BASIC program | C64 |
 | `SAVE` | command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
@@ -187,7 +192,7 @@ There are two ways to check the error channel from inside a program:
 40 CLOSE 15
 ```
 
-Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md) for more details on CMDR-DOS and the command channel.
+Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md#chapter-11-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
@@ -244,6 +249,24 @@ Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
 Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
+
+
+### BINPUT&#35;
+
+**TYPE: Command**  
+**FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var\$&gt;,&lt;len&gt;**
+
+**Action:** `BINPUT#` Reads a block of data from an open file and stores the data into a string variable. If there are fewer than `<len>` bytes available to be read from the file, fewer bytes will be stored.  If the end of the file is reached, `ST AND 64` will be true.
+
+**EXAMPLE of BINPUT&#35; Statement:**
+
+```BASIC
+10 OPEN 8,8,8,"FILE.BIN,S,R"
+20 BINPUT#8,A$,10
+30 PRINT "I GOT";LEN(A$);"BYTES"
+40 IF ST<>0 THEN 20
+50 CLOSE 8
+```
 
 ### BOOT
 
@@ -594,6 +617,13 @@ PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
 PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 ```
 
+### HELP
+
+**TYPE: Command**  
+**FORMAT: HELP**
+
+**Action:** The `HELP` command displays a brief summary of the ROM build, and points users to this guide at its home on GitHub, and to the community forums website.
+
 ### I2CPEEK
 
 **TYPE: Integer Function**  
@@ -708,6 +738,56 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 40 NEXT
 ```
 
+### LINPUT
+
+**TYPE: Command**  
+**FORMAT: LINPUT &lt;var\$&gt;
+
+**Action:** `LINPUT` Reads a line of data from the keyboard and stores the data into a string variable. Unlike `INPUT`, no parsing or cooking of the input is done, and therefore quotes, commas, and colons are stored in the string as typed. No prompt is displayed, either.
+
+The input is taken from the KERNAL editor, hence the user will have the freedom of all of the features of the editor such as cursor movement, mode switching, and color changing.
+
+Due to how the editor works, an empty line will return `" "`&ndash; a string with a single space, and trailing spaces are not preserved.
+
+**EXAMPLE of LINPUT Statement:**
+
+```BASIC
+10 LINPUT A$
+20 IF A$=" " THEN 50
+30 PRINT "YOU TYPED: ";A$
+40 END
+50 PRINT "YOU TYPED AN EMPTY STRING: ";A$
+```
+
+
+### LINPUT&#35;
+
+**TYPE: Command**  
+**FORMAT: LINPUT&#35; &lt;n&gt;,&lt;var\$&gt;\[,&lt;delimiter&gt;\]**
+
+**Action:** `LINPUT#` Reads a line of data from an open file and stores the data into a string variable. The delimiter of a line by default is 13 (carriage return). The delimiter is not part of the stored value. If the end of the file is reached while reading, `ST AND 64` will be true.
+
+`LINPUT#` can be used to read structured data from files. It can be particularly useful to extract quoted or null-terminated strings from files while reading.
+
+**EXAMPLE of LINPUT&#35; Statement:**
+
+```BASIC
+10 I=0
+20 OPEN 1,8,0,"$"
+30 LINPUT#1,A$,$22
+40 IF ST<>0 THEN 130
+50 LINPUT#1,A$,$22
+60 IF I=0 THEN 90
+70 PRINT "ENTRY: ";
+80 GOTO 100
+90 PRINT "LABEL: ";
+100 PRINT CHR$($22);A$;CHR$($22)
+110 I=I+1
+120 IF ST=0 THEN 30
+130 CLOSE 1
+```
+The above example parses and prints out the filenames from a directory listing.
+
 ### LOCATE
 
 **TYPE: Command**  
@@ -748,7 +828,7 @@ MENU
 **TYPE: Command**  
 **FORMAT: MON (Alternative: MONITOR)**
 
-**Action:** This command enters the machine language monitor. See the dedicated chapter for a  description.
+**Action:** This command enters the machine language monitor. See the [dedicated chapter](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor) for a  description.
 
 **EXAMPLE of MON Statement:**
 
@@ -1058,6 +1138,17 @@ Optional arguments:
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
+**KNOWN BUG**:
+In release R43, due to improper parsing of escape tokens, REN will improperly treat arguments to these statements as line numbers:
+
+* `FRAME`
+* `RECT`
+* `MOUSE`
+* `COLOR`
+* `PSGWAV`
+
+This behavior has been fixed in development versions since R43 and will be fixed in R44.
+
 **EXAMPLE of REN Statement:**
 
 ```BASIC
@@ -1120,6 +1211,28 @@ RESET
 
 This program will output the number 1 followed by the number 4.
 
+### RPT\$
+
+**TYPE: Function**  
+**FORMAT: RPT\$(&lt;byte&gt;,&lt;count&gt;)**
+
+**Action:** Returns a string of &lt;count&gt; instances of the PETSCII character represented by the numeric value &lt;byte&gt;.  This function is similar in behavior to `CHR$()` but takes a second argument as a repeat count.
+
+`RPT$(A,1)` is functionally equivalent to `CHR$(A)`.
+
+**EXAMPLE of RPT\$ function:**
+
+```BASIC
+10 REM TEN EXCLAMATION MARKS
+20 PRINT RPT$(33,10)
+READY.
+RUN
+!!!!!!!!!!
+
+READY.
+```
+
+
 ### SCREEN
 
 **TYPE: Command**  
@@ -1127,7 +1240,7 @@ This program will output the number 1 followed by the number 4.
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md). The value of -1 toggles between modes \$00 and \$03.
+For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes \$00 and \$03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1307,3 +1420,6 @@ When BASIC starts, it automatically executes the `BOOT` command, which tries to 
 * An SD card with a game can auto-boot this way.
 * An SD card with a collection of applications can show a menu that allows selecting an application to load.
 * The user's "work" SD card can contain a small auto-boot BASIC program that sets the keyboard layout and changes the screen colors, for example.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

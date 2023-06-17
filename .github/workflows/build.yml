@@ -10,31 +10,42 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential make fonts-noto fonts-dejavu texlive-full
-      - name: Install pandoc 3.1.2
+        run: sudo apt-get update && sudo apt-get install -y build-essential make fonts-dejavu
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install md-to-pdf (npm)
         run: |
-          wget https://github.com/jgm/pandoc/releases/download/3.1.2/pandoc-3.1.2-1-amd64.deb
-          sudo apt install ./pandoc-3.1.2-1-amd64.deb
+          npm i md-to-pdf
       - name: Create output directory
         run: |
           mkdir artifacts
-      - name: Create PRG PDF
+      - name: Create Programmer's Reference Guide PDF
         run: |
-          pandoc Comm*.md X16*0[1-9]*.md X16*[1-9][0-9]*.md X16*Appendix*.md \
-            -f gfm \
-            --file-scope \
-            --template=.gh/template.tex \
-            --from=markdown-markdown_in_html_blocks+grid_tables \
-            --lua-filter=.gh/parse-html.lua \
-            -V linkcolor:blue \
-            -V geometry:letterpaper \
-            -V geometry:landscape \
-            -V geometry:margin=2cm \
-            -V fontsize=8pt \
-            -V mainfont="Noto Serif" \
-            -V monofont="Noto Sans Mono" \
-            --pdf-engine=lualatex \
-            -o artifacts/Programmers_Reference_Guide.pdf
+          export PATH=$(pwd)/node_modules/.bin:$PATH
+          cat .gh/header_footer.md \
+          "Commander X16 Programmer's Reference Guide.md" \
+          "X16 Reference - 01 - Overview.md" \
+          "X16 Reference - 02 - Editor.md" \
+          "X16 Reference - 03 - BASIC.md" \
+          "X16 Reference - 04 - KERNAL.md" \
+          "X16 Reference - 05 - Math Library.md" \
+          "X16 Reference - 06 - Machine Language Monitor.md" \
+          "X16 Reference - 07 - Memory Map.md" \
+          "X16 Reference - 08 - Video Programming.md" \
+          "X16 Reference - 09 - Sound Programming.md" \
+          "X16 Reference - 10 - IO Programming.md" \
+          "X16 Reference - 11 - Working with CMDR-DOS.md" \
+          "X16 Reference - 12 - Hardware.md" \
+          "X16 Reference - 13 - Upgrade Guide.md" \
+          "X16 Reference - Appendix A - Sound.md" \
+          | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
+      - name: Create VERA Programmer's Reference PDF
+        run: |
+          export PATH=$(pwd)/node_modules/.bin:$PATH
+          cat .gh/header_footer.md \
+          "VERA Programmer's Reference.md" \
+          | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/VERA Programmer's Reference.pdf"
       - uses: actions/upload-artifact@v3
         with:
           name: x16-docs-pdf
