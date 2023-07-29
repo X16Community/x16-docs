@@ -172,13 +172,13 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 	<tr>
 		<td>$9F2C</td>
 		<td>FX_MULT (DCSEL=2) (Write only)</td>
-		<td align="center">Reset Accumulator</td>
+		<td align="center">Reset Accum.</td>
 		<td align="center">Accumulate</td>
 		<td align="center">Subtract Enable</td>
 		<td align="center">Multiplier Enable</td>
 		<td colspan="2" align="center">Cache Byte Index</td>
 		<td align="center">Cache Nibble Index</td>
-		<td align="center">Two-byte Cache Increment Mode</td>
+		<td align="center">Two-byte Cache Incr. Mode</td>
 	</tr>
 	<tr>
 		<td>$9F29</td>
