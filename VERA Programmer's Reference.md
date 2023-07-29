@@ -199,7 +199,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 	<tr>
 		<td>$9F2C</td>
 		<td>FX_Y_INCR_H (DCSEL=3) (Write only)</td>
-		<td align="center">Y Incr. 32x</td>
+		<td align="center">Y/X2 Incr. 32x</td>
 		<td colspan="7" align="center">Y/X2 Increment (5:-1) (signed)</td>
 	</tr>
 	<tr>
@@ -222,7 +222,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 	<tr>
 		<td>$9F2C</td>
 		<td>FX_Y_POS_H (DCSEL=4) (Write only)</td>
-		<td align="center">Y Pos. (-9)</td>
+		<td align="center">Y/X2 Pos. (-9)</td>
 		<td colspan="4" align="center">-</td>
 		<td colspan="3" align="center">Y/X2 Position (10:8)</td>
 	</tr>
