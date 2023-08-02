@@ -86,16 +86,92 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 | Address | Symbol   | Description                               |
 |---------|----------|-------------------------------------------|
-| $FE6F   | `FADDH`  | FAC += .5                                 |
-| $FE72   | `ZEROFC` | FAC = 0                                   |
-| $FE75   | `NORMAL` | Normalize FAC                             |
-| $FE78   | `NEGFAC` | FAC = -FAC   (just use NEGOP)             |
-| $FE7B   | `MUL10`  | FAC *= 10                                 |
-| $FE7E   | `DIV10`  | FAC /= 10                                 |
-| $FE84   | `SGN`    | FAC = sgn(FAC)                            |
-| $FE90   | `FINLOG` | FAC += (s8).A   add signed byte to float  |
+| $FE6F   | `FADDH`  | FACC += .5                                |
+| $FE72   | `ZEROFC` | FACC = 0                                  |
+| $FE75   | `NORMAL` | Normalize FACC                            |
+| $FE78   | `NEGFAC` | FACC = -FACC   (just use NEGOP)           |
+| $FE7B   | `MUL10`  | FACC *= 10                                |
+| $FE7E   | `DIV10`  | FACC /= 10                                |
+| $FE84   | `SGN`    | FACC = sgn(FACC)                          |
+| $FE90   | `FINLOG` | FACC += (s8).A   add signed byte to float |
 | $FE96   | `POLYX`  | Polynomial Evaluation 1 (SIN/COS/ATN/LOG) |
 | $FE99   | `POLY`   | Polynomial Evaluation 2 (EXP)             |
+
+
+## How to use the routines
+
+**Concepts:**
+
+* **FACC** (sometimes abbreviated to FAC): the floating point accumulator. You can compare this to the 6502 CPU's .A register,
+  which is the accumulator for most integer operations performed by the CPU. 
+  FACC is the primary floating point register. Calculations are done on the value in this register,
+  usually combined with ARG. After the operation, usually the original value in FACC has been replaced by the result of the calculation.
+* **ARG**: the second floating point register, used in most calculation functions. Often the value in this register will be lost after a calculation.
+* **MEM**: means a floating point value stored in system memory somewhere.  The format is [40 bits (5 bytes) Microsoft binary format](https://en.wikipedia.org/wiki/Microsoft_Binary_Format).
+  To be able to work with given values in calculations, they need to be stored in memory somewhere in this format. 
+  To do this you'll likely need to use a separate program to pre-convert floating point numbers to this format, unless you are using a compiler that
+  directly supports it.
+
+*Note that FACC and ARG are just a bunch of zero page locations. This means you can poke around in them. 
+But that's not good practice because their locations aren't guaranteed/public, and the format is slightly different
+than how the 5-byte floats are normally stored into memory. Just use one of the Movement routines to 
+copy values into or out of FACC and ARG.*
+
+To perform a floating point calculation, follow the following pattern:
+
+1. load a value into FACC. You can convert an integer, or move a MEM float number into FACC.
+1. do the same but for ARG, the second floating point register.
+1. call the required floating point calculation routine that will perform a calculation on FACC with ARG.
+1. repeat the previous 2 steps if required.
+1. the result is in FACC, move it into MEM somewhere or convert it to another type or string.
+
+An example program that calculates and prints the distance an object has fallen over a certain period:
+```6502 assembly
+; calculate how far an object has fallen:  d = 1/2 * g * t^2.
+; we set g = 9.81 m/sec^2, time = 5 sec -> d = 122.625 m.
+
+CHROUT = $ffd2
+FOUT   = $fe06
+FMULTT = $fe21
+FDIV   = $fe24
+CONUPK = $fe5a
+MOVFM  = $fe63
+
+    lda  #4
+    sta  $01         ; rom bank 4 (BASIC) contains the fp routines.
+    lda  #<flt_two
+    ldy  #>flt_two
+    jsr  MOVFM
+    lda  #<flt_g
+    ldy  #>flt_g
+    jsr  FDIV        ; FACC= g/2
+    lda  #<flt_time
+    ldy  #>flt_time
+    jsr  CONUPK      ; ARG = time
+    jsr  FMULTT      ; FACC = g/2 * time
+    lda  #<flt_time
+    ldy  #>flt_time
+    jsr  CONUPK      ; again ARG = time
+    jsr  FMULTT      ; FACC = g/2 * time * time
+    jsr  FOUT        ; to string
+    ; print string in AY
+    sta  $02
+    sty  $03
+    ldy  #0
+loop:
+    lda  ($02),y
+    beq  done
+    jsr  CHROUT
+    iny
+    bne  loop
+done:
+    rts
+
+flt_g:      .byte  $84, $1c, $f5, $c2, $8f  ; float 9.81
+flt_time:   .byte  $83, $20, $00, $00, $00  ; float 5.0
+flt_two:    .byte  $82, $00, $00, $00, $00  ; float 2.0
+```
+
 
 
 ## Notes
