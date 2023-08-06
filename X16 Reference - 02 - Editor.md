@@ -99,7 +99,7 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 |-------|----------------------------|---------------------------|-------|
 | \$00  | NULL                       | **VERBATIM MODE**         | \$80  |
 | \$01  | **SWAP COLORS**            | COLOR: ORANGE             | \$81  |
-| \$02  | PAGE DOWN                  | PAGE UP                   | \$82  |
+| \$02  | **PAGE DOWN**              | **PAGE UP**               | \$82  |
 | \$03  | STOP                       | RUN                       | \$83  |
 | \$04  | **END**                    | **HELP**                  | \$84  |
 | \$05  | COLOR: WHITE               | F1                        | \$85  |
