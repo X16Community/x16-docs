@@ -95,6 +95,8 @@ The C64 editor could only scroll the screen up (when overflowing the last line o
 
 This is the set of all supported PETSCII control characters. Entries in bold indicate new codes compared to the C64:
 
+If there are two meanings listed, the first indicates input (a keypress) and the second indicates output.
+
 | Code  |                            |                           | Code  |
 |-------|----------------------------|---------------------------|-------|
 | \$00  | NULL                       | **VERBATIM MODE**         | \$80  |
@@ -105,8 +107,8 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 | \$05  | COLOR: WHITE               | F1                        | \$85  |
 | \$06  | **MENU**                   | F3                        | \$86  |
 | \$07  | **BELL**                   | F5                        | \$87  |
-| \$08  | **BACKSPACE**              | F7                        | \$88  |
-| \$09  | **TAB**                    | F2                        | \$89  |
+| \$08  | DISALLOW CHARSET SW (SHIFT+ALT) | F7                        | \$88  |
+| \$09  | **TAB** / ALLOW CHARSET SW | F2                        | \$89  |
 | \$0A  | **LF**                     | F4                        | \$8A  |
 | \$0B  | -                          | F6                        | \$8B  |
 | \$0C  | -                          | F8                        | \$8C  |
@@ -117,12 +119,12 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 | \$11  | CURSOR: DOWN               | CURSOR: UP                | \$91  |
 | \$12  | REVERSE ON                 | REVERSE OFF               | \$92  |
 | \$13  | HOME                       | CLEAR                     | \$93  |
-| \$14  | DEL                        | INSERT                    | \$94  |
+| \$14  | DEL (PS/2 BACKSPACE)       | INSERT                    | \$94  |
 | \$15  | **F10**                    | COLOR: BROWN              | \$95  |
 | \$16  | **F11**                    | COLOR: LIGHT RED          | \$96  |
 | \$17  | **F12**                    | COLOR: DARK GRAY          | \$97  |
 | \$18  | **SHIFT+TAB**              | COLOR: MIDDLE GRAY        | \$98  |
-| \$19  | **FWD DEL**                | COLOR: LIGHT GREEN        | \$99  |
+| \$19  | **FWD DEL (PS/2 DEL)**     | COLOR: LIGHT GREEN        | \$99  |
 | \$1A  | -                          | COLOR: LIGHT BLUE         | \$9A  |
 | \$1B  | ESC                        | COLOR: LIGHT GRAY         | \$9B  |
 | \$1C  | COLOR: RED                 | COLOR: PURPLE             | \$9C  |
@@ -133,7 +135,7 @@ This is the set of all supported PETSCII control characters. Entries in bold ind
 **Notes:**
 
 * \$01: SWAP COLORS swaps the foreground and background colors in text mode
-* \$07/\$08/\$09/\$0A/\$18/\$1B: have been added for ASCII compatibility *[\$08/\$09/\$0A/\$18 are NYI]*
+* \$07/\$09/\$0A/\$18/\$1B: have been added for ASCII compatibility. *[\$0A/\$18/\$1B do not have any effect on output. Outputs of \$08/\$09 have their traditional C64 effect]*
 * \$80: VERBATIM MODE prints the next character (only!) as a glyph without interpretation. This is similar to quote mode, but also includes codes CR ($0D) and DEL (\$14).
 * F9-F12: these codes match the C65 additions
 * \$84: This code is generated when pressing SHIFT+END.
