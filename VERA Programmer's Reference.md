@@ -48,9 +48,10 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td>$9F22</td>
 		<td>ADDRx_H (x=ADDRSEL)</td>
 		<td colspan="4" align="center">Address Increment</td>
-		<td colspan="1" align="center">DECR</td>
-		<td colspan="2" align="center">-</td>
-		<td colspan="1" align="center">VRAM Address (16)</td>
+		<td align="center">DECR</td>
+		<td align="center">Nibble Increment</td>
+		<td align="center">Nibble Address</td>
+		<td align="center">VRAM Address (16)</td>
 	</tr>
 	<tr>
 		<td>$9F23</td>
@@ -261,6 +262,12 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td align="center">X Pos. (2)</td>
 		<td colspan="3" align="center">Fill Len (2:0)</td>
 		<td align="center">X Pos. (-1)</td>
+	</tr>
+	<tr>
+		<td>$9F2C</td>
+		<td>FX_POLY_FILL_H<br>(DCSEL=5)<br>(Read only)</td>
+		<td colspan="7" align="center">Fill Len (9:3)</td>
+		<td align="center">0</td>
 	</tr>
 	<tr>
 		<td>$9F29</td>
@@ -817,11 +824,11 @@ At the start of the vertical blank **Collisions** in **ISR** is updated. This fi
 
 The FX feature set is available in VERA firmware version v0.3.1 or later. The Commander X16 emulators also have this feature officially as of R44.
 
-FX is a set of mainly addressing mode changes. VERA FX does not accelerate rendering, but it merely assists the CPU with some of the slower tasks, and when used cleverly, can allow for the programmer to perform some limited perspective or basic 3D effects.
+FX is a set of mainly addressing mode changes. VERA FX does not accelerate rendering, but it merely assists the CPU with some of the slower tasks, and when used cleverly, can allow for the programmer to perform some limited perspective transforms or basic 3D effects.
 
-FX features are controlled mainly by registers \$9F29-\$9F2C with DCSEL set to 2 through 6.  FX_CTRL (\$9F29 w/ DCSEL=2) is the master switch for enabling or disabling FX behaviors.  When writing an application that uses FX, it is important that the FX mode be preserved and disabled in interrupt handlers in cases where the user accesses VERA registers or VRAM, including the PSG sound registers. Reading from FX_CTRL returns the current state, and writing 0 to FX_CTRL suspends the FX behaviors so that the VERA can be accessed normally without mutating other FX state.
+FX features are controlled mainly by registers \$9F29-\$9F2C with DCSEL set to 2 through 6.  FX_CTRL (\$9F29 w/ DCSEL=2) is the master switch for enabling or disabling FX behaviors.  When writing an application that uses FX, it is important that the FX mode be preserved and disabled in interrupt handlers in cases where the handler accesses VERA registers or VRAM, including the PSG sound registers. Reading from FX_CTRL returns the current state, and writing 0 to FX_CTRL suspends the FX behaviors so that the VERA can be accessed normally without mutating other FX state.
 
-Preliminary documentation for the feature can be found [here](https://docs.google.com/document/d/1q34uWOiM3Be2pnaHRVgSdHySI-qsiQWPTo_gfE54PTg), but as this is a brand new feature, examples and documentation still need to be written.
+Preliminary documentation for the feature can be found [here](VERA%20FX%20Reference.md#vera-fx-reference), but as this is a brand new feature, examples and documentation still need to be written.
 
 ## Programmable Sound Generator (PSG)
 
@@ -941,3 +948,6 @@ Depending on the selected mode the data needs to be written to the FIFO in the f
 | 8-bit stereo  | &lt;left sample&gt; &lt;right sample&gt;                                                            |
 | 16-bit mono   | &lt;mono sample (7:0)&gt; &lt;mono sample (15:8)&gt;                                                |
 | 16-bit stereo | &lt;left sample (7:0)&gt; &lt;left sample (15:8)&gt; &lt;right sample (7:0)&gt; &lt;right sample (15:8)&gt; |
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

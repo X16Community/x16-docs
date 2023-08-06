@@ -45,6 +45,7 @@ jobs:
           export PATH=$(pwd)/node_modules/.bin:$PATH
           cat .gh/header_footer.md \
           "VERA Programmer's Reference.md" \
+          "VERA FX Reference.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/VERA Programmer's Reference.pdf"
       - uses: actions/upload-artifact@v3
         with:
