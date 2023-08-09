@@ -400,6 +400,82 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 190 REM *** IS LEFT AS AN EXERCISE TO THE READER
 ```
 
+### Custom BASIN PETSCII code override handler
+
+**Note**: This is a new feature in R44
+
+Some use cases of the BASIN (CHRIN) API call may benefit from being able to modify its behavior, such as intercepting or redirecting certain PETSCII codes.  The Machine Language Monitor uses this mechanism to implement custom behavior for F-keys and for loading additional disassembly or memory display when scrolling the screen.
+
+To set up a custom handler, one must configure it before each call to BASIN.
+
+The key handler vector is in RAM bank 0 at addresses \$ac03-\$ac05.  The first two bytes are the call address, and the next byte is the RAM or ROM bank.  If your callback routine is in low ram, specifying the bank in \$ac05 is not necessary.
+
+The editor will call your callback for every keystroke received and pass the PETSCII code in the A register with carry set.  If your handler does not want to override, simply return with carry set.
+
+If you do wish to override, return with carry clear.  The editor will then unblink the cursor and call your callback a second time with carry clear *for the same PETSCII code*.  This is your opportunity to override. Before returning, you are free to update the screen or perform other KERNAL API calls (with the exception of BASIN). At the end of your routine, set `A` to the PETSCII code you wish the editor to process. If you wish to suppress the input keystroke, set `A` to `0`.
+
+```x86asm
+ram_bank = $00
+edkeyvec = $ac03
+edkeybk  = $ac05
+
+.segment "ONCE"
+    jmp start
+.segment "CODE"
+
+keyhandler:
+    bcs @check
+    cmp #'T'
+    bne :+
+    lda #'W'
+    rts
+:   lda #'T'
+    rts
+@check:
+    cmp #'T'
+    beq @will_override
+    cmp #'W'
+    beq @will_override
+    sec
+    rts
+@will_override:
+    clc
+    rts
+
+enable_basin_callback:
+    lda ram_bank
+    pha
+    stz ram_bank ; RAM bank 0 contains the handler vector
+    php
+    sei
+    lda #<keyhandler
+    sta edkeyvec
+    lda #>keyhandler
+    sta edkeyvec+1
+    ; setting the bank is optional and unnecessary
+    ; if the handler is in low RAM.
+    ; lda #0
+    ; sta edkeybk
+    plp
+    pla
+    sta ram_bank
+    rts
+
+start:
+    jsr enable_basin_callback
+    ; T and W are swapped
+@1: jsr BASIN
+    cmp #13
+    bne @1
+    ; normal BASIN
+@2: jsr BASIN
+    cmp #13
+    bne @2
+
+    rts
+
+```
+
 ### Custom Keyboard Keynum Code Handler
 
 **Note**: This is new behavior for R43, differing from previous releases.
