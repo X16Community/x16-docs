@@ -150,7 +150,7 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td>$9F29</td>
 		<td>FX_CTRL<br>(DCSEL=2)</td>
 		<td align="center">Transp. Writes</td>
-		<td align="center">Blit Write Enable</td>
+		<td align="center">Cache Write Enable</td>
 		<td align="center">Cache Fill Enable</td>
 		<td align="center">One-byte Cache Cycling</td>
 		<td align="center">16-bit Hop</td>
