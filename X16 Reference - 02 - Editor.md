@@ -536,7 +536,7 @@ exit:
 
 ### Function Key Shortcuts
 
-The following Function key macros are pre-defined for your convenience. These shortcuts only work in immediate mode. When a program is running, the F-keys generate the corresponding PETSCII character code.
+The following Function key macros are pre-defined for your convenience. These shortcuts only work in the screen editor. When a program is running, the F-keys generate the corresponding PETSCII character code.
 
 | Key | Function   | Comment
 |-----|------------|-----------
