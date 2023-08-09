@@ -414,7 +414,7 @@ The editor will call your callback for every keystroke received and pass the PET
 
 If you do wish to override, return with carry clear.  The editor will then unblink the cursor and call your callback a second time with carry clear *for the same PETSCII code*.  This is your opportunity to override. Before returning, you are free to update the screen or perform other KERNAL API calls (with the exception of BASIN). At the end of your routine, set `A` to the PETSCII code you wish the editor to process. If you wish to suppress the input keystroke, set `A` to `0`.
 
-```x86asm
+```ASM
 ram_bank = $00
 edkeyvec = $ac03
 edkeybk  = $ac05
