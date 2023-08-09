@@ -419,22 +419,26 @@ ram_bank = $00
 edkeyvec = $ac03
 edkeybk  = $ac05
 
+BASIN    = $ffcf
+BSOUT    = $ffd2
+
 .segment "ONCE"
+.segment "STARTUP"
     jmp start
 .segment "CODE"
 
 keyhandler:
     bcs @check
-    cmp #'T'
+    cmp #$54 ; 'T'
     bne :+
-    lda #'W'
+    lda #$57 ; 'W'
     rts
-:   lda #'T'
+:   lda #$54 ; 'T'
     rts
 @check:
-    cmp #'T'
+    cmp #$54 ; 'T'
     beq @will_override
-    cmp #'W'
+    cmp #$57 ; 'W'
     beq @will_override
     sec
     rts
@@ -467,6 +471,7 @@ start:
 @1: jsr BASIN
     cmp #13
     bne @1
+    jsr BSOUT
     ; normal BASIN
 @2: jsr BASIN
     cmp #13
