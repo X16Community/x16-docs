@@ -406,13 +406,16 @@ This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or 
 		<td colspan="8" align="center">V-Scroll (11:8)</td>
 	</tr>
 	<tr>
-		<td>$9F3B</td>
-		<td>AUDIO_CTRL</td>
+		<td rowspan="2">$9F3B</td>
+		<td rowspan="2">AUDIO_CTRL</td>
 		<td colspan="1" align="center">FIFO Full / FIFO Reset</td>
-		<td colspan="1" align="center">FIFO_Empty<br />(read-only)</td>
-		<td colspan="1" align="center">16-Bit</td>
-		<td colspan="1" align="center">Stereo</td>
-		<td colspan="4" align="center">PCM Volume</td>
+		<td colspan="1" align="center">FIFO Empty<br />(read-only)</td>
+		<td colspan="1" rowspan="2" align="center">16-Bit</td>
+		<td colspan="1" rowspan="2" align="center">Stereo</td>
+		<td colspan="4" rowspan="2" align="center">PCM Volume</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">FIFO Loop (write-only)</td>
 	</tr>
 	<tr>
 		<td>$9F3C</td>
@@ -886,10 +889,7 @@ The **Left** and **Right** bits control to which output channels the sound shoul
 **Waveform** controls the waveform of the sound:
 
 | Waveform | Description |
-| -------: | ----------- |
-| 0        | Pulse       |
-| 1        | Sawtooth    |
-| 2        | Triangle    |
+| -------: | ----------- |bitstream
 | 3        | Noise       |
 
 **Pulse width** controls the duty cycle of the pulse waveform. A value of 63 will give a 50% duty cycle or square wave, 0 will give a very narrow pulse.
@@ -906,7 +906,9 @@ For PCM playback, VERA contains a 4kB FIFO buffer. This buffer needs to be fille
 #### `AUDIO_CTRL ($9F3B)` ####
 
 **FIFO Full** (bit 7) is a read-only flag that indicates whether the FIFO is full. Any writes to the FIFO while this flag is 1 will be ignored. Writing a 1 to this register
-(**FIFO Reset**) will perform a FIFO reset, which will clear the contents of the FIFO buffer.
+(**FIFO Reset**) will perform a FIFO reset, which will clear the contents of the FIFO buffer, except when written in combination with a 1 in bit 6.
+
+**FIFO Loop** (bit 6+7): If a 1 is written to both bit 6 and 7 (at the same time), the FIFO will loop when played. Any other write to AUDIO_CTRL clears this loop flag.  Note: this feature is currently only available in x16-emulator and is not in any released VERA firmware.
 
 **FIFO Empty** (bit 6) is a read-only flag that indicates whether the FIFO is empty.
 
