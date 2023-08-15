@@ -889,7 +889,10 @@ The **Left** and **Right** bits control to which output channels the sound shoul
 **Waveform** controls the waveform of the sound:
 
 | Waveform | Description |
-| -------: | ----------- |bitstream
+| -------: | ----------- |
+| 0        | Pulse       |
+| 1        | Sawtooth    |
+| 2        | Triangle    |
 | 3        | Noise       |
 
 **Pulse width** controls the duty cycle of the pulse waveform. A value of 63 will give a 50% duty cycle or square wave, 0 will give a very narrow pulse.
