@@ -576,7 +576,7 @@ Communication registers: .X
 Preparatory routines: `mouse_config`  
 Error returns: None  
 Stack requirements: 0  
-Registers affected: .A
+Registers affected: .A, .X
 
 **Description:** The routine `mouse_get` returns the state of the mouse. The caller passes the offset of a zero-page location in .X, which the routine will populate with the mouse position in 4 consecutive bytes:
 
@@ -587,13 +587,19 @@ Registers affected: .A
 
 The state of the mouse buttons is returned in the .A register:
 
-| Bit | Description   |
-|-----|---------------|
-| 0   | Left Button   |
-| 1   | Right Button  |
-| 2   | Middle Button |
+| Bit | Description    |
+|-----|----------------|
+| 0   | Left Button    |
+| 1   | Right Button   |
+| 2   | Middle Button  |
+| 3   | Unused         |
+| 4   | Button 4       |
+| 5   | Button 5       |
 
-If a button is pressed, the corresponding bit is set.
+If a button is pressed, the corresponding bit is set. Buttons 4 and 5 are extended buttons not supported by all mice.
+
+If available, the movement of the scroll wheel since the last call to this function is returned in the .X register as an 8-bit signed value. Moving the scroll wheel away from the user is represented
+by a negative value, and moving it towards the user is represented by a positive value. If the connected mouse has no scroll wheel, the value 0 is returned in the .X register.
 
 **EXAMPLE:**
 ```ASM
