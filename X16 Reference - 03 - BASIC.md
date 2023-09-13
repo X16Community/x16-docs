@@ -84,6 +84,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`MON`](#mon) | command | Enters the machine language monitor | X16 |
 | [`MOUSE`](#mouse) | command | Hides or shows mouse pointer | X16 |
 | [`MX/MY/MB`](#mxmymb) | variable | Reads the mouse position and button state | X16 |
+| [`MWHEEL`](#mwheel) | variable | Reads the mouse wheel movement | X16 |
 | `NEW` | command | Resets the state of BASIC and clears program memory | C64 |
 | `NEXT` | command | Declares the end of a loop construct | C64 |
 | `NOT` | operator | Bitwise or boolean inverse | C64 |
@@ -893,6 +894,14 @@ REM SIMPLE DRAWING PROGRAM
 60 OX=TX:OY=TY:OB=TB
 70 GOTO30
 ```
+
+### MWHEEL
+
+**TYPE: System variable**  
+**FORMAT: MWHEEL** 
+
+**Action:** Return the mouse scroll wheel movement since the value was last read. The value is negative if the scroll wheel is
+moved away from the user, and positive if it is moved towards the user. The range of the returned value is -128 to +127.
 
 ### OLD
 
