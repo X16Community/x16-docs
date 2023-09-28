@@ -52,7 +52,7 @@ For the audio chips, some of the documentation uses the words *channel* and *voi
 | `notecon_freq2midi` | `$C033` | Conversion | Convert a frequency in Hz to a MIDI note and a fractional semitone | .X .Y = 16-bit frequency in Hz | .X = MIDI note <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
 | `notecon_freq2psg` | `$C036` | Conversion | Convert a frequency in Hz to a VERA PSG frequency | .X .Y = 16-bit frequency in Hz | .X .Y = 16-bit frequency in VERA PSG format <br/> .C clear = success <br/> .C set = error | none |
 | `notecon_midi2bas` | `$C039` | Conversion | Convert a MIDI note to a note in BASIC format | .X = MIDI note | .X = note (BASIC format) <br/> .C clear = success <br/> .C set = error | .Y |
-| `notecon_midi2fm` | `$C03C` | Conversion | Convert a MIDI note to a YM2151 KC | .X = MIDI note | .X = YM2151 KC <br/> .C clear = success <br/> .C set = error | .Y |
+| `notecon_midi2fm` | `$C03C` | Conversion | Convert a MIDI note to a YM2151 KC. Fractional semitone is unneeded as it is identical to KF already. | .X = MIDI note. | .X = YM2151 KC <br/> .C clear = success <br/> .C set = error | .Y |
 | `notecon_midi2psg` | `$C03F` | Conversion | Convert a MIDI note and fractional semitone to a PSG frequency | .X = MIDI note <br/> .Y = fractional semitone | .X .Y = 16-bit frequency in VERA PSG format <br/> .C clear = success <br/> .C set = error | none |
 | `notecon_psg2bas` | `$C042` | Conversion | Convert a frequency in VERA PSG format to a note in BASIC format and a fractional semitone | .X .Y = 16-bit frequency in VERA PSG format | .X = note (BASIC format) <br/> .Y = fractional semitone <br/> .C clear = success <br/> .C set = error | none |
 | `notecon_psg2fm` | `$C045` | Conversion | Convert a frequency in VERA PSG format to YM2151 KC and a fractional semitone (YM2151 KF) | .X .Y = 16-bit frequency in VERA PSG format | .X = YM2151 KC <br/> .Y = fractional semitone (YM2151 KF) <br/> .C clear = success <br/> .C set = error | none |
@@ -84,6 +84,26 @@ For the audio chips, some of the documentation uses the words *channel* and *voi
 | `ym_release` | `$C084` | YM2151 | Release a note on a channel. If a note is not playing, this routine has no tangible effect | .A = channel | .C clear = success <br/> .C set = error | none |
 | `ym_trigger` | `$C087` | YM2151 | Trigger the currently configured note on a channel, optionally releasing the channel first depending on the state of the carry flag. | .A = channel <br/>.C clear = release first<br/> .C set = no release | .C clear = success <br/> .C set = error | none |
 | `ym_write` | `$C08A` | YM2151 | Write a value to one of the YM2151 registers and to the in-RAM shadow copy. If the selected register is a TL register, attenuation will be applied before the value is written. Writes which affect which operators are carriers will have TL values for that channel appropriately recalculated and rewritten | .A = value <br/>.X = YM register address | .C clear = success <br/> .C set = error | .A .X |
+
+## A note on semitones (get it?)
+
+It may be advantageous to consider storing note data internally as the MIDI
+representation with a fractional component if you want things like pitch slides
+to behave the same way between the PSG and YM2151.
+
+Essentially, it can be thought of as an 8.8 fixed point 16-bit number.
+
+The YM2151 handles semitones differently than the PSG and requires converting
+the MIDI note to the appropriate KC value using `notecon_midi2fm`. KF is the
+fractional semitone (albeit with only the top 6-bits used) 
+and requires no conversion.
+
+The PSG, by contrast, operates with linear pitch which is why 
+`notecon_midi2psg` also takes the fractional component (y) as input.
+
+Thus, if you manage all your pitch slides using MIDI notes along with a fractional
+component, you can then convert this directly over to PSG or YM2151 as required
+and end up with the same pitch (or close enough to it).
 
 ## Direct communication with the YM2151 and VERA PSG vs API
 
