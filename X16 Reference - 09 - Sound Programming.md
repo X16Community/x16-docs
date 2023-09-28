@@ -95,11 +95,11 @@ Essentially, it can be thought of as an 8.8 fixed point 16-bit number.
 
 The YM2151 handles semitones differently than the PSG and requires converting
 the MIDI note to the appropriate KC value using `notecon_midi2fm`. KF is the
-fractional semitone, albeit with only the top 6-bits used. 
+fractional semitone (albeit with only the top 6-bits used) 
+and requires no conversion.
 
 The PSG, by contrast, operates with linear pitch which is why 
-`notecon_midi2psg` also takes the fractional component, y, 
-as input.
+`notecon_midi2psg` also takes the fractional component (y) as input.
 
 Thus, if you manage all your pitch slides using MIDI notes along with a fractional
 component, you can then convert this directly over to PSG or YM2151 as required
