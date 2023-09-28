@@ -85,6 +85,26 @@ For the audio chips, some of the documentation uses the words *channel* and *voi
 | `ym_trigger` | `$C087` | YM2151 | Trigger the currently configured note on a channel, optionally releasing the channel first depending on the state of the carry flag. | .A = channel <br/>.C clear = release first<br/> .C set = no release | .C clear = success <br/> .C set = error | none |
 | `ym_write` | `$C08A` | YM2151 | Write a value to one of the YM2151 registers and to the in-RAM shadow copy. If the selected register is a TL register, attenuation will be applied before the value is written. Writes which affect which operators are carriers will have TL values for that channel appropriately recalculated and rewritten | .A = value <br/>.X = YM register address | .C clear = success <br/> .C set = error | .A .X |
 
+## A note on semitones (get it?)
+
+It may be advantageous to consider storing note data internally as the MIDI
+representation with a fractional component if you want things like pitch slides
+to behave the same way between the PSG and YM2151.
+
+Essentially, it can be thought of as an 8.8 fixed point 16-bit number.
+
+The YM2151 handles semitones differently than the PSG and requires converting
+the MIDI note to the appropriate KC value using `notecon_midi2fm`. KF is the
+fractional semitone, albeit with only the top 6-bits used. 
+
+The PSG, by contrast, operates with linear pitch which is why 
+`notecon_midi2psg` also takes the fractional component, y, 
+as input.
+
+Thus, if you manage all your pitch slides using MIDI notes along with a fractional
+component, you can then convert this directly over to PSG or YM2151 as required
+and end up with the same pitch (or close enough to it).
+
 ## Direct communication with the YM2151 and VERA PSG vs API
 
 Use of the API routines above is not required to access the capabilities of the sound chips. However, mixing raw writes to a chip and API access for the same chip is not recommended, particularly where PSG volumes and YM2151 TL and RLFBCON registers are concerned. The API processes volumes, calculating attenuation and adjusting the output volume accordingly, and the API will be oblivious to direct manipulation of the sound chips.
