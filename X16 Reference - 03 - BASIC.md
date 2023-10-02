@@ -287,7 +287,12 @@ BOOT
 **TYPE: Command**  
 **FORMAT: BLOAD &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;address&gt;**
 
-**Action:** Loads a binary file directly into RAM, advancing the RAM bank if necessary. This does not change the active RAM bank as controlled by the `BANK` command, but after this command, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
+**Action:** Loads a binary file directly into RAM
+
+Note: If the file is loaded to high RAM (starting in the range `$A000-$BFFF`), and the file is larger than what would fit in the current bank, the load will wrap around into subsequent banks.
+
+After a successful load, `$030D` and `$030E` will contain the address of the final byte loaded + 1.  If relevant, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
+
 
 **EXAMPLES of BLOAD:**
 

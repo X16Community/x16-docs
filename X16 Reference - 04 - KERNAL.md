@@ -290,8 +290,15 @@ Preparatory routines: SETNAM, SETLFS
 Error returns: None  
 Registers affected: .A, .X, .Y, .P
 
-**Description:** Loads a file from disk to memory. X and Y is the memory address to load
-the file into. A controls where the file is to be loaded. On the X16, LOAD has an 
+**Description:** Loads a file from disk to memory.
+
+The behavior of `LOAD` can be modified by parameters passed to prior call to `SETLFS`.  In particular, the .Y register, which usually denotes the *secondary address*, has a specific meaning as follows:
+* .Y = 0: load to the address given in .X/.Y to the `LOAD` call, skipping the first two bytes of the file. (like `LOAD "FILE",8` in BASIC)
+* .Y = 1: load to the address given by the first two bytes of the file. The address in .X/.Y is ignored. (like `LOAD "FILE",8,1` in BASIC)
+* .Y = 2: load the entire file to the address given in .X/.Y to the `LOAD` call. This is also known as a *headerless* load. (like `BLOAD "FILE",8,1,$A000` in BASIC)
+
+For the `LOAD` call itself, .X and .Y is the memory address to load
+the file into. .A controls where the file is to be loaded. On the X16, `LOAD` has an
 additional feature to load the contents of a file directly into VRAM.
 
   * If the A register is zero, the kernal loads into system memory.
@@ -300,6 +307,12 @@ additional feature to load the contents of a file directly into VRAM.
   * If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
 
 (On the C64, if A is greater than or equal to 1, the kernal performs a verify)
+
+For loads into the banked RAM area. The current RAM bank (in location `$00`) is used as the start point for the load along with the supplied address. If the load is large enough to advance to the end of banked RAM (`$BFFF`), the RAM bank is automatically advanced, and the load continues into the next bank starting at `$A000`.
+
+After the load, if .C is set, an error occurred and .A will contain the error code. If .C is clear, .X/.Y will point to the address of final byte loaded + 1.
+
+Note: One does not need to call `CLOSE` after `LOAD`.
 
 ---
 
