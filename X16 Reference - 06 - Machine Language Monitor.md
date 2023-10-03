@@ -34,11 +34,13 @@ These are the remaining commands:
 | `C`     | *start* *end* *start*           | compare                |
 | `T`     | *start* *end* *start*           | transfer               |
 | `A`     | *address* *instruction*         | assemble               |
-| `G`     | *address*                       | run code               |
+| `G`     | [*address*]                     | run code               |
+| `J`     | [*address*]                     | run subroutine         |
 | `$`     | *value*                         | convert hex to decimal |
 | `#`     | *value*                         | convert decimal to hex |
 | `X`     |                                 | exit monitor           |
-| `O`     | *bank*                          | set bank               |
+| `O`     | *bank*                          | set ROM bank           |
+| `K`     | *bank*                          | set RAM/VRAM bank/I2C  |
 | `L`     | ["*filename*"[,*dev*[,*start*]]]| load file              |
 | `S`     | "*filename*",*dev*,*start*,*end*| save file              |
 | `@`     | *command*                       | send drive command     |
@@ -46,10 +48,12 @@ These are the remaining commands:
 * All addresses have to be 4 digits.
 * All bytes have to be 2 digits (including device numbers).
 * The end address of `S` is exclusive.
-* The bank argument for `O` is
-	* `00`-`FF`: switch to main RAM, set RAM and ROM banks
-	* `V0`-`V1`: switch to Video RAM, set bank
+* The bank argument for `K` is
+	* `00`-`FF`: switch to main RAM, set RAM bank
+	* `V0`-`V1`: switch to Video RAM, set VRAM bank
 	* `I`: switch to the I2C address space
+* The bank argument for `O` is
+	* `00`-`FF`: set ROM bank
 * `@` takes:
 	* `8`, `9` to change the default drive (also for `L`)
 	* `$` to display the disk directory
