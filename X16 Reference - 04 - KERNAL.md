@@ -151,7 +151,8 @@ The 16 bit ABI generally follows the following conventions:
 | `LKUPLA` | `$FF59` | ChIO | Search tables for given LA | | | C128 |
 | `LKUPSA` | `$FF5C` | ChIO | Search tables for given SA | | | C128 |
 | [`LOAD`](#function-name-load) | `$FFD5` | ChIO | Load a file into main memory or VRAM | A X Y | A X Y | C64 |
-| `MACPTR` | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
+| [`MACPTR`](#function-name-macptr) | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
+| [`MCIOUT`](#function-name-mciout) | `$FEB1` | CPB | Write multiple bytes to the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
 | [`memory_crc`](#function-name-memory_crc) | `$FEEA` | Mem | Calculate the CRC16 of a memory region | r0 r1 | r2 A X Y P | X16
@@ -221,8 +222,9 @@ The KERNAL vectors (\$0314-\$0333) are fully compatible with the C64:
 
 ### Commodore Peripheral Bus
 
-The X16 adds one new function for dealing with the Commodore Peripheral Bus ("IEEE"):
+The X16 adds two new functions for dealing with the Commodore Peripheral Bus ("IEEE"):
 
+\$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
 \$FF44: `MACPTR` - read multiple bytes from peripheral bus
 
 ---
@@ -254,15 +256,40 @@ Registers affected: .A, .X, .Y
 
 The number of bytes to be read is passed in the .A register; a value of 0 indicates that it is up to the KERNAL to decide how many bytes to read. A pointer to where the data is supposed to be written is passed in the .X (lo) and .Y (hi) registers. If carry flag is clear, the destination address will advance with each byte read. If the carry flag is set, the destination address will not advance as data is read. This is useful for reading data directly into VRAM, PCM FIFO, etc.
 
-For reading into Hi RAM, you must set the desired bank prior to calling MACPTR. During the read, MACPTR will automatically wrap to the next bank as required, leaving the new bank active when finished.
+For reading into Hi RAM, you must set the desired bank prior to calling `MACPTR`. During the read, `MACPTR` will automatically wrap to the next bank as required, leaving the new bank active when finished.
 
-Upon return, a set .C flag indicates that the device does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
+Upon return, a set .C flag indicates that the device or file does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
 
 If `MACPTR` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes read.
 
 Like with `ACPTR`, the status of the operation can be retrieved using the `READST` KERNAL call.
 
 ---
+
+#### Function Name: MCIOUT
+
+Purpose: Write multiple bytes to the peripheral bus  
+Call address: \$FEB1  
+Communication registers: .A, .X, .Y, .C  
+Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`  
+Error returns: None  
+Stack requirements: ...  
+Registers affected: .A, .X, .Y
+
+**Description:** The routine `MCIOUT` is the multi-byte variant of the `CIOUT` KERNAL routine. Instead of writing a single byte, it can write multiple bytes from memory in one call.
+
+The number of bytes to be written is passed in the .A register; a value of 0 indicates 256 bytes. A pointer to the data to be read from is passed in the .X (lo) and .Y (hi) registers. If carry flag is clear, the source address will advance with each byte read out. If the carry flag is set, the source address will not advance as data is read out. This is useful for saving data directly from VRAM.
+
+For reading from Hi RAM, you must set the desired bank prior to calling `MCIOUT`. During the operation, `MCIOUT` will automatically wrap to the next bank as required, leaving the new bank active when finished.
+
+Upon return, a set .C flag indicates that the device or file does not support `MCIOUT`, and the program needs to write the data byte-by-byte using the `CIOUT` call instead.
+
+If `MCIOUT` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes written.
+
+Like with `CIOUT`, the status of the operation can be retrieved using the `READST` KERNAL call.  If an error occurred, `READST` should return nonzero.
+
+---
+
 
 ### Channel I/O
 
