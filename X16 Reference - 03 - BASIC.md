@@ -139,6 +139,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
 | `TI` | variable | Returns the jiffy timer value | C64 |
 | `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
+| [`TILE`](#tile) | command | Changes a tile or screen code on the tile/text layer | X16 |
 | `TO` | keyword | Part of the `FOR` loop declaration syntax | C64 |
 | `USR` | function | Call a user-defined function in machine language | C64 |
 | `VAL` | function | Parse a string to return a numeric value | C64 |
@@ -1340,6 +1341,28 @@ Run the Machine Language Monitor (Supermon)
 
 ```BASIC
 SYS  $FECC
+```
+
+### TILE
+
+**TYPE: Command**  
+**FORMAT: TILE &lt;x&gt;,&lt;y&gt;,&lt;tile/screen code&gt;\[,&lt;attribute&gt;\]**
+
+**Action:** The `TILE` command sets the tile or text character at the given x/y tile/character coordinate to the given screen code or tile index, optionally resetting the attribute byte. It works for tiles or text on Layer 1.
+
+In the default text mode, this can be used to quickly change a character on the screen and optionally its fg/bg color without needing to calculate the VRAM address for VPOKE.
+
+However, it can also be used if VERA Layer 1's map base value is changed or the map size is changed.
+
+**EXAMPLE of TILE command:**
+
+```BASIC
+10 REM VERY SLOWLY CLEAR THE SCREEN IN STYLE
+20 FOR Y=59 TO 0 STEP -1
+30 FOR X=79 TO 0 STEP -1
+40 FOR I=255 TO 32 STEP -1
+50 TILE X,Y,I
+60 NEXT:NEXT:NEXT
 ```
 
 ### VPEEK
