@@ -139,7 +139,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
 | `TI` | variable | Returns the jiffy timer value | C64 |
 | `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
-| [`TILE`](#tile) | command | Changes a tile or screen code on the tile/text layer | X16 |
+| [`TILE`](#tile) | command | Changes a tile or character on the tile/text layer | X16 |
 | `TO` | keyword | Part of the `FOR` loop declaration syntax | C64 |
 | `USR` | function | Call a user-defined function in machine language | C64 |
 | `VAL` | function | Parse a string to return a numeric value | C64 |
