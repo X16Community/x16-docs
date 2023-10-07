@@ -249,7 +249,6 @@ Call address: \$FF44
 Communication registers: .A, .X, .Y, .C  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
 Error returns: None  
-Stack requirements: ...  
 Registers affected: .A, .X, .Y
 
 **Description:** The routine `MACPTR` is the multi-byte variant of the `ACPTR` KERNAL routine. Instead of returning a single byte in .A, it can read multiple bytes in one call and write them directly to memory.
@@ -273,7 +272,6 @@ Call address: \$FEB1
 Communication registers: .A, .X, .Y, .C  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`  
 Error returns: None  
-Stack requirements: ...  
 Registers affected: .A, .X, .Y
 
 **Description:** The routine `MCIOUT` is the multi-byte variant of the `CIOUT` KERNAL routine. Instead of writing a single byte, it can write multiple bytes from memory in one call.
