@@ -415,7 +415,7 @@ DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 **TYPE: Command**  
 **FORMAT: EDIT \[&lt;filename&gt;\]**
 
-**Action:** Opens the built-in text editor, X16-Edit, a modeless with similar in features to GNU Nano.
+**Action:** Opens the built-in text editor, X16-Edit, a modeless editor with features similar to GNU Nano.
 
 * Without an argument, the editor begins with an empty file.
 * With a string argument, it attempts to load a file before displaying it.
