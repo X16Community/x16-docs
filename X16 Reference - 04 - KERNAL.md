@@ -96,8 +96,8 @@ The 16 bit ABI generally follows the following conventions:
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
 | `CHKIN` | `$FFC6` | ChIO | Set channel for character input | X | A X | C64 |
-| [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3L A X Y P | X16
-| [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3L | A X Y P | X16
+| [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3 A X Y P | X16
+| [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3 | A X Y P | X16
 | `CHRIN` | `$FFCF` | ChIO | Alias for `BASIN` | | A X | C64 |
 | `CHROUT` | `$FFD2` | ChIO | Alias for `BSOUT` | A | C | C64 |
 | `CLOSE_ALL` | `$FF4A` | ChIO | Close all files on a device  | | | C128 |
@@ -455,12 +455,13 @@ Registers affected: .A, .X, .Y
 | Register | Contents          |
 |----------|-------------------|
 | r0L      | year (1900-based) |
-| r0H      | month (1-12)    |
-| r1L      | day (1-31)     |
-| r1H      | hours (0-23)    |
+| r0H      | month (1-12)      |
+| r1L      | day (1-31)        |
+| r1H      | hours (0-23)      |
 | r2L      | minutes (0-59)    |
 | r2H      | seconds (0-59)    |
 | r3L      | jiffies (0-59)    |
+| r3H      | weekday (0-6)     |
 
 Jiffies are 1/60th seconds.
 
