@@ -420,7 +420,7 @@ DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 * Without an argument, the editor begins with an empty file.
 * With a string argument, it attempts to load a file before displaying it.
 
-The EDIT command loads the editor in the screen mode and character set provided by BASIC.
+The EDIT command loads the editor in the screen mode and character set that was active at the time the command was run.
 
 **EXAMPLES of EDIT Statement:**
 
