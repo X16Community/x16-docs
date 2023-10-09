@@ -36,6 +36,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `DATA` | command | Declares one or more constants | C64 |
 | `DEF` | command | Defines a function for use later in BASIC | C64 |
 | `DIM` | command | Allocates storage for an array | C64 |
+| [`EDIT`](#edit) | command | Open the built-in text editor | X16 |
 | [`DOS`](#dos) | command | Disk and SD card directory operations | X16 |
 | `END` | command | Terminate program execution and return to `READY.` | C64 |
 | `EXP` | function | Returns the inverse natural log of a number | C64 |
@@ -409,6 +410,27 @@ DOS"$"          : REM SHOWS DIRECTORY
 DOS"S:BAD_FILE" : REM DELETES "BAD_FILE"
 DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 ```
+
+### EDIT
+
+**TYPE: Command**  
+**FORMAT: EDIT \[&lt;filename&gt;\]**
+
+**Action:** Opens the built-in text editor, X16-Edit, a modeless with similar in features to GNU Nano.
+
+* Without an argument, the editor begins with an empty file.
+* With a string argument, it attempts to load a file before displaying it.
+
+The EDIT command loads the editor in the screen mode and character set provided by BASIC.
+
+**EXAMPLES of EDIT Statement:**
+
+```BASIC
+EDIT "README.TXT"
+```
+
+A more elaborate X16-Edit manual can be found [here](https://github.com/X16Community/x16-rom/blob/master/x16-edit/docs/manual.pdf)
+
 
 ### FMCHORD
 
