@@ -55,7 +55,6 @@ for GitHub's Markdown flavor. Do not remove!
 | `FOR` | command | Declares the start of a loop construct | C64 |
 | [`FRAME`](#frame) | command | Draws an unfilled rectangle in graphics mode | X16 |
 | `FRE` | function | Returns the number of unused BASIC bytes free | C64 |
-| [`GEOS`](#geos) | command | Enter the GEOS GUI | X16 |
 | `GET` | command | Polls the keyboard cache for a single keystroke | C64 |
 | `GET#` | command | Polls an open logical file for a single character | C64 |
 | `GOSUB` | command | Jumps to a BASIC subroutine | C64 |
@@ -624,13 +623,6 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 20 FORI=1TO20:FRAMERND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*128:NEXT
 30 GOTO20
 ```
-
-### GEOS
-
-**TYPE: Command**  
-**FORMAT: GEOS**
-
-**Action:** Enter the GEOS UI.
 
 ### HEX\$
 

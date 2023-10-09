@@ -34,7 +34,7 @@ Here is the ROM/Cartridge bank allocation:
 |0     |KERNAL |KERNAL operating system and drivers                    |
 |1     |KEYBD  |Keyboard layout tables                                 |
 |2     |CBDOS  |The computer-based CBM-DOS for FAT32 SD cards          |
-|3     |GEOS   |GEOS KERNAL                                            |
+|3     |FAT32  |The FAT32 driver itself                                |
 |4     |BASIC  |BASIC interpreter                                      |
 |5     |MONITOR|Machine Language Monitor                               |
 |6     |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
@@ -44,6 +44,7 @@ Here is the ROM/Cartridge bank allocation:
 |10    |AUDIO  |Audio API routines                                     |
 |11    |UTIL   |System Configuration (Date/Time, Display Preferences)  |
 |12    |BANNEX |BASIC Annex (code for some added BASIC functions)      |
+|13-14 |X16EDIT|The built-in text editor                               |
 |13-31 |–      |*[Currently unused]*                                   |
 |32-255|–      |Cartridge RAM/ROM                                      |
 
