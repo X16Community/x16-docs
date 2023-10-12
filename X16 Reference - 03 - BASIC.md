@@ -1386,6 +1386,12 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 **Action:** Return a byte from the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
+In addition, VPEEK can reach addon VERA cards with higher bank numbers.
+
+BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
+BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
+
+
 **EXAMPLE of VPEEK Function:**
 
 ```BASIC
@@ -1398,6 +1404,12 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 **FORMAT: VPOKE &lt;bank&gt;, &lt;address&gt;, &lt;value&gt;**
 
 **Action:** Set a byte in the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
+
+In addition, VPOKE can reach addon VERA cards with higher bank numbers.
+
+BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
+BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
+
 
 **EXAMPLE of VPOKE Statement:**
 
