@@ -170,6 +170,7 @@ The 16 bit ABI generally follows the following conventions:
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
 | `SAVE` | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y | C64 |
+| [`SCNKEY`](#function-name-scnkey) | `$FF9F` | Kbd | Scan the keyboard | none | A X Y P | C64 |
 | `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
@@ -557,6 +558,23 @@ Registers affected: -
 **Description:** If .C is set, the routine `keymap` returns a pointer to a zero-terminated string with the current keyboard layout identifier in .X/.Y. If .C is clear, it sets the keyboard layout to the zero-terminated identifier pointed to by .X/.Y. On return, .C is set in case the keyboard layout is unsupported.
 
 Keyboard layout identifiers are in the form "DE", "DE-CH" etc.
+
+---
+#### Function Name: SCNKEY
+
+Purpose: Poll the SMC for a keystroke, and add it to the X16's buffer.  
+Call address: \$FF9F  
+Communication registers: None
+Preparatory routines: None  
+Error returns: None
+Stack requirements: 0  
+Registers affected: .A, .X., .Y
+
+**Description:** 
+
+This routine is called by the default KERNAL interrupt service routine in order to poll a keystroke from the System Management Controller and place it in the KERNAL's keyboard buffer. Unless the KERNAL ISR is being bypassed or supplemented, it is not normally necessary to call this routine from user code.  
+
+This routine is also called `kbd_scan` inside KERNAL code.  
 
 ---
 
