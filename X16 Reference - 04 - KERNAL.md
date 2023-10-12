@@ -137,6 +137,8 @@ The 16 bit ABI generally follows the following conventions:
 | [`GRAPH_set_colors`](#function-name-graph_set_colors) | `$FF29` | Video | Set stroke, fill and background colors | A X Y | none | X16
 | [`GRAPH_set_font`](#function-name-graph_set_font) | `$FF3B` | Video | Set the current font | r0 | r0 A Y P | X16
 | [`GRAPH_set_window`](#function-name-graph_set_window) &#8224;| `$FF26` | Video | Set clipping region | r0 r1 r2 r3 | A P | X16
+| [`i2c_batch_read`](#function-name-i2c_batch_read) | `$FEB4` | I2C | Read multiple bytes from an I2C device | X r0 r1 C | A Y C | X16
+| [`i2c_batch_write`](#function-name-i2c_batch_write) | `$FEB7` | I2C | Write multiple bytes to an I2C device | X r0 r1 C | A Y r2 C | X16
 | [`i2c_read_byte`](#function-name-i2c_read_byte) | `$FEC6` | I2C | Read a byte from an I2C device | A X Y | A C | X16
 | [`i2c_write_byte`](#function-name-i2c_write_byte) | `$FEC9` | I2C | Write a byte to an I2C device | A X Y | A C | X16
 | `IOBASE` | `$FFF3` | Misc | Return start of I/O area | | X Y | C64 |
@@ -758,10 +760,78 @@ If the default interrupt handler is disabled or replaced:
 
 ### I2C
 
+\$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
+\$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
 \$FEC6: `i2c_read_byte` - read a byte from an I2C device  
 \$FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 ---
+#### Function Name: i2c_batch_read
+
+Purpose: Read bytes from a given I2C device into a RAM location  
+Call address: \$FEB4  
+Communication registers: .X, r0, r1, .C  
+Preparatory routines: None  
+Error returns: .C = 1 in case of error  
+Registers affected: .A .Y .P
+
+**Description:** The routine `i2c_batch_read` reads a fixed number of bytes from an I2C device into RAM.  To call, put I2C device (address) in .X, the pointer to the RAM location to which to place the data into r0, and the number of bytes to read into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I2C device and writing directly into VRAM.
+
+If the routine encountered an error, carry will be set upon return.
+
+**EXAMPLE:**
+
+```ASM
+ldx #$50 ; One of the cartridge I2C flash devices
+lda #<$0400
+sta r0
+lda #>$0400
+sta r0+1
+lda #<500
+sta r1
+lda #>500
+sta r1+1
+clc
+jsr i2c_batch_read ; read 500 bytes from I2C device $50 into RAM starting at $0400
+```
+---
+
+#### Function Name: i2c_batch_write
+
+Purpose: Write bytes to a given I2C device with data in RAM  
+Call address: \$FEB7  
+Communication registers: .X, r0, r1, r2, .C  
+Preparatory routines: None  
+Error returns: .C = 1 in case of error  
+Registers affected: .A .Y .P r2
+
+**Description:** The routine `i2c_batch_write` writes a fixed number of bytes from RAM to an I2C device.  To call, put I2C device (address) in .X, the pointer to the RAM location from which to read into r0, and the number of bytes to write into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I/O device and writing that data to an I2C device.
+
+The number of bytes written is returned in r2. If the routine encountered an error, carry will be set upon return.
+
+**EXAMPLE:**
+
+```ASM
+ldx #$50 ; One of the cartridge I2C flash devices
+lda #<$0400
+sta r0
+lda #>$0400
+sta r0+1
+lda #<500
+sta r1
+lda #>500
+sta r1+1
+clc
+jsr i2c_batch_write ; write 500 bytes to I2C device $50 from RAM
+                    ; starting at $0400 
+                    ; for this example, the first two bytes in
+                    ; the $0400 buffer would be the target address
+                    ; in the I2C flash. This, of course, varies
+                    ; between various I2C device types.
+```
+---
+
+
 
 #### Function Name: i2c_read_byte
 
@@ -770,7 +840,6 @@ Call address: \$FEC6
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
-Stack requirements: [?]  
 Registers affected: .A
 
 **Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. .C is 0 if the read was successful, and 1 if no such device exists.
@@ -791,7 +860,6 @@ Call address: \$FEC9
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
-Stack requirements: [?]
 Registers affected: .A
 
 **Description:** The routine `i2c_write_byte` writes the byte in .A at offset .Y of I2C device .X. .C is 0 if the write was successful, and 1 if no such device exists.
