@@ -83,6 +83,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `MID$` | function | Returns a substring from the middle of a string | C64 |
 | [`MON`](#mon) | command | Enters the machine language monitor | X16 |
 | [`MOUSE`](#mouse) | command | Hides or shows mouse pointer | X16 |
+| [`MOVSPR`](#movspr) | command | Set the X/Y position of a sprite | X16 |
 | [`MX/MY/MB`](#mxmymb) | variable | Reads the mouse position and button state | X16 |
 | [`MWHEEL`](#mwheel) | variable | Reads the mouse wheel movement | X16 |
 | `NEW` | command | Resets the state of BASIC and clears program memory | C64 |
@@ -127,6 +128,8 @@ for GitHub's Markdown flavor. Do not remove!
 | `SIN` | function | Returns the sine of an angle in radians | C64 |
 | [`SLEEP`](#sleep) | command | Introduces a delay in program execution | X16 |
 | `SPC` | function | Returns a string with a set number of spaces | C64 |
+| [`SPRITE`](#sprite) | command | Sets attributes for a sprite including visibility | X16 |
+| [`SPRMEM`](#sprmem) | command | Set the VRAM address for a sprite's visual data | X16 |
 | `SQR` | function | Returns the square root of a numeric value | C64 |
 | `ST` | variable | Returns the status of certain DOS/peripheral operations | C64 |
 | `STEP` | keyword | Used in a `FOR` declaration to declare the iterator step | C64 |
@@ -250,8 +253,7 @@ Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init
 
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
-Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  At this point you can check `PEEK(0)` to learn the bank that `BLOAD`, or `BVERIFY` stopped at.
-
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
 
 ### BINPUT&#35;
 
@@ -882,6 +884,26 @@ MOUSE 1 : REM ENABLE MOUSE
 MOUSE 0 : REM DISABLE MOUSE
 ```
 
+### MOVSPR
+
+**TYPE: Command**  
+**FORMAT: MOVSPR &lt;sprite idx&gt;,&lt;x&gt;,&lt;y&gt;**
+
+**Action:** This command positions a sprite's upper left corner at a specific pixel location.  It does not change its visibility.
+
+`sprite idx` is a value between 0-127 inclusive.
+`x` and `y` have a valid range of 0-1023 inclusive. Values approaching 1023 will peek out from the left and top of the screen for x and y respectively as if they were negative numbers.
+
+**EXAMPLE of MOVSPR Statement:**
+
+```BASIC
+10 BVLOAD "MYSPRITE.BIN",8,1,$3000
+20 SPRMEM 1,1,$3000,1
+30 SPRITE 1,3,0,0,3,3
+40 MOVSPR 1,320,200
+```
+
+
 ### MX/MY/MB
 
 **TYPE: System variable**  
@@ -1176,7 +1198,7 @@ In release R43, due to improper parsing of escape tokens, REN will improperly tr
 * `COLOR`
 * `PSGWAV`
 
-This behavior has been fixed in development versions since R43 and will be fixed in R44.
+This behavior has been fixed in R44.
 
 **EXAMPLE of REN Statement:**
 
@@ -1297,6 +1319,56 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 40 NEXT
 ```
 
+### SPRITE
+
+**TYPE: Command**  
+**FORMAT: SPRITE &lt;sprite idx&gt;,&lt;priority&gt;\[,&lt;palette offset&gt;\[,&lt;flip&gt;\[,&lt;x-width&gt;\[,&lt;y-width&gt;\[,&lt;color depth&gt;\]\]\]\]\]**
+
+**Action:** This command configures a sprite's geometry, palette, and visibility.
+
+The first two arguments are required, but the remainder are optional.
+
+* `sprite idx` is a value between 0-127 inclusive.
+* `priority`, also known as z-depth changes the visibility of the sprite and above which layer it is rendered.  Range is 0-3 inclusive.  0 = off, 1 = below layer 0, 2 = in between layers 0 and 1, 3 = above layer 1
+* `palette offset` is the palette offset for the sprite. Range is 0-15 inclusive. This value is multiplied by 16 to determine the starting palette index.
+* `flip` controls the X and Y flipping of the sprite. Range is 0-3 inclusive. 0 = unflipped, 1 = X is flipped, 2 = Y is flipped, 3 = both X and Y are flipped.
+* `x-width` and `y-width` represent the dimensions of the sprite. Range is 0-3 inclusive. 0 = 8px, 1 = 16px, 2 = 32px, 3 = 64px.
+* `color depth` selects either 4 or 8-bit color depth for the sprite. 0 = 4-bit, 1 = 8-bit.  This attribute can also be set by the `SPRMEM` command.
+
+**EXAMPLE of SPRITE Statement:**
+
+```BASIC
+10 BVLOAD "MYSPRITE.BIN",8,1,$3000
+20 SPRMEM 1,1,$3000,1
+30 SPRITE 1,3,0,0,3,3
+40 MOVSPR 1,320,200
+```
+
+
+### SPRMEM
+
+**TYPE: Command**  
+**FORMAT: SPRMEM &lt;sprite idx&gt;,&lt;VRAM bank&gt;,&lt;VRAM address&gt;\[,&lt;color depth&gt;\]**
+
+**Action:** This command configures the address of where the sprite's pixel data is to be found. It also can change or set the color depth of the sprite.
+
+The first three arguments are required, but the last one is optional.
+
+* `sprite idx` is a value between 0-127 inclusive.
+* `VRAM bank` is a value, `0` or `1`, which represents which of the two 64k regions of VRAM to select.
+* `VRAM address` is a 16-bit value, \$0000-\$FFFF, is the address within the VRAM bank to point the sprite to. The lowest 5 bits are ignored.
+* `color depth` selects either 4 or 8-bit color depth for the sprite. 0 = 4-bit, 1 = 8-bit.  This attribute can also be set by the `SPRITE` command.
+
+**EXAMPLE of SPRITE Statement:**
+
+```BASIC
+10 BVLOAD "MYSPRITE.BIN",8,1,$3000
+20 SPRMEM 1,1,$3000,1
+30 SPRITE 1,3,0,0,3,3
+40 MOVSPR 1,320,200
+```
+
+
 ### STRPTR
 
 **TYPE: Function**  
@@ -1386,7 +1458,7 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 **Action:** Return a byte from the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
-In addition, VPEEK can reach addon VERA cards with higher bank numbers.
+In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 
 BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
 BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
@@ -1405,7 +1477,7 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 
 **Action:** Set a byte in the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
-In addition, VPOKE can reach addon VERA cards with higher bank numbers.
+In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
 BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
 BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
