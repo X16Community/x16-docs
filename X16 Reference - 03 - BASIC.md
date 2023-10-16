@@ -892,7 +892,7 @@ MOUSE 0 : REM DISABLE MOUSE
 **Action:** This command positions a sprite's upper left corner at a specific pixel location.  It does not change its visibility.
 
 `sprite idx` is a value between 0-127 inclusive.
-`x` and `y` have a valid range of 0-1023 inclusive. Values approaching 1023 will peek out from the left and top of the screen for x and y respectively as if they were negative numbers.
+`x` and `y` have a range of -32768 to 32767 inclusive, but their meanings wrap every 1024 values. Values approaching 1023 will peek out from the left and top of the screen for x and y respectively as if they were negative and approaching 0. -1024, 1024, 0, and 2048 are all equivalent. Likewise, -10 and 1014 are equivalent.
 
 **EXAMPLE of MOVSPR Statement:**
 
@@ -1334,6 +1334,8 @@ The first two arguments are required, but the remainder are optional.
 * `flip` controls the X and Y flipping of the sprite. Range is 0-3 inclusive. 0 = unflipped, 1 = X is flipped, 2 = Y is flipped, 3 = both X and Y are flipped.
 * `x-width` and `y-width` represent the dimensions of the sprite. Range is 0-3 inclusive. 0 = 8px, 1 = 16px, 2 = 32px, 3 = 64px.
 * `color depth` selects either 4 or 8-bit color depth for the sprite. 0 = 4-bit, 1 = 8-bit.  This attribute can also be set by the `SPRMEM` command.
+
+Note: If VERA's sprite layer is disabled when the `SPRITE` command is called, the sprite layer will be enabled, regardless of the arguments to `SPRITE`.
 
 **EXAMPLE of SPRITE Statement:**
 
