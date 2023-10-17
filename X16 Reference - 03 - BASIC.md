@@ -36,9 +36,10 @@ for GitHub's Markdown flavor. Do not remove!
 | `DATA` | command | Declares one or more constants | C64 |
 | `DEF` | command | Defines a function for use later in BASIC | C64 |
 | `DIM` | command | Allocates storage for an array | C64 |
-| [`EDIT`](#edit) | command | Open the built-in text editor | X16 |
 | [`DOS`](#dos) | command | Disk and SD card directory operations | X16 |
+| [`EDIT`](#edit) | command | Open the built-in text editor | X16 |
 | `END` | command | Terminate program execution and return to `READY.` | C64 |
+| [`EXEC`](#exec) | command | Play back a script from RAM into the BASIC editor | X16 |
 | `EXP` | function | Returns the inverse natural log of a number | C64 |
 | [`FMCHORD`](#fmchord) | command | Start or stop simultaneous notes on YM2151 | X16 |
 | [`FMDRUM`](#fmdrum) | command | Plays a drum sound on YM2151 | X16 |
@@ -424,13 +425,34 @@ DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 
 The EDIT command loads the editor in the screen mode and character set that was active at the time the command was run.
 
-**EXAMPLES of EDIT Statement:**
+**EXAMPLE of EDIT Statement:**
 
 ```BASIC
 EDIT "README.TXT"
 ```
 
 A more elaborate X16-Edit manual can be found [here](https://github.com/X16Community/x16-rom/blob/master/x16-edit/docs/manual.pdf)
+
+
+### EXEC
+
+**TYPE: Command**  
+**FORMAT: EXEC &lt;memory address&gt;\[,&lt;ram bank&gt;\]**
+
+**Action:** Plays back a null-terminated script from MEMORY into the BASIC editor. Among other uses, this can be used to "type" in a program from a plain text file.
+
+* If the `ram bank` argument is omitted and the address is in the range \$A000-\$BFFF, the RAM bank selected by the `BANK` command is used.
+* The input can span multiple RAM banks. The input will stop once it reaches a null byte (\$00) or if a BASIC error occurs.
+* The redirected input only applies to BASIC immediate mode. While programs are running, the EXEC handling is suspended.
+
+**EXAMPLE of EXEC Statement:**
+
+```BASIC
+BLOAD "MYPROGRAM.BAS",8,1,$A000 : REM "BANK PEEK(0)" NO LONGER NEEDED
+POKE PEEK($30D)+(PEEK($30E)*256),0 : REM NULL TERMINATE IN END BANK
+EXEC $A000,1
+
+```
 
 
 ### FMCHORD
