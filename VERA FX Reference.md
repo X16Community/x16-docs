@@ -388,7 +388,7 @@ When reading from ADDR1 in this mode, the affine helper reads tile data from a s
 	</tr>
 </table>
 
-* **Affine Clip Enable** changes the behavior when the X/Y postions are outside of the tile map such that it always reads data from tile 0. The default behavior is to wrap the X/Y position to the opposite side of the map.
+* **Affine Clip Enable** changes the behavior when the X/Y positions are outside of the tile map such that it always reads data from tile 0. The default behavior is to wrap the X/Y position to the opposite side of the map.
 * **Map Size** is a 2 bit value that affects both the width and height of the tile map.
 
 |Map Size|Dimensions|

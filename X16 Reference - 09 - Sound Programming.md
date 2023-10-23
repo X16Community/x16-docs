@@ -25,7 +25,7 @@ Conveniently, the KERNAL API still exists in this bank, and calling a KERNAL API
 
 ### Audio API routines
 
-For the audio chips, some of the documentation uses the words *channel* and *voice* interchangably. This table of API routines uses *channel* for the 8 on the YM2151, and *voice* for the 16 on the PSG.
+For the audio chips, some of the documentation uses the words *channel* and *voice* interchangeably. This table of API routines uses *channel* for the 8 on the YM2151, and *voice* for the 16 on the PSG.
 
 | Label | Address | Class | Description | Inputs | Returns | Preserves |
 |-|-|-|-|-|-|-|
@@ -976,7 +976,7 @@ The vibrato speed is global, depending solely on the value set to `LFRQ.`
 
 Amplitude modulation works similarly to phase modulation, except that the intensity is a combination of the per-channel `AMS` value modified by the global `AMD` value. Additionally, within channels having non-zero amplitude modulation sensitivity, individual operators must have their `AMS-en` bit enabled in order to be affected by the modulation.
 
-If the active operators are acting as carriers (generating output directly), then amplitude modulation will vary the volume of the sound being produced by that operator. This can be described as a "tremelo" effect. If the operators are acting as modulators, then the timbre of the voice will vary as the output level of the affected operators increases and decreases. You may simultaneously enable amplitude modulation on both types of operators.
+If the active operators are acting as carriers (generating output directly), then amplitude modulation will vary the volume of the sound being produced by that operator. This can be described as a "tremolo" effect. If the operators are acting as modulators, then the timbre of the voice will vary as the output level of the affected operators increases and decreases. You may simultaneously enable amplitude modulation on both types of operators.
 
 The amplitude modulation speed is global, depending solely on the value set to `LFRQ.`
 
