@@ -161,12 +161,14 @@ cartridges (think VRC6, Super FX, etc.) and could be used for really anything,
 such as having a MIDI input for a cartridge that is meant as a music maker; 
 some sort of hardware accelerator FPGA; network support, etc. 
 
-For more information about the memory map visit the [Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
+For more information about the memory map visit the 
+[Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
 
 ##### Booting from Cartridges
 
-After the X16 finishes it's hardware initialization, the kernel checks bank 32 for the signature "CX16"
-at `$C000`. If found, it then jumps to `$C004` and leaves interrupts disabled.
+After the X16 finishes it's hardware initialization, the kernel checks 
+bank 32 for the  signature "CX16" at `$C000`. If found, it then jumps 
+to `$C004` and leaves interrupts disabled.
 
 ### ATX Power Supply
 
