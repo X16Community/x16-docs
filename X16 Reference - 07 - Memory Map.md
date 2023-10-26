@@ -120,17 +120,22 @@ This is the memory map of the I/O Area:
 
 Expansion cards can be accessed via memory-mapped I/O (MMIO), as well as I2C. Cartridges are 
 essentially expansion cards which are housed in an external enclosure and may contain RAM, ROM
-and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space, though
-this could cause conflicts.
+and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space,
+though this could cause conflicts.
 
-While they may be uncomon, since cartridges are essentially external expansion cards in a shell, that means they can also use MMIO. This is only necessary when a cartridge includes some sort of hardware
-expansion and MMIO was desired (as opposed to using the I2C bus). **It is unneeded for cartridges which simply have RAM/ROM.**
+While they may be uncomon, since cartridges are essentially external expansion cards in a 
+shell, that means they can also use MMIO. This is only necessary when a cartridge includes 
+some sort of hardware
+expansion and MMIO was desired (as opposed to using the I2C bus). 
+**It is unneeded for cartridges which simply have RAM/ROM.**
 
-For more information, consult the [Hardware](X16%20Reference%20-%2012%20-%20Hardware.md) section of the manual.
+For more information, consult the 
+[Hardware](X16%20Reference%20-%2012%20-%20Hardware.md) section of the manual.
 
 ---
 
-[^1]: Current development systems have 2 MB of bankable RAM. Actual hardware is currently planned to have an option of either 512 KB or 2 MB of RAM.
+[^1]: Current development systems have 2 MB of bankable RAM. 
+Actual hardware is currently planned to have an option of either 512 KB or 2 MB of RAM.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
