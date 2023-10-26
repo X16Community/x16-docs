@@ -113,7 +113,7 @@ This is the memory map of the I/O Area:
 |\$9F80-\$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
 |\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
 |\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
-|\$9FE0-\$9FFF|Expansion/Cartidge Memory Mapped IO7 |2 MHz|
+|\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
 
 #### Expansion Cards & Cartridges
 
