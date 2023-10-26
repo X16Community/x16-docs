@@ -142,21 +142,26 @@ used for applications (e.g. games) with the X16 being able to boot directly from
 power on. Typically they contain a mix of banked ROM and/or RAM and an optional I2C EEPROM 
 (for storing game save states).
 
-They can also function as an expansion card which means they can also use MMIO. Similarly an internal
-expansion card could contain RAM/ROM as well.
+They can also function as an expansion card which means they can also use MMIO. 
+Similarly an internal expansion card could contain RAM/ROM as well.
 
-Because of this, while develoeprs are free to use the hardware as they please, there are open 
-discussions on suggested best practices for using cartridges and expansion cards to avoid a
-poor user experience and or compatibility issues. 
+Because of this, while develoeprs are free to use the hardware as they please, to avoid
+conflcits, the banked ROM/RAM space is expected to be used only by cartridges and
+cartridges should avoid using MMIO IO3-IO7. Instead, 8 bytes worth of MMIO (`\$9F58-\$9F5F`)
+has been reserved for cartridges in the MMIO memory map and cartridges can also use the I2C
+bus. This helps avoid bus conflicts and an  otherwise bad user experience given a 
+cartridge should be simple to use from the standpoint of the user
+("insert game -> play game").
 
-For example, there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. 
-Similarly, a cartridge can use MMIO (and doing so allows for nice features such as accelerator 
-co-processors), but care must be taken to avoid MMIO being used by internal cards. 
+These are soft guidelines. There is nothing physically preventing an expansion card from using
+banked ROM/RAM or a cartridge using any of the MMIO addresses. Doing so risks conflicts and compatibility issues.
 
-One proposal is to reserve one of the MMIO address ranges for cartridges. These conversations
-are on-going such that the final best practices as well as the final cartridge and expansion card
-designs may change. To emphasize as well, these are neighborly best practices and not 
-hard standards.
+Cartridges with additional hardware would be similar to expansion chips found on some NES and SNES 
+cartridges (think VRC6, Super FX, etc.) and could be used for really anything, 
+such as having a MIDI input for a cartridge that is meant as a music maker; 
+some sort of hardware accelerator FPGA; network support, etc. 
+
+For more information about the memory map visit the [Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
 
 ##### Booting from Cartridges
 

@@ -102,18 +102,19 @@ During startup, the KERNAL activates RAM bank 1 as the default for the user.
 
 This is the memory map of the I/O Area:
 
-|Addresses  |Description                         |
-|-----------|------------------------------------|
-|\$9F00-\$9F0F|VIA I/O controller #1               |
-|\$9F10-\$9F1F|VIA I/O controller #2               |
-|\$9F20-\$9F3F|VERA video controller               |
-|\$9F40-\$9F41|YM2151 audio controller             |
-|\$9F42-\$9F5F|Reserved                            |
-|\$9F60-\$9F7F|Expansion Card Memory Mapped IO3    |
-|\$9F80-\$9F9F|Expansion Card Memory Mapped IO4    |
-|\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5    |
-|\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6    |
-|\$9FE0-\$9FFF|Expansion Card Memory Mapped IO7    |
+|Addresses    |Description                         |Speed|
+|-------------|------------------------------------|-----|
+|\$9F00-\$9F0F|VIA I/O controller #1               |8 MHz|
+|\$9F10-\$9F1F|VIA I/O controller #2               |8 MHz|
+|\$9F20-\$9F3F|VERA video controller               |8 MHz|
+|\$9F40-\$9F41|YM2151 audio controller             |2 MHz|
+|\$9F42-\$9F57|Reserved                            |2 MHz|
+|\$9F58-\$9F5F|Cartridge Memory Mapped IO          |2 MHz|
+|\$9F60-\$9F7F|Expansion Card Memory Mapped IO3    |8 MHz|
+|\$9F80-\$9F9F|Expansion Card Memory Mapped IO4    |8 MHz|
+|\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5    |2 MHz|
+|\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6    |2 MHz|
+|\$9FE0-\$9FFF|Expansion Card Memory Mapped IO7    |2 MHz|
 
 #### Expansion Cards & Cartridges
 
@@ -121,6 +122,9 @@ Expansion cards can be accessed via memory-mapped I/O (MMIO), as well as I2C. Ca
 essentially expansion cards which are housed in an external enclosure and may contain RAM, ROM
 and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space, though
 this could cause conflicts.
+
+While they may be uncomon, since cartridges are essentially external expansion cards in a shell, that means they can also use MMIO. This is only necessary when a cartridge includes some sort of hardware
+expansion and MMIO was desired (as opposed to using the I2C bus). **It is unneeded for cartridges which simply have RAM/ROM.**
 
 For more information, consult the [Hardware](X16%20Reference%20-%2012%20-%20Hardware.md) section of the manual.
 
