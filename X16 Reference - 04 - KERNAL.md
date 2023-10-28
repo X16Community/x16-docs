@@ -171,13 +171,13 @@ The 16 bit ABI generally follows the following conventions:
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
-| `SAVE` | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
+| [`SAVE`](#function-name-save) | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-scnkey) | `$FF9F` | Kbd | Scan the keyboard | none | A X Y P | C64 |
 | `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
-| `SETLFS` | `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). | A X Y | | C64 |
+| [`SETLFS`](#function-name-setlfs)| `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). | A X Y | | C64 |
 | `SETMSG` | `$FF90` | ChIO | Set verbosity | A | | C64 |
 | `SETNAM` | `$FFBD` | ChIO | Set filename. A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer. | A X Y | | C64 |
 | `SETTIM` | `$FFDB` | Time | Write system clock | A X Y | A X Y | C64 |
