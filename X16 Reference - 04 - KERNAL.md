@@ -91,7 +91,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
 | `BSAVE` | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
-| `BSOUT` | `$FFD2` | ChIO | Write character | A | C | C64 |
+| `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
@@ -165,21 +165,21 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_config`](#function-name-mouse_config) | `$FF68` | Mouse | Configure mouse pointer | A X Y | A X Y P | X16
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
-| `OPEN` | `$FFC0` | ChIO | Open a channel | | A X Y | C64 |
+| `OPEN` | `$FFC0` | ChIO | Open a channel. Must call `SETLFS` and `SETNAM` beforehand. | | A X Y | C64 |
 | `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key *[not yet implemented]* | | | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
-| `SAVE` | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y | C64 |
+| `SAVE` | `$FFD8` | ChIO | Save a file from memory (must call SETLFS and SETNAME beforehand). A is address of zero page pointer to start address, X = low byte of end address + 1, Y = high byte of end address. If C is zero there were no errors; 1 is an error in which case A will have the error code. | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-scnkey) | `$FF9F` | Kbd | Scan the keyboard | none | A X Y P | C64 |
 | `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
-| `SETLFS` | `$FFBA` | ChIO | Set LA, FA, and SA | A X Y | | C64 |
+| `SETLFS` | `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). A is logical number, X = device number, Y = secondary address | A X Y | | C64 |
 | `SETMSG` | `$FF90` | ChIO | Set verbosity | A | | C64 |
-| `SETNAM` | `$FFBD` | ChIO | Set filename | A X Y | | C64 |
+| `SETNAM` | `$FFBD` | ChIO | Set filename. A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer. | A X Y | | C64 |
 | `SETTIM` | `$FFDB` | Time | Write system clock | A X Y | A X Y | C64 |
 | `SETTMO` | `$FFA2` | CPB | Set timeout | | | C64 |
 | [`sprite_set_image`](#function-name-sprite_set_image) &#8224; | `$FEF0` | Video | Set the image of a sprite | r0 r1 r2L A X Y C | A P | X16
