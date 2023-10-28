@@ -177,7 +177,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
-| `SETLFS` | `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). A is logical number, X = device number, Y = secondary address | A X Y | | C64 |
+| `SETLFS` | `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). | A X Y | | C64 |
 | `SETMSG` | `$FF90` | ChIO | Set verbosity | A | | C64 |
 | `SETNAM` | `$FFBD` | ChIO | Set filename. A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer. | A X Y | | C64 |
 | `SETTIM` | `$FFDB` | Time | Write system clock | A X Y | A X Y | C64 |
@@ -342,6 +342,8 @@ After the load, if .C is set, an error occurred and .A will contain the error co
 
 Note: One does not need to call `CLOSE` after `LOAD`.
 
+---
+
 #### Function Name: `SAVE`
 
 Purpose: Save an area of memory to a file.
@@ -356,6 +358,29 @@ Registers affected: .A, .X, .Y, .C
 SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
 X = low byte of end address + 1, Y = high byte of end address.
 If C is zero there were no errors; 1 is an error in which case A will have the error
+
+---
+
+#### Function Name: `SETLFS`
+
+Purpose: Set file parameters
+Call Address: \$FFBA
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETNAM
+Error returns: None
+Registers affected: .A, .X, .Y
+
+**Description:** Set file parameters typically after calling SETNAM
+
+A is the logical file number, X is the device number, and Y is the secondary address.
+
+Since multiple files can be open (with some exceptions), the value of A specifies the file
+number. If only one file is being opened at a time, $01 can be used.
+
+The device number corresponds to the hardware device where the file lives. On the X16, 
+$08 would be the SD card.
+
+The secondary address has some special meanings. FILLMEIN
 
 ---
 
