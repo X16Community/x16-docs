@@ -165,7 +165,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_config`](#function-name-mouse_config) | `$FF68` | Mouse | Configure mouse pointer | A X Y | A X Y P | X16
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
-| `OPEN` | `$FFC0` | ChIO | Open a channel. Must call `SETLFS` and `SETNAM` beforehand. | | A X Y | C64 |
+| [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
 | `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key *[not yet implemented]* | | | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
@@ -341,6 +341,20 @@ For loads into the banked RAM area. The current RAM bank (in location `$00`) is 
 After the load, if .C is set, an error occurred and .A will contain the error code. If .C is clear, .X/.Y will point to the address of final byte loaded + 1.
 
 Note: One does not need to call `CLOSE` after `LOAD`.
+
+---
+
+#### Function Name: `OPEN`
+
+Purpose: Opens a channel/file
+Call address: \$FFC0  
+Communication registers: None
+Preparatory routines: SETNAM, SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y
+
+**Description:** Opens a file or channel. For files, will need to then subsequently call
+`CHKIN` or `CHKOUT` to then use `CHRIN` and `CHROUT`.
 
 ---
 
