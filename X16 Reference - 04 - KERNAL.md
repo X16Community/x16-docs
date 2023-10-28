@@ -179,7 +179,7 @@ The 16 bit ABI generally follows the following conventions:
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
 | [`SETLFS`](#function-name-setlfs)| `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). | A X Y | | C64 |
 | `SETMSG` | `$FF90` | ChIO | Set verbosity | A | | C64 |
-| `SETNAM` | `$FFBD` | ChIO | Set filename. A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer. | A X Y | | C64 |
+| [`SETNAM`](#function-name-setnam) | `$FFBD` | ChIO | Set file name. | A X Y | | C64 |
 | `SETTIM` | `$FFDB` | Time | Write system clock | A X Y | A X Y | C64 |
 | `SETTMO` | `$FFA2` | CPB | Set timeout | | | C64 |
 | [`sprite_set_image`](#function-name-sprite_set_image) &#8224; | `$FEF0` | Video | Set the image of a sprite | r0 r1 r2L A X Y C | A P | X16
@@ -395,6 +395,32 @@ The device number corresponds to the hardware device where the file lives. On th
 $08 would be the SD card.
 
 The secondary address has some special meanings. FILLMEIN
+
+---
+
+#### Function Name: `SETNAM`
+
+Purpose: Set file name
+Call Address: \$FFBD
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETLFS
+Error returns: None
+Registers affected: .A, .X, .Y
+
+**Description:** Inform the kernal the name of the file that is to later be opened.
+ A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
+
+For example:
+
+```
+  lda #$08
+  ldx #<filename
+  ldy #>filename
+  jsr SETNAM
+```
+
+`SETLFS` and `SETNAM` both need to be called prior other file comamnds, such as `OPEN` or
+`SAVE`.
 
 ---
 
