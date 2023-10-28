@@ -171,7 +171,7 @@ The 16 bit ABI generally follows the following conventions:
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
-| `SAVE` | `$FFD8` | ChIO | Save a file from memory (must call SETLFS and SETNAME beforehand). A is address of zero page pointer to start address, X = low byte of end address + 1, Y = high byte of end address. If C is zero there were no errors; 1 is an error in which case A will have the error code. | A X Y | A X Y C | C64 |
+| `SAVE` | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-scnkey) | `$FF9F` | Kbd | Scan the keyboard | none | A X Y P | C64 |
 | `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
@@ -341,6 +341,21 @@ For loads into the banked RAM area. The current RAM bank (in location `$00`) is 
 After the load, if .C is set, an error occurred and .A will contain the error code. If .C is clear, .X/.Y will point to the address of final byte loaded + 1.
 
 Note: One does not need to call `CLOSE` after `LOAD`.
+
+#### Function Name: `SAVE`
+
+Purpose: Save an area of memory to a file.
+Call Address: \$FFD8
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETNAM, SETLFS  
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
+Registers affected: .A, .X, .Y, .C
+
+**Description:** Save the contents of a memory range to a file.
+
+SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
+X = low byte of end address + 1, Y = high byte of end address.
+If C is zero there were no errors; 1 is an error in which case A will have the error
 
 ---
 
