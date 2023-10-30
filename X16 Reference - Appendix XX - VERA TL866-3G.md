@@ -33,7 +33,9 @@ The VERA 8-pin header is connected to the programmer's
 | 7 SPI_SEL_N | TL866-3G/T48         | 1 /CS          |
 | 8 GND       | TL866-3G/T48         | 16 GND         |
 
-The VERA header pin 1 is located closest to the back of the computer.
+The VERA header pin 1 is located closest to the back of the computer. It looks like this:
+
+<img src="vera-pinout.jpg" width="200" height="200" />
 
 The programmer's ICSP header pinout is as follows:
 
