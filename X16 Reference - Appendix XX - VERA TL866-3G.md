@@ -1,5 +1,7 @@
 # Appendix XX: VERA firmware upgrade
 
+| <!-- -->      | <!-- -->      |
+|---------------|---------------|
 | X16 Component | VERA          |
 | Programmer    | TL866-3G/T48  |
 | Software      | Xgpro         |
