@@ -48,11 +48,12 @@ The programmer's ICSP header pinout is as follows:
 The VERA board is programmed while mounted in the X16 and powered
 by the computer's PSU, not by the programmer.
 
-Connect the X16 PSU to the wall socket, and press the
-computers power button to ensure that 5V is fed to
+Verify that the wiring is correct, and then connect the X16 
+PSU to the wall socket. Press the
+computer's power button to ensure that 5V is fed to
 to the VERA board.
 
-The FPGA on the VERA is held in reset as VERA pin 3 (CRESET_B)
+The VERA's FPGA is held in reset as VERA pin 3 (CRESET_B)
 is connected to ground. You will get no screen output
 after powering on the X16.
 
@@ -63,10 +64,11 @@ Open the Xgpro software and apply the following settings:
 
 - Select target chip: W25Q16JV
 - Setup interface: Select ICSP port, uncheck ICSP_VCC_Enable
-- Ensure that the wiring is correctly setup, connect the X16 wall socket and press the X16 power button
 - Click ID Check to verify the connection
     - Response value should be EF 40 15
     - If not, check the wiring before you proceed
+
+<img src="xgpro-window.png" width="600" />
 
 
 ## Update procedure
