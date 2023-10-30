@@ -1,17 +1,16 @@
 # Appendix XX: VERA firmware upgrade
 
-| Key                  | Value         |
-|----------------------|---------------|
-| X16 target component | VERA          |
-| Programmer           | TL866-3G/T48  |
-| Software             | Xgpro         |
-| Host OS              | Windows       |
+**Target component:** VERA
+**Programmer:** TL866-3G/T48
+**Software:** Xgpro
+**Host OS:** Windows
+
 
 ## Before you start
 
-Before you start this upgrade procedure it is important that
-you disconnect the X16 wall socket. Power is supplied to the
-VERA board while the X16 is turned off.
+Before you start the update procedure, it is important that
+you disconnect the X16 from the wall socket. Power is supplied to the
+VERA board even while the X16 is turned off.
 
 To do the upgrade you need the following equipment:
 - A TL866-3G/T48 programmer
@@ -19,6 +18,9 @@ To do the upgrade you need the following equipment:
 
 
 ## Programmer wiring setup
+
+The VERA 8-pin header is connected to the programmer's
+16-pin ICSP header as set below:
 
 | VERA pin    | Connect to component | Connect to pin |
 |-------------|----------------------|----------------|
@@ -30,6 +32,12 @@ To do the upgrade you need the following equipment:
 | 6 SPI_SCK   | TL866-3G/T48         | 7 SCK          |
 | 7 SPI_SEL_N | TL866-3G/T48         | 1 /CS          |
 | 8 GND       | TL866-3G/T48         | 16 GND         |
+
+The VERA header pin 1 is located closest to the back of the computer.
+
+![TL866-3G/T48 ICSP header pinout](tl866-3g-icsp-pinout.png)
+
+![TL866-3G/T48 programmer](tl866-3g.png)
 
 
 ## Powering the target component
