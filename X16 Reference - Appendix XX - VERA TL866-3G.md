@@ -1,9 +1,9 @@
 # Appendix XX: VERA firmware upgrade
 
-**Target component:** VERA
-**Programmer:** TL866-3G/T48
-**Software:** Xgpro
-**Host OS:** Windows
+**Target component:** VERA  
+**Programmer:** TL866-3G/T48  
+**Software:** Xgpro  
+**Host OS:** Windows  
 
 
 ## Before you start
