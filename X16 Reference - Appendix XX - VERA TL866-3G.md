@@ -35,7 +35,7 @@ The VERA 8-pin header is connected to the programmer's
 
 The VERA header pin 1 is located closest to the back of the computer. It looks like this:
 
-<img src="vera-pinout.jpg" width="200" height="200" />
+<img src="vera-pinout.jpg" width="300" />
 
 The programmer's ICSP header pinout is as follows:
 
