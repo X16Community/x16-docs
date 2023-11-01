@@ -45,20 +45,32 @@ The Commander X16 contains an I2C bus, which is implemented through two pins of 
 
 #### System Management Controller
 
-The system management controller (SMC) is device $42 on the I2C bus. It controls the power and activity LEDs, and can be used to power down the system or inject RESET and NMI signals.
+The system management controller (SMC) is device $42 on the I2C bus. It controls the power and activity LEDs, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
+the PS/2 keyboard and mouse.
 
-| Register | Value    | Description               |
-|----------|----------|---------------------------|
-| \$01      | \$00      | Power off                 |
-| \$01      | \$01      | Hard reboot               |
-| \$02      | \$00      | Inject RESET              |
-| \$03      | \$00      | Inject NMI                |
-| \$04      | \$00..\$FF | Power LED brightness      |
-| \$05      | \$00..\$FF | Activity LED brightness   |
-| \$07      | -        | Read from keyboard buffer |
-| \$18      | -        | Read ps2 status           |
-| \$19      | \$00..\$FF | Send ps2 command          |
-| \$21      | -        | Read from mouse buffer    |
+| Register | Value           | Description               |
+|----------|-----------------|---------------------------|
+| \$01      | \$00           | Power off                 |
+| \$01      | \$01           | Hard reboot               |
+| \$02      | \$00           | Inject RESET              |
+| \$03      | \$00           | Inject NMI                |
+| \$04      | \$00..\$FF     | Power LED brightness      |
+| \$05      | \$00..\$FF     | Activity LED brightness   |
+| \$07      | -              | Read from keyboard buffer |
+| \$08      | \$00..\$FF     | Echo                      |
+| \$18      | -              | Read ps2 status           |
+| \$19      | \$00..\$FF     | Send ps2 command          |
+| \$1A      | \$0000..\$FFFF | Send ps2 command (2 bytes) |
+| \$20      | \$00           | Set mouse device ID, standard mouse |
+| \$20      | \$03           | Set mouse device ID, Intellimouse with scroll wheel |
+| \$20      | \$04           | Set mouse device ID, Intellimouse with scroll wheel+extra buttons |
+| \$21      | -              | Read from mouse buffer    |
+| \$22      | -              | Get mouse device ID |
+| \$30      | -              | Get SMC firmware version, major |
+| \$31      | -              | Get SMC firmware version, minor |
+| \$32      | -              | Get SMC firmare version, patch |
+| \$8F      | \$31           | Start bootloader, if present |  
+
 
 #### Real-Time-Clock
 
