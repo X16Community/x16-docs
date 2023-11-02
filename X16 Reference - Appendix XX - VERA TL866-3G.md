@@ -14,7 +14,7 @@ VERA board even while the X16 is turned off.
 
 To do the upgrade you need the following equipment:
 - A TL866-3G/T48 programmer
-- Female-to-female jump wires, 6 pieces
+- Female-to-female jump wires
 
 
 ## Programmer wiring setup
@@ -22,26 +22,25 @@ To do the upgrade you need the following equipment:
 The VERA 8-pin header is connected to the programmer's
 16-pin ICSP header as set below:
 
-| VERA pin    | Connect to component | Connect to pin |
-|-------------|----------------------|----------------|
-| 1 +5V       | Not connected        | -              |
-| 2 CDONE     | Not connected        | -              |
-| 3 CRESET_B  | VERA                 | 8 GND          |
-| 4 SPI_MISO  | TL866-3G/T48         | 5 MISO         |
-| 5 SPI_MOSI  | TL866-3G/T48         | 15 MOSI        |
-| 6 SPI_SCK   | TL866-3G/T48         | 7 SCK          |
-| 7 SPI_SEL_N | TL866-3G/T48         | 1 /CS          |
-| 8 GND       | TL866-3G/T48         | 16 GND         |
+| VERA pin    | Connect to    | Pin |
+|-------------|---------------|----   --|
+| 1 +5V       | Not connected | -       |
+| 2 CDONE     | Not connected | -       |
+| 3 CRESET_B  | VERA          | 8 GND   |
+| 4 SPI_MISO  | TL866-3G/T48  | 5 MISO  |
+| 5 SPI_MOSI  | TL866-3G/T48  | 15 MOSI |
+| 6 SPI_SCK   | TL866-3G/T48  | 7 SCK   |
+| 7 SPI_SEL_N | TL866-3G/T48  | 1 /CS   |
+| 8 GND       | TL866-3G/T48  | 16 GND  |
 
-The VERA header pin 1 is located closest to the back of the computer. It looks like this, where pins 1 and 2
-are disconnected, and where pins 3 to 8 are connected.
+<img src="/images/vera-prg-hdr.png" width="400" />
+Vera 8-pin programming header.
 
-<img src="vera-pinout.jpg" width="400" />
+<img src="/images/tl866-3g-icsp.png" width="400" />
+TL866-3G/T48 16-pin ICSP header.
 
-The programmer's ICSP header pinout is as follows:
-
-![TL866-3G/T48 ICSP header pinout](tl866-3g-icsp-pinout.png)
-
+<img src="/images/tl866-3g-to-vera.png" width="400" />
+Schematics for connection between the VERA and the TL866-3G/T48.
 
 ## Powering the target component
 
