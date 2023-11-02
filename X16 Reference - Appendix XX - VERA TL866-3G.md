@@ -22,8 +22,8 @@ To do the upgrade you need the following equipment:
 The VERA 8-pin header is connected to the programmer's
 16-pin ICSP header as set below:
 
-| VERA pin    | Connect to    | Pin |
-|-------------|---------------|----   --|
+| VERA pin    | Connect to    | Pin     |
+|-------------|---------------|---------|
 | 1 +5V       | Not connected | -       |
 | 2 CDONE     | Not connected | -       |
 | 3 CRESET_B  | VERA          | 8 GND   |
