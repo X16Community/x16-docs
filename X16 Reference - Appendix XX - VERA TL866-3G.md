@@ -33,13 +33,13 @@ The VERA 8-pin header is connected to the programmer's
 | 7 SPI_SEL_N | TL866-3G/T48  | 1 /CS   |
 | 8 GND       | TL866-3G/T48  | 16 GND  |
 
-Image 1: Vera 8-pin programming header.
+Image 1: Vera 8-pin programming header.<br>
 <img src="images/vera-prg-hdr.png" width="400" />
 
-Image 2:
+Image 2: TL866-3G/T48 ICSP header.<br>
 <img src="images/tl866-3g-icsp.png" width="400" />
 
-Image 3: Schematics for connection between the VERA and the TL866-3G/T48.
+Image 3: Schematics for connection between the VERA and the TL866-3G/T48.<br>
 <img src="images/tl866-3g-to-vera.png" width="400" />
 
 
