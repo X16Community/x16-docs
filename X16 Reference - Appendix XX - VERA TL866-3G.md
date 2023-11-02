@@ -68,7 +68,7 @@ Open the Xgpro software and apply the following settings:
     - Response value should be EF 40 15
     - If not, check the wiring before you proceed
 
-<img src="xgpro-window.png" width="600" />
+<img src="images/xgpro-window.png" width="600" />
 
 
 ## Update procedure
