@@ -91,7 +91,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
 | `BSAVE` | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
-| `BSOUT` | `$FFD2` | ChIO | Write character | A | C | C64 |
+| `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
@@ -165,21 +165,21 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_config`](#function-name-mouse_config) | `$FF68` | Mouse | Configure mouse pointer | A X Y | A X Y P | X16
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
-| `OPEN` | `$FFC0` | ChIO | Open a channel | | A X Y | C64 |
+| [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
 | `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key *[not yet implemented]* | | | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
-| `SAVE` | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y | C64 |
+| [`SAVE`](#function-name-save) | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-scnkey) | `$FF9F` | Kbd | Scan the keyboard | none | A X Y P | C64 |
 | `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
-| `SETLFS` | `$FFBA` | ChIO | Set LA, FA, and SA | A X Y | | C64 |
+| [`SETLFS`](#function-name-setlfs)| `$FFBA` | ChIO | Set file parameters (LA, FA, and SA). | A X Y | | C64 |
 | `SETMSG` | `$FF90` | ChIO | Set verbosity | A | | C64 |
-| `SETNAM` | `$FFBD` | ChIO | Set filename | A X Y | | C64 |
+| [`SETNAM`](#function-name-setnam) | `$FFBD` | ChIO | Set file name. | A X Y | | C64 |
 | `SETTIM` | `$FFDB` | Time | Write system clock | A X Y | A X Y | C64 |
 | `SETTMO` | `$FFA2` | CPB | Set timeout | | | C64 |
 | [`sprite_set_image`](#function-name-sprite_set_image) &#8224; | `$FEF0` | Video | Set the image of a sprite | r0 r1 r2L A X Y C | A P | X16
@@ -341,6 +341,86 @@ For loads into the banked RAM area. The current RAM bank (in location `$00`) is 
 After the load, if .C is set, an error occurred and .A will contain the error code. If .C is clear, .X/.Y will point to the address of final byte loaded + 1.
 
 Note: One does not need to call `CLOSE` after `LOAD`.
+
+---
+
+#### Function Name: `OPEN`
+
+Purpose: Opens a channel/file
+Call address: \$FFC0  
+Communication registers: None
+Preparatory routines: SETNAM, SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y
+
+**Description:** Opens a file or channel. For files, will need to then subsequently call
+`CHKIN` or `CHKOUT` to then use `CHRIN` and `CHROUT`.
+
+---
+
+#### Function Name: `SAVE`
+
+Purpose: Save an area of memory to a file.
+Call Address: \$FFD8
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETNAM, SETLFS  
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
+Registers affected: .A, .X, .Y, .C
+
+**Description:** Save the contents of a memory range to a file.
+
+SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
+X = low byte of end address + 1, Y = high byte of end address.
+If C is zero there were no errors; 1 is an error in which case A will have the error
+
+---
+
+#### Function Name: `SETLFS`
+
+Purpose: Set file parameters
+Call Address: \$FFBA
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETNAM
+Error returns: None
+Registers affected: .A, .X, .Y
+
+**Description:** Set file parameters typically after calling SETNAM
+
+A is the logical file number, X is the device number, and Y is the secondary address.
+
+Since multiple files can be open (with some exceptions), the value of A specifies the file
+number. If only one file is being opened at a time, $01 can be used.
+
+The device number corresponds to the hardware device where the file lives. On the X16, 
+$08 would be the SD card.
+
+The secondary address has some special meanings. FILLMEIN
+
+---
+
+#### Function Name: `SETNAM`
+
+Purpose: Set file name
+Call Address: \$FFBD
+Communication Registers: .A, .X, .Y
+Preparatory routines: SETLFS
+Error returns: None
+Registers affected: .A, .X, .Y
+
+**Description:** Inform the kernal the name of the file that is to later be opened.
+ A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
+
+For example:
+
+```
+  lda #$08
+  ldx #<filename
+  ldy #>filename
+  jsr SETNAM
+```
+
+`SETLFS` and `SETNAM` both need to be called prior other file comamnds, such as `OPEN` or
+`SAVE`.
 
 ---
 
