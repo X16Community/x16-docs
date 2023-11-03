@@ -1,6 +1,6 @@
 # Appendix XX: VERA firmware upgrade
 
-**WARNING: This is a draft that may contain errors or omission that could damage your hardware.**
+**WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
 
 **Target component:** VERA  
 **Programmer:** TL866-3G/T48  
@@ -17,26 +17,25 @@ VERA board even when the X16 is turned off.
 To do the upgrade you need the following:
 - A TL866-3G/T48 programmer
 - The Xgpro software
-- Female-to-female jump wires
+- Female-to-female jumper wires
 
 
 ## Programmer wiring setup
 
-The VERA 8-pin header is connected to the programmer's
-16-pin ICSP header as set below:
+The VERA 8-pin header is connected as set below:
 
-| VERA pin    | Connect to                  |
-|-------------|-----------------------------|
-| 1 +5V       | Not connected               |
-| 2 CDONE     | Not connected               |
-| 3 CRESET_B  | VERA, pin 8 (GND)           |
-| 4 SPI_MISO  | TL866-3G/T48, pin 5 (MISO)  |
-| 5 SPI_MOSI  | TL866-3G/T48, pin 15 (MOSI) |
-| 6 SPI_SCK   | TL866-3G/T48, pin 7 (SCK)   |
-| 7 SPI_SEL_N | TL866-3G/T48, pin 1 (/CS)   |
-| 8 GND       | TL866-3G/T48, pin 16 (GND)  |
+| VERA J2 pin   | Connect to                       |
+|---------------|----------------------------------|
+| 1 (+5V)       | Not connected                    |
+| 2 (CDONE)     | Not connected                    |
+| 3 (CRESET_B)  | VERA, J7 GND pin                 |
+| 4 (SPI_MISO)  | TL866-3G/T48, ICSP pin 5 (MISO)  |
+| 5 (SPI_MOSI)  | TL866-3G/T48, ICSP pin 15 (MOSI) |
+| 6 (SPI_SCK)   | TL866-3G/T48, ICSP pin 7 (SCK)   |
+| 7 (SPI_SEL_N) | TL866-3G/T48, ICSP pin 1 (/CS)   |
+| 8 (GND)       | TL866-3G/T48, ICSP pin 16 (GND)  |
 
-Image 1: Vera 8-pin programming header.<br>
+Image 1: Vera J2 programming header and J7 header.<br>
 <img src="images/vera-prg-hdr.png" width="400" />
 
 Image 2: TL866-3G/T48 ICSP header.<br>
