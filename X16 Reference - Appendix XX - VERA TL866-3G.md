@@ -22,7 +22,7 @@ To do the upgrade you need the following:
 
 ## Programmer wiring setup
 
-The VERA 8-pin header is connected as set below:
+The VERA 8-pin header is connected as set out below:
 
 | VERA J2 pin   | Connect to                       |
 |---------------|----------------------------------|
