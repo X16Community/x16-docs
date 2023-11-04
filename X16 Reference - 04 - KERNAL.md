@@ -312,10 +312,10 @@ Registers affected: .A, .X, .Y, .P
 #### Function Name: `LOAD`
 
 Purpose: Load the contents of a file from disk to memory
-Call address: \$FFD5  
+Call address: \$FFD5
 Communication registers: .A .X .Y
-Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
+Preparatory routines: SETNAM, SETLFS
+Error returns: None
 Registers affected: .A, .X, .Y, .P
 
 **Description:** Loads a file from disk to memory.
@@ -347,7 +347,7 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 #### Function Name: `OPEN`
 
 Purpose: Opens a channel/file
-Call address: \$FFC0  
+Call address: \$FFC0
 Communication registers: None
 Preparatory routines: SETNAM, SETLFS
 Error returns: None  
