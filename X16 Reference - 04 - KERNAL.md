@@ -349,7 +349,7 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 Purpose: Opens a channel/file
 Call address: \$FFC0  
 Communication registers: None
-Preparatory routines: SETNAM, SETLFS  
+Preparatory routines: SETNAM, SETLFS
 Error returns: None  
 Registers affected: .A, .X, .Y
 
@@ -363,13 +363,14 @@ Registers affected: .A, .X, .Y
 Purpose: Save an area of memory to a file.
 Call Address: \$FFD8
 Communication Registers: .A, .X, .Y
-Preparatory routines: SETNAM, SETLFS  
+Preparatory routines: SETNAM, SETLFS
 Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
 Registers affected: .A, .X, .Y, .C
 
 **Description:** Save the contents of a memory range to a file.
 
-SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
+`SETLFS`` and `SETNAME`` must be called beforehand. 
+A is address of zero page pointer to start address, 
 X = low byte of end address + 1, Y = high byte of end address.
 If C is zero there were no errors; 1 is an error in which case A will have the error
 
