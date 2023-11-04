@@ -311,12 +311,12 @@ Registers affected: .A, .X, .Y, .P
 
 #### Function Name: `LOAD`
 
-Purpose: Load the contents of a file from disk to memory
-Call address: \$FFD5
-Communication registers: .A .X .Y
-Preparatory routines: SETNAM, SETLFS
-Error returns: None
-Registers affected: .A, .X, .Y, .P
+Purpose: Load the contents of a file from disk to memory  
+Call address: \$FFD5  
+Communication registers: .A .X .Y  
+Preparatory routines: SETNAM, SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y, .P  
 
 **Description:** Loads a file from disk to memory.
 
@@ -346,12 +346,12 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 
 #### Function Name: `OPEN`
 
-Purpose: Opens a channel/file
-Call address: \$FFC0
-Communication registers: None
-Preparatory routines: SETNAM, SETLFS
+Purpose: Opens a channel/file  
+Call address: \$FFC0  
+Communication registers: None  
+Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
-Registers affected: .A, .X, .Y
+Registers affected: .A, .X, .Y  
 
 **Description:** Opens a file or channel. For files, will need to then subsequently call
 `CHKIN` or `CHKOUT` to then use `CHRIN` and `CHROUT`.
@@ -360,12 +360,12 @@ Registers affected: .A, .X, .Y
 
 #### Function Name: `SAVE`
 
-Purpose: Save an area of memory to a file.
-Call Address: \$FFD8
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETNAM, SETLFS
-Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
-Registers affected: .A, .X, .Y, .C
+Purpose: Save an area of memory to a file.  
+Call Address: \$FFD8  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETNAM, SETLFS  
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .C  
 
 **Description:** Save the contents of a memory range to a file.
 
