@@ -378,12 +378,12 @@ If C is zero there were no errors; 1 is an error in which case A will have the e
 
 #### Function Name: `SETLFS`
 
-Purpose: Set file parameters \
-Call Address: \$FFBA \
-Communication Registers: .A, .X, .Y \
-Preparatory routines: SETNAM \
-Error returns: None \
-Registers affected: .A, .X, .Y \
+Purpose: Set file parameters  
+Call Address: \$FFBA  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETNAM  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Set file parameters typically after calling SETNAM
 
