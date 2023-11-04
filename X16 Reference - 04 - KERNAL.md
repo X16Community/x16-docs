@@ -369,21 +369,21 @@ Registers affected: .A, .X, .Y, .C
 
 **Description:** Save the contents of a memory range to a file.
 
-`SETLFS`` and `SETNAME`` must be called beforehand. 
-A is address of zero page pointer to start address, 
-X = low byte of end address + 1, Y = high byte of end address.
-If C is zero there were no errors; 1 is an error in which case A will have the error
+`SETLFS` and `SETNAME` must be called beforehand.  
+A is address of zero page pointer to start address,   
+X = low byte of end address + 1, Y = high byte of end address.  
+If C is zero there were no errors; 1 is an error in which case A will have the error  
 
 ---
 
 #### Function Name: `SETLFS`
 
-Purpose: Set file parameters \
-Call Address: \$FFBA \
-Communication Registers: .A, .X, .Y \
-Preparatory routines: SETNAM \
-Error returns: None \
-Registers affected: .A, .X, .Y \
+Purpose: Set file parameters 
+Call Address: \$FFBA  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETNAM  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Set file parameters typically after calling SETNAM
 
@@ -395,18 +395,25 @@ number. If only one file is being opened at a time, $01 can be used.
 The device number corresponds to the hardware device where the file lives. On the X16, 
 $08 would be the SD card.
 
-The secondary address has some special meanings. FILLMEIN
+The secondary address has some special meanings. When used with `OPEN` the following
+applies:  
+
+  * $0 = Load
+  * $1 = Save
+  * $2-$E = Random R/W access (unless you specify the access type in the file string)
+  * $F = Command Channel
+
 
 ---
 
 #### Function Name: `SETNAM`
 
-Purpose: Set file name
-Call Address: \$FFBD
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETLFS
-Error returns: None
-Registers affected: .A, .X, .Y
+Purpose: Set file name  
+Call Address: \$FFBD  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Inform the kernal the name of the file that is to later be opened.
  A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
