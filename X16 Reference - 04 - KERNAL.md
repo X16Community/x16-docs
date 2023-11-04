@@ -395,14 +395,23 @@ number. If only one file is being opened at a time, $01 can be used.
 The device number corresponds to the hardware device where the file lives. On the X16, 
 $08 would be the SD card.
 
-The secondary address has some special meanings. When used with `OPEN` the following
-applies:  
+The secondary address has some special meanings:  
+
+When used with `OPEN` the following applies:  
 
   * $0 = Load
   * $1 = Save
   * $2-$E = Random R/W access (unless you specify the access type in the file string)
-  * $F = Command Channel
+  * $F = CMR-DOS Command Channel (for sending special commands to CMR-DOS)
 
+When used with `LOAD` the following applies:
+
+  * $0 = Load the data to address `$0801`, regardless of the address header.
+  * $1 = Load to the address specified in the file's header
+  * $2 = Load into VERA RAM bank 0 (at the 16-bit address in the file)
+  * $3 = Load into VERA RAM bank 1 (at the 16-bit address in the file)
+
+For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md)
 
 ---
 
