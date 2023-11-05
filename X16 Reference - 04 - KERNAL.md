@@ -369,7 +369,7 @@ Registers affected: .A, .X, .Y, .C
 
 **Description:** Save the contents of a memory range to a file.
 
-`SETLFS` and `SETNAME` must be called beforehand.  
+`SETLFS` and `SETNAM` must be called beforehand.  
 A is address of zero page pointer to start address,   
 X = low byte of end address + 1, Y = high byte of end address.  
 If C is zero there were no errors; 1 is an error in which case A will have the error  
@@ -397,19 +397,18 @@ $08 would be the SD card.
 
 The secondary address has some special meanings:  
 
-When used with `OPEN` the following applies:  
+When used with `OPEN` on disk type devices, the following applies:  
 
-  * $0 = Load
-  * $1 = Save
-  * $2-$E = Random R/W access (unless you specify the access type in the file string)
-  * $F = CMR-DOS Command Channel (for sending special commands to CMR-DOS)
+  * 0 = Load (open for read)
+  * 1 = Save (open for write)
+  * 2-14 = Read mode, by default. Write, Append, and Modify modes can be specified in the SETNAM filename string as the third argument, e.g. `"FILE.DAT,S,W"` for write mode. The seek command "P" is available in any mode.
+  * 15 = Command Channel (for sending special commands to CMDR-DOS or the disk device)
 
 When used with `LOAD` the following applies:
 
-  * $0 = Load the data to address `$0801`, regardless of the address header.
-  * $1 = Load to the address specified in the file's header
-  * $2 = Load into VERA RAM bank 0 (at the 16-bit address in the file)
-  * $3 = Load into VERA RAM bank 1 (at the 16-bit address in the file)
+  * 0 = Load the data to address specified in the X and Y register of the LOAD call, regardless of the address header. The two-byte header itself is not loaded into RAM.
+  * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
+  * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
 
 For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md)
 
