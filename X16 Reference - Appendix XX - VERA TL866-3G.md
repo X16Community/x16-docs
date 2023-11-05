@@ -1,30 +1,29 @@
-# Appendix XX: VERA firmware upgrade
+ # Appendix XX: VERA Firmware Upgrade
 
 **WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
 
-**Target component:** VERA  
+**Target Component:** VERA  
 **Programmer:** TL866-3G/T48  
 **Software:** Xgpro  
 **Host OS:** Windows  
 
 
-## Before you start
+## Before You Start
 
-Before you start the update procedure, it is important that
-you disconnect the X16 from the wall socket. Power is supplied to the
-VERA board even when the X16 is turned off.
+Before starting the update procedure, it is important to disconnect the Commander X16 from the wall socket. 
+Power is supplied to the VERA board even when the computer is turned off.
 
-To do the upgrade you need the following:
+To perform the upgrade, you will need the following:
 - A TL866-3G/T48 programmer
 - The Xgpro software
 - Female-to-female jumper wires
 
 
-## Programmer wiring setup
+## Programmer Wiring Setup
 
-The VERA 8-pin header is connected as set out below:
+The VERA 8-pin header should be connected as follows:
 
-| VERA J2 pin   | Connect to                       |
+| VERA J2 Pin   | Connect to                       |
 |---------------|----------------------------------|
 | 1 (+5V)       | Not connected                    |
 | 2 (CDONE)     | Not connected                    |
@@ -41,43 +40,44 @@ Image 1: Vera J2 programming header and J7 header.<br>
 Image 2: TL866-3G/T48 ICSP header.<br>
 <img src="images/tl866-3g-icsp.png" width="400" />
 
-Image 3: Schematics for connection between the VERA and the TL866-3G/T48.<br>
+Image 3: Schematics for connection between the VERA board and the TL866-3G/T48.<br>
 <img src="images/tl866-3g-to-vera.png" width="400" />
 
 
-## Powering the target component
+## Powering the Target Component
 
-The VERA board is programmed while mounted in the X16 and powered
-by the computer's PSU, not by the programmer.
+The VERA board is programmed while it is still mounted in the Commander X16 and 
+will be powered by the computer's PSU, not by the programmer.
 
-Verify that the wiring is correct, and then connect the X16 
-to the wall socket. Press the
-computer's power button to ensure that 5V is supplied to
-to the VERA board.
+Before proceeding with the firmware upgrade, ensure that the wiring is correct. 
+Then, connect the Commander X16 to the wall socket and press the computer's power 
+button to ensure that 5V is supplied to the VERA board.
 
-The VERA's FPGA is held in reset as VERA pin 3 (CRESET_B)
-is connected to ground. This means that you will not get
-any screen output.
+Please note that the VERA's FPGA is held in reset because 
+VERA pin 3 (CRESET_B) is connected to ground. As a result, 
+you will not see any screen output during the upgrade process.
 
 
-## Programmer software setup
+## Programmer Software Setup
 
-Open the Xgpro software and apply the following settings:
+Open the Xgpro software and configure the following settings:
 
 - Select target chip: W25Q16JV
-- Setup interface: Select ICSP port, uncheck ICSP_VCC_Enable
-- Click ID Check to verify the connection
+- Setup interface: Choose ICSP port and uncheck ICSP_VCC_Enable
+- Click on "ID Check" to verify the connection
     - The response value should be EF 40 15
-    - If not, check the wiring before you proceed
+    - If it is not, double-check the wiring before proceeding
 
 <img src="images/xgpro-window.png" width="600" />
 
 
-## Update procedure
+## Update Procedure
 
-In the Xgpro software:
-- Click Load to load the firmware into the software buffer
-- Click Prog. to upload the firmware to VERA
+In the Xgpro software, follow these steps:
 
-When the update is done, press the power button and then disconnect the X16 from the wall socket. Remove all wires from the VERA pin header,
-and the update is done.
+- Click on "Load" to load the firmware into the software buffer
+- After loading the firmware into the software buffer, click on "Prog." to upload the firmware to the VERA board.
+
+Once the update is complete, press the power button to turn off the Commander X16. Then, disconnect the computer from the wall socket. Finally, remove all wires from the VERA pin header.
+
+Congratulations! The firmware update for VERA is now complete.
