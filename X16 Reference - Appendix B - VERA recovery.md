@@ -12,7 +12,7 @@
 
 ### Before You Start
 
-Before starting, it is recommend to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off. Additionally, using an anti-static wrist strap connected to electrical ground is recommended while working on sensitive components.
+Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off. Additionally, using an anti-static wrist strap connected to electrical ground is recommended while working on sensitive components.
 
 To perform the upgrade, you will need the following:
 - A TL866-3G/T48 programmer
