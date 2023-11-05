@@ -1,6 +1,8 @@
- # Appendix XX: VERA Firmware Upgrade
+ # Appendix B: VERA Firmware Recovery
 
 **WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
+
+## Using a Windows PC to upgrade or recover a VERA
 
 **Target Component:** VERA  
 **Programmer:** TL866-3G/T48  
@@ -8,10 +10,9 @@
 **Host OS:** Windows  
 
 
-## Before You Start
+### Before You Start
 
-Before starting the update procedure, it is important to disconnect the Commander X16 from the wall socket. 
-Power is supplied to the VERA board even when the computer is turned off.
+Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off. Additionally, using an anti-static wrist strap connected to electrical ground is recommended while working on sensitive components.
 
 To perform the upgrade, you will need the following:
 - A TL866-3G/T48 programmer
@@ -19,7 +20,7 @@ To perform the upgrade, you will need the following:
 - Female-to-female jumper wires
 
 
-## Programmer Wiring Setup
+### Programmer Wiring Setup
 
 The VERA 8-pin header should be connected as follows:
 
@@ -44,7 +45,7 @@ Image 3: Schematics for connection between the VERA board and the TL866-3G/T48.<
 <img src="images/tl866-3g-to-vera.png" width="400" />
 
 
-## Powering the Target Component
+### Powering the Target Component
 
 The VERA board is programmed while it is still mounted in the Commander X16 and 
 will be powered by the computer's PSU, not by the programmer.
@@ -58,7 +59,7 @@ VERA pin 3 (CRESET_B) is connected to ground. As a result,
 you will not see any screen output during the upgrade process.
 
 
-## Programmer Software Setup
+### Programmer Software Setup
 
 Open the Xgpro software and configure the following settings:
 
@@ -71,7 +72,7 @@ Open the Xgpro software and configure the following settings:
 <img src="images/xgpro-window.png" width="600" />
 
 
-## Update Procedure
+### Update/Flash Procedure
 
 In the Xgpro software, follow these steps:
 
