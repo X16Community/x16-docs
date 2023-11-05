@@ -309,7 +309,7 @@ Registers affected: .A, .X, .Y, .C
 
 `SETLFS` and `SETNAM` must be called beforehand.  
 A is address of zero page pointer to the start address,   
-X and Y contain the *non-exclusive* end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
+X and Y contain the *exclusive* end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
 Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
 
 ---
