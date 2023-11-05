@@ -26,25 +26,25 @@ This is a brief summary of the LOAD and SAVE commands. For full documentation, r
 
 ### LOAD
 
-`LOAD <filename> [,device][,secondary_address][,start_address]`
+`LOAD <filename> [,device][,secondary_address]`
+`LOAD <filename> [,device][,ram_bank,start_address]`
 
 This reads a program file from disk. The first two bytes of the file are the memory location to which the file will be
 loaded, with the low byte first. BASIC programs will start with $01 $08, which translates to $0801, the start of BASIC
 memory. 
 The device number should be 8 for reading from the SD card. 
 
-secondary_address has multiple meanings: 
+If using the first form, secondary_address has multiple meanings: 
 
 * 0 or not present: load the data to address $0801, regardless of the address header. 
 
 * 1: load to the address specified in the file's header
 
-* 2: load into VERA RAM bank 0 (at the 16-bit address in the file)
+* 2: load the file headerless to the location $0801.
 
-* 3: load into VERA RAM bank 1 (at the 16-bit address in the file)
+If using the second form, ram_bank sets the bank for the load, and start_address is the location to read your data into.
 
-start_address is the location to read your data into. If you need to relocate your data to banked RAM, for example, you 
-will want to set the address to $A000 or higher. 
+The value of the ram_bank argument only affects the load when the start_address is set in the range of \$A000-\$BFFF.
 
 Examples:
 
@@ -52,17 +52,16 @@ Examples:
 
 `LOAD "HELLO",8` loads a program to the start of BASIC at $0801.
 
-`LOAD "*",8,1` loads the first program on the current directory. See the section below on wildcards for more 
+`LOAD "*",8,1` loads the first program in the current directory. See the section below on wildcards for more 
 information about using * and ? to access files of a certain type or with unprintable characters. 
 
-`LOAD "DATA.BIN",8,1,$A000` loads a file into banked RAM, starting at $A000. Don't forget to set the bank first: bank 
-0 is used by the operating system, so 
+`LOAD "DATA.BIN",8,1,$A000` loads a file into banked RAM, RAM bank 1, starting at $A000. The first two bytes of the file are skipped. To avoid skipping the first two bytes, use the `BLOAD` command instead.
 
 ### SAVE 
 
 `SAVE <filename>[,device]`
 
-Save a file from the computer to the SD card. SAVE always reads from the beginning of BASIC memory at $0801, up to the
+Saves a file from the computer to the SD card. SAVE always reads from the beginning of BASIC memory at $0801, up to the
 end of the BASIC program. Device is optional and defaults to 8 (the SD card, or an IEC disk drive, if one is plugged in.) 
 
 One word of caution: CMDR-DOS will not let you overwrite a file by default. To overwrite a file, you need to prefix
@@ -70,16 +69,21 @@ the filename with @:, like this:
 
 `SAVE "@:DEMO.PRG"`
 
-You may need to save arbitrary binary data from other locations. To do this, use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor).
+### BSAVE
+
+`BSAVE <filename>,<device>,<ram_bank>,<start_address>,<end_address>`
+
+Saves an arbitrary region of memory to a file without a two-byte header. To allow concatenating multiple regions of RAM into a single file with multiple successive calls to BSAVE, BSAVE allows the use of append mode in the filename string. To make use of this option, the first call to BSAVE can be called normally, which creates the file anew, while subsequent calls should be in append mode to the same file.
+
+Another way to save arbitrary binary data from arbitrary locations is to use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor).
 
 `S "filename",8,<start_address>,<end_address>`
 
 Where <start_address> and <end_address> are a 16-bit hexadecimal address. 
 
-It is also a good idea to run the DOS command after a save. The Commodore model does not report certain failures back to BASIC, so you should double-check the result after a write operation.
+After a SAVE or BSAVE, the DOS command is implicitly run to show the drive status. The Commodore file I/O model does not report certain failures back to BASIC, so you should double-check the result after a write operation.
 
 ```
-DOS 
 00, OK,00,00
 
 READY.
@@ -88,7 +92,6 @@ READY.
 An OK reply means the file saved correctly. Any other result is an error that should be addressed:
 
 ```
-DOS 
 63,FILE EXISTS,00,00
 ```
 
@@ -102,33 +105,29 @@ CMDR-DOS does not allow files to be overwritten without special handling. If you
 BLOAD loads a file *without an address header* to an arbitrary location in memory. Usage is similar to LOAD. However, BLOAD does not require
 or use the 2-byte header. The first byte in the file is the first byte loaded into memory.
   
-`BLOAD "filename",8,<bank>,<start_address>`
+`BLOAD "filename",8,<ram_bank>,<start_address>`
 
 ### VLOAD 
 
 Read binary data into VERA. VLOAD skips the 2-byte address header and starts reading at the third byte of the file. 
 
-`VLOAD "filename",8,<bank>,<start_address>`
+`VLOAD "filename",8,<vram_bank>,<start_address>`
 
 ### BVLOAD 
 
 Read binary data into VERA without a header. This works like BLOAD, but into VERA RAM. 
 
-`VLOAD "filename",8,<bank>,<start_address>`
+`BVLOAD "filename",8,<vram_bank>,<start_address>`
 
 ## Sequential Files
 
-Sequential files have two basic modes: read and write. The OPEN command opens a file for reading or writing. The
-PRINT# command writes to a file, and the GET# and INPUT# commands read from the file. 
+Sequential files have two basic modes: read and write. The OPEN command opens a file for reading or writing. The PRINT# command writes to a file, and the GET# and INPUT# commands read from the file.
 
 todo: examples
 
 ## Command Channel
 
-The command channel allows you to send commands to the CMDR-DOS interface. You can open and write to the command channel
-using the OPEN command, or you can use the DOS command to issue commands and read the status. While DOS can be used 
-in immediate mode or in a program, only the combination of OPEN/INPUT# can read the command response back into a 
-variable for later processing. 
+The command channel allows you to send commands to the CMDR-DOS interface. You can open and write to the command channel using the OPEN command, or you can use the DOS command to issue commands and read the status. While DOS can be used in immediate mode or in a program, only the combination of OPEN/INPUT# can read the command response back into a variable for later processing.
 
 In either case, the ST psuedo-variable will allow you to quickly check the status. A status of 64 is "okay", and any 
 other value should be checked by reading the error channel (shown below.) 
@@ -143,35 +142,28 @@ If you want to issue a command immediately, add your command string at the end o
 
 This example changes to the root directory of your SD card. 
 
-Now you can check your status by reading ST: 
+To know whether the OPEN command succeeded, you must open the command channel and read the result. To read the command channel (and clear the error status if an error occurred), you need to read four values:
 
-`20 IF ST=64 THEN PRINT "OK": GOTO 50`
+`20 INPUT#15,A,B$,C,D`
 
-To actually read the error channel and clear the error status, you need to read four values: 
-
-`30 INPUT#15,A,B$,C,D`
-
-A is the error number. B$ is the error message. C and D are unused in CMDR-DOS, but will return the track and sector when
-used with a disk drive on the IEC connector. 
+A is the error number. B$ is the error message. C and D are unused in CMDR-DOS for most responses, but will return the track and sector when used with a disk drive on the IEC connector. 
 
 ```BASIC
-40 PRINT A;B$;C;D
-50 CLOSE 15
+30 PRINT A;B$;C;D
+40 CLOSE 15
 ```
 
 So the entire program looks like:
 
 ```BASIC
 10 OPEN 15,8,15, "CD:/"
-20 IF ST=64 THEN PRINT "OK": GOTO 50
-30 INPUT#15,A,B$,C,D
-40 PRINT A;B$;C;D
-50 CLOSE 15
+20 INPUT#15,A,B$,C,D
+30 PRINT A;B$;C;D
+40 CLOSE 15
 ```
+If the error number (`A`) is less than 20, no error occurred. Usually this result is 0 (or 00) for OK.
 
-You can also use the DOS command to send a command to CMDR-DOS. Entering DOS by itself will print the drive's status on
-the screen. Entering a command in quotes or a string variable will execute the command. We will talk more about the 
-status variable and DOS status message in the next section. 
+You can also use the DOS command to send a command to CMDR-DOS. Entering DOS by itself will print the drive's status on the screen. Entering a command in quotes or a string variable will execute the command. We will talk more about the status variable and DOS status message in the next section. 
 
 ```BASIC
 DOS
@@ -207,16 +199,16 @@ This is the base features set compared to other Commodore DOS devices:
 It consists of the following components:
 
 * Commodore DOS interface
-	* `main.s`: TALK/LISTEN dispatching
-	* `parser.s`: filename/path parsing
-	* `cmdch.s`: command channel parsing, status messages
-	* `file.s`: file read/write
+	* `dos/main.s`: TALK/LISTEN dispatching
+	* `dos/parser.s`: filename/path parsing
+	* `dos/cmdch.s`: command channel parsing, status messages
+	* `dos/file.s`: file read/write
 * FAT32 interface
-	* `match.s`: FAT32 character set conversion, wildcard matching
-	* `dir.s`: FAT32 directory listing
-	* `function.s`: command implementations for FAT32
+	* `dos/match.s`: FAT32 character set conversion, wildcard matching
+	* `dos/dir.s`: FAT32 directory listing
+	* `dos/function.s`: command implementations for FAT32
 * FAT32 implementation
-	* `fat32/*`: [FAT32 for 65c02 library](https://github.com/X16Community/x16-rom/tree/master/dos/fat32)
+	* `fat32/*`: [FAT32 for 65c02 library](https://github.com/X16Community/x16-rom/tree/master/fat32)
 
 All currently unsupported commands are decoded in `cmdch.s` anyway, but hooked into `31,SYNTAX ERROR,00,00`, so adding features should be as easy as adding the implementation.
 
@@ -232,8 +224,8 @@ Or the core feature set, these are the supported functions:
 |---------------------------|-------------------------------|-----------|---------|
 | Reading                   | `,?,R`                        | yes       |         |
 | Writing                   | `,?,W`                        | yes       |         |
-| Appending                 | `,?,A`                        | not yet   |         |
-| Recovery                  | `,?,M`                        | no        | not useful on FAT32 |
+| Appending                 | `,?,A`                        | yes       |         |
+| Modifying                 | `,?,M`                        | yes       |         |
 | Types                     | `,S`/`,P`/`,U`/`,L`           | yes       | ignored on FAT32 |
 | Overwriting               | `@:`                          | yes       |         |
 | Magic channels 0/1        |                               | yes       |         |
@@ -243,12 +235,13 @@ Or the core feature set, these are the supported functions:
 | CMD subdirectory syntax   | `//DIR/:`/`/DIR/:`            | yes       |         |
 | Directory listing         | `$`                           | yes       |         |
 | Dir with name filtering   | `$:FIL*`                      | yes       |         |
-| Dir with type filtering   | `$:*=P`/`$:*=D`/`$:*=A`       | yes       |         |
-| Dir with timestamps       | `$=T`                         | yes       | but with ISO syntax |
-| Dir with time filtering   | `$=T<`/`$=T<`                 | not yet   |         |
+| Dir with name and type filtering   | `$:*=P`/`$:*=D`/`$:*=A`       | yes       |         |
+| Dir with timestamps       | `$=T`                         | yes       | with ISO-8601 times |
+| Dir with time filtering   | `$=T<`/`$=T>`                 | not yet   |         |
+| Dir long listing          | `$=L`                         | yes       | shows human readable file size instead of blocks, time in ISO-8601 syntax, attribute byte, and exact file size in hexadecimal |
 | Partition listing         | `$=P`                         | yes       |         |
 | Partition filtering       | `$:NAME*=P`                   | no        |         |
-| List Current Directory    | `$=C`                         | yes       |         |
+| Current Working Directory | `$=C`                         | yes       |         |
 
 And this table shows which of the standard commands are supported:
 
@@ -271,7 +264,7 @@ And this table shows which of the standard commands are supported:
 | FILE RESTORE     | `F-R`[_path_]`:`_name_[`,`...]                        | Restore a deleted file          | not yet   |
 | FILE UNLOCK      | `F-U`[_path_]`:`_name_[`,`...]                        | Disable file write-protect      | yes       |
 | GET DISKCHANGE   | `G-D`                                                 | Query disk change               | yes       |
-| GET PARTITION    | `G-P` _num_                                           | Get information about partition | yes       |
+| GET PARTITION    | `G-P`[_num_]                                          | Get information about partition | yes       |
 | INITIALIZE       | `I`[_medium_]                                         | Re-mount filesystem             | yes       |
 | LOCK             | `L`[_path_]`:`_name_                                  | Toggle file write protect       | yes       |
 | MAKE DIRECTORY   | `MD`[_path_]`:`_name_                                 | Create a sub-directory          | yes       |
@@ -338,8 +331,7 @@ The following added command channel features are specific to CMDR-DOS:
 |-----------------------|-------------|--------------------------------------------------------------------------------|
 | POSITION              | `P` _channel_ _p0_ _p1_ _p2_ _p3_  | Set position within file (like sd2iec); all args binary |
 
-To use the POSITION command, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary
-address of the data channel. 
+To use the POSITION command, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel. 
 
 ### Example
 
