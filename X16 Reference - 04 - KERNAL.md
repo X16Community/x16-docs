@@ -311,12 +311,12 @@ Registers affected: .A, .X, .Y, .P
 
 #### Function Name: `LOAD`
 
-Purpose: Load the contents of a file from disk to memory
+Purpose: Load the contents of a file from disk to memory  
 Call address: \$FFD5  
-Communication registers: .A .X .Y
+Communication registers: .A .X .Y  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
-Registers affected: .A, .X, .Y, .P
+Registers affected: .A, .X, .Y, .P  
 
 **Description:** Loads a file from disk to memory.
 
@@ -346,12 +346,12 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 
 #### Function Name: `OPEN`
 
-Purpose: Opens a channel/file
+Purpose: Opens a channel/file  
 Call address: \$FFC0  
-Communication registers: None
+Communication registers: None  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
-Registers affected: .A, .X, .Y
+Registers affected: .A, .X, .Y  
 
 **Description:** Opens a file or channel. For files, will need to then subsequently call
 `CHKIN` or `CHKOUT` to then use `CHRIN` and `CHROUT`.
@@ -360,29 +360,30 @@ Registers affected: .A, .X, .Y
 
 #### Function Name: `SAVE`
 
-Purpose: Save an area of memory to a file.
-Call Address: \$FFD8
-Communication Registers: .A, .X, .Y
+Purpose: Save an area of memory to a file.  
+Call Address: \$FFD8  
+Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
-Registers affected: .A, .X, .Y, .C
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .C  
 
 **Description:** Save the contents of a memory range to a file.
 
-SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
-X = low byte of end address + 1, Y = high byte of end address.
-If C is zero there were no errors; 1 is an error in which case A will have the error
+`SETLFS` and `SETNAM` must be called beforehand.  
+A is address of zero page pointer to start address,   
+X = low byte of end address + 1, Y = high byte of end address.  
+If C is zero there were no errors; 1 is an error in which case A will have the error  
 
 ---
 
 #### Function Name: `SETLFS`
 
-Purpose: Set file parameters
-Call Address: \$FFBA
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETNAM
-Error returns: None
-Registers affected: .A, .X, .Y
+Purpose: Set file parameters  
+Call Address: \$FFBA  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETNAM  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Set file parameters typically after calling SETNAM
 
@@ -394,18 +395,33 @@ number. If only one file is being opened at a time, $01 can be used.
 The device number corresponds to the hardware device where the file lives. On the X16, 
 $08 would be the SD card.
 
-The secondary address has some special meanings. FILLMEIN
+The secondary address has some special meanings:  
+
+When used with `OPEN` on disk type devices, the following applies:  
+
+  * 0 = Load (open for read)
+  * 1 = Save (open for write)
+  * 2-14 = Read mode, by default. Write, Append, and Modify modes can be specified in the SETNAM filename string as the third argument, e.g. `"FILE.DAT,S,W"` for write mode. The seek command "P" is available in any mode.
+  * 15 = Command Channel (for sending special commands to CMDR-DOS or the disk device)
+
+When used with `LOAD` the following applies:
+
+  * 0 = Load the data to address specified in the X and Y register of the LOAD call, regardless of the address header. The two-byte header itself is not loaded into RAM.
+  * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
+  * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
+
+For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md)
 
 ---
 
 #### Function Name: `SETNAM`
 
-Purpose: Set file name
-Call Address: \$FFBD
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETLFS
-Error returns: None
-Registers affected: .A, .X, .Y
+Purpose: Set file name  
+Call Address: \$FFBD  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETLFS  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Inform the kernal the name of the file that is to later be opened.
  A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
