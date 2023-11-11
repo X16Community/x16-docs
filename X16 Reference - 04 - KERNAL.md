@@ -263,6 +263,7 @@ For reading into Hi RAM, you must set the desired bank prior to calling `MACPTR`
 Upon return, a set .C flag indicates that the device or file does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
 
 If `MACPTR` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes read.
+*It is possible that this is less than the number of bytes requested to be read! (But is always greater than 0)*
 
 Like with `ACPTR`, the status of the operation can be retrieved using the `READST` KERNAL call.
 
@@ -286,6 +287,7 @@ For reading from Hi RAM, you must set the desired bank prior to calling `MCIOUT`
 Upon return, a set .C flag indicates that the device or file does not support `MCIOUT`, and the program needs to write the data byte-by-byte using the `CIOUT` call instead.
 
 If `MCIOUT` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes written.
+*It is possible that this is less than the number of bytes requested to be written! (But is always greater than 0)*
 
 Like with `CIOUT`, the status of the operation can be retrieved using the `READST` KERNAL call.  If an error occurred, `READST` should return nonzero.
 
