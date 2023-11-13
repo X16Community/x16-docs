@@ -33,7 +33,7 @@ Here is the ROM/Cartridge bank allocation:
 |------|-------|-------------------------------------------------------|
 |0     |KERNAL |KERNAL operating system and drivers                    |
 |1     |KEYBD  |Keyboard layout tables                                 |
-|2     |CBDOS  |The computer-based CBM-DOS for FAT32 SD cards          |
+|2     |CBDOS  |The computer-based CMDR-DOS for FAT32 SD cards         |
 |3     |FAT32  |The FAT32 driver itself                                |
 |4     |BASIC  |BASIC interpreter                                      |
 |5     |MONITOR|Machine Language Monitor                               |
