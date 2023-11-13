@@ -33,7 +33,7 @@ Here is the ROM/Cartridge bank allocation:
 |------|-------|-------------------------------------------------------|
 |0     |KERNAL |KERNAL operating system and drivers                    |
 |1     |KEYBD  |Keyboard layout tables                                 |
-|2     |CBDOS  |The computer-based CBM-DOS for FAT32 SD cards          |
+|2     |CBDOS  |The computer-based CMDR-DOS for FAT32 SD cards         |
 |3     |FAT32  |The FAT32 driver itself                                |
 |4     |BASIC  |BASIC interpreter                                      |
 |5     |MONITOR|Machine Language Monitor                               |
@@ -89,10 +89,10 @@ Machine code applications are free to reuse the BASIC area, and if they don't us
 
 This is the allocation of banked RAM in the KERNAL/BASIC environment.
 
-|Bank |Description                                 |
-|-----|--------------------------------------------|
-|0    |Used for KERNAL/CBDOS variables and buffers |
-|1-255|Available to the user                       |
+|Bank |Description                                    |
+|-----|-----------------------------------------------|
+|0    |Used for KERNAL/CMDR-DOS variables and buffers |
+|1-255|Available to the user                          |
 
 (On systems with only 512 KB RAM, banks 64-255 are unavailable.)
 
