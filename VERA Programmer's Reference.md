@@ -679,6 +679,8 @@ Each pixel in the tile data gives a color index of either 0-3 (2bpp), 0-15 (4bpp
 * Color index 0 (transparent) and 16-255 are unmodified.
 * Color index 1-15 is modified by adding 16 x palette offset.
 
+Note that 2bpp mode packs 4 pixels per byte and 4bpp mode packs 2 pixels per byte. For packed pixels, bit 7 refers to the leftmost pixel and bit 0 refers to the rightmost pixel.
+
 ### Bitmap mode 1/2/4/8 bpp
 
 **MAP_BASE** isn’t used in these modes. **TILE_BASE** points to the bitmap data.
