@@ -528,6 +528,7 @@ If the target address is in the \$9F00-\$9FFF range, all bytes will be written t
 
 * To create compressed data, use the `lzsa` tool[^1] like this:
 `lzsa -r -f2 <original_file> <compressed_file>`
+* If using the LZSA library to compress data, make sure to use format 2 and include the raw blocks flag, which is what the above command does.
 * This function cannot be used to decompress data in-place, as the output data would overwrite the input data before it is consumed. Therefore, make sure to load the input data to a different location.
 * It is possible to have the input data stored in banked RAM, with the obvious 8 KB size restriction.
 
