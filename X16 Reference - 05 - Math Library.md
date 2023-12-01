@@ -9,14 +9,14 @@ The following functions are available from machine language code after setting t
 
 ## Format Conversions
 
-| Address | Symbol   | Description                                                        |
-|---------|----------|--------------------------------------------------------------------|
-| \$FE00  | `AYINT`  | convert floating point to integer (signed word)                    |
-| \$FE03  | `GIVAYF` | convert integer (signed word) to floating point                    |
-| \$FE06  | `FOUT`   | convert floating point to ASCII string                             |
-| \$FE09  | `VAL_1`  | convert ASCII string to floating point<br/>*[not yet implemented]* |
-| \$FE0C  | `GETADR` | convert floating point to an address (unsigned word)               |
-| \$FE0F  | `FLOATC` | convert address (unsigned word) to floating point                  |  
+| Address | Symbol   | Description                                                          |
+|---------|----------|----------------------------------------------------------------------|
+| \$FE00  | `AYINT`  | convert floating point to integer (signed word)                      |
+| \$FE03  | `GIVAYF` | convert integer (signed word) to floating point                      |
+| \$FE06  | `FOUT`   | convert floating point to ASCII string                               |
+| \$FE09  | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC |
+| \$FE0C  | `GETADR` | convert floating point to an address (unsigned word)                 |
+| \$FE0F  | `FLOATC` | convert address (unsigned word) to floating point                    |
 
 #### X16 Additions
 
