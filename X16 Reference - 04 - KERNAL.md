@@ -22,18 +22,18 @@ The Commander X16 contains a version of KERNAL as its operating system in ROM. I
 
 ## KERNAL Version
 
-The KERNAL version can be read from location \$FF80 in ROM. A value of \$FF indicates a custom build. All other values encode the build number. Positive numbers are release versions (\$02 = release version 2), two's complement negative numbers are prerelease versions (\$FE = \$100 - 2 = prerelease version 2).
+The KERNAL version can be read from location $FF80 in ROM. A value of $FF indicates a custom build. All other values encode the build number. Positive numbers are release versions ($02 = release version 2), two's complement negative numbers are prerelease versions ($FE = $100 - 2 = prerelease version 2).
 
 ## Compatibility Considerations
 
 For applications to remain compatible between different versions of the ROM, they can rely upon:
 
-* the KERNAL API calls at \$FF81-\$FFF3
-* the KERNAL vectors at \$0314-\$0333
+* the KERNAL API calls at $FF81-$FFF3
+* the KERNAL vectors at $0314-$0333
 
 The following features must not be relied upon:
 
-* the zero page and \$0200+ memory layout
+* the zero page and $0200+ memory layout
 * direct function offsets in the ROM
 
 ## Commodore 64 API Compatibility
@@ -53,20 +53,20 @@ The following C128 APIs have equivalent functionality on the X16 but are not com
 
 | Address | C128 Name | X16 Name             |
 |---------|-----------|----------------------|
-| \$FF5F   | `SWAPPER` | [`screen_mode`](#function-name-screen_mode) |
-| \$FF62   | `DLCHR`   | [`screen_set_charset`](#function-name-screen_set_charset) |
-| \$FF74   | `FETCH`   | [`fetch`](#function-name-fetch) |
-| \$FF77   | `STASH`   | [`stash`](#function-name-stash) |
+| $FF5F   | `SWAPPER` | [`screen_mode`](#function-name-screen_mode) |
+| $FF62   | `DLCHR`   | [`screen_set_charset`](#function-name-screen_set_charset) |
+| $FF74   | `FETCH`   | [`fetch`](#function-name-fetch) |
+| $FF77   | `STASH`   | [`stash`](#function-name-stash) |
 <!---
 *** undocumented - we might remove it
-| \$FF7A   | `CMPARE`  | `cmpare`             |
+| $FF7A   | `CMPARE`  | `cmpare`             |
 --->
 
 ## New API for the Commander X16
 
 There are lots of new APIs. Please note that their addresses and their behavior is still preliminary and can change between revisions.
 
-Some new APIs use the "16 bit" ABI, which uses virtual 16 bit registers r0 through r15, which are located in zero page locations \$02 through \$21: r0 = r0L = \$02, r0H = \$03, r1 = r1L = \$04 etc.
+Some new APIs use the "16 bit" ABI, which uses virtual 16 bit registers r0 through r15, which are located in zero page locations $02 through $21: r0 = r0L = $02, r0H = $03, r1 = r1L = $04 etc.
 
 The 16 bit ABI generally follows the following conventions:
 
@@ -198,28 +198,28 @@ The 16 bit ABI generally follows the following conventions:
 Some notes:
 
 * For device #8, the Commodore Peripheral Bus calls first talk to the "Computer DOS" built into the ROM to detect an SD card, before falling back to the Commodore Serial Bus.
-* The `IOBASE` call returns \$9F00, the location of the first VIA controller.
+* The `IOBASE` call returns $9F00, the location of the first VIA controller.
 * The `SETTMO` call has been a no-op since the Commodore VIC-20, and has no function on the X16 either.
 * The `MEMTOP` call additionally returns the number of available RAM banks in the .A register.
-* The layout of the zero page (\$0000-\$00FF) and the KERNAL/BASIC variable space (\$0200+) are generally **not** compatible with the C64.
+* The layout of the zero page ($0000-$00FF) and the KERNAL/BASIC variable space ($0200+) are generally **not** compatible with the C64.
 
-The KERNAL vectors (\$0314-\$0333) are fully compatible with the C64:
+The KERNAL vectors ($0314-$0333) are fully compatible with the C64:
 
-\$0314-\$0315: `CINV` – IRQ Interrupt Routine  
-\$0316-\$0317: `CBINV` – BRK Instruction Interrupt  
-\$0318-\$0319: `NMINV` – Non-Maskable Interrupt  
-\$031A-\$031B: `IOPEN` – Kernal OPEN Routine  
-\$031C-\$031D: `ICLOSE` – Kernal CLOSE Routine  
-\$031E-\$031F: `ICHKIN` – Kernal CHKIN Routine  
-\$0320-\$0321: `ICKOUT` – Kernal CKOUT Routine  
-\$0322-\$0323: `ICLRCH` – Kernal CLRCHN Routine  
-\$0324-\$0325: `IBASIN` – Kernal CHRIN Routine  
-\$0326-\$0327: `IBSOUT` – Kernal CHROUT Routine  
-\$0328-\$0329: `ISTOP` – Kernal STOP Routine  
-\$032A-\$032B: `IGETIN` – Kernal GETIN Routine  
-\$032C-\$032D: `ICLALL` – Kernal CLALL Routine  
-\$0330-\$0331: `ILOAD` – Kernal LOAD Routine  
-\$0332-\$0333: `ISAVE` – Kernal SAVE Routine  
+$0314-$0315: `CINV` – IRQ Interrupt Routine  
+$0316-$0317: `CBINV` – BRK Instruction Interrupt  
+$0318-$0319: `NMINV` – Non-Maskable Interrupt  
+$031A-$031B: `IOPEN` – Kernal OPEN Routine  
+$031C-$031D: `ICLOSE` – Kernal CLOSE Routine  
+$031E-$031F: `ICHKIN` – Kernal CHKIN Routine  
+$0320-$0321: `ICKOUT` – Kernal CKOUT Routine  
+$0322-$0323: `ICLRCH` – Kernal CLRCHN Routine  
+$0324-$0325: `IBASIN` – Kernal CHRIN Routine  
+$0326-$0327: `IBSOUT` – Kernal CHROUT Routine  
+$0328-$0329: `ISTOP` – Kernal STOP Routine  
+$032A-$032B: `IGETIN` – Kernal GETIN Routine  
+$032C-$032D: `ICLALL` – Kernal CLALL Routine  
+$0330-$0331: `ILOAD` – Kernal LOAD Routine  
+$0332-$0333: `ISAVE` – Kernal SAVE Routine  
 
 ---
 
@@ -227,15 +227,15 @@ The KERNAL vectors (\$0314-\$0333) are fully compatible with the C64:
 
 The X16 adds two new functions for dealing with the Commodore Peripheral Bus ("IEEE"):
 
-\$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
-\$FF44: `MACPTR` - read multiple bytes from peripheral bus
+$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
+$FF44: `MACPTR` - read multiple bytes from peripheral bus
 
 ---
 
 #### Function Name: ACPTR
 
 Purpose: Read a byte from the peripheral bus  
-Call address: \$FFA5  
+Call address: $FFA5  
 Communication registers: .A  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
 Error returns: None  
@@ -248,7 +248,7 @@ Registers affected: .A, .X, .Y, .P
 #### Function Name: MACPTR
 
 Purpose: Read multiple bytes from the peripheral bus  
-Call address: \$FF44  
+Call address: $FF44  
 Communication registers: .A, .X, .Y, .C  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
 Error returns: None  
@@ -271,7 +271,7 @@ Like with `ACPTR`, the status of the operation can be retrieved using the `READS
 #### Function Name: MCIOUT
 
 Purpose: Write multiple bytes to the peripheral bus  
-Call address: \$FEB1  
+Call address: $FEB1  
 Communication registers: .A, .X, .Y, .C  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`  
 Error returns: None  
@@ -299,7 +299,7 @@ Like with `CIOUT`, the status of the operation can be retrieved using the `READS
 #### Function Name: `CLOSE`
 
 Purpose: Close a logical file  
-Call address: \$FFC3  
+Call address: $FFC3  
 Communication registers: .A  
 Preparatory routines: None  
 Error returns: None  
@@ -312,7 +312,7 @@ Registers affected: .A, .X, .Y, .P
 #### Function Name: `LOAD`
 
 Purpose: Load the contents of a file from disk to memory  
-Call address: \$FFD5  
+Call address: $FFD5  
 Communication registers: .A .X .Y  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
@@ -347,7 +347,7 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 #### Function Name: `OPEN`
 
 Purpose: Opens a channel/file  
-Call address: \$FFC0  
+Call address: $FFC0  
 Communication registers: None  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
@@ -361,7 +361,7 @@ Registers affected: .A, .X, .Y
 #### Function Name: `SAVE`
 
 Purpose: Save an area of memory to a file.  
-Call Address: \$FFD8  
+Call Address: $FFD8  
 Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
@@ -379,7 +379,7 @@ If C is zero there were no errors; 1 is an error in which case A will have the e
 #### Function Name: `SETLFS`
 
 Purpose: Set file parameters  
-Call Address: \$FFBA  
+Call Address: $FFBA  
 Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM  
 Error returns: None  
@@ -417,7 +417,7 @@ For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-
 #### Function Name: `SETNAM`
 
 Purpose: Set file name  
-Call Address: \$FFBD  
+Call Address: $FFBD  
 Communication Registers: .A, .X, .Y  
 Preparatory routines: SETLFS  
 Error returns: None  
@@ -442,12 +442,12 @@ For example:
 
 ### Memory
 
-\$FEE4: `memory_fill` - fill memory region with a byte value  
-\$FEE7: `memory_copy` - copy memory region  
-\$FEEA: `memory_crc` - calculate CRC16 of memory region  
-\$FEED: `memory_decompress` - decompress LZSA2 block  
-\$FF74: `fetch` - read a byte from any RAM or ROM bank  
-\$FF77: `stash` - write a byte to any RAM bank
+$FEE4: `memory_fill` - fill memory region with a byte value  
+$FEE7: `memory_copy` - copy memory region  
+$FEEA: `memory_crc` - calculate CRC16 of memory region  
+$FEED: `memory_decompress` - decompress LZSA2 block  
+$FF74: `fetch` - read a byte from any RAM or ROM bank  
+$FF77: `stash` - write a byte to any RAM bank
 
 <!---
 *** undocumented - we might remove it
@@ -459,11 +459,11 @@ $FF7A: `cmpare` - compare a byte on any RAM or ROM bank
 
 Signature: void memory_fill(word address: r0, word num_bytes: r1, byte value: .a);  
 Purpose: Fill a memory region with a byte value.  
-Call address: \$FEE4
+Call address: $FEE4
 
 **Description:** This function fills the memory region specified by an address (r0) and a size in bytes (r1) with the constant byte value passed in .A. r0 and .A are preserved, r1 is destroyed.
 
-If the target address is in the \$9F00-\$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for filling VERA memory (\$9F23 or \$9F24), for example.
+If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for filling VERA memory ($9F23 or $9F24), for example.
 
 ---
 
@@ -471,11 +471,11 @@ If the target address is in the \$9F00-\$9FFF range, all bytes will be written t
 
 Signature: void memory_copy(word source: r0, word target: r1, word num_bytes: r2);  
 Purpose: Copy a memory region to a different region.  
-Call address: \$FEE7
+Call address: $FEE7
 
 **Description:** This function copies one memory region specified by an address (r0) and a size in bytes (r2) to a different region specified by its start address (r1). The two regions may overlap. r0 and r1 are preserved, r2 is destroyed.
 
-Like with `memory_fill`, source and destination addresses in the \$9F00-\$9FFF range will not be incremented during the copy. This allows, for instance, uploading data from RAM to VERA (destination of \$9F23 or \$9F24), downloading data from VERA (source \$9F23 or \$9F24) or copying data inside VERA (source \$9F23, destination \$9F24). This functionality can also be used to upload, download or transfer data with other I/O devices that have an 8 bit data port.
+Like with `memory_fill`, source and destination addresses in the $9F00-$9FFF range will not be incremented during the copy. This allows, for instance, uploading data from RAM to VERA (destination of $9F23 or $9F24), downloading data from VERA (source $9F23 or $9F24) or copying data inside VERA (source $9F23, destination $9F24). This functionality can also be used to upload, download or transfer data with other I/O devices that have an 8 bit data port.
 
 ---
 
@@ -483,11 +483,11 @@ Like with `memory_fill`, source and destination addresses in the \$9F00-\$9FFF r
 
 Signature: (word result: r2) memory_crc(word address: r0, word num_bytes: r1);  
 Purpose: Calculate the CRC16 of a memory region.  
-Call address: \$FEEA
+Call address: $FEEA
 
 **Description:** This function calculates the CRC16 checksum of the memory region specified by an address (r0) and a size in bytes (r1). The result is returned in r2. r0 is preserved, r1 is destroyed.
 
-Like `memory_fill`, this function does not increment the address if it is in the range of \$9F00-\$9FFF, which allows checksumming VERA memory or data streamed from any other I/O device.
+Like `memory_fill`, this function does not increment the address if it is in the range of $9F00-$9FFF, which allows checksumming VERA memory or data streamed from any other I/O device.
 
 ---
 
@@ -495,11 +495,11 @@ Like `memory_fill`, this function does not increment the address if it is in the
 
 Signature: void memory_decompress(word input: r0, inout word output: r1);  
 Purpose: Decompress an LZSA2 block  
-Call address: \$FEED
+Call address: $FEED
 
 **Description:** This function decompresses an LZSA2-compressed data block from the location passed in r0 and outputs the decompressed data at the location passed in r1. After the call, r1 will be updated with the location of the last output byte plus one.
 
-If the target address is in the \$9F00-\$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory (\$9F23 or \$9F24), for example. Note that decompressing *from* I/O is not supported.
+If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory ($9F23 or $9F24), for example. Note that decompressing *from* I/O is not supported.
 
 **Notes**:
 
@@ -513,7 +513,7 @@ If the target address is in the \$9F00-\$9FFF range, all bytes will be written t
 #### Function Name: fetch
 
 Purpose: Read a byte from any RAM or ROM bank  
-Call address: \$FF74  
+Call address: $FF74  
 Communication registers: .A, .X, .Y, .P
 
 **Description:** This function performs an `LDA (ZP),Y` from any RAM or ROM bank. The the zero page address containing the base address is passed in .A, the bank in .X and the offset from the vector in .Y. The data byte is returned in .A. The flags are set according to .A, .X is destroyed, but .Y is preserved.
@@ -523,10 +523,10 @@ Communication registers: .A, .X, .Y, .P
 #### Function Name: stash
 
 Purpose: Write a byte to any RAM bank  
-Call address: \$FF77  
+Call address: $FF77  
 Communication registers: .A, .X, .Y
 
-**Description:** This function performs an `STA (ZP),Y` to any RAM bank. The the zero page address containing the base address is passed in `stavec` (\$03B2), the bank in .X and the offset from the vector in .Y. After the call, .X is destroyed, but .A and .Y are preserved.
+**Description:** This function performs an `STA (ZP),Y` to any RAM bank. The the zero page address containing the base address is passed in `stavec` ($03B2), the bank in .X and the offset from the vector in .Y. After the call, .X is destroyed, but .A and .Y are preserved.
 
 *[this API is subject to change]*
 
@@ -534,15 +534,15 @@ Communication registers: .A, .X, .Y
 
 ### Clock
 
-\$FF4D: `clock_set_date_time` - set date and time  
-\$FF50: `clock_get_date_time` - get date and time  
+$FF4D: `clock_set_date_time` - set date and time  
+$FF50: `clock_get_date_time` - get date and time  
 
 ---
 
 #### Function Name: clock_set_date_time
 
 Purpose: Set the date and time  
-Call address: \$FF4D  
+Call address: $FF4D  
 Communication registers: r0, r1, r2, r3L  
 Preparatory routines: None  
 Error returns: None  
@@ -569,7 +569,7 @@ Jiffies are 1/60th seconds.
 #### Function Name: clock_get_date_time
 
 Purpose: Get the date and time  
-Call address: \$FF50  
+Call address: $FF50  
 Communication registers: r0, r1, r2, r3L  
 Preparatory routines: None  
 Error returns: None  
@@ -584,17 +584,17 @@ On the Commander X16, the *jiffies* field is unsupported and will always read ba
 
 ### Keyboard
 
-\$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
-\$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
-\$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
-\$FED2: `keymap` - set or get the current keyboard layout
+$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
+$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
+$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
+$FED2: `keymap` - set or get the current keyboard layout
 
 ---
 
 #### Function Name: kbdbuf_peek
 
 Purpose: Get next char and keyboard queue length  
-Call address: \$FEBD  
+Call address: $FEBD  
 Communication registers: .A, .X  
 Preparatory routines: None  
 Error returns: None  
@@ -608,7 +608,7 @@ Registers affected: -
 #### Function Name: kbdbuf_get_modifiers
 
 Purpose: Get currently pressed modifiers  
-Call address: \$FEC0  
+Call address: $FEC0  
 Communication registers: .A  
 Preparatory routines: None  
 Error returns: None  
@@ -632,7 +632,7 @@ This allows detecting combinations of a regular key and a modifier key in cases 
 #### Function Name: kbdbuf_put
 
 Purpose: Append a char to the keyboard queue  
-Call address: \$FEC3  
+Call address: $FEC3  
 Communication registers: .A  
 Preparatory routines: None  
 Error returns: None  
@@ -646,7 +646,7 @@ Registers affected: .X
 #### Function Name: keymap
 
 Purpose: Set or get the current keyboard layout
-Call address: \$FED2  
+Call address: $FED2  
 Communication registers: .X , .Y
 Preparatory routines: None  
 Error returns: .C = 1 in case of error
@@ -661,7 +661,7 @@ Keyboard layout identifiers are in the form "DE", "DE-CH" etc.
 #### Function Name: SCNKEY
 
 Purpose: Poll the SMC for a keystroke, and add it to the X16's buffer.  
-Call address: \$FF9F  
+Call address: $FF9F  
 Communication registers: None
 Preparatory routines: None  
 Error returns: None
@@ -687,7 +687,7 @@ $FF6B: `mouse_get` - get state of mouse
 #### Function Name: mouse_config
 
 Purpose: Configure the mouse pointer  
-Call address: \$FF68  
+Call address: $FF68  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: None  
@@ -712,7 +712,7 @@ The arguments in .X and .Y specify the screen resolution in 8 pixel increments. 
 #### Function Name: mouse_scan
 
 Purpose: Query the mouse and save its state  
-Call address: \$FF71  
+Call address: $FF71  
 Communication registers: None  
 Preparatory routines: None  
 Error returns: None  
@@ -726,7 +726,7 @@ Registers affected: .A, .X, .Y
 #### Function Name: mouse_get
 
 Purpose: Get the mouse state  
-Call address: \$FF6B  
+Call address: $FF6B  
 Communication registers: .X  
 Preparatory routines: `mouse_config`  
 Error returns: None  
@@ -776,7 +776,7 @@ $FF56: `joystick_get` - get state of one joystick
 #### Function Name: joystick_scan
 
 Purpose: Query the joysticks and save their state  
-Call address: \$FF53  
+Call address: $FF53  
 Communication registers: None  
 Preparatory routines: None  
 Error returns: None  
@@ -790,7 +790,7 @@ Registers affected: .A, .X, .Y
 #### Function Name: joystick_get
 
 Purpose: Get the state of one of the joysticks  
-Call address: \$FF56  
+Call address: $FF56  
 Communication registers: .A  
 Preparatory routines: `joystick_scan`  
 Error returns: None  
@@ -856,16 +856,16 @@ If the default interrupt handler is disabled or replaced:
 
 ### I2C
 
-\$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
-\$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
-\$FEC6: `i2c_read_byte` - read a byte from an I2C device  
-\$FEC9: `i2c_write_byte` - write a byte to an I2C device
+$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
+$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
+$FEC6: `i2c_read_byte` - read a byte from an I2C device  
+$FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 ---
 #### Function Name: i2c_batch_read
 
 Purpose: Read bytes from a given I2C device into a RAM location  
-Call address: \$FEB4  
+Call address: $FEB4  
 Communication registers: .X, r0, r1, .C  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
@@ -895,7 +895,7 @@ jsr i2c_batch_read ; read 500 bytes from I2C device $50 into RAM starting at $04
 #### Function Name: i2c_batch_write
 
 Purpose: Write bytes to a given I2C device with data in RAM  
-Call address: \$FEB7  
+Call address: $FEB7  
 Communication registers: .X, r0, r1, r2, .C  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
@@ -932,7 +932,7 @@ jsr i2c_batch_write ; write 500 bytes to I2C device $50 from RAM
 #### Function Name: i2c_read_byte
 
 Purpose: Read a byte at a given offset from a given I2C device  
-Call address: \$FEC6  
+Call address: $FEC6  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
@@ -952,7 +952,7 @@ JSR i2c_read_byte ; read first byte of NVRAM
 #### Function Name: i2c_write_byte
 
 Purpose: Write a byte at a given offset to a given I2C device  
-Call address: \$FEC9  
+Call address: $FEC9  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
@@ -985,15 +985,15 @@ JSR $FEC9 ; power off the system
 
 ### Sprites
 
-\$FEF0: `sprite_set_image` - set the image of a sprite  
-\$FEF3: `sprite_set_position` - set the position of a sprite
+$FEF0: `sprite_set_image` - set the image of a sprite  
+$FEF3: `sprite_set_position` - set the position of a sprite
 
 ---
 
 #### Function Name: sprite_set_image
 
 Purpose: Set the image of a sprite  
-Call address: \$FEF0  
+Call address: $FEF0  
 Signature: bool sprite_set_image(byte number: .a, width: .x, height: .y, apply_mask: .c, word pixels: r0, word mask: r1, byte bpp: r2L);  
 Error returns: .C = 1 in case of error
 
@@ -1010,11 +1010,11 @@ Error returns: .C = 1 in case of error
 #### Function Name: sprite_set_position
 
 Purpose: Set the position of a sprite or hide it.  
-Call address: \$FEF3  
+Call address: $FEF3  
 Signature: void sprite_set_position(byte number: .a, word x: r0, word y: r1);  
 Error returns: None
 
-**Description:** This function shows a given sprite (.A) at a certain position or hides it. The position is passed in r0 and r1. If the x position is negative (&gt;\$8000), the sprite will be hidden.
+**Description:** This function shows a given sprite (.A) at a certain position or hides it. The position is passed in r0 and r1. If the x position is negative (&gt;$8000), the sprite will be hidden.
 
 **Note**: This routine only supports setting the position for sprite numbers 0-31.
 
@@ -1062,7 +1062,7 @@ $02FE: I_FB_move_pixels
 
 The model of this API is based on the direct-access cursor. In order to read and write pixels, the cursor has to be set to a specific x/y-location, and all subsequent calls will access consecutive pixels at the cursor position and update the cursor.
 
-The default driver supports the VERA framebuffer at a resolution of 320x200 pixels and 256 colors. Using `screen_mode` to set mode \$80 will enable this driver.
+The default driver supports the VERA framebuffer at a resolution of 320x200 pixels and 256 colors. Using `screen_mode` to set mode $80 will enable this driver.
 
 ---
 
@@ -1188,18 +1188,18 @@ Purpose: Copy horizontally consecutive pixels to a different position
 
 The high-level graphics API exposes a set of standard functions. It allows applications to easily perform some common high-level actions like drawing lines, rectangles and images, as well as moving parts of the screen. All commands are completely implemented on top of the framebuffer API, that is, they will continue working after replacing the framebuffer driver with one that supports a different resolution, color depth or even graphics device.
 
-\$FF20: `GRAPH_init` - initialize graphics  
-\$FF23: `GRAPH_clear` - clear screen  
-\$FF26: `GRAPH_set_window` - set clipping region  
-\$FF29: `GRAPH_set_colors` - set stroke, fill and background colors  
-\$FF2C: `GRAPH_draw_line` - draw a line  
-\$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)  
-\$FF32: `GRAPH_move_rect` - move pixels  
-\$FF35: `GRAPH_draw_oval` - draw an oval or circle  
-\$FF38: `GRAPH_draw_image` - draw a rectangular image  
-\$FF3B: `GRAPH_set_font` - set the current font  
-\$FF3E: `GRAPH_get_char_size` - get size and baseline of a character  
-\$FF41: `GRAPH_put_char` - print a character
+$FF20: `GRAPH_init` - initialize graphics  
+$FF23: `GRAPH_clear` - clear screen  
+$FF26: `GRAPH_set_window` - set clipping region  
+$FF29: `GRAPH_set_colors` - set stroke, fill and background colors  
+$FF2C: `GRAPH_draw_line` - draw a line  
+$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)  
+$FF32: `GRAPH_move_rect` - move pixels  
+$FF35: `GRAPH_draw_oval` - draw an oval or circle  
+$FF38: `GRAPH_draw_image` - draw a rectangular image  
+$FF3B: `GRAPH_set_font` - set the current font  
+$FF3E: `GRAPH_get_char_size` - get size and baseline of a character  
+$FF41: `GRAPH_put_char` - print a character
 
 ---
 
@@ -1315,41 +1315,41 @@ Purpose: Print a character onto the graphics screen
 
 **Description:** This function prints a single character at a given location on the graphics screen. The location is then updated. The following control codes are supported:
 
-* \$01: SWAP COLORS
-* \$04: ATTRIBUTES: UNDERLINE
-* \$06: ATTRIBUTES: BOLD
-* \$07: BELL
-* \$08: BACKSPACE
-* \$09: TAB
-* \$0A: LF
-* \$0B: ATTRIBUTES: ITALICS
-* \$0C: ATTRIBUTES: OUTLINE
-* \$0D/\$8D: REGULAR/SHIFTED RETURN
-* \$11/\$91: CURSOR: DOWN/UP
-* \$12: ATTRIBUTES: REVERSE
-* \$13/\$93: HOME/CLEAR
-* \$14 DEL
-* \$92: ATTRIBUTES: CLEAR ALL
+* $01: SWAP COLORS
+* $04: ATTRIBUTES: UNDERLINE
+* $06: ATTRIBUTES: BOLD
+* $07: BELL
+* $08: BACKSPACE
+* $09: TAB
+* $0A: LF
+* $0B: ATTRIBUTES: ITALICS
+* $0C: ATTRIBUTES: OUTLINE
+* $0D/$8D: REGULAR/SHIFTED RETURN
+* $11/$91: CURSOR: DOWN/UP
+* $12: ATTRIBUTES: REVERSE
+* $13/$93: HOME/CLEAR
+* $14 DEL
+* $92: ATTRIBUTES: CLEAR ALL
 * all color codes
 
 Notes:
 
-* CR (\$0D) SHIFT+CR (\$8D) and LF (\$0A) all set the cursor to the beginning of the next line. The only difference is that CR and SHIFT+CR reset the attributes, and LF does not.
-* BACKSPACE (\$08) and DEL (\$14) move the cursor to the beginning of the previous character but does not actually clear it. Multiple consecutive BACKSPACE/DEL characters are not supported.
-* There is no way to individually disable attributes (underlined, bold, reversed, italics, outline). The only way to disable them is to reset the attributes using code \$92, which switches to plain text.
-* All 16 PETSCII color codes are supported. Code \$01 to swap the colors will swap the stroke and fill colors.
+* CR ($0D) SHIFT+CR ($8D) and LF ($0A) all set the cursor to the beginning of the next line. The only difference is that CR and SHIFT+CR reset the attributes, and LF does not.
+* BACKSPACE ($08) and DEL ($14) move the cursor to the beginning of the previous character but does not actually clear it. Multiple consecutive BACKSPACE/DEL characters are not supported.
+* There is no way to individually disable attributes (underlined, bold, reversed, italics, outline). The only way to disable them is to reset the attributes using code $92, which switches to plain text.
+* All 16 PETSCII color codes are supported. Code $01 to swap the colors will swap the stroke and fill colors.
 * The stroke color is used to draw the characters, and the underline is drawn using the fill color. In reverse text mode, the text background is filled with the fill color.
-* *[BELL (\$07), TAB (\$09) and SHIFT+TAB (\$18) are not yet implemented.]*
+* *[BELL ($07), TAB ($09) and SHIFT+TAB ($18) are not yet implemented.]*
 
 ---
 
 ### Console
 
-\$FEDB: `console_init` - initialize console mode  
-\$FEDE: `console_put_char` - print character to console  
-\$FED8: `console_put_image` - draw image as if it was a character  
-\$FEE1: `console_get_char` - get character from console  
-\$FED5: `console_set_paging_message` - set paging message or disable paging
+$FEDB: `console_init` - initialize console mode  
+$FEDE: `console_put_char` - print character to console  
+$FED8: `console_put_image` - draw image as if it was a character  
+$FEE1: `console_get_char` - get character from console  
+$FED5: `console_set_paging_message` - set paging message or disable paging
 
 The console is a screen mode that allows text output and input in proportional fonts that support the usual styles. It is useful for rich text-based interfaces.
 
@@ -1359,7 +1359,7 @@ The console is a screen mode that allows text output and input in proportional f
 
 Signature: void console_init(word x: r0, word y: r1, word width: r2, word height: r3);  
 Purpose: Initialize console mode.  
-Call address: \$FEDB
+Call address: $FEDB
 
 **Description:** This function initializes console mode. It sets up the window (text clipping area) passed into it, clears the window and positions the cursor at the top left. All 0 arguments create a full screen console. You have to switch to graphics mode using `screen_mode` beforehand.
 
@@ -1369,7 +1369,7 @@ Call address: \$FEDB
 
 Signature: void console_put_char(byte char: .a, bool wrapping: .c);  
 Purpose: Print a character to the console.  
-Call address: \$FEDE
+Call address: $FEDE
 
 **Description:** This function prints a character to the console. The .C flag specifies whether text should be wrapped at character (.C=0) or word (.C=1) boundaries. In the latter case, characters will be buffered until a SPACE, CR or LF character is sent, so make sure the text that is printed always ends in one of these characters.
 
@@ -1381,7 +1381,7 @@ Call address: \$FEDE
 
 Signature: void console_put_image(word ptr: r0, word width: r1, word height: r2);  
 Purpose: Draw image as if it was a character.  
-Call address: \$FEE1
+Call address: $FEE1
 
 **Description:** This function draws an image (in GRAPH_draw_image format) at the current cursor position and advances the cursor accordingly. This way, an image can be presented inline. A common example would be an emoji bitmap, but it is also possible to show full-width pictures if you print a newline before and after the image.
 
@@ -1396,7 +1396,7 @@ Call address: \$FEE1
 
 Signature: (byte char: .a) console_get_char();  
 Purpose: Get a character from the console.  
-Call address: \$FEE1
+Call address: $FEE1
 
 **Description:** This function gets a character to the console. It does this by collecting a whole line of character, i.e. until the user presses RETURN. Then, the line will be sent character by character.
 
@@ -1408,7 +1408,7 @@ This function allows editing the line using BACKSPACE/DEL, but does not allow mo
 
 Signature: void console_set_paging_message(word message: r0);  
 Purpose: Set the paging message or disable paging.  
-Call address: \$FED5
+Call address: $FED5
 
 **Description:** The console can halt printing after a full screen height worth of text has been printed. It will then show a message, wait for any key, and continue printing. This function sets this message. A zero-terminated text is passed in r0. To turn off paging, call this function with r0 = 0 - this is the default.
 
@@ -1418,16 +1418,16 @@ Call address: \$FED5
 
 ### Other
 
-\$FECF: `entropy_get` - get 24 random bits  
-\$FECC: `monitor` - enter machine language monitor  
-\$FF47: `enter_basic` - enter BASIC  
-\$FF5F: `screen_mode` - get/set screen mode  
-\$FF62: `screen_set_charset` - activate 8x8 text mode charset
+$FECF: `entropy_get` - get 24 random bits  
+$FECC: `monitor` - enter machine language monitor  
+$FF47: `enter_basic` - enter BASIC  
+$FF5F: `screen_mode` - get/set screen mode  
+$FF62: `screen_set_charset` - activate 8x8 text mode charset
 
 #### Function Name: entropy_get
 
 Purpose: Get 24 random bits  
-Call address: \$FECF  
+Call address: $FECF  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
 Error returns: None  
@@ -1469,7 +1469,7 @@ Registers affected: .A, .X, .Y
 #### Function Name: monitor
 
 Purpose: Enter the machine language monitor  
-Call address: \$FECC  
+Call address: $FECC  
 Communication registers: None  
 Preparatory routines: None  
 Error returns: Does not return  
@@ -1493,7 +1493,7 @@ Registers affected: Does not return
 #### Function Name: enter_basic
 
 Purpose: Enter BASIC  
-Call address: \$FF47  
+Call address: $FF47  
 Communication registers: .C  
 Preparatory routines: None  
 Error returns: Does not return
@@ -1512,7 +1512,7 @@ JMP enter_basic ; returns to the "READY." prompt
 #### Function Name: screen_mode
 
 Purpose: Get/Set the screen mode  
-Call address: \$FF5F  
+Call address: $FF5F  
 Communication registers: .A, .X, .Y, .C  
 Preparatory routines: None  
 Error returns: .C = 1 in case of error  
@@ -1535,7 +1535,7 @@ BCS FAILURE
 #### Function Name: screen_set_charset
 
 Purpose: Activate a 8x8 text mode charset  
-Call address: \$FF62
+Call address: $FF62
 
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
@@ -1570,7 +1570,7 @@ JSR screen_set_charset ; UPLOAD CUSTOM CHARSET "MY_CHARSET"
 #### Function Name: JSRFAR
 
 Purpose: Execute a routine on another RAM or ROM bank  
-Call address: \$FF6E  
+Call address: $FF6E  
 Communication registers: None  
 Preparatory routines: None  
 Error returns: None  

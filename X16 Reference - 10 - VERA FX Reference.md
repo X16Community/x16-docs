@@ -18,7 +18,7 @@ In other words: the CPU is still the orchestrator of all that is done, but it is
 
 ### DCSEL
 
-VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, starting at address \$9F20 and ending at \$9F3F. Many of these are (fully) used, but some bits remain unused. The DCSEL bits in register $9F25 (also called CTRL) has been extended to 6-bits to allow for the 4 registers $9F29-$9F2C to have additional meanings.
+VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, starting at address $9F20 and ending at $9F3F. Many of these are (fully) used, but some bits remain unused. The DCSEL bits in register $9F25 (also called CTRL) has been extended to 6-bits to allow for the 4 registers $9F29-$9F2C to have additional meanings.
 
 <table>
 	<tr>
@@ -48,7 +48,7 @@ The FX features use DCSEL values 2, 3, 4, 5, and 6. This effectively gives FX 20
 
 ### Addr1 Mode
 
-When DCSEL=2, the main FX configuration register becomes available (FX_CTRL/\$9F29), which is both readable and writable. The 2 lower bits are the addr1 mode bits, which will change the behavior of how and when ADDR1 is updated. This puts the FX helpers in a certain "role". 
+When DCSEL=2, the main FX configuration register becomes available (FX_CTRL/$9F29), which is both readable and writable. The 2 lower bits are the addr1 mode bits, which will change the behavior of how and when ADDR1 is updated. This puts the FX helpers in a certain "role". 
 
 <table>
 	<tr>
@@ -103,7 +103,7 @@ When Addr1 Mode is set to 1 (=01b) the **line draw helper** is enabled.
 	* Set `ADDR0` increment in the direction you will ***sometimes*** increment. Even though this is the increment for `ADDR0`, we are using it in line draw mode as an incrementer for `ADDR1`.
 		* For 8-bit mode: (+1, -1, -320, or +320).
 		* For 4-bit mode: (-0.5, +0.5, -160, or +160)
-	* For 4-bit mode, the half increments are set via the Nibble Increment bit and optionally the DECR bit in `ADDRx_H`. For the Nibble Increment bit to have effect, the main Address Increment must be set to 0, and the 4-bit Mode bit must be set in FX_CTRL (\$9F29, DCSEL=2).
+	* For 4-bit mode, the half increments are set via the Nibble Increment bit and optionally the DECR bit in `ADDRx_H`. For the Nibble Increment bit to have effect, the main Address Increment must be set to 0, and the 4-bit Mode bit must be set in FX_CTRL ($9F29, DCSEL=2).
 <table>
 	<tr>
 		<th>Addr</th>
@@ -241,7 +241,7 @@ Assuming a 320 pixel-wide screen
 	</tr>
 </table>
 
-* Due to the fact that we are in "polygon fill"-mode, by setting the high bits of the "X increment" (\$9F2A, DCSEL=3), the "X position" (the lower 9 bits of the position in DCSEL=4 and DCSEL=5) are automatically set to half a pixel. The same goes for the high bits of the Y/X2 increment (\$9F2C, DCSEL=3) and Y/X2 position. 
+* Due to the fact that we are in "polygon fill"-mode, by setting the high bits of the "X increment" ($9F2A, DCSEL=3), the "X position" (the lower 9 bits of the position in DCSEL=4 and DCSEL=5) are automatically set to half a pixel. The same goes for the high bits of the Y/X2 increment ($9F2C, DCSEL=3) and Y/X2 position. 
 * Set the "X position" and "Y/X2 position” to the x-pixel-position of the top triangle point.
 
 <table>

@@ -1,5 +1,4 @@
-
-# Chapter 12: Hardware Pinouts
+# Chapter 14: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and headers.
 
@@ -117,17 +116,17 @@ address ranges.
 
 | Address     | Description 
 |-------------|------------------
-| \$9F60-\$9FFF | Expansion port I/O range
-| \$9F60-\$9F7F | IO3
-| \$9F80-\$9F9F | IO4
-| \$9FA0-\$9FBF | IO5
-| \$9FC0-\$9FDF | IO6
-| \$9FE0-\$9FFF | IO7
+| $9F60-$9FFF | Expansion port I/O range
+| $9F60-$9F7F | IO3
+| $9F80-$9F9F | IO4
+| $9FA0-$9FBF | IO5
+| $9FC0-$9FDF | IO6
+| $9FE0-$9FFF | IO7
 
 Expansion cards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
 
 ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips (typically used by cartridges,
-see below). This allows for a total of 3.5MB of address space in the \$C000-\$FFFF address range.
+see below). This allows for a total of 3.5MB of address space in the $C000-$FFFF address range.
 
 SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards.
 
@@ -201,7 +200,7 @@ Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lori
 | PB0   |  3  |. .|  4  | PB1  |
 | PB2   |  5  |. .|  6  | CB2  |
 
-These pins are connected to VIA 1 at \$9F00-\$9F0F.
+These pins are connected to VIA 1 at $9F00-$9F0F.
 
 ## J5 Program Microcontroller
 
@@ -293,7 +292,7 @@ In order to avoid ground loop and power supply noise, we recommend installing a 
 | PB2     | 23  |. .| 24  | GND     | 
 | PB3/CA2 | 25  |. .| 16  | VCC     |
 
-User port is connected to VIA 2 at address \$9F10-\$9F1F. This can be used for serial or parallel port I/O. Commander X16 does not have support for a serial port device in the KERNAL. 
+User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. Commander X16 does not have support for a serial port device in the KERNAL. 
 
 ## VERA Video Header
 
@@ -312,7 +311,7 @@ User port is connected to VIA 2 at address \$9F10-\$9F1F. This can be used for s
 | GND     | 21  |. .| 22  | GND     |
 | VERA_L  | 23  |. .| 24  | VERA_R  | 
 
-VERA is connected to I/O ports at \$9F20-\$9F3F. See [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for details.
+VERA is connected to I/O ports at $9F20-$9F3F. See [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for details.
 
 ### VGA Connector
 

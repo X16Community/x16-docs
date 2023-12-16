@@ -31,7 +31,7 @@ As a modern sibling of the line of Commodore home computers, the Commander X16 i
 
 * Pure BASIC programs are fully backwards compatible with the VIC-20 and the C64.
 * POKEs for video and audio are not compatible with any Commodore computer. (There are no VIC or SID chips, for example.)
-* Pure machine language programs (\$FF81+ KERNAL API) are compatible with Commodore computers.
+* Pure machine language programs ($FF81+ KERNAL API) are compatible with Commodore computers.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
