@@ -1,5 +1,4 @@
-
-# Chapter 9: Sound Programming
+# Chapter 11: Sound Programming
 
 ## Audio bank API
 

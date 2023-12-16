@@ -1,4 +1,4 @@
-# VERA Programmer's Reference
+# Chapter 9: VERA Programmer's Reference
 
 Version 0.9
 

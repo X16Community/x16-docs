@@ -1,11 +1,11 @@
+# Chapter 3: BASIC Programming
+
 <!--
 ********************************************************************************
 NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
 for GitHub's Markdown flavor. Do not remove!
 ********************************************************************************
 -->
-
-# Chapter 3: BASIC Programming
 
 ## Table of BASIC statements and functions
 
