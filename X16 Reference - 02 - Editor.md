@@ -9,7 +9,7 @@ The editor's default mode is 80x60 text mode. The following text mode resolution
 
 | Mode | Description |
 |------|-------------|
-| \$00  | 80x60 text  |
+| $00  | 80x60 text  |
 | \$01  | 80x30 text  |
 | \$02  | 40x60 text  |
 | \$03  | 40x30 text  |
