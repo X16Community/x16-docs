@@ -37,7 +37,7 @@ VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, s
 		<td>$9F25</td>
 		<td>CTRL</td>
 		<td colspan="1" align="center">Reset</td>
-		<td colspan="6" align="center"><b>DCSEL</b><br><img src="images/redunderline.png"></td>
+		<td colspan="6" align="center"><b>DCSEL</b><br><img src="/images/redunderline.png"></td>
 		<td colspan="1" align="center">ADDRSEL</td>
 	</tr>
 </table>
@@ -72,7 +72,7 @@ When DCSEL=2, the main FX configuration register becomes available (FX_CTRL/$9F2
 		<td align="center">One-byte Cache Cycling</td>
 		<td align="center">16-bit Hop</td>
 		<td align="center">4-bit Mode</td>
-		<td colspan="2" align="center"><b>Addr1 Mode</b><br><img src="images/redunderline.png"></td>
+		<td colspan="2" align="center"><b>Addr1 Mode</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -121,14 +121,14 @@ When Addr1 Mode is set to 1 (=01b) the **line draw helper** is enabled.
 		<td>$9F22</td>
 		<td>ADDRx_H (x=ADDRSEL)</td>
 		<td colspan="4" align="center">Address Increment</td>
-		<td align="center"><b>DECR</b><br><img src="images/redunderline.png"></td>
-		<td align="center"><b>Nibble Increment</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>DECR</b><br><img src="/images/redunderline.png"></td>
+		<td align="center"><b>Nibble Increment</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Nibble Address</td>
 		<td align="center">VRAM Address (16)</td>
 	</tr>
 </table>
 
-![Figure 1, The 8 octants](images/fx_fig1.png)
+![Figure 1, The 8 octants](/images/fx_fig1.png)
 
 |Octant|8-bit `ADDR1` increment|8-bit `ADDR0` increment|4-bit `ADDR1` increment|4-bit `ADDR0` increment|
 |-|-|-|-|-|
@@ -159,15 +159,15 @@ When Addr1 Mode is set to 1 (=01b) the **line draw helper** is enabled.
 	<tr>
 		<td>$9F29</td>
 		<td>FX_X_INCR_L<br>(DCSEL=3)<br>(Write only)</td>
-		<td colspan="8" align="center"><b>X Increment (-2:-9) (signed)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="8" align="center"><b>X Increment (-2:-9) (signed)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2A</td>
 		<td>FX_X_INCR_H<br>(DCSEL=3)<br>(Write only)</td>
 		<td align="center">X Incr. 32x</td>
 		<td colspan="5" align="center">X Increment (5:1) (signed)</td>
-		<td align="center"><b>X Incr. (0)</b><br><img src="images/redunderline.png"></td>
-		<td align="center"><b>X Incr. (-1)</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>X Incr. (0)</b><br><img src="/images/redunderline.png"></td>
+		<td align="center"><b>X Incr. (-1)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -192,7 +192,7 @@ Assuming a 320 pixel-wide screen
 	* Note: `ADDR0` is used as "base address" for calculating `ADDR1` for each horizontal line of the triangle. `ADDR0` should therefore start at the top of the triangle and increment exactly one line each time.
 	* There is no need to set `ADDR1`. This is done by VERA.
 * Calculate your slopes (dx/dy) for both the left and right point. Unlike the line draw helper, these slopes can be negative and can exceed 1.0. They are not dependent on octant, but cover the whole 180 degrees downwards. Below is an illustration of some (not-to-scale) examples of increments:
-![Figure 2, examples of Bresenham's slope increment values](images/fx_fig2.png)
+![Figure 2, examples of Bresenham's slope increment values](/images/fx_fig2.png)
 * Set `ADDR1` increment to +1 (for 8-bit mode) or +0.5 (for 4-bit mode)
 	* `ADDR1` increment can also be +4 if you use 32-bit cache writes, explained later)
 * Set your left slope into the two "X increment" registers and your right slope into the two "Y increment" registers (DCSEL=3, see below).
@@ -260,26 +260,26 @@ Assuming a 320 pixel-wide screen
 	<tr>
 		<td>$9F29</td>
 		<td>FX_X_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center"><b>X Position (7:0)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="8" align="center"><b>X Position (7:0)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2A</td>
 		<td>FX_X_POS_H<br>(DCSEL=4)<br>(Write only)</td>
 		<td align="center">X Pos. (-9)</td>
 		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center"><b>X Position (10:8)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="3" align="center"><b>X Position (10:8)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2B</td>
 		<td>FX_Y_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center"><b>Y/X2 Position (7:0)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="8" align="center"><b>Y/X2 Position (7:0)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2C</td>
 		<td>FX_Y_POS_H<br>(DCSEL=4)<br>(Write only)</td>
 		<td align="center">Y/X2 Pos. (-9)</td>
 		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center"><b>Y/X2 Position (10:8)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="3" align="center"><b>Y/X2 Position (10:8)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -377,14 +377,14 @@ When reading from ADDR1 in this mode, the affine helper reads tile data from a s
 		<td>$9F2A</td>
 		<td>FX_TILEBASE<br>(DCSEL=2)<br>(Write only)</td>
 		<td colspan="6" align="center"><b>FX Tile Base Address (16:11)</b><br><img src="images/redunderline.png"></td>
-		<td align="center"><b>Affine Clip Enable</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Affine Clip Enable</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">2-bit Polygon</td>
 	</tr>
 	<tr>
 		<td>$9F2B</td>
 		<td>FX_MAPBASE<br>(DCSEL=2)<br>(Write only)</td>
 		<td colspan="6" align="center"><b>FX Map Base Address (16:11)</b><br><img src="images/redunderline.png"></td>
-		<td colspan="2" align="center"><b>Map Size</b><br><img src="images/redunderline.png"></td>
+		<td colspan="2" align="center"><b>Map Size</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -416,7 +416,7 @@ When reading from ADDR1 in this mode, the affine helper reads tile data from a s
 	<tr>
 		<td>$9F29</td>
 		<td>FX_CTRL<br>(DCSEL=2)</td>
-		<td align="center"><b>Transp. Writes</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Transp. Writes</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Cache Write Enable</td>
 		<td align="center">Cache Fill Enable</td>
 		<td align="center">One-byte Cache Cycling</td>
@@ -444,26 +444,26 @@ When using the affine helper, the X and Y position registers (DCSEL=4) are used 
 	<tr>
 		<td>$9F29</td>
 		<td>FX_X_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center"><b>X Position (7:0)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="8" align="center"><b>X Position (7:0)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2A</td>
 		<td>FX_X_POS_H<br>(DCSEL=4)<br>(Write only)</td>
 		<td align="center">X Pos. (-9)</td>
 		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center"><b>X Position (10:8)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="3" align="center"><b>X Position (10:8)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2B</td>
 		<td>FX_Y_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center"><b>Y/X2 Position (7:0)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="8" align="center"><b>Y/X2 Position (7:0)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 	<tr>
 		<td>$9F2C</td>
 		<td>FX_Y_POS_H<br>(DCSEL=4)<br>(Write only)</td>
 		<td align="center">Y/X2 Pos. (-9)</td>
 		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center"><b>Y/X2 Position (10:8)</b><br><img src="images/redunderline.png"></td>
+		<td colspan="3" align="center"><b>Y/X2 Position (10:8)</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -530,7 +530,7 @@ When the CPU reads a byte via DATA0 or DATA1, and "cache fill enable" is set, th
 		<td>FX_CTRL<br>(DCSEL=2)</td>
 		<td align="center">Transp. Writes</td>
 		<td align="center">Cache Write Enable</td>
-		<td align="center"><b>Cache Fill Enable</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Cache Fill Enable</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">One-byte Cache Cycling</td>
 		<td align="center">16-bit Hop</td>
 		<td align="center">4-bit Mode</td>
@@ -560,8 +560,8 @@ When the CPU reads a byte via DATA0 or DATA1, and "cache fill enable" is set, th
 		<td align="center">Accumulate</td>
 		<td align="center">Subtract Enable</td>
 		<td align="center">Multiplier Enable</td>
-		<td colspan="2" align="center"><b>Cache Byte Index</b><br><img src="images/redunderline.png"></td>
-		<td align="center"><b>Cache Nibble Index</b><br><img src="images/redunderline.png"></td>
+		<td colspan="2" align="center"><b>Cache Byte Index</b><br><img src="/images/redunderline.png"></td>
+		<td align="center"><b>Cache Nibble Index</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Two-byte Cache Incr. Mode</td>
 	</tr>
 </table>
@@ -590,7 +590,7 @@ Alternatively, the cache index can cycle between two adjacent bytes: 0, 1, and b
 		<td align="center">Multiplier Enable</td>
 		<td colspan="2" align="center">Cache Byte Index</td>
 		<td align="center">Cache Nibble Index</td>
-		<td align="center"><b>Two-byte Cache Incr. Mode</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Two-byte Cache Incr. Mode</b><br><img src="/images/redunderline.png"></td>
 	</tr>
 </table>
 
@@ -657,7 +657,7 @@ Control over which parts are written are chosen by the value written to DATA0 or
 		<td>$9F29</td>
 		<td>FX_CTRL<br>(DCSEL=2)</td>
 		<td align="center">Transp. Writes</td>
-		<td align="center"><b>Cache Write Enable</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Cache Write Enable</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Cache Fill Enable</td>
 		<td align="center">One-byte Cache Cycling</td>
 		<td align="center">16-bit Hop</td>
@@ -687,7 +687,7 @@ Transparent writes, when enabled, also applies to cache writes. If enabled, zero
 	<tr>
 		<td>$9F29</td>
 		<td>FX_CTRL<br>(DCSEL=2)</td>
-		<td align="center"><b>Transp. Writes<b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Transp. Writes<b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Cache Write Enable</td>
 		<td align="center">Cache Fill Enable</td>
 		<td align="center">One-byte Cache Cycling</td>
@@ -720,7 +720,7 @@ Usually the incrementing of the cache index is only triggered by reading from DA
 		<td align="center">Transp. Writes</td>
 		<td align="center">Cache Write Enable</td>
 		<td align="center">Cache Fill Enable</td>
-		<td align="center"><b>One-byte Cache Cycling</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>One-byte Cache Cycling</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">16-bit Hop</td>
 		<td align="center">4-bit Mode</td>
 		<td colspan="2" align="center">Addr1 Mode</td>
@@ -750,7 +750,7 @@ The 32-bit cache also doubles as an input to the hardware multiplier when Multip
 		<td align="center">Reset Accum.</td>
 		<td align="center">Accumulate</td>
 		<td align="center">Subtract Enable</td>
-		<td align="center"><b>Multiplier Enable</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Multiplier Enable</b><br><img src="/images/redunderline.png"></td>
 		<td colspan="2" align="center">Cache Byte Index</td>
 		<td align="center">Cache Nibble Index</td>
 		<td align="center">Two-byte Cache Incr. Mode</td>
@@ -839,7 +839,7 @@ The default accumulation operation is (multiply then) add. This can be switched 
 		<td>FX_MULT<br>(DCSEL=2)<br>(Write only)</td>
 		<td align="center">Reset Accum.</td>
 		<td align="center">Accumulate</td>
-		<td align="center"><b>Subtract Enable</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>Subtract Enable</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">Multiplier Enable</td>
 		<td colspan="2" align="center">Cache Byte Index</td>
 		<td align="center">Cache Nibble Index</td>
@@ -873,7 +873,7 @@ There is a special address increment mode that can be used to read pairs of byte
 		<td align="center">Cache Write Enable</td>
 		<td align="center">Cache Fill Enable</td>
 		<td align="center">One-byte Cache Cycling</td>
-		<td align="center"><b>16-bit Hop</b><br><img src="images/redunderline.png"></td>
+		<td align="center"><b>16-bit Hop</b><br><img src="/images/redunderline.png"></td>
 		<td align="center">4-bit Mode</td>
 		<td colspan="2" align="center">Addr1 Mode</td>
 	</tr>
