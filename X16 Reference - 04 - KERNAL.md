@@ -410,7 +410,7 @@ When used with `LOAD` the following applies:
   * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
   * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
 
-For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md)
+For more information see [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md)
 
 ---
 
@@ -1592,8 +1592,6 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
       .WORD $C000 ; ADDRESS
       .BYTE 1     ; BANK
 ```
-
----
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   

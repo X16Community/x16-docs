@@ -198,7 +198,7 @@ There are two ways to check the error channel from inside a program:
 40 CLOSE 15
 ```
 
-Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md#chapter-11-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
+Refer to [Chapter 13](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
@@ -250,7 +250,7 @@ BANK 1,10    : REM SETS THE RAM BANK TO 1 AND THE ROM BANK TO 10
 SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
 
-Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
+Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
 
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 

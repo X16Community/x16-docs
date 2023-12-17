@@ -21,12 +21,15 @@ for GitHub's Markdown flavor. Do not remove!
 [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor)  
 [Chapter 7: Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md#chapter-7-memory-map)  
 [Chapter 8: Video Programming](X16%20Reference%20-%2008%20-%20Video%20Programming.md#chapter-8-video-programming)  
-[Chapter 9: Sound Programming](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#chapter-9-sound-programming)  
-[Chapter 10: I/O Programming](X16%20Reference%20-%2010%20-%20IO%20Programming.md#chapter-10-commander-x16-programmers-reference-guide)  
-[Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md#chapter-11-working-with-cmdr-dos)  
-[Chapter 12: Hardware Pinouts](X16%20Reference%20-%2012%20-%20Hardware.md#chapter-12-hardware-pinouts)  
-[Chapter 13: Upgrade Guide](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md#chapter-13-upgrade-guide)  
-[Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#appendix-a-sound)  
+[Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md)
+[Chapter 10: VERA FX Reference](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md)
+[Chapter 11: Sound Programming](X16%20Reference%20-%2011%20-%20Sound%20Programming.md)
+[Chapter 12: I/O Programming](X16%20Reference%20-%2012%20-%20IO%20Programming.md)
+[Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md)
+[Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md)  
+[Chapter 15: Upgrade Guide](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md)
+[Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md)
+[Appendix B: Official Expansion Cards](X16%20Reference%20-%20Appendix%20B%20-%20Official%20Expansion%20Cards.md)
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

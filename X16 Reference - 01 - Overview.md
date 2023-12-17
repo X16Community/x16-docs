@@ -19,7 +19,7 @@ The Commander X16 is a modern home computer in the philosophy of Commodore compu
 * three sound generators
 	* Yamaha YM2151: 8 channels, FM synthesis
 	* VERA PSG: 16 channels, 4 waveforms
-	* VERA PCM: 48 kHz, 16 bit, stereo
+	* VERA PCM: Up to 48 kHz, 16 bit, stereo
 * Connectivity:
 	* PS/2 keyboard and mouse
 	* 4 NES/SNES controllers
