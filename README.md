@@ -1,4 +1,11 @@
-This is the Commander X16 reference manual.
+# Commander X16 Reference Manual
+
+This is the official Commander X16 reference manual.
+
+Being a reference manual it is light on some details with some expected fundamental
+knowledge. If you are brand new to the X16, consider first consulting the 
+[User Guide](https://github.com/X16Community/x16-user-guide/releases/tag/X16_Users_Guide) 
+first.
 
 ### Chapters
 

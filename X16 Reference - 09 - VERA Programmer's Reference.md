@@ -1,12 +1,15 @@
 # Chapter 9: VERA Programmer's Reference
 
-Version 0.9
+This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA. 
+Which was originally written and conceived by Frank van den Hoef. The core of this
+document has been forked from Version 0.9 of the VERA. The original documentation
+can be found [here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md).
 
-*Author: Frank van den Hoef*
+The Commander X16 uses a modified version of VERA which includes extra functionality,
+notabl the FX Aid additions. See [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md) 
+for more information on the FX additions.
 
-**This is preliminary documentation and the specification can still change at any point.**
-
-This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA. The VERA consists of:
+The VERA consists of:
 
 * Video generator featuring:
 	* Multiple output formats (VGA, NTSC Composite, NTSC S-Video, RGB video) at a fixed resolution of 640x480@60Hz
