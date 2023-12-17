@@ -128,7 +128,7 @@ When Addr1 Mode is set to 1 (=01b) the **line draw helper** is enabled.
 	</tr>
 </table>
 
-![Figure 1, The 8 octants](/images/fx_fig1.png)
+![Figure 1, The 8 octants](images/fx_fig1.png)
 
 |Octant|8-bit `ADDR1` increment|8-bit `ADDR0` increment|4-bit `ADDR1` increment|4-bit `ADDR0` increment|
 |-|-|-|-|-|
@@ -192,7 +192,7 @@ Assuming a 320 pixel-wide screen
 	* Note: `ADDR0` is used as "base address" for calculating `ADDR1` for each horizontal line of the triangle. `ADDR0` should therefore start at the top of the triangle and increment exactly one line each time.
 	* There is no need to set `ADDR1`. This is done by VERA.
 * Calculate your slopes (dx/dy) for both the left and right point. Unlike the line draw helper, these slopes can be negative and can exceed 1.0. They are not dependent on octant, but cover the whole 180 degrees downwards. Below is an illustration of some (not-to-scale) examples of increments:
-![Figure 2, examples of Bresenham's slope increment values](/images/fx_fig2.png)
+![Figure 2, examples of Bresenham's slope increment values](images/fx_fig2.png)
 * Set `ADDR1` increment to +1 (for 8-bit mode) or +0.5 (for 4-bit mode)
 	* `ADDR1` increment can also be +4 if you use 32-bit cache writes, explained later)
 * Set your left slope into the two "X increment" registers and your right slope into the two "Y increment" registers (DCSEL=3, see below).
