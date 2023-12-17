@@ -24,7 +24,7 @@ If you attempt to upgrade your firmware and the process fails, one of our commun
 
 The computer contains two SNES style ports and will work with Super Nintendo compatible game pads. An on-board pin header is accessible to connect two additional SNES ports.
 
-<img src="images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
+<img src="/images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
 
 | Pin # | Description | Wire Color
 |-------|-------------|-------------
@@ -44,7 +44,7 @@ Thanks to [Console Mods Wiki](https://consolemods.org/wiki/SNES:Connector_Pinout
 
 The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 400-600 bytes/sec.
 
-<img src="images/iec_port.gif" alt-text="IEC Serial Port" />
+<img src="/images/iec_port.gif" alt-text="IEC Serial Port" />
 
 |Pin | Description	| Signal Direction	| Remark
 |----|--------------|-------------------|--------------
@@ -59,7 +59,7 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 ### PS/2 Keyboard and Mouse
 
-<img src="images/ps2_pinout.svg" alt-text="SNES Controller Port" width="128" />
+<img src="/images/ps2_pinout.svg" alt-text="SNES Controller Port" width="128" />
 
 | Pin | Name  | Description
 |-----|-------|-------------
@@ -168,7 +168,7 @@ The Commander X16 has a socket for an industry standard 24-pin ATX power supply 
 
 |24-pin ATX power connector, cable end|
 |-|
-|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
+|<img src="/images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
 
 By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
 
@@ -311,11 +311,12 @@ User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for ser
 | GND     | 21  |. .| 22  | GND     |
 | VERA_L  | 23  |. .| 24  | VERA_R  | 
 
-VERA is connected to I/O ports at $9F20-$9F3F. See [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for details.
+VERA is connected to I/O ports at $9F20-$9F3F. See [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md)
+for details.
 
 ### VGA Connector
 
-<img src="images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
+<img src="/images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
 
 | Pin | Desc      |
 |-----|-----------|
@@ -356,7 +357,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 
 ### S-Video Connector
 
-<img src="images/s_video.svg" width="128" alt-text="S-Video Connector" />
+<img src="/images/s_video.svg" width="128" alt-text="S-Video Connector" />
 
 | Pin | Desc      |                       |
 |-----|-----------|-----------------------|
@@ -396,7 +397,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 |  5  | +5V  |
 |  6  | GND  |
 
-This requires an EEPROM programmer and an interface board to program. See [chapter 13](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md#chapter-13-upgrade-guide) for the programming adapter and instructions.
+This requires an EEPROM programmer and an interface board to program. See [Chapter 15](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md) for the programming adapter and instructions.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

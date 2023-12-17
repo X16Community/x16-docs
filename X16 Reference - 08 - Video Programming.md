@@ -3,7 +3,7 @@
 
 The VERA video chip supports resolutions up to 640x480 with up to 256 colors from a palette of 4096, two layers of either a bitmap or tiles, 128 sprites of up to 64x64 pixels in size. It can output VGA as well as a 525 line interlaced signal, either as NTSC or as RGB (Amiga-style).
 
-See the [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for the complete reference.
+See [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md) for further details on programming VERA.
 
 The X16 KERNAL uses the following video memory layout:
 
