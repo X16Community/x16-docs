@@ -25,7 +25,9 @@ first.
   * [Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md)  
   * [Chapter 15: Upgrade Guide](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md)
   * [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md)
-  * [Appendix B: Official Expansion Cards](X16%20Reference%20-%20Appendix%20B%20-%20Official%20Expansion%20Cards.md)
+  * [Appendix B: WDC65C02 Processor Reference](X16%20Reference%20-%20Appendix%20B%20-%20WDC65C02%20Processor.md)
+  * [Appendix C: Official Expansion Cards](X16%20Reference%20-%20Appendix%20C%20-%20Official%20Expansion%20Cards.md)
+
 
 ### External Links
 

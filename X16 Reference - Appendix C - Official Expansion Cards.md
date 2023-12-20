@@ -1,4 +1,4 @@
-# Appendix B: Official Expansion Cards
+# Appendix C: Official Expansion Cards
 
 This is just a stub as a proposal for how to document official expansion cards
 (namely those made by the core X16 team).
