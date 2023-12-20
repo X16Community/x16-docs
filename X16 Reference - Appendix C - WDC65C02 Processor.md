@@ -13,8 +13,8 @@ information can be found at those (and other) sources.
 
 |     |     |     |     |     |     |     |     |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBR](#bbr) | [BBS](#bbs) | [BCC](#bcc) | [BCS](#bcs) | BEQ |
-| BIT | BMI | BNE | BPL | BRA | BRK | BVC | BVS |
+| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBR](#bbr) | [BBS](#bbs) | [BCC](#bcc) | [BCS](#bcs) | [BEQ](#beq) |
+| [BIT](#bit) | BMI | BNE | BPL | BRA | BRK | BVC | BVS |
 | CLC | CLD | CLI | CLV | CMP | CPX | CPY | DEC |
 | DEX | DEY | EOR | INC | INX | INY | JMP | JSR |
 | LDA | LDX | LDY | LSR | NOP | ORA | PHA | PHP |
@@ -29,7 +29,7 @@ information can be found at those (and other) sources.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | LDA | TAX | PHA | [ASL](#asl) | [ADC](#adc) | [BCC](#bcc) | BRA | CLC |
 | LDX | TAY | PHP | LSR | SBC | [BCS](#bcs) | JMP | CLD |
-| LDY | TSX | PHX | ROL | CMP | BEQ | JSR | CLI |
+| LDY | TSX | PHX | ROL | CMP | [BEQ](#beq) | JSR | CLI |
 | STA | TXA | PHY | ROR | CPX | BMI | RTI | CLV |
 | STX | TXS | PLA | [AND](#and) | CPY | BNE | RTS | SEC |
 | STY | TYA | PLP | BIT | INC | BPL | BRK | SED |
@@ -172,6 +172,31 @@ Branch On Carry Set
 | Relative        | BCS LABEL      | 3      | 2-4 [^2] |
 
 Branch to LABEL if the carry flag is set.
+
+### BEQ
+
+Branch On Equals (Branch if Zero flag is set)
+
+| Addressing Mode | Usage          | Length | Cycles   |
+| --------------- | -------------  | ------ | -------- |
+| Relative        | BEQ LABEL      | 3      | 2-4 [^2] |
+
+Branch to LABEL if the zero flag is set.
+
+### BIT
+
+Test Bits
+
+| Addressing Mode | Usage          | Length | Cycles |
+| --------------- | -------------  | ------ | ------ |
+| Zero Page       | BIT $44        | 2      | 3      |
+| Absolute        | BIT $4400      | 3      | 4      |
+
+  - Sets Z (Zero) flag based on an and'ing of value provided to the A (accumulator) register. 
+  - Sets N (Negative) flag to the value of bit 7 at the provided address.  
+  - Sets V (Overflow) flag to the value of bit 6 at the provided addres.  
+
+
 
 ## Status Flags
 
