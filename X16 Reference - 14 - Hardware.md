@@ -1,5 +1,4 @@
-
-# Chapter 12: Hardware Pinouts
+# Chapter 14: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and headers.
 
@@ -25,7 +24,7 @@ If you attempt to upgrade your firmware and the process fails, one of our commun
 
 The computer contains two SNES style ports and will work with Super Nintendo compatible game pads. An on-board pin header is accessible to connect two additional SNES ports.
 
-<img src="images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
+<img src="/images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
 
 | Pin # | Description | Wire Color
 |-------|-------------|-------------
@@ -45,7 +44,7 @@ Thanks to [Console Mods Wiki](https://consolemods.org/wiki/SNES:Connector_Pinout
 
 The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 400-600 bytes/sec.
 
-<img src="images/iec_port.gif" alt-text="IEC Serial Port" />
+<img src="/images/iec_port.gif" alt-text="IEC Serial Port" />
 
 |Pin | Description	| Signal Direction	| Remark
 |----|--------------|-------------------|--------------
@@ -60,7 +59,7 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 ### PS/2 Keyboard and Mouse
 
-<img src="images/ps2_pinout.svg" alt-text="SNES Controller Port" width="128" />
+<img src="/images/ps2_pinout.svg" alt-text="SNES Controller Port" width="128" />
 
 | Pin | Name  | Description
 |-----|-------|-------------
@@ -112,32 +111,24 @@ Pin 1 is in the rear-left corner.
 |    +5V |  57 |\[ \]| 58 | GND   |
 |   +12V |  59 |\[ \]| 60 | -12V  |
 
-To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO 
-(MMIO) address ranges.
+To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO (MMIO)
+address ranges.
 
-| Address     | Usage                               |Speed|
-|-------------|-------------------------------------|-----|
-|\$9F60-\$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
-|\$9F80-\$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
-|\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
-|\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
-|\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
+| Address     | Description 
+|-------------|------------------
+| $9F60-$9FFF | Expansion port I/O range
+| $9F60-$9F7F | IO3
+| $9F80-$9F9F | IO4
+| $9FA0-$9FBF | IO5
+| $9FC0-$9FDF | IO6
+| $9FE0-$9FFF | IO7
 
-Expansion cards can use the IO3-IO6 lines as enable lines to provide their IO address range
-(s), or decode the address from the address bus directly. To prevent conflicts with other 
-devices, expansion boards should allow the user to select their desired I/O bank with jumpers 
-or DIP switches. IO7 is given priority to external cartridges that use MMIO and should be 
-only used by an expansion card if there are no other MMIO ranges available. Doing so may
-cause a bus conflict with cartridges that make us of MMIO (such as those with expansion
-hardware). See below for more information on cartridges.
+Expansion cards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
 
-ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) 
-address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips 
-(typically used by cartridges, see below). This allows for a total of 3.5MB of address space 
-in the `\$C000-\$FFFF` address range.
+ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips (typically used by cartridges,
+see below). This allows for a total of 3.5MB of address space in the $C000-$FFFF address range.
 
-SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c 
-peripherals on cartridges or expansion cards.
+SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards.
 
 AUDIO_L and AUDIO_R are routed to J10, the audio option header.
 
@@ -145,41 +136,31 @@ The other pins are connected to the system bus and directly to the 65C02 process
 
 #### Cartridges
 
-Cartridges are essentially an expansion card housed in an external enclosure. Typically they
-are used for applications (e.g. games) with the X16 being able to boot directly from a 
-cartridge at power on. Typically they contain a mix of banked ROM and/or RAM and an optional 
-I2C EEPROM  (for storing game save states).
+Cartridges are essentially an expansion card housed in an external enclosure. Typically they are 
+used for applications (e.g. games) with the X16 being able to boot directly from a cartridge at
+power on. Typically they contain a mix of banked ROM and/or RAM and an optional I2C EEPROM 
+(for storing game save states).
 
-They can also function as an expansion card which means they can also use MMIO. 
-Similarly an internal expansion card could contain RAM/ROM as well.
+They can also function as an expansion card which means they can also use MMIO. Similarly an internal
+expansion card could contain RAM/ROM as well.
 
-Because of this, while develoeprs are free to use the hardware as they please, to avoid
-conflcits, the banked ROM/RAM space is suggested to be used only by cartridges and
-cartridges should avoid using MMIO IO3-IO6. Instead, IO7 should be the default option
-for cartridges and the last option for expansion cards (only used if there are no 
-other IO ranges available).
+Because of this, while develoeprs are free to use the hardware as they please, there are open 
+discussions on suggested best practices for using cartridges and expansion cards to avoid a
+poor user experience and or compatibility issues. 
 
-This helps avoid bus conflicts and an otherwise bad user experience given a 
-cartridge should be simple to use from the standpoint of the user
-("insert game -> play game").
+For example, there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. 
+Similarly, a cartridge can use MMIO (and doing so allows for nice features such as accelerator 
+co-processors), but care must be taken to avoid MMIO being used by internal cards. 
 
-These are soft guidelines. There is nothing physically preventing an expansion card from using
-banked ROM/RAM or a cartridge using any of the MMIO addresses. Doing so risks conflicts and 
-compatibility issues.
-
-Cartridges with additional hardware would be similar to expansion chips found on some NES and 
-SNES cartridges (think VRC6, Super FX, etc.) and could be used for really anything, 
-such as having a MIDI input for a cartridge that is meant as a music maker; 
-some sort of hardware accelerator FPGA; network support, etc. 
-
-For more information about the memory map visit the 
-[Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
+One proposal is to reserve one of the MMIO address ranges for cartridges. These conversations
+are on-going such that the final best practices as well as the final cartridge and expansion card
+designs may change. To emphasize as well, these are neighborly best practices and not 
+hard standards.
 
 ##### Booting from Cartridges
 
-After the X16 finishes it's hardware initialization, the kernel checks 
-bank 32 for the  signature "CX16" at `$C000`. If found, it then jumps 
-to `$C004` and leaves interrupts disabled.
+After the X16 finishes it's hardware initialization, the kernel checks bank 32 for the signature "CX16"
+at `$C000`. If found, it then jumps to `$C004` and leaves interrupts disabled.
 
 ### ATX Power Supply
 
@@ -187,7 +168,7 @@ The Commander X16 has a socket for an industry standard 24-pin ATX power supply 
 
 |24-pin ATX power connector, cable end|
 |-|
-|<img src="images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
+|<img src="/images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
 
 By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
 
@@ -219,7 +200,7 @@ Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lori
 | PB0   |  3  |. .|  4  | PB1  |
 | PB2   |  5  |. .|  6  | CB2  |
 
-These pins are connected to VIA 1 at \$9F00-\$9F0F.
+These pins are connected to VIA 1 at $9F00-$9F0F.
 
 ## J5 Program Microcontroller
 
@@ -311,7 +292,7 @@ In order to avoid ground loop and power supply noise, we recommend installing a 
 | PB2     | 23  |. .| 24  | GND     | 
 | PB3/CA2 | 25  |. .| 16  | VCC     |
 
-User port is connected to VIA 2 at address \$9F10-\$9F1F. This can be used for serial or parallel port I/O. Commander X16 does not have support for a serial port device in the KERNAL. 
+User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. Commander X16 does not have support for a serial port device in the KERNAL. 
 
 ## VERA Video Header
 
@@ -330,11 +311,12 @@ User port is connected to VIA 2 at address \$9F10-\$9F1F. This can be used for s
 | GND     | 21  |. .| 22  | GND     |
 | VERA_L  | 23  |. .| 24  | VERA_R  | 
 
-VERA is connected to I/O ports at \$9F20-\$9F3F. See [VERA Programmer's Reference](VERA%20Programmer's%20Reference.md) for details.
+VERA is connected to I/O ports at $9F20-$9F3F. See [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md)
+for details.
 
 ### VGA Connector
 
-<img src="images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
+<img src="/images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
 
 | Pin | Desc      |
 |-----|-----------|
@@ -375,7 +357,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 
 ### S-Video Connector
 
-<img src="images/s_video.svg" width="128" alt-text="S-Video Connector" />
+<img src="/images/s_video.svg" width="128" alt-text="S-Video Connector" />
 
 | Pin | Desc      |                       |
 |-----|-----------|-----------------------|
@@ -415,7 +397,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 |  5  | +5V  |
 |  6  | GND  |
 
-This requires an EEPROM programmer and an interface board to program. See [chapter 13](X16%20Reference%20-%2013%20-%20Upgrade%20Guide.md#chapter-13-upgrade-guide) for the programming adapter and instructions.
+This requires an EEPROM programmer and an interface board to program. See [Chapter 15](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md) for the programming adapter and instructions.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
