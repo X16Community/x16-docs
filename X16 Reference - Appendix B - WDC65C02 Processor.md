@@ -51,7 +51,6 @@ information can be found at those (and other) sources.
 |                 |             |                 | [RMB](#rmb)[^4] |             |                 |                 |             |
 |                 |             |                 | [SMB](#smb)[^4] |             |                 |                 |             |
 
-7 6 8 13 11 10 8 7
 ## Opcodes
 
 ### ADC
