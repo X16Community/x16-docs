@@ -7,10 +7,9 @@ TODO:
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
   * Populate By Function table with references, add missing op-codes
 
-
-
 The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
-and addressing modes.
+and addressing modes capable of running at up to 14 MHz. On the Commander X16
+it is clocked at 8 MHz.
 
 This is not meant to be a complete manual on the 65C02 processor, though is meant 
 to serve as a convenient quick reference. Much of this information comes from
