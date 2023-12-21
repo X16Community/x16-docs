@@ -22,34 +22,35 @@ information can be found at those (and other) sources.
 
 |     |     |     |     |     |     |     |     |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBR](#bbr)[^4] | [BBS](#bbs)[^4] | [BCC](#bcc) | [BCS](#bcs) | [BEQ](#beq) |
-| [BIT](#bit) | [BMI](#bmi) | [BNE](#bne) | [BPL](#bpl) | [BRA](#bra) | [BRK](#brk) | [BVC](#bvc) | [BVS](#bvs) |
-| [CLC](#clc) | [CLD](#cld) | [CLI](#cli) | [CLV](#clv) | [CMP](#cmp) | [CPX](#cpx) | [CPY](#cpy) | [DEC](#dec) |
-| [DEX](#dex) | [DEY](#dey) | [EOR](#eor) | [INC](#inc) | [INX](#inx) | [INY](#iny) | [JMP](#jmp) | [JSR](#jsr) |
-| [LDA](#lda) | [LDX](#ldx) | [LDY](#ldy) | [LSR](#lsr) | [NOP](#nop) | [ORA](#ora) | [PHA](#pha) | [PHP](#php) |
-| [PHX](#phx)[^4] | [PHY](#phy)[^4] | [PLA](#pla) | [PLP](#plp) | [PLX](#plx)[^4] | [PLY](#ply)[^4] | [RMB](#rmb)[^4] | [ROL](#rol) |
-| [ROR](#ror) | [RTI](#rti) | [RTS](#rts) | [SBC](#sbc) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) | [SMB](#smb)[^4] | 
-| [STA](#sta) | [STP](#stp)[^4] | [STX](#stx) | [STY](#sty) | [STZ](#stz) | [TAX](#tax) | [TAY](#tay) | [TRB](#trb)[^4] | 
-| [TSB](#trb)[^4] | [TSX](#tsx) | [TXA](#txa) | [TXS](#txs) | [TYA](#tya) | [WAI](#wai)[^4] |     |     |
+| [ADC](#adc)     | [AND](#and)     | [ASL](#asl) | [BBR](#bbr)[^4] | [BBS](#bbs)[^4] | [BCC](#bcc)     | [BCS](#bcs)     | [BEQ](#beq)     |
+| [BIT](#bit)     | [BMI](#bmi)     | [BNE](#bne) | [BPL](#bpl)     | [BRA](#bra)     | [BRK](#brk)     | [BVC](#bvc)     | [BVS](#bvs)     |
+| [CLC](#clc)     | [CLD](#cld)     | [CLI](#cli) | [CLV](#clv)     | [CMP](#cmp)     | [CPX](#cpx)     | [CPY](#cpy)     | [DEC](#dec)     |
+| [DEX](#dex)     | [DEY](#dey)     | [EOR](#eor) | [INC](#inc)     | [INX](#inx)     | [INY](#iny)     | [JMP](#jmp)     | [JSR](#jsr)     |
+| [LDA](#lda)     | [LDX](#ldx)     | [LDY](#ldy) | [LSR](#lsr)     | [NOP](#nop)     | [ORA](#ora)     | [PHA](#pha)     | [PHP](#php)     |
+| [PHX](#phx)[^4] | [PHY](#phy)[^4] | [PLA](#pla) | [PLP](#plp)     | [PLX](#plx)[^4] | [PLY](#ply)[^4] | [RMB](#rmb)[^4] | [ROL](#rol)     |
+| [ROR](#ror)     | [RTI](#rti)     | [RTS](#rts) | [SBC](#sbc)     | [SEC](#sec)     | [SED](#sed)     | [SEI](#sei)     | [SMB](#smb)[^4] | 
+| [STA](#sta)     | [STP](#stp)[^4] | [STX](#stx) | [STY](#sty)     | [STZ](#stz)[^4] | [TAX](#tax)     | [TAY](#tay)     | [TRB](#trb)[^4] | 
+| [TSB](#trb)[^4] | [TSX](#tsx)     | [TXA](#txa) | [TXS](#txs)     | [TYA](#tya)     | [WAI](#wai)[^4] |                 |                 |
 
 ### By Function
 
-| Load/Store | Transfer | Stack | Logic | Math | Branch | Flow | Flags |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| LDA | TAX | PHA | [ASL](#asl) | [ADC](#adc) | [BCC](#bcc) | BRA | CLC |
-| LDX | TAY | PHP | LSR | SBC | [BCS](#bcs) | JMP | CLD |
-| LDY | TSX | PHX | ROL | CMP | [BEQ](#beq) | JSR | CLI |
-| STA | TXA | PHY | ROR | CPX | BMI | RTI | CLV |
-| STX | TXS | PLA | [AND](#and) | CPY | BNE | RTS | SEC |
-| STY | TYA | PLP | BIT | INC | BPL | BRK | SED |
-| STZ |     | PLX | EOR | INX | BVC | STP | SEI |
-|     |     | PLY | ORA | INY | BVS | WAI |     |
-|     |     |     | TRB | DEC | [BBR](#bbr) |     |     |
-|     |     |     | TSB | DEX | [BBS](#bbs) |     |     |
-|     |     |     | NOP | DEY |     |     |     |
-|     |     |     | RMB |     |     |     |     |
-|     |     |     | SMB |     |     |     |     |
+| Load/Store      | Transfer    | Stack           | Logic           | Math        | Branch          | Flow            | Flags       |
+| --------------- | ----------- | -----------     | --------------- | ----------- | --------------- | --------------- | ----------- |
+| [LDA](#lda)     | [TAX](#tax) | [PHA](#pha)     | [ASL](#asl)     | [ADC](#adc) | [BCC](#bcc)     | [BRA](#bra)     | [CLC](#clc) |
+| [LDX](#ldx)     | [TAY](#tay) | [PHP](#php)     | [LSR](#lsr)     | [SBC](#sbc) | [BCS](#bcs)     | [JMP](#jmp)     | [CLD](#cld) |
+| [LDY](#ldy)     | [TSX](#tsx) | [PHX](#phx)[^4] | [ROL](#rol)     | [CMP](#cmp) | [BEQ](#beq)     | [JSR](#jsr)     | [CLI](#cli) |
+| [STA](#sta)     | [TXA](#txa) | [PHY](#phy)[^4] | [ROR](#ror)     | [CPX](#cpx) | [BMI](#bmi)     | [RTI](#rti)     | [CLV](#clv) |
+| [STX](#stx)     | [TXS](#txs) | [PLA](#pla)     | [AND](#and)     | [CPY](#cpy) | [BNE](#bne)     | [RTS](#rts)     | [SEC](#sec) |
+| [STY](#sty)     | [TYA](#tya) | [PLP](#plp)     | [BIT](#bit)     | [INC](#inc) | [BPL](#bpl)     | [BRK](#brk)     | [SED](#sed) |
+| [STZ](#stz)[^4] |             | [PLX](#plx)[^4] | [EOR](#eor)     | [INX](#inx) | [BVC](#bvc)     | [STP](#stp)[^4] | [SEI](#sei) |
+|                 |             | [PLY](#ply)[^4] | [ORA](#ora)     | [INY](#iny) | [BVS](#bvs)     | [WAI](#wai)[^4] |             |
+|                 |             |                 | [TRB](#trb)[^4] | [DEC](#dec) | [BBR](#bbr)[^4] |                 |             |
+|                 |             |                 | [TSB](#tsb)[^4] | [DEX](#dex) | [BBS](#bbs)[^4] |                 |             |
+|                 |             |                 | [NOP](#nop)     | [DEY](#dey) |                 |                 |             |
+|                 |             |                 | [RMB](#rmb)[^4] |             |                 |                 |             |
+|                 |             |                 | [SMB](#smb)[^4] |             |                 |                 |             |
 
+7 6 8 13 11 10 8 7
 ## Opcodes
 
 ### ADC
@@ -71,6 +72,11 @@ Flags Affected: CNVZ
 
 Add provided value to the A (accumulator) register. There is no way to add
 without a carry. Results depend on wether decimal mode is enabled.
+
+  - Sets C (Carry) flag is the result is larger than 255 (or 99 in decimal mode)
+  - Sets N (Negative) flag is the two's compliment result is negative (otherwise it is reset)
+  - Sets V (Overflow) if the two's compliment result exceeds -128 or +127 (otherwise it is reset)
+  - Sets Z (Zero) is the result is zero
 
 ### AND
 
