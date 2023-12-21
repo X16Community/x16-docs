@@ -68,8 +68,6 @@ Add with Carry
 | Indirect,X      | ADC ($44,X) | 2      | 6      |
 | Indirect,Y      | ADC ($44),Y | 2      | 5[^1]  |
 
-Flags Affected: CNVZ
-
 Add provided value to the A (accumulator) register. There is no way to add
 without a carry. Results depend on wether decimal mode is enabled.
 
