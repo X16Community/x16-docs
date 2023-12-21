@@ -5,9 +5,12 @@
 TODO:
 
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
+  * Populate By Function table with references, add missing op-codes
 
 
-The WDC65C02 CPU is modern version of the MOS6502 with a few additional opcodes.
+
+The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
+and addressing modes.
 
 This is not meant to be a complete manual on the 65C02 processor, though is meant 
 to serve as a convenient quick reference. Much of this information comes from
@@ -20,15 +23,15 @@ information can be found at those (and other) sources.
 
 |     |     |     |     |     |     |     |     |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBR](#bbr) | [BBS](#bbs) | [BCC](#bcc) | [BCS](#bcs) | [BEQ](#beq) |
+| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBR](#bbr)[^4] | [BBS](#bbs)[^4] | [BCC](#bcc) | [BCS](#bcs) | [BEQ](#beq) |
 | [BIT](#bit) | [BMI](#bmi) | [BNE](#bne) | [BPL](#bpl) | [BRA](#bra) | [BRK](#brk) | [BVC](#bvc) | [BVS](#bvs) |
 | [CLC](#clc) | [CLD](#cld) | [CLI](#cli) | [CLV](#clv) | [CMP](#cmp) | [CPX](#cpx) | [CPY](#cpy) | [DEC](#dec) |
 | [DEX](#dex) | [DEY](#dey) | [EOR](#eor) | [INC](#inc) | [INX](#inx) | [INY](#iny) | [JMP](#jmp) | [JSR](#jsr) |
 | [LDA](#lda) | [LDX](#ldx) | [LDY](#ldy) | [LSR](#lsr) | [NOP](#nop) | [ORA](#ora) | [PHA](#pha) | [PHP](#php) |
-| [PHX](#phx) | [PHY](#phy) | [PLA](#pla) | [PLP](#plp) | [PLX](#plx) | [PLY](#ply) | RMB | ROL |
-| ROR | RTI | RTS | SBC | SEC | SED | SEI | SMB | 
-| STA | STP | STX | STY | STZ | TAX | TAY | TRB | 
-| TSB | TSX | TXA | TXS | TYA | WAI |     |     |
+| [PHX](#phx)[^4] | [PHY](#phy)[^4] | [PLA](#pla) | [PLP](#plp) | [PLX](#plx)[^4] | [PLY](#ply)[^4] | [RMB](#rmb)[^4] | [ROL](#rol) |
+| [ROR](#ror) | [RTI](#rti) | [RTS](#rts) | [SBC](#sbc) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) | [SMB](#smb)[^4] | 
+| [STA](#sta) | [STP](#stp)[^4] | [STX](#stx) | [STY](#sty) | [STZ](#stz) | [TAX](#tax) | [TAY](#tay) | [TRB](#trb)[^4] | 
+| [TSB](#trb)[^4] | [TSX](#tsx) | [TXA](#txa) | [TXS](#txs) | [TYA](#tya) | [WAI](#wai)[^4] |     |     |
 
 ### By Function
 
@@ -67,7 +70,7 @@ Add with Carry
 
 Flags Affected: CNVZ
 
-Add provided value to the A (accumlator) register. There is no way to add
+Add provided value to the A (accumulator) register. There is no way to add
 without a carry. Results depend on wether decimal mode is enabled.
 
 ### AND
@@ -85,7 +88,7 @@ Logical Bitwise And
 | Indirect,X      | AND ($44,X) | 2      | 6      |
 | Indirect,Y      | AND ($44),Y | 2      | 5[^1]  |
 
-Add provided value to the A (accumlator) register. There is no way to add
+Add provided value to the A (accumulator) register. There is no way to add
 without a carry. Results depend on wether decimal mode is enabled.
 
 ### ASL
@@ -115,8 +118,10 @@ Branch If Bit Reset
 | --------------- | -------------  | ------ | ------- |
 | Zero Page       | BBRx $44,LABEL | 3      | 3-5[^2] |
 
-Branch to LABEL if bit x of zero page address is 0. This is a 65C02 
-specific instruction.
+Branch to LABEL if bit x of zero page address is 0 where x is the number 
+of the specific bit (0-7).
+
+Specific to the 65C02.
 
 #### Example (ca65)
 
@@ -143,8 +148,10 @@ Branch If Bit Set
 | --------------- | -------------  | ------ | ------ |
 | Zero Page       | BBSx $44,LABEL | 3      | 5[^2]  |
 
-Branch to LABEL if bit x of zero page address is 1. This is a 65C02 
-specific instruction.
+Branch to LABEL if bit x of zero page address is 1 where x is the number 
+of the specific bit (0-7).
+
+Specific to the 65C02.
 
 #### Example (ca65)
 
@@ -242,9 +249,10 @@ Branch Always
 
 | Addressing Mode | Usage          | Length | Cycles   |
 | --------------- | -------------  | ------ | -------- |
-| Relative        | BRA LABEL      | 2      | 3-4 [^1] |
+| Relative        | BRA LABEL  | 2      | 3-4 [^1] |
 
-Branch to LABEL no matter what. This is a 65C02 specific opcode.
+Branch to LABEL no matter what. Essentially a relative jump
+which uses fewer bytes. Specific to the 65C02.
 
 ### BRK
 
@@ -307,8 +315,8 @@ Clear Interrupt Flag
 | --------------- | ------------- | ------ | -------- |
 | Implied         | CLI           | 1      | 2        |
 
-Clears the interrupt (I) flag, which in turn enables maskable
-interrupts (IRQs).
+Clears the interrupt (I) flag, which in turn 
+**enables** maskable interrupts (IRQs).
 
 ### CLV
 
@@ -581,7 +589,7 @@ Place the given value from memory into the X register.
   - Sets Z (Zero) flag is the value is zero
 
 ### LDY
-also
+
 Load Y
 
 | Addressing Mode | Usage       | Length | Cycles |
@@ -681,11 +689,9 @@ Push the X register register onto the Stack
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
-| Implied         | PHX         | 1      | 3      |
+| Implied         | PHX     | 1      | 3      |
 
-Push the value in the X onto the stack.
-
-65C02 specific opcode.
+Push the value in the X onto the stack. Specific to the 65C02.
 
 ### PHY
 
@@ -693,11 +699,9 @@ Push the Y register register onto the Stack
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
-| Implied         | PHY         | 1      | 3      |
+| Implied         | PHY     | 1      | 3      |
 
-Push the value in the Y onto the stack.
-
-65C02 specific opcode.
+Push the value in the Y onto the stack. Specific to the 65C02.
 
 ### PLA
 
@@ -726,12 +730,10 @@ Pop value from stack into the X register
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
-| Implied         | PLX         | 1      | 4      |
+| Implied         | PLX     | 1      | 4      |
 
 Pull/Pop the value on the stack and place into 
-the X register.
-
-65C02 specific opcode.
+the X register. Specific to the 65C02.
 
 ### PLY
 
@@ -739,12 +741,345 @@ Pop value from stack into the X register
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
-| Implied         | PLY         | 1      | 4      |
+| Implied         | PLY     | 1      | 4      |
 
 Pull/Pop the value on the stack and place into 
-the Y register.
+the Y register. Specific to the 65C02.
 
-65C02 specific opcode.
+### RMB
+
+Reset Memory Bit
+
+| Addressing Mode | Usage          | Length | Cycles  |
+| --------------- | -------------  | ------ | ------- |
+| Zero Page       | RMBx $44       | 2      | 5       |
+
+Set bit x to 0 at the given zero page address where x is the number 
+of the specific bit (0-7).
+
+Often used in conjunction with [BBR](#bbr) and [BBS](#bbs).
+
+### ROL
+
+Rotate Left
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Accumulator     | ROL         | 1      | 2      |
+| Zero Page       | ROL $44     | 2      | 5      |
+| Zero Page,X     | ROL $44,X   | 2      | 6      |
+| Absolute        | ROL $4400   | 3      | 6      |
+| Absolute,X      | ROL $4400,X | 3      | 7      |
+
+Rotate all bits to the left one position. The value in 
+the carry (C) flag is shifted into bit 0 and the original
+bit 7 is shifted into the carry (C).
+
+Unlike [ASL](#asl) the bits rotate rather than shift in
+a loop.
+
+### ROR
+
+Rotate Right
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Accumulator     | ROR         | 1      | 2      |
+| Zero Page       | ROR $44     | 2      | 5      |
+| Zero Page,X     | ROR $44,X   | 2      | 6      |
+| Absolute        | ROR $4400   | 3      | 6      |
+| Absolute,X      | ROR $4400,X | 3      | 7      |
+
+Rotate all bits to the right one position. The value in 
+the carry (C) flag is shifted into bit 7 and the original
+bit 0 is shifted into the carry (C).
+
+Unlike [LSR](#lsr) the bits rotate rather than shift in a loop.
+
+### RTI
+
+Return From Interrupt
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | RTI         | 1      | 6      |
+
+Return from an interrupt by popping two values off the stack.
+The first is for the status register (P) followed by the program
+counter.
+
+Note that unlike [RTS](#rts), the popped address is the actual
+return address (rather than address-1).
+
+### RTS
+
+Return From Subroutine
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | RTS         | 1      | 6      |
+
+Typically used at the end of a subroutine. It jumps 
+back to the address after the [JSR](#jsr) that called it
+by popping the top 2 bytes off the stack and transferring
+control to that address +1.
+
+### SBC
+
+Subtract with Carry
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Immediate       | SBC #$44    | 2      | 2      |
+| Zero Page       | SBC $44     | 2      | 3      |
+| Zero Page,X     | SBC $44,X   | 2      | 4      |
+| Absolute        | SBC $4400   | 3      | 4      |
+| Absolute,X      | SBC $4400,X | 3      | 4[^1]  |
+| Absolute,Y      | SBC $4400,Y | 3      | 4[^1]  |
+| Indirect,X      | SBC ($44,X) | 2      | 6      |
+| Indirect,Y      | SBC ($44),Y | 2      | 5[^1]  |
+
+Subtract the provided value from A (accumulator) register. There is no way to 
+subtrack without a carry. Results depend on wether decimal mode is enabled.
+
+If the carry flag (C) is cleared it means a borrow occurred.
+
+### SEC
+
+Set Carry Flag
+
+| Addressing Mode | Usage         | Length | Cycles   |
+| --------------- | ------------- | ------ | -------- |
+| Implied         | SEC           | 1      | 2        |
+
+Sets the carry (C) flag.
+
+### SED
+
+Set Decimal Flag
+
+| Addressing Mode | Usage         | Length | Cycles   |
+| --------------- | ------------- | ------ | -------- |
+| Implied         | SED           | 1      | 2        |
+
+Set the decimal (D) flag, *enabling* binary-coded decimal
+addition and subtraction.
+
+### SEI
+
+Set Interrupt Flag
+
+| Addressing Mode | Usage         | Length | Cycles   |
+| --------------- | ------------- | ------ | -------- |
+| Implied         | SEI           | 1      | 2        |
+
+Sets the interrupt (I) flag, which in turn **disables** maskable
+interrupts (IRQs).
+
+### SMB
+
+Set Memory Bit
+
+| Addressing Mode | Usage          | Length | Cycles  |
+| --------------- | -------------  | ------ | ------- |
+| Zero Page       | SMBx $44       | 2      | 5       |
+
+Set bit x to 1 at the given zero page address where x is the number 
+of the specific bit (0-7).
+
+Often used in conjunction with [BBR](#bbr) and [BBS](#bbs).
+
+### STA
+
+Store Accumulator
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | STA $44     | 2      | 3      |
+| Zero Page,X     | STA $44,X   | 2      | 4      |
+| Absolute        | STA $4400   | 3      | 4      |
+| Absolute,X      | STA $4400,X | 3      | 5      |
+| Absolute,Y      | STA $4400,Y | 3      | 5      |
+| Indirect,X      | STA ($44,X) | 2      | 6      |
+| Indirect,Y      | STA ($44),Y | 2      | 6      |
+
+Place the given value from A (the accumulator) into memory.
+
+### STP
+
+Stop the Processor
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | STP         | 1      | 3      |
+
+Stops the processer and places it in a lower power
+state until a hardware reset occurs. This is mostly
+useful for embedded systems and may have little 
+affect when used with the X16.
+
+Also the acronym for Stone Temple Pilots, a rock band
+prominent in the 90's. The mneonic used here is 
+likely a coincidence.
+
+Specific to the 65C02.
+
+
+### STX
+
+Store X
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | STX $44     | 2      | 3      |
+| Zero Page,Y     | STX $44,Y   | 2      | 4      |
+| Absolute        | STX $4400   | 3      | 4      |
+
+Place the given value from X register into memory.
+
+### STY
+
+Store Y
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | STY $44     | 2      | 3      |
+| Zero Page,X     | STY $44,Y   | 2      | 4      |
+| Absolute        | STY $4400   | 3      | 4      |
+
+Place the given value from Y register into memory.
+
+### STZ
+
+Store Zero
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | STX $44     | 2      | 3      |
+| Zero Page,X     | STX $44,Y   | 2      | 4      |
+| Absolute        | STX $4400   | 3      | 4      |
+| Absolute,X      | STA $4400,X | 3      | 5      |
+
+Stores 0 into memory. A small optimization when needing
+to zero our a memory location instead of calling `LDA #$00`
+followed by a `STA $12`.
+
+Specific to the 65C02.
+
+### TAX
+
+Transfer A to X
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TAX         | 1      | 2      |
+
+Transfer the value of the accumulator (A) to the X register.
+
+### TAY
+
+Transfer A to Y
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TAY         | 1      | 2      |
+
+Transfer the value of the accumulator (A) to the Y register.
+
+### TRB
+
+Test and Reset Bits
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | TRB $44     | 2      | 5      |
+| Absolute        | TRB $4400   | 3      | 6      |
+
+Performs a logical AND between the inverted bits of
+the accumulator and the value in memory and then
+stores the result back into the same memory location.
+
+  - Sets Z (Zero) flag if all bits from the AND are zero.
+
+
+Specific to the 65C02.
+
+### TSB
+
+Test and Set Bits
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Zero Page       | TSB $44     | 2      | 5      |
+| Absolute        | TSB $4400   | 3      | 6      |
+
+Performs a logical OR between the bits of
+the accumulator and the value in memory and then
+stores the result back into the same memory location.
+
+  - Sets Z (Zero) flag if all bits from the OR are zero.
+
+Specific to the 65C02.
+
+### TSX
+
+Transfer Stack to X
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TSX         | 1      | 2      |
+
+Pop a value off the stack and place it into X
+
+### TXA
+
+Transfer X to A
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TXA         | 1      | 2      |
+
+Transfer the value of the X register to the accumulator (A).
+
+  - Sets N (Negative) flag if the two's compliment value is negative
+  - Sets Z (Zero) flag is the value is zero
+
+### TXS
+
+Transfer X to Stack
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TXS         | 1      | 2      |
+
+Push the value from X onto the stack.
+
+### TYA
+
+Transfer Y to A
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | TYA         | 1      | 2      |
+
+Transfer the value of the Y register to the accumulator (A).
+
+  - Sets N (Negative) flag if the two's compliment value is negative
+  - Sets Z (Zero) flag is the value is zero
+
+### WAI
+
+Wait for Interrupt
+
+| Addressing Mode | Usage       | Length | Cycles |
+| --------------- | ----------- | ------ | ------ |
+| Implied         | WAI         | 1      | 3      |
+
+Puts the processor into a low power state until a 
+hardware interrupt occurs. The intterupt is processed 
+immediately since the processor is not otherwise running
+any instructions. This can improve interrupt timing.
+
 
 ## Status Flags
 
@@ -773,7 +1108,9 @@ C = Carry
   * https://www.pagetable.com/c64ref/6502/?cpu=65c02
   * https://www.nesdev.org/wiki/Status_flags
   * https://skilldrick.github.io/easy6502/
+  * https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf
 
 [^1]: Add 1 cycle if a page boundary is crossed
 [^2]: Add 1 cycle if branch is taken on the same page, or 2 if it's taken to a different page
 [^3]: 65C02 specific addressing mode
+[^4]: 65C02 specific op-code
