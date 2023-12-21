@@ -1,10 +1,11 @@
-# Appendix B: The WDC65C02 Processor
+# Appendix B: The 65C02 Processor
 
 ## Work In Progress
 
 TODO:
 
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
+  * Add flag changes where relevant (likely missing some)
 
 ## Overview
 
@@ -1095,14 +1096,14 @@ P-Register:
 
 `NV1B DIZC`
 
-N = Negative  
-V = oVerflow  
-1 = Always 1  
-B = Interrupt Flag  
-D = Decimal Mode  
-I = Interupts Disabled  
-Z = Zero  
-C = Carry  
+  N = Negative  
+  V = oVerflow  
+  1 = Always 1  
+  B = Interrupt Flag  
+  D = Decimal Mode  
+  I = Interupts Disabled  
+  Z = Zero  
+  C = Carry  
 
 ## Further Reading
 
