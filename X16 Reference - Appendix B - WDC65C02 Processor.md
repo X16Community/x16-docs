@@ -1,11 +1,12 @@
 # Appendix B: The WDC65C02 Processor
 
-**Work In Progress**
+## Work In Progress
 
 TODO:
 
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
-  * Populate By Function table with references, add missing op-codes
+
+## Overview
 
 The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
 and addressing modes capable of running at up to 14 MHz. On the Commander X16
@@ -1108,12 +1109,12 @@ C = Carry
 
 ## Further Reading
 
-  * http://www.6502.org/tutorials/6502opcodes.html
-  * http://6502.org/tutorials/65c02opcodes.html
-  * https://www.pagetable.com/c64ref/6502/?cpu=65c02
-  * https://www.nesdev.org/wiki/Status_flags
-  * https://skilldrick.github.io/easy6502/
-  * https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf
+  * <http://www.6502.org/tutorials/6502opcodes.html>
+  * <http://6502.org/tutorials/65c02opcodes.html>
+  * <https://www.pagetable.com/c64ref/6502/?cpu=65c02>
+  * <https://www.nesdev.org/wiki/Status_flags>
+  * <https://skilldrick.github.io/easy6502/>
+  * <https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf>
 
 [^1]: Add 1 cycle if a page boundary is crossed
 [^2]: Add 1 cycle if branch is taken on the same page, or 2 if it's taken to a different page
