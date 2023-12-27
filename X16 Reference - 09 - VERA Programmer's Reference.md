@@ -681,6 +681,9 @@ Each pixel in the tile data gives a color index of either 0-3 (2bpp), 0-15 (4bpp
 
 * Color index 0 (transparent) and 16-255 are unmodified.
 * Color index 1-15 is modified by adding 16 x palette offset.
+* T256C causes bit 7 of the color index to become 1.
+
+Note that 2bpp mode packs 4 pixels per byte and 4bpp mode packs 2 pixels per byte. For packed pixels, bit 7 refers to the leftmost pixel and bit 0 refers to the rightmost pixel.
 
 ### Bitmap mode 1/2/4/8 bpp
 
@@ -688,8 +691,7 @@ Each pixel in the tile data gives a color index of either 0-3 (2bpp), 0-15 (4bpp
 
 **TILEW** specifies the bitmap width. TILEW=0 results in 320 pixels width and TILEW=1 results in 640 pixels width.
 
-The palette offset (in **'H-Scroll (11:8)'**) modifies the color indexes of the bitmap in the same way as in the tile modes.
-
+The palette offset (in **'H-Scroll (11:8)'**), as well as T256C in non-1bpp mode modifies the color indexes of the bitmap in the same way as in the tile modes.
 
 ## SPI controller
 

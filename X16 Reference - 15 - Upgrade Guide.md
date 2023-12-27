@@ -46,7 +46,7 @@ Official community VERA bitstreams will be posted as releases at [X16Community/v
 |-|-|-|-|-|
 | Commander X16 | - | - | - | flashvera |
 | XGecu TL866II+ | Xgpro | minipro | minipro | - |
-| XGecu TL866-3G / T48 | Xgpro | - | - | - |
+| XGecu TL866-3G / T48 | [Xgpro](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20recovery.md#using-a-windows-pc-to-upgrade-or-recover-a-vera) | - | - | - |
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
