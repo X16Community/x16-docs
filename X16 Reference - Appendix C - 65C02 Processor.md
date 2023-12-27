@@ -1,4 +1,4 @@
-# Appendix B: The 65C02 Processor
+# Appendix C: The 65C02 Processor
 
 ## Work In Progress
 

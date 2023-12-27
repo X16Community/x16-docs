@@ -1,4 +1,4 @@
- # Appendix B: VERA Firmware Recovery
+# Appendix B: VERA Firmware Recovery
 
 **WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
 

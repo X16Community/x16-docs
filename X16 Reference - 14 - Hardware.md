@@ -111,24 +111,34 @@ Pin 1 is in the rear-left corner.
 |    +5V |  57 |\[ \]| 58 | GND   |
 |   +12V |  59 |\[ \]| 60 | -12V  |
 
-To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO (MMIO)
-address ranges.
 
-| Address     | Description 
-|-------------|------------------
-| $9F60-$9FFF | Expansion port I/O range
-| $9F60-$9F7F | IO3
-| $9F80-$9F9F | IO4
-| $9FA0-$9FBF | IO5
-| $9FC0-$9FDF | IO6
-| $9FE0-$9FFF | IO7
 
-Expansion cards can use the IO3-IO7 lines as enable lines to provide their IO address range(s), or decode the address from the address bus directly. To prevent conflicts with other devices, expansion boards should allow the user to select their desired I/O bank with jumpers or DIP switches.
+To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO 
+(MMIO) address ranges.
 
-ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips (typically used by cartridges,
-see below). This allows for a total of 3.5MB of address space in the $C000-$FFFF address range.
+| Address     | Usage                               |Speed|
+|-------------|-------------------------------------|-----|
+|$9F60-$9F7F|Expansion Card Memory Mapped IO3       |8 MHz|
+|$9F80-$9F9F|Expansion Card Memory Mapped IO4       |8 MHz|
+|$9FA0-$9FBF|Expansion Card Memory Mapped IO5       |2 MHz|
+|$9FC0-$9FDF|Expansion Card Memory Mapped IO6       |2 MHz|
+|$9FE0-$9FFF|Cartidge/Expansion Memory Mapped IO7   |2 MHz|
 
-SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c peripherals on cartridges or expansion cards.
+Expansion cards can use the IO3-IO6 lines as enable lines to provide their IO address range
+(s), or decode the address from the address bus directly. To prevent conflicts with other 
+devices, expansion boards should allow the user to select their desired I/O bank with jumpers 
+or DIP switches. IO7 is given priority to external cartridges that use MMIO and should be 
+only used by an expansion card if there are no other MMIO ranges available. Doing so may
+cause a bus conflict with cartridges that make us of MMIO (such as those with expansion
+hardware). See below for more information on cartridges.
+
+ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) 
+address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips 
+(typically used by cartridges, see below). This allows for a total of 3.5MB of address space 
+in the `$C000-$FFFF` address range.
+
+SCL and SDA pins are shared with the i2c connector on J9 and can be used to access i2c 
+peripherals on cartridges or expansion cards.
 
 AUDIO_L and AUDIO_R are routed to J10, the audio option header.
 
@@ -138,24 +148,33 @@ The other pins are connected to the system bus and directly to the 65C02 process
 
 Cartridges are essentially an expansion card housed in an external enclosure. Typically they are 
 used for applications (e.g. games) with the X16 being able to boot directly from a cartridge at
-power on. Typically they contain a mix of banked ROM and/or RAM and an optional I2C EEPROM 
+power on. They contain banked ROM and/or RAM and an optional I2C EEPROM 
 (for storing game save states).
 
 They can also function as an expansion card which means they can also use MMIO. Similarly an internal
 expansion card could contain RAM/ROM as well.
 
-Because of this, while develoeprs are free to use the hardware as they please, there are open 
-discussions on suggested best practices for using cartridges and expansion cards to avoid a
-poor user experience and or compatibility issues. 
+Because of this, while develoeprs are free to use the hardware as they please, to avoid
+conflcits, the banked ROM/RAM space is suggested to be used only by cartridges and
+cartridges should avoid using MMIO IO3-IO6. Instead, IO7 should be the default option
+for cartridges and the last option for expansion cards (only used if there are no 
+other IO ranges available).
 
-For example, there can be conflicts if an internal card uses RAM/ROM space allocated to cartridges. 
-Similarly, a cartridge can use MMIO (and doing so allows for nice features such as accelerator 
-co-processors), but care must be taken to avoid MMIO being used by internal cards. 
+This helps avoid bus conflicts and an otherwise bad user experience given a 
+cartridge should be simple to use from the standpoint of the user
+("insert game -> play game").
 
-One proposal is to reserve one of the MMIO address ranges for cartridges. These conversations
-are on-going such that the final best practices as well as the final cartridge and expansion card
-designs may change. To emphasize as well, these are neighborly best practices and not 
-hard standards.
+These are soft guidelines. There is nothing physically preventing an expansion card from using
+banked ROM/RAM or a cartridge using any of the MMIO addresses. Doing so risks conflicts and 
+compatibility issues.
+
+Cartridges with additional hardware would be similar to expansion chips found on some NES and 
+SNES cartridges (think VRC6, Super FX, etc.) and could be used for really anything, 
+such as having a MIDI input for a cartridge that is meant as a music maker; 
+some sort of hardware accelerator FPGA; network support, etc. 
+
+For more information about the memory map visit the 
+[Chapter 7](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
 
 ##### Booting from Cartridges
 
