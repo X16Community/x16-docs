@@ -25,7 +25,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`BVLOAD`](#bvload) | command | Loads a headerless binary file from disk to VRAM | X16 |
 | [`CHAR`](#char) | command | Draws a text string in graphics mode | X16 |
 | `CHR$` | function | Returns PETSCII character from numeric value | C64 |
-| `CLOSE` | command | Closes a logical file number | C64 |
+| [`CLOSE`](#close) | command | Closes a logical file number | C64 |
 | `CLR` | command | Clears BASIC variable state | C64 |
 | [`CLS`](#cls) | command | Clears the screen | X16 |
 | `CMD` | command | Redirects output to non-screen device | C64 |
@@ -364,6 +364,20 @@ The string can contain printable ASCII characters (`CHR$($20)` to `CHR$($7E)`), 
 50 CHAR 0,6+12*3,0,CHR$($0B)+A$ :REM ITALICS
 60 CHAR 0,6+12*4,0,CHR$($0C)+A$ :REM OUTLINE
 70 CHAR 0,6+12*5,0,CHR$($12)+A$ :REM REVERSE
+```
+
+### CLOSE
+
+**TYPE: Command**
+**FORMAT: CLOSE &lt;file number&gt;**
+
+**Action:** Closes any files used by `OPEN` statements.  The `CLOSE` statement takes a single argument that is the file number to be closed.
+
+**EXAMPLE of CLOSE Statement:**
+
+```BASIC
+	CLOSE 0   : REM CLOSE FILE OPENED AS 0
+	CLOSE 4   : REM CLOSE FILE OPENED AS 4
 ```
 
 ### CLS

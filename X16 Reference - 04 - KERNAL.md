@@ -90,7 +90,7 @@ The 16 bit ABI generally follows the following conventions:
 |-|-|-|-|-|-|-|
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
-| `BSAVE` | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
+| [`BSAVE`](#function-name-bsave) | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
 | `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
@@ -227,8 +227,8 @@ The KERNAL vectors (\$0314-\$0333) are fully compatible with the C64:
 
 The X16 adds two new functions for dealing with the Commodore Peripheral Bus ("IEEE"):
 
-\$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
-\$FF44: `MACPTR` - read multiple bytes from peripheral bus
+\$FEB1: `MCIOUT` - write multiple bytes to peripheral bus  
+\$FF44: `MACPTR` - read multiple bytes from peripheral bus  
 
 ---
 
@@ -263,6 +263,7 @@ For reading into Hi RAM, you must set the desired bank prior to calling `MACPTR`
 Upon return, a set .C flag indicates that the device or file does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
 
 If `MACPTR` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes read.
+*It is possible that this is less than the number of bytes requested to be read! (But is always greater than 0)*
 
 Like with `ACPTR`, the status of the operation can be retrieved using the `READST` KERNAL call.
 
@@ -286,6 +287,7 @@ For reading from Hi RAM, you must set the desired bank prior to calling `MCIOUT`
 Upon return, a set .C flag indicates that the device or file does not support `MCIOUT`, and the program needs to write the data byte-by-byte using the `CIOUT` call instead.
 
 If `MCIOUT` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes written.
+*It is possible that this is less than the number of bytes requested to be written! (But is always greater than 0)*
 
 Like with `CIOUT`, the status of the operation can be retrieved using the `READST` KERNAL call.  If an error occurred, `READST` should return nonzero.
 
@@ -293,6 +295,24 @@ Like with `CIOUT`, the status of the operation can be retrieved using the `READS
 
 
 ### Channel I/O
+
+---
+
+#### Function Name: `BSAVE`
+
+Purpose: Save an area of memory to a file without writing an address header.  
+Call Address: \$FEBA  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: SETNAM, SETLFS  
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .C  
+
+**Description:** Save the contents of a memory range to a file.  Unlike `SAVE`, this call does not write the start address to the beginning of the output file.
+
+`SETLFS` and `SETNAM` must be called beforehand.  
+A is address of zero page pointer to the start address,   
+X and Y contain the *exclusive* end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
+Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
 
 ---
 
@@ -311,12 +331,12 @@ Registers affected: .A, .X, .Y, .P
 
 #### Function Name: `LOAD`
 
-Purpose: Load the contents of a file from disk to memory
+Purpose: Load the contents of a file from disk to memory  
 Call address: \$FFD5  
-Communication registers: .A .X .Y
+Communication registers: .A .X .Y  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
-Registers affected: .A, .X, .Y, .P
+Registers affected: .A, .X, .Y, .P  
 
 **Description:** Loads a file from disk to memory.
 
@@ -346,43 +366,47 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 
 #### Function Name: `OPEN`
 
-Purpose: Opens a channel/file
+Purpose: Opens a channel/file  
 Call address: \$FFC0  
-Communication registers: None
+Communication registers: None  
 Preparatory routines: SETNAM, SETLFS  
 Error returns: None  
-Registers affected: .A, .X, .Y
+Registers affected: .A, .X, .Y  
 
-**Description:** Opens a file or channel. For files, will need to then subsequently call
-`CHKIN` or `CHKOUT` to then use `CHRIN` and `CHROUT`.
+**Description:** Opens a file or channel.  
+The most common pattern is to then redirect the standard input or output to the file using `CHKIN` or `CHKOUT` respectively. Afterwards, I/O from or to the file or channel is done using `BASIN` (`CHRIN`) and `BSOUT` (`CHROUT`) respectively.
+
+For file I/O, the lower level calls `ACPTR` and `MACPTR` can be used in place of `CHRIN`, since `CHKIN` does the low-level setup for this.  Likewise `CIOUT` and `MCIOUT` can be used after `CHKOUT` for the same reason.
 
 ---
 
 #### Function Name: `SAVE`
 
-Purpose: Save an area of memory to a file.
-Call Address: \$FFD8
-Communication Registers: .A, .X, .Y
+Purpose: Save an area of memory to a file.  
+Call Address: \$FFD8  
+Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code
-Registers affected: .A, .X, .Y, .C
+Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .C  
 
-**Description:** Save the contents of a memory range to a file.
+**Description:** Save the contents of a memory range to a file. The (little-endian) start address is written to the file as the first two bytes of output, followed by the requested data.
 
-SETLFS and SETNAME must be called beforehand. A is address of zero page pointer to start address, 
-X = low byte of end address + 1, Y = high byte of end address.
-If C is zero there were no errors; 1 is an error in which case A will have the error
+`SETLFS` and `SETNAM` must be called beforehand.  
+A is address of zero page pointer to the start address,   
+X and Y contain the *exclusive* end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
+
+Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
 
 ---
 
 #### Function Name: `SETLFS`
 
-Purpose: Set file parameters
-Call Address: \$FFBA
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETNAM
-Error returns: None
-Registers affected: .A, .X, .Y
+Purpose: Set file parameters  
+Call Address: \$FFBA  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: none  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Set file parameters typically after calling SETNAM
 
@@ -394,18 +418,33 @@ number. If only one file is being opened at a time, $01 can be used.
 The device number corresponds to the hardware device where the file lives. On the X16, 
 $08 would be the SD card.
 
-The secondary address has some special meanings. FILLMEIN
+The secondary address has some special meanings:  
+
+When used with `OPEN` on disk/storage devices, the following applies:  
+
+  * 0 = Load (open for read)
+  * 1 = Save (open for write)
+  * 2-14 = Read mode, by default. Write, Append, and Modify modes can be specified in the SETNAM filename string as the third argument, e.g. `"FILE.DAT,S,W"` for write mode. The command channel POSITION command "P" is available in any mode for seeking if the device is CMDR-DOS or HostFS.
+  * 15 = Command Channel (for sending special commands to CMDR-DOS/HostFS or the disk device)
+
+When used with `LOAD` the following applies:
+
+  * 0 = Load the data to address specified in the X and Y register of the LOAD call, regardless of the address header. The two-byte header itself is not loaded into RAM.
+  * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
+  * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
+
+For more information see [Chapter 11: Working with CMDR-DOS](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md)
 
 ---
 
 #### Function Name: `SETNAM`
 
-Purpose: Set file name
-Call Address: \$FFBD
-Communication Registers: .A, .X, .Y
-Preparatory routines: SETLFS
-Error returns: None
-Registers affected: .A, .X, .Y
+Purpose: Set file name  
+Call Address: \$FFBD  
+Communication Registers: .A, .X, .Y  
+Preparatory routines: none  
+Error returns: None  
+Registers affected: .A, .X, .Y  
 
 **Description:** Inform the kernal the name of the file that is to later be opened.
  A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
@@ -489,6 +528,7 @@ If the target address is in the \$9F00-\$9FFF range, all bytes will be written t
 
 * To create compressed data, use the `lzsa` tool[^1] like this:
 `lzsa -r -f2 <original_file> <compressed_file>`
+* If using the LZSA library to compress data, make sure to use format 2 and include the raw blocks flag, which is what the above command does.
 * This function cannot be used to decompress data in-place, as the output data would overwrite the input data before it is consumed. Therefore, make sure to load the input data to a different location.
 * It is possible to have the input data stored in banked RAM, with the obvious 8 KB size restriction.
 
@@ -511,8 +551,6 @@ Call address: \$FF77
 Communication registers: .A, .X, .Y
 
 **Description:** This function performs an `STA (ZP),Y` to any RAM bank. The the zero page address containing the base address is passed in `stavec` (\$03B2), the bank in .X and the offset from the vector in .Y. After the call, .X is destroyed, but .A and .Y are preserved.
-
-*[this API is subject to change]*
 
 ---
 
