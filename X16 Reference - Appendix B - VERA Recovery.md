@@ -36,13 +36,13 @@ The VERA 8-pin header should be connected as follows:
 | 8 (GND)       | TL866-3G/T48, ICSP pin 16 (GND)  |
 
 Image 1: Vera J2 programming header and J7 header.<br>
-<img src="images/vera-prg-hdr.jpg" width="400" />
+<img src="/images/vera-prg-hdr.jpg" width="400" />
 
 Image 2: TL866-3G/T48 ICSP header.<br>
-<img src="images/tl866-3g-icsp.jpg" width="400" />
+<img src="/images/tl866-3g-icsp.jpg" width="400" />
 
 Image 3: Schematics for connection between the VERA board and the TL866-3G/T48.<br>
-<img src="images/tl866-3g-to-vera.png" width="400" />
+<img src="/images/tl866-3g-to-vera.png" width="400" />
 
 
 ### Powering the Target Component
@@ -69,7 +69,7 @@ Open the Xgpro software and configure the following settings:
     - The response value should be EF 40 15
     - If it is not, double-check the wiring before proceeding
 
-<img src="images/xgpro-window.png" width="600" />
+<img src="/images/xgpro-window.png" width="600" />
 
 
 ### Update/Flash Procedure
