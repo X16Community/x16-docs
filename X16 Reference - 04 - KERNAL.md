@@ -156,11 +156,11 @@ The 16 bit ABI generally follows the following conventions:
 | [`MACPTR`](#function-name-macptr) | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
 | [`MCIOUT`](#function-name-mciout) | `$FEB1` | CPB | Write multiple bytes to the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
+| [`MEMTOP`](#function-name-memtop) | `$FF99` | Mem | Get number of banks and get/set address of end of usable RAM | | A X Y | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
 | [`memory_crc`](#function-name-memory_crc) | `$FEEA` | Mem | Calculate the CRC16 of a memory region | r0 r1 | r2 A X Y P | X16
 | [`memory_decompress`](#function-name-memory_decompress) | `$FEED` | Mem | Decompress an LZSA2 block | r0 r1 | r1 A X Y P | X16
 | [`memory_fill`](#function-name-memory_fill) | `$FEE4` | Mem | Fill a memory region with a byte value | A r0 r1 | r1 X Y P | X16
-| `MEMTOP` | `$FF99` | Mem | Get address of end of usable RAM | | A X Y | C64 |
 | [`monitor`](#function-name-monitor) | `$FECC` | Misc | Enter machine language monitor | none | A X Y P | X16
 | [`mouse_config`](#function-name-mouse_config) | `$FF68` | Mouse | Configure mouse pointer | A X Y | A X Y P | X16
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
@@ -200,7 +200,6 @@ Some notes:
 * For device #8, the Commodore Peripheral Bus calls first talk to the "Computer DOS" built into the ROM to detect an SD card, before falling back to the Commodore Serial Bus.
 * The `IOBASE` call returns $9F00, the location of the first VIA controller.
 * The `SETTMO` call has been a no-op since the Commodore VIC-20, and has no function on the X16 either.
-* The `MEMTOP` call additionally returns the number of available RAM banks in the .A register.
 * The layout of the zero page ($0000-$00FF) and the KERNAL/BASIC variable space ($0200+) are generally **not** compatible with the C64.
 
 The KERNAL vectors ($0314-$0333) are fully compatible with the C64:
@@ -470,6 +469,7 @@ $FEEA: `memory_crc` - calculate CRC16 of memory region
 $FEED: `memory_decompress` - decompress LZSA2 block  
 $FF74: `fetch` - read a byte from any RAM or ROM bank  
 $FF77: `stash` - write a byte to any RAM bank
+$FF99: `MEMTOP` - get number of banks and address of end of usable RAM
 
 <!---
 *** undocumented - we might remove it
@@ -550,6 +550,44 @@ Call address: $FF77
 Communication registers: .A, .X, .Y
 
 **Description:** This function performs an `STA (ZP),Y` to any RAM bank. The the zero page address containing the base address is passed in `stavec` ($03B2), the bank in .X and the offset from the vector in .Y. After the call, .X is destroyed, but .A and .Y are preserved.
+
+---
+
+#### Function Name: MEMTOP
+
+Purpose: Get/Set top of RAM, number of usable RAM banks.
+Call address: $FF99
+Communication registers: .A, .X, .Y
+Registers affected: .A, .X, .Y  
+
+**Description:** Original C64 function which gets or 
+sets the top of the usable address in RAM. On the X16,
+it additionally provides the number of RAM banks
+available on the system.
+
+To set the top of RAM, clear the carry flag.
+
+To get top of RAM and the number of available
+RAM banks, set carry flag.
+
+
+**Getting the number of usable RAM banks:**
+
+On the X16, calling MEMTOP with the carry flag set
+will return the number of available RAM banks on
+the system in A. For example:
+
+```
+  sec
+  jsr MEMTOP
+  sta zp_NUM_BANKS
+```
+
+If the system has 512k of banked RAM, zp_NUM_BANKS
+will contain $40 (64). For 1024k, $80; for 1536k, $C0.
+For 2048k, the result will be $00. Though uncommon, it
+is possible to uncommon values, such as if the system
+has some bad RAM.
 
 ---
 
