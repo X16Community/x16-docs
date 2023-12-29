@@ -571,6 +571,10 @@ To set the top of RAM, and the number of available banks, clear the carry flag.
 To get the top of RAM and the number of available
 banks, set carry flag.
 
+Note that the number of RAM banks is for informational
+purposes or for use by other programs. The KERNAL
+does not use this value itself.
+
 **Getting the number of usable RAM banks:**
 
 On the X16, calling MEMTOP with the carry flag set
@@ -586,9 +590,9 @@ the system in A. For example:
 If the system has 512k of banked RAM, zp_NUM_BANKS
 will contain $40 (64). For 1024k, $80; for 1536k, $C0.
 For 2048k, the result will be $00 (which can be thought
-of as $100, or 256). Though uncommon, it is possible
-to have uncommon values, such as if the system
-has some bad RAM.
+of as $100, or 256). It is possible to have other
+values (e.g. $42), such as if the system has bad 
+banked RAM.
 
 ---
 
