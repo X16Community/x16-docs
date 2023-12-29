@@ -156,7 +156,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`MACPTR`](#function-name-macptr) | `$FF44` | CPB | Read multiple bytes from the peripheral bus | A X Y C | A X Y P | X16
 | [`MCIOUT`](#function-name-mciout) | `$FEB1` | CPB | Write multiple bytes to the peripheral bus | A X Y C | A X Y P | X16
 | `MEMBOT` | `$FF9C` | Mem | Get address of start of usable RAM | | | C64 |
-| [`MEMTOP`](#function-name-memtop) | `$FF99` | Mem | Get number of banks and get/set address of end of usable RAM | | A X Y | C64 |
+| [`MEMTOP`](#function-name-memtop) | `$FF99` | Mem | Get/set number of banks and address of the end of usable RAM | | A X Y | C64 |
 | [`memory_copy`](#function-name-memory_copy) | `$FEE7` | Mem | Copy a memory region to a different region | r0 r1 r2 | r2 A X Y P | X16
 | [`memory_crc`](#function-name-memory_crc) | `$FEEA` | Mem | Calculate the CRC16 of a memory region | r0 r1 | r2 A X Y P | X16
 | [`memory_decompress`](#function-name-memory_decompress) | `$FEED` | Mem | Decompress an LZSA2 block | r0 r1 | r1 A X Y P | X16
@@ -555,21 +555,21 @@ Communication registers: .A, .X, .Y
 
 #### Function Name: MEMTOP
 
-Purpose: Get/Set top of RAM, number of usable RAM banks.
-Call address: $FF99
-Communication registers: .A, .X, .Y
+Purpose: Get/Set top of RAM, number of usable RAM banks.  
+Call address: $FF99  
+Communication registers: P (Carry), .A, .X, .Y  
 Registers affected: .A, .X, .Y  
 
 **Description:** Original C64 function which gets or 
 sets the top of the usable address in RAM. On the X16,
 it additionally provides the number of RAM banks
-available on the system.
+available on the system and can even be used to set
+this value after boot if desired.
 
-To set the top of RAM, clear the carry flag.
+To set the top of RAM, and the number of available banks, clear the carry flag.
 
-To get top of RAM and the number of available
-RAM banks, set carry flag.
-
+To get the top of RAM and the number of available
+banks, set carry flag.
 
 **Getting the number of usable RAM banks:**
 
@@ -585,8 +585,9 @@ the system in A. For example:
 
 If the system has 512k of banked RAM, zp_NUM_BANKS
 will contain $40 (64). For 1024k, $80; for 1536k, $C0.
-For 2048k, the result will be $00. Though uncommon, it
-is possible to uncommon values, such as if the system
+For 2048k, the result will be $00 (which can be thought
+of as $100, or 256). Though uncommon, it is possible
+to have uncommon values, such as if the system
 has some bad RAM.
 
 ---
