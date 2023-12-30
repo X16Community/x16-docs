@@ -5,6 +5,9 @@ for GitHub's Markdown flavor. Do not remove!
 
 NOTICE 2: For PDF export, anchor links (e.g. link.md#anchor) are required.
 Otherwise links will not function correctly.
+
+NOTICE 3: For PDF export, the bottom of every page should include the div tag 
+and newline (see existing files for examples).
 ********************************************************************************
 -->
 
