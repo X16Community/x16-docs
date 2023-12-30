@@ -24,7 +24,7 @@ If you attempt to upgrade your firmware and the process fails, one of our commun
 
 The computer contains two SNES style ports and will work with Super Nintendo compatible game pads. An on-board pin header is accessible to connect two additional SNES ports.
 
-<img src="/images/SNES_Controller_Female.svg" alt-text="SNES Controller Port" width="256" />
+![SNES Controller Port](images/SNES_Controller_Female.png)
 
 | Pin # | Description | Wire Color
 |-------|-------------|-------------
@@ -44,7 +44,7 @@ Thanks to [Console Mods Wiki](https://consolemods.org/wiki/SNES:Connector_Pinout
 
 The IEC port is a female 6 pin DIN 45322 connector. The pinout and specifications are the same as the Commodore 128 computer, with the required lines for Fast IEC, as used by the 1571 and 1581 diskette drives. 1541 drives are also compatible, using standard IEC mode at 400-600 bytes/sec.
 
-<img src="/images/iec_port.gif" alt-text="IEC Serial Port" />
+![IEC Serial Port](images/iec_port.gif)
 
 |Pin | Description	| Signal Direction	| Remark
 |----|--------------|-------------------|--------------
@@ -59,7 +59,7 @@ The IEC protocol is beyond the scope of this document. Please see [Wikipedia](ht
 
 ### PS/2 Keyboard and Mouse
 
-<img src="/images/ps2_pinout.svg" alt-text="SNES Controller Port" width="128" />
+![PS/2 Pinout](images/ps2_pinout.png)
 
 | Pin | Name  | Description
 |-----|-------|-------------
@@ -81,7 +81,7 @@ Pin 1 is in the rear-left corner.
 |   Desc |  Pin |   | Pin  | Desc |
 |-------:|-----:|---|------|------|
 |   -12V |   1 |\[ \]| 2  | +12V  |
-|    GND |   3 |\[ \]| 4  | +5V   |
+|    GND |   3 |\[ "VERA FX Reference.md" \\]| 4  | +5V   |
 |AUDIO_L |   5 |\[ \]| 6  | GND   |
 |AUDIO_R |   7 |\[ \]| 8  | ROMB7 |
 |    IO3 |   9 |\[ \]| 10 | ROMB0 |
@@ -133,7 +133,7 @@ cause a bus conflict with cartridges that make us of MMIO (such as those with ex
 hardware). See below for more information on cartridges.
 
 ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`) 
-address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips 
+address the on-boar"VERA FX Reference.md" \d ROM chips, and 32-255 are intended for expansion ROM or RAM chips 
 (typically used by cartridges, see below). This allows for a total of 3.5MB of address space 
 in the `$C000-$FFFF` address range.
 
@@ -187,9 +187,9 @@ The Commander X16 has a socket for an industry standard 24-pin ATX power supply 
 
 |24-pin ATX power connector, cable end|
 |-|
-|<img src="/images/atx_24_pin.png" width="320" title="Cable end view of ATX power connector"/>|
+|![Cable end view of ATX power connector](images/atx_24_pin-small.png)|
 
-By CalvinTheMan - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=50881708
+By CalvinTheMan - Own work, CC BY-SA 4.0, <https://commons.wikimedia.org/w/index.php?curid=50881708>
 
 The Commander X16 does not use the 4-pin CPU power, GPU power, 4-pin drive power, or SATA power connectors.
 
@@ -335,7 +335,7 @@ for details.
 
 ### VGA Connector
 
-<img src="/images/VGA_Port.svg" width="256" alt-text="VGA Connector" />
+![VGA Connector](images/VGA_Port.png)
 
 | Pin | Desc      |
 |-----|-----------|
@@ -376,7 +376,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 
 ### S-Video Connector
 
-<img src="/images/s_video.svg" width="128" alt-text="S-Video Connector" />
+![S-Video Connector](images/s_video.png)
 
 | Pin | Desc      |                       |
 |-----|-----------|-----------------------|
