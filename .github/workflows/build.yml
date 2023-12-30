@@ -45,13 +45,6 @@ jobs:
           "X16 Reference - Appendix C - 65C02 Processor.md" \
           "X16 Reference - Appendix D - Official Expansion Cards.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
-      - name: Create VERA Programmer's Reference PDF
-        run: |
-          export PATH=$(pwd)/node_modules/.bin:$PATH
-          cat .gh/header_footer.md \
-          "X16 Reference - 09 - VERA Programmer's Reference.md" \
-          "X16 Reference - 10 - VERA FX Reference.md" \
-          | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/VERA Programmer's Reference.pdf"
       - uses: actions/upload-artifact@v3
         with:
           name: x16-docs-pdf
