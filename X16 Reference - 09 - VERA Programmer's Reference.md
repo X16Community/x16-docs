@@ -6,7 +6,7 @@ document has been forked from Version 0.9 of the VERA. The original documentatio
 can be found [here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md).
 
 The Commander X16 uses a modified version of VERA which includes extra functionality,
-notabl the FX Aid additions. See [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md) 
+notably the FX Aid additions. See [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md) 
 for more information on the FX additions.
 
 The VERA consists of:
