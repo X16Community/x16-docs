@@ -1,3 +1,4 @@
+
 # Chapter 14: Hardware Pinouts
 
 This chapter covers pinout for the I/O ports and headers.

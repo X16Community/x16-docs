@@ -1,3 +1,4 @@
+
 # Chapter 10: VERA FX Reference
 
 *Author: MooingLemur, based on documentation written by JeffreyH*

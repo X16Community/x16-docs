@@ -3,11 +3,15 @@
 NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
 for GitHub's Markdown flavor. Do not remove!
 
-NOTICE 2: For PDF export, anchor links (e.g. link.md#anchor) are required.
+PDF Export Instructions:
+
+Anchor links (e.g. link.md#anchor) are required.
 Otherwise links will not function correctly.
 
-NOTICE 3: For PDF export, the bottom of every page should include the div tag 
-and newline (see existing files for examples).
+The top of every page should start with a newline.
+
+The bottom of every page should include the div tag (see existing pages for
+examples)
 ********************************************************************************
 -->
 

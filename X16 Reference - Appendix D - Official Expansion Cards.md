@@ -1,3 +1,4 @@
+
 # Appendix D: Official Expansion Cards
 
 This is just a stub as a proposal for how to document official expansion cards
