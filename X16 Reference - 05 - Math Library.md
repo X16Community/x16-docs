@@ -9,14 +9,22 @@ The following functions are available from machine language code after setting t
 
 ## Format Conversions
 
-| Address | Symbol   | Description                                                        |
-|---------|----------|--------------------------------------------------------------------|
-| \$FE00  | `AYINT`  | convert floating point to integer (signed word)                    |
-| \$FE03  | `GIVAYF` | convert integer (signed word) to floating point                    |
-| \$FE06  | `FOUT`   | convert floating point to ASCII string                             |
-| \$FE09  | `VAL_1`  | convert ASCII string to floating point<br/>*[not yet implemented]* |
-| \$FE0C  | `GETADR` | convert floating point to an address (unsigned word)               |
-| \$FE0F  | `FLOATC` | convert address (unsigned word) to floating point                  |  
+| Address | Symbol   | Description                                                                                 |
+|---------|----------|---------------------------------------------------------------------------------------------| 
+| \$FE00  | `AYINT`  | convert floating point to integer (signed word)                                             |
+| \$FE03  | `GIVAYF` | convert integer (signed word) to floating point                                             |
+| \$FE06  | `FOUT`   | convert floating point to ASCII string                                                      |
+| \$FE09  | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. *Caveat! Read below!* |
+| \$FE0C  | `GETADR` | convert floating point to an address (unsigned word)                                        |
+| \$FE0F  | `FLOATC` | convert address (unsigned word) to floating point                                           |
+
+**Important caveat ragarding the `VAL_1` routine in its current implementation:**
+
+Unlike the other routines in the math library, this routine calls into the VAL implementation
+that is inside BASIC, and so it requires much of the BASIC zeropage to be intact to function correctly.
+The reason is that that routine ultimately relies on some internal BASIC routines that use a lot of BASIC zero page space.
+Ideally in the future, the `VAL_1` routine gets a new implementation that doesn't rely on the code in BASIC, thereby removing this restriction.
+
 
 #### X16 Additions
 
