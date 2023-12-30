@@ -2,6 +2,9 @@
 ********************************************************************************
 NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
 for GitHub's Markdown flavor. Do not remove!
+
+NOTICE 2: For PDF export, anchor links (e.g. link.md#anchor) are required.
+Otherwise links will not function correctly.
 ********************************************************************************
 -->
 
@@ -24,17 +27,17 @@ first.
   * [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor)  
   * [Chapter 7: Memory Map](X16%20Reference%20-%2007%20-%20Memory%20Map.md#chapter-7-memory-map)  
   * [Chapter 8: Video Programming](X16%20Reference%20-%2008%20-%20Video%20Programming.md#chapter-8-video-programming)  
-  * [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md)
-  * [Chapter 10: VERA FX Reference](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md)
-  * [Chapter 11: Sound Programming](X16%20Reference%20-%2011%20-%20Sound%20Programming.md)
-  * [Chapter 12: I/O Programming](X16%20Reference%20-%2012%20-%20IO%20Programming.md)
-  * [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md)
-  * [Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md)  
-  * [Chapter 15: Upgrade Guide](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md)
-  * [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md)
-  * [Appendix B: VERA Recovery](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20Recovery.md)
-  * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md)
-  * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md)
+  * [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#chapter-9-vera-programmers-reference)
+  * [Chapter 10: VERA FX Reference](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference)
+  * [Chapter 11: Sound Programming](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#chapter-11-sound-programming)
+  * [Chapter 12: I/O Programming](X16%20Reference%20-%2012%20-%20IO%20Programming.md#chapter-12-io-programming)
+  * [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos)
+  * [Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md#chapter-14-hardware-pinouts)  
+  * [Chapter 15: Upgrade Guide](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md#chapter-15-upgrade-guide)
+  * [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#appendix-a-sound)
+  * [Appendix B: VERA Firmware Recovery](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20Recovery.md#appendix-b-vera-firmware-recovery)
+  * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#appendix-c-the-65c02-processor)
+  * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
 
 
 ### External Links
