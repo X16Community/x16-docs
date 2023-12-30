@@ -174,7 +174,7 @@ such as having a MIDI input for a cartridge that is meant as a music maker;
 some sort of hardware accelerator FPGA; network support, etc. 
 
 For more information about the memory map visit the 
-[Chapter 7](X16%20Reference%20-%2007%20-%20Memory%20Map.md) section of the manual.
+[Chapter 7](X16%20Reference%20-%2007%20-%20Memory%20Map.md#chapter-7-memory-map) section of the manual.
 
 ##### Booting from Cartridges
 
@@ -330,7 +330,7 @@ User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for ser
 | GND     | 21  |. .| 22  | GND     |
 | VERA_L  | 23  |. .| 24  | VERA_R  | 
 
-VERA is connected to I/O ports at $9F20-$9F3F. See [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md)
+VERA is connected to I/O ports at $9F20-$9F3F. See [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#chapter-9-vera-programmers-reference)
 for details.
 
 ### VGA Connector
@@ -416,7 +416,7 @@ The video is 480 lines 59.97Hz interlaced. Composite is not available when VGA i
 |  5  | +5V  |
 |  6  | GND  |
 
-This requires an EEPROM programmer and an interface board to program. See [Chapter 15](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md) for the programming adapter and instructions.
+This requires an EEPROM programmer and an interface board to program. See [Chapter 15](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md#chapter-15-upgrade-guide) for the programming adapter and instructions.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

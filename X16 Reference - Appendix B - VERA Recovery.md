@@ -12,8 +12,7 @@
 
 ### Before You Start
 
-Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off. Additionally, using an anti-static wrist strap connected to electrical ground is recommended while working on sensitive components.
-
+Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off.use_directory_urls
 To perform the upgrade, you will need the following:
 - A TL866-3G/T48 programmer
 - The Xgpro software
@@ -36,13 +35,13 @@ The VERA 8-pin header should be connected as follows:
 | 8 (GND)       | TL866-3G/T48, ICSP pin 16 (GND)  |
 
 Image 1: Vera J2 programming header and J7 header.<br>
-<img src="/images/vera-prg-hdr.jpg" width="400" />
+<img src="images/vera-prg-hdr.jpg" width="400" />
 
 Image 2: TL866-3G/T48 ICSP header.<br>
-<img src="/images/tl866-3g-icsp.jpg" width="400" />
+<img src="images/tl866-3g-icsp.jpg" width="400" />
 
 Image 3: Schematics for connection between the VERA board and the TL866-3G/T48.<br>
-<img src="/images/tl866-3g-to-vera.png" width="400" />
+<img src="images/tl866-3g-to-vera.png" width="400" />
 
 
 ### Powering the Target Component
@@ -69,7 +68,7 @@ Open the Xgpro software and configure the following settings:
     - The response value should be EF 40 15
     - If it is not, double-check the wiring before proceeding
 
-<img src="/images/xgpro-window.png" width="600" />
+<img src="images/xgpro-window.png" width="600" />
 
 
 ### Update/Flash Procedure
@@ -82,3 +81,6 @@ In the Xgpro software, follow these steps:
 Once the update is complete, press the power button to turn off the Commander X16. Then, disconnect the computer from the wall socket. Finally, remove all wires from the VERA pin header.
 
 Congratulations! The firmware update for VERA is now complete.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

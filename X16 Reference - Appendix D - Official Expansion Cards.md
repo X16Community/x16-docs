@@ -15,3 +15,5 @@ As the card is still in development there are not any demos or code examples ava
 though the datasheet contains informaiton on how to set things up (see below). Kevin
 also provied [some information](https://discord.com/channels/547559626024157184/548715649065811989/1183801692878295101) on how to setup the card in his original announcement on the community Discord.
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>

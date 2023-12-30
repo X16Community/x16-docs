@@ -1118,3 +1118,6 @@ P-Register:
 [^2]: Add 1 cycle if branch is taken on the same page, or 2 if it's taken to a different page
 [^3]: 65C02 specific addressing mode
 [^4]: 65C02 specific op-code
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

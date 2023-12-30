@@ -431,7 +431,7 @@ When used with `LOAD` the following applies:
   * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
   * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
 
-For more information see [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md)
+For more information see [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos)
 
 ---
 

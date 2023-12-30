@@ -113,7 +113,7 @@ The sections below describe how to do raw access to the sound chips outside of t
 
 ## VERA PSG and PCM Programming
 
-* For VERA PSG and PCM, refer to [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md).
+* For VERA PSG and PCM, refer to [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#chapter-9-vera-programmers-reference).
 
 ## YM2151 (OPM) FM Synthesis
 

@@ -130,7 +130,7 @@ last option used by expansion cards in the system.
 **MMIO is unneeded for cartridges which simply have RAM/ROM.**
 
 For more information, consult the 
-[Hardware](X16%20Reference%20-%2014%20-%20Hardware.md) section of the manual.
+[Hardware](X16%20Reference%20-%2014%20-%20Hardware.md#chapter-14-hardware-pinouts) section of the manual.
 
 ---
 
