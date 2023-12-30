@@ -836,8 +836,7 @@ FX is a set of mainly addressing mode changes. VERA FX does not accelerate rende
 
 FX features are controlled mainly by registers $9F29-$9F2C with DCSEL set to 2 through 6.  FX_CTRL ($9F29 w/ DCSEL=2) is the master switch for enabling or disabling FX behaviors.  When writing an application that uses FX, it is important that the FX mode be preserved and disabled in interrupt handlers in cases where the handler accesses VERA registers or VRAM, including the PSG sound registers. Reading from FX_CTRL returns the current state, and writing 0 to FX_CTRL suspends the FX behaviors so that the VERA can be accessed normally without mutating other FX state.
 
-Preliminary documentation for the feature can be found in [Chapter 10]
-(X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md), but as this is a brand new
+Preliminary documentation for the feature can be found in [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference), but as this is a brand new
  feature, examples and documentation still need to be written.
 
 ## Programmable Sound Generator (PSG)
