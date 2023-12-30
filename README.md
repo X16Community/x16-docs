@@ -1,3 +1,10 @@
+<!--
+********************************************************************************
+NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
+for GitHub's Markdown flavor. Do not remove!
+********************************************************************************
+-->
+
 # Commander X16 Reference Manual
 
 This is the official Commander X16 reference manual.
@@ -35,3 +42,5 @@ first.
   * [Official Website](https://www.commanderx16.com/)
   * [Documentation Source](https://github.com/X16Community/x16-docs)
   * [User Guide Source](https://github.com/X16Community/x16-user-guide)
+
+<div class="page-break"></div>
