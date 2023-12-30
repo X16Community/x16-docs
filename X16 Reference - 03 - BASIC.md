@@ -198,7 +198,7 @@ There are two ways to check the error channel from inside a program:
 40 CLOSE 15
 ```
 
-Refer to [Chapter 13](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md) for more details on CMDR-DOS and the command channel.
+Refer to [Chapter 13](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
