@@ -876,7 +876,7 @@ The above example parses and prints out the filenames from a directory listing.
 
 **Action:** This command currently invokes the Commander X16 Control Panel. In the future, the menu may instead present a menu of ROM-based applications and routines.
 
-**EXAMPLE of MON Statement:**
+**EXAMPLE of MENU Statement:**
 
 ```BASIC
 MENU
