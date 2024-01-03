@@ -85,6 +85,20 @@ The `$0400-$07FF` can be seen as the equivalent of `$C000-$CFFF` on a C64. A typ
 
 Machine code applications are free to reuse the BASIC area, and if they don't use the Math library, also that area.
 
+### Bank 0
+
+|Addresses  |Description                            |
+|-----------|---------------------------------------|
+|\$A000-\$BEFF | Reserved for DOS/KERNAL |
+|\$BF00-\$BFFF | Parameter Passing |
+
+Programs may use the last page of banked RAM at $BF00 to pass arguments to other programs. This allows for command-line style arguments or other small bits of data to be passed between applications run sequentially.
+
+Some simple rules regarding this page:
+1. The KERNAL clears this page on startup.
+2. You can write 256 bytes of freeform data to this space. (Recommend strings <= 255 bytes)
+3. Called programs must clean this space up after using it, by filling it with $00 bytes.
+
 ### Banking
 
 This is the allocation of banked RAM in the KERNAL/BASIC environment.
