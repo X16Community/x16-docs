@@ -1319,6 +1319,30 @@ RUN
 READY.
 ```
 
+### SAVE
+
+**TYPE: Command**
+**FORMAT: SAVE &lt;filename&gt;, &lt;device&gt;**
+
+**Action:** Saves a BASIC program to a file.
+
+This saves the currently loaded BASIC program to a file. If the device number is not supplied, SAVE will use the default drive. This is usually the SD card.
+
+Note that SAVE will not overwrite an existing file by default. To do this, you must prefix the filename with @:, like this: `SAVE &quot;@:filename&quot;`
+
+**EXAMPLES of SAVE:**
+
+```BASIC
+SAVE "HELLO.PRG"
+```
+
+The above example saves your Hello World program to the SD card.
+
+```BASIC
+SAVE "@:HELLO.PRG",9
+```
+
+The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port. 
 
 ### SCREEN
 
