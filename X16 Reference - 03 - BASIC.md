@@ -123,7 +123,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
 | [`RPT$`](#rpt) | function | Returns a string of repeated characters | X16 |
 | `RUN` | command | Clears the variable state and starts a BASIC program | C64 |
-| `SAVE` | command | Saves a BASIC program from memory to disk | C64 |
+| [`SAVE`](#save) | command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
 | `SGN` | function | Returns the sign of a numeric value | C64 |
 | `SIN` | function | Returns the sine of an angle in radians | C64 |
