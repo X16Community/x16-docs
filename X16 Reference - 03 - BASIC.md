@@ -1322,7 +1322,7 @@ READY.
 ### SAVE
 
 **TYPE: Command**
-**FORMAT: SAVE &lt;filename&gt;, &lt;device&gt;**
+**FORMAT: SAVE &lt;filename&gt; \[, &lt;device&gt;**\]
 
 **Action:** Saves a BASIC program to a file.
 
