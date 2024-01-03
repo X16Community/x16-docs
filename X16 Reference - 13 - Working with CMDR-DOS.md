@@ -1,5 +1,6 @@
 
-# Chapter 11: Working With CMDR-DOS
+# Chapter 13: Working With CMDR-DOS
+
 This manual describes Commodore DOS on FAT32, aka CMDR-DOS. 
 
 ## CMDR-DOS
@@ -176,7 +177,7 @@ The special case of `DOS "$"` will print a directory listing.
 
 `DOS "$"`
 
-You can also read the name of the current directory with DOS"\$=C"
+You can also read the name of the current directory with DOS"$=C"
 
 `DOS "$=C"`
 
@@ -351,7 +352,7 @@ This time, the secondary address is 5, and the pointer is at byte 128.
 
 ### Current Working Directory
 
-The \$=C command will list the current working directory and its parent path. The current directory will be at the top of the listing, with each parent
+The $=C command will list the current working directory and its parent path. The current directory will be at the top of the listing, with each parent
 directory beneath, with / at the bottom.
 
 ```BASIC

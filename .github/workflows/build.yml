@@ -33,20 +33,18 @@ jobs:
           "X16 Reference - 06 - Machine Language Monitor.md" \
           "X16 Reference - 07 - Memory Map.md" \
           "X16 Reference - 08 - Video Programming.md" \
-          "X16 Reference - 09 - Sound Programming.md" \
-          "X16 Reference - 10 - IO Programming.md" \
-          "X16 Reference - 11 - Working with CMDR-DOS.md" \
-          "X16 Reference - 12 - Hardware.md" \
-          "X16 Reference - 13 - Upgrade Guide.md" \
+          "X16 Reference - 09 - VERA Programmer's Reference.md" \
+          "X16 Reference - 10 - VERA FX Reference.md" \
+          "X16 Reference - 11 - Sound Programming.md" \
+          "X16 Reference - 12 - IO Programming.md" \
+          "X16 Reference - 13 - Working with CMDR-DOS.md" \
+          "X16 Reference - 14 - Hardware.md" \
+          "X16 Reference - 15 - Upgrade Guide.md" \
           "X16 Reference - Appendix A - Sound.md" \
+          "X16 Reference - Appendix B - VERA Recovery.md" \
+          "X16 Reference - Appendix C - 65C02 Processor.md" \
+          "X16 Reference - Appendix D - Official Expansion Cards.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
-      - name: Create VERA Programmer's Reference PDF
-        run: |
-          export PATH=$(pwd)/node_modules/.bin:$PATH
-          cat .gh/header_footer.md \
-          "VERA Programmer's Reference.md" \
-          "VERA FX Reference.md" \
-          | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/VERA Programmer's Reference.pdf"
       - uses: actions/upload-artifact@v3
         with:
           name: x16-docs-pdf

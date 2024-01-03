@@ -1,11 +1,12 @@
+
+# Chapter 3: BASIC Programming
+
 <!--
 ********************************************************************************
 NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
 for GitHub's Markdown flavor. Do not remove!
 ********************************************************************************
 -->
-
-# Chapter 3: BASIC Programming
 
 ## Table of BASIC statements and functions
 
@@ -166,7 +167,7 @@ The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commod
   * `CHR$(18)`: reverse
   * `CHR$(14)`: switch to upper/lowercase font
   * `CHR$(142)`: switch to uppercase/graphics font
-* The BASIC vector table (\$0300-\$030B, \$0311/\$0312)
+* The BASIC vector table ($0300-$030B, $0311/$0312)
 * [SYS](#sys) arguments in RAM
 
 Because of the differences in hardware, the following functions and statements are incompatible between C64 and X16 BASIC programs.
@@ -198,7 +199,7 @@ There are two ways to check the error channel from inside a program:
 40 CLOSE 15
 ```
 
-Refer to [Chapter 11](X16%20Reference%20-%2011%20-%20Working%20with%20CMDR-DOS.md#chapter-11-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
+Refer to [Chapter 13](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos) for more details on CMDR-DOS and the command channel.
 
 ## New Statements and Functions
 
@@ -224,11 +225,11 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 ### BIN$
 
 **TYPE: String Function**  
-**FORMAT: BIN\$(n)**
+**FORMAT: BIN$(n)**
 
 **Action:** Return a string representing the binary value of n. If n <= 255, 8 characters are returned and if 255 < n <= 65535, 16 characters are returned.
 
-**EXAMPLE of BIN\$ Function:**
+**EXAMPLE of BIN$ Function:**
 
 ```BASIC
 PRINT BIN$(200)   : REM PRINTS 11001000 AS BINARY REPRESENTATION OF 200
@@ -250,7 +251,7 @@ BANK 1,10    : REM SETS THE RAM BANK TO 1 AND THE ROM BANK TO 10
 SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
 
-Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2009%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
+Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
 
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
@@ -259,7 +260,7 @@ Note: Memory address `$00`, which is the hardware RAM bank register, will usuall
 ### BINPUT&#35;
 
 **TYPE: Command**  
-**FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var\$&gt;,&lt;len&gt;**
+**FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var$&gt;,&lt;len&gt;**
 
 **Action:** `BINPUT#` Reads a block of data from an open file and stores the data into a string variable. If there are fewer than `<len>` bytes available to be read from the file, fewer bytes will be stored.  If the end of the file is reached, `ST AND 64` will be true.
 
@@ -322,13 +323,13 @@ This command does not allow for automatic bank advancing, but you can achieve a 
 BSAVE "MYFILE.BIN",8,1,$A000,$C000
 ```
 
-The above example saves a region of memory from \$A000 in bank 1 through and including \$BFFF, stopping before \$C000.
+The above example saves a region of memory from $A000 in bank 1 through and including $BFFF, stopping before $C000.
 
 ```BASIC
 BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 ```
 
-The above example appends a region of memory from \$A000 through and including \$AFFF, stopping before \$B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
+The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 ### BVLOAD
 
@@ -455,8 +456,8 @@ A more elaborate X16-Edit manual can be found [here](https://github.com/X16Commu
 
 **Action:** Plays back a null-terminated script from MEMORY into the BASIC editor. Among other uses, this can be used to "type" in a program from a plain text file.
 
-* If the `ram bank` argument is omitted and the address is in the range \$A000-\$BFFF, the RAM bank selected by the `BANK` command is used.
-* The input can span multiple RAM banks. The input will stop once it reaches a null byte (\$00) or if a BASIC error occurs.
+* If the `ram bank` argument is omitted and the address is in the range $A000-$BFFF, the RAM bank selected by the `BANK` command is used.
+* The input can span multiple RAM banks. The input will stop once it reaches a null byte ($00) or if a BASIC error occurs.
 * The redirected input only applies to BASIC immediate mode. While programs are running, the EXEC handling is suspended.
 
 **EXAMPLE of EXEC Statement:**
@@ -662,14 +663,14 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 30 GOTO20
 ```
 
-### HEX\$
+### HEX$
 
 **TYPE: String Function**  
-**FORMAT: HEX\$(n)**
+**FORMAT: HEX$(n)**
 
 **Action:** Return a string representing the hexadecimal value of n. If n <= 255, 2 characters are returned and if 255 < n <= 65535, 4 characters are returned.
 
-**EXAMPLE of HEX\$ Function:**
+**EXAMPLE of HEX$ Function:**
 
 ```BASIC
 PRINT HEX$(200)   : REM PRINTS C8 AS HEXADECIMAL REPRESENTATION OF 200
@@ -726,18 +727,18 @@ If no controller is connected to the SNES port (or no keyboard is connected), th
 
 | Value  | Button |
 |--------|--------|
-| \$800   | A      |
-| \$400   | X      |
-| \$200   | L      |
-| \$100   | R      |
-| \$080   | B      |
-| \$040   | Y      |
-| \$020   | SELECT |
-| \$010   | START  |
-| \$008   | UP     |
-| \$004   | DOWN   |
-| \$002   | LEFT   |
-| \$001   | RIGHT  |
+| $800   | A      |
+| $400   | X      |
+| $200   | L      |
+| $100   | R      |
+| $080   | B      |
+| $040   | Y      |
+| $020   | SELECT |
+| $010   | START  |
+| $008   | UP     |
+| $004   | DOWN   |
+| $002   | LEFT   |
+| $001   | RIGHT  |
 
 Note that this bitfield is different from the `joystick_get` KERNEL API one. Also note that the keyboard joystick will allow LEFT and RIGHT as well as UP and DOWN to be pressed at the same time, while controllers usually prevent this mechanically.
 
@@ -800,7 +801,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 ### LINPUT
 
 **TYPE: Command**  
-**FORMAT: LINPUT &lt;var\$&gt;
+**FORMAT: LINPUT &lt;var$&gt;
 
 **Action:** `LINPUT` Reads a line of data from the keyboard and stores the data into a string variable. Unlike `INPUT`, no parsing or cooking of the input is done, and therefore quotes, commas, and colons are stored in the string as typed. No prompt is displayed, either.
 
@@ -822,7 +823,7 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 ### LINPUT&#35;
 
 **TYPE: Command**  
-**FORMAT: LINPUT&#35; &lt;n&gt;,&lt;var\$&gt;\[,&lt;delimiter&gt;\]**
+**FORMAT: LINPUT&#35; &lt;n&gt;,&lt;var$&gt;\[,&lt;delimiter&gt;\]**
 
 **Action:** `LINPUT#` Reads a line of data from an open file and stores the data into a string variable. The delimiter of a line by default is 13 (carriage return). The delimiter is not part of the stored value. If the end of the file is reached while reading, `ST AND 64` will be true.
 
@@ -1298,16 +1299,16 @@ RESET
 
 This program will output the number 1 followed by the number 4.
 
-### RPT\$
+### RPT$
 
 **TYPE: Function**  
-**FORMAT: RPT\$(&lt;byte&gt;,&lt;count&gt;)**
+**FORMAT: RPT$(&lt;byte&gt;,&lt;count&gt;)**
 
 **Action:** Returns a string of &lt;count&gt; instances of the PETSCII character represented by the numeric value &lt;byte&gt;.  This function is similar in behavior to `CHR$()` but takes a second argument as a repeat count.
 
 `RPT$(A,1)` is functionally equivalent to `CHR$(A)`.
 
-**EXAMPLE of RPT\$ function:**
+**EXAMPLE of RPT$ function:**
 
 ```BASIC
 10 REM TEN EXCLAMATION MARKS
@@ -1327,7 +1328,7 @@ READY.
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes \$00 and \$03.
+For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes $00 and $03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1394,7 +1395,7 @@ The first three arguments are required, but the last one is optional.
 
 * `sprite idx` is a value between 0-127 inclusive.
 * `VRAM bank` is a value, `0` or `1`, which represents which of the two 64k regions of VRAM to select.
-* `VRAM address` is a 16-bit value, \$0000-\$FFFF, is the address within the VRAM bank to point the sprite to. The lowest 5 bits are ignored.
+* `VRAM address` is a 16-bit value, $0000-$FFFF, is the address within the VRAM bank to point the sprite to. The lowest 5 bits are ignored.
 * `color depth` selects either 4 or 8-bit color depth for the sprite. 0 = 4-bit, 1 = 8-bit.  This attribute can also be set by the `SPRITE` command.
 
 **EXAMPLE of SPRITE Statement:**
@@ -1498,8 +1499,8 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
-BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
+BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
+BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
 
 
 **EXAMPLE of VPEEK Function:**
@@ -1517,8 +1518,8 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 
 In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
-BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
+BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
+BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
 
 
 **EXAMPLE of VPOKE Statement:**
@@ -1579,12 +1580,12 @@ In BASIC, the LOAD, SAVE and OPEN statements default to the last-used IEEE devic
 
 Like on the C64, BASIC keywords are tokenized.
 
-* The C64 BASIC V2 keywords occupy the range of \$80 (`END`) to \$CB (`GO`).
-* BASIC V3.5 also used \$CE (`RGR`) to \$FD (`WHILE`).
-* BASIC V7 introduced the \$CE escape code for function tokens \$CE-\$02 (`POT`) to \$CE-\$0A (`POINTER`), and the \$FE escape code for statement tokens \$FE-\$02 (`BANK`) to \$FE-\$38 (`SLOW`).
-* The unreleased BASIC V10 extended the escaped tokens up to \$CE-\$0D (`RPALETTE`) and \$FE-\$45 (`EDIT`).
+* The C64 BASIC V2 keywords occupy the range of $80 (`END`) to $CB (`GO`).
+* BASIC V3.5 also used $CE (`RGR`) to $FD (`WHILE`).
+* BASIC V7 introduced the $CE escape code for function tokens $CE-$02 (`POT`) to $CE-$0A (`POINTER`), and the $FE escape code for statement tokens $FE-$02 (`BANK`) to $FE-$38 (`SLOW`).
+* The unreleased BASIC V10 extended the escaped tokens up to $CE-$0D (`RPALETTE`) and $FE-$45 (`EDIT`).
 
-The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges \$CE-\$80+ and \$FE-\$80+.
+The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges $CE-$80+ and $FE-$80+.
 
 ## Auto-Boot
 
