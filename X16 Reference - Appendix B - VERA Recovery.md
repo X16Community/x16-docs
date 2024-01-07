@@ -1,4 +1,5 @@
- # Appendix B: VERA Firmware Recovery
+
+# Appendix B: VERA Firmware Recovery
 
 **WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
 
@@ -12,8 +13,7 @@
 
 ### Before You Start
 
-Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off. Additionally, using an anti-static wrist strap connected to electrical ground is recommended while working on sensitive components.
-
+Before starting, it is recommended to disconnect the Commander X16's PSU's power from the wall socket.  You will need to reconnect power later, but while connecting the programmer to the system, it is safer to disconnect mains power from the power supply. Power is supplied to parts of the main board even when the computer is turned off.use_directory_urls
 To perform the upgrade, you will need the following:
 - A TL866-3G/T48 programmer
 - The Xgpro software
@@ -82,3 +82,6 @@ In the Xgpro software, follow these steps:
 Once the update is complete, press the power button to turn off the Commander X16. Then, disconnect the computer from the wall socket. Finally, remove all wires from the VERA pin header.
 
 Congratulations! The firmware update for VERA is now complete.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>

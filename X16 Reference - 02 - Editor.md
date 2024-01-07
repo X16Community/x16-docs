@@ -9,21 +9,21 @@ The editor's default mode is 80x60 text mode. The following text mode resolution
 
 | Mode | Description |
 |------|-------------|
-| \$00  | 80x60 text  |
-| \$01  | 80x30 text  |
-| \$02  | 40x60 text  |
-| \$03  | 40x30 text  |
-| \$04  | 40x15 text  |
-| \$05  | 20x30 text  |
-| \$06  | 20x15 text  |
-| \$07  | 22x23 text  |
-| \$08  | 64x50 text  |
-| \$09  | 64x25 text  |
-| \$0A  | 32x50 text  |
-| \$0B  | 32x25 text  |
-| \$80  | 320x240@256c<br/>40x30 text |
+| $00  | 80x60 text  |
+| $01  | 80x30 text  |
+| $02  | 40x60 text  |
+| $03  | 40x30 text  |
+| $04  | 40x15 text  |
+| $05  | 20x30 text  |
+| $06  | 20x15 text  |
+| $07  | 22x23 text  |
+| $08  | 64x50 text  |
+| $09  | 64x25 text  |
+| $0A  | 32x50 text  |
+| $0B  | 32x25 text  |
+| $80  | 320x240@256c<br/>40x30 text |
 
-Mode \$80 contains two layers: a text layer on top of a graphics screen. In this mode, text color 0 is translucent instead of black.
+Mode $80 contains two layers: a text layer on top of a graphics screen. In this mode, text color 0 is translucent instead of black.
 
 To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In the BASIC editor, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
 
@@ -44,7 +44,7 @@ This is the encoding:
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **0x** |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 | **1x** |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| **2x** |   | ! | " | # | \$ | % | & | ' | ( | ) | * | + | , | - | . | / |
+| **2x** |   | ! | " | # | $ | % | & | ' | ( | ) | * | + | , | - | . | / |
 | **3x** | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | : | ; | < | = | > | ? |
 | **4x** | @ | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
 | **5x** | P | Q | R | S | T | U | V | W | X | Y | Z | [ | \ | ] | ^ | _ |
@@ -59,7 +59,7 @@ This is the encoding:
 | **Ex** | à | á | â | ã | ä | å | æ | ç | è | é | ê | ë | ì | í | î | ï |
 | **Fx** | ð | ñ | ò | ó | ô | õ | ö | ÷ | ø | ù | ú | û | ü | ý | þ | ÿ |
 
-* The non-printable areas \$00-\$1F and \$80-\$9F in the character set are filled with inverted variants of the codes \$40-\$5F and \$60-\$7F, respectively.
+* The non-printable areas $00-$1F and $80-$9F in the character set are filled with inverted variants of the codes $40-$5F and $60-$7F, respectively.
 * The code $AD is a non-printable soft hyphen in ISO-8859-15. The ROM character set contains the Commander X16 logo at this location.
 
 ISO mode can be enabled and disabled using two new control codes:
@@ -99,47 +99,47 @@ If there are two meanings listed, the first indicates input (a keypress) and the
 
 | Code  |                            |                           | Code  |
 |-------|----------------------------|---------------------------|-------|
-| \$00  | NULL                       | **VERBATIM MODE**         | \$80  |
-| \$01  | **SWAP COLORS**            | COLOR: ORANGE             | \$81  |
-| \$02  | **PAGE DOWN**              | **PAGE UP**               | \$82  |
-| \$03  | STOP                       | RUN                       | \$83  |
-| \$04  | **END**                    | **HELP**                  | \$84  |
-| \$05  | COLOR: WHITE               | F1                        | \$85  |
-| \$06  | **MENU**                   | F3                        | \$86  |
-| \$07  | **BELL**                   | F5                        | \$87  |
-| \$08  | DISALLOW CHARSET SW (SHIFT+ALT) | F7                        | \$88  |
-| \$09  | **TAB** / ALLOW CHARSET SW | F2                        | \$89  |
-| \$0A  | **LF**                     | F4                        | \$8A  |
-| \$0B  | -                          | F6                        | \$8B  |
-| \$0C  | -                          | F8                        | \$8C  |
-| \$0D  | RETURN                     | SHIFTED RETURN            | \$8D  |
-| \$0E  | CHARSET: LOWER/UPPER       | CHARSET: UPPER/PETSCII    | \$8E  |
-| \$0F  | **CHARSET: ISO ON**        | **CHARSET: ISO OFF**      | \$8F  |
-| \$10  | **F9**                     | COLOR: BLACK              | \$90  |
-| \$11  | CURSOR: DOWN               | CURSOR: UP                | \$91  |
-| \$12  | REVERSE ON                 | REVERSE OFF               | \$92  |
-| \$13  | HOME                       | CLEAR                     | \$93  |
-| \$14  | DEL (PS/2 BACKSPACE)       | INSERT                    | \$94  |
-| \$15  | **F10**                    | COLOR: BROWN              | \$95  |
-| \$16  | **F11**                    | COLOR: LIGHT RED          | \$96  |
-| \$17  | **F12**                    | COLOR: DARK GRAY          | \$97  |
-| \$18  | **SHIFT+TAB**              | COLOR: MIDDLE GRAY        | \$98  |
-| \$19  | **FWD DEL (PS/2 DEL)**     | COLOR: LIGHT GREEN        | \$99  |
-| \$1A  | -                          | COLOR: LIGHT BLUE         | \$9A  |
-| \$1B  | ESC                        | COLOR: LIGHT GRAY         | \$9B  |
-| \$1C  | COLOR: RED                 | COLOR: PURPLE             | \$9C  |
-| \$1D  | CURSOR: RIGHT              | CURSOR: LEFT              | \$9D  |
-| \$1E  | COLOR: GREEN               | COLOR: YELLOW             | \$9E  |
-| \$1F  | COLOR: BLUE                | COLOR: CYAN               | \$9F  |
+| $00  | NULL                       | **VERBATIM MODE**         | $80  |
+| $01  | **SWAP COLORS**            | COLOR: ORANGE             | $81  |
+| $02  | **PAGE DOWN**              | **PAGE UP**               | $82  |
+| $03  | STOP                       | RUN                       | $83  |
+| $04  | **END**                    | **HELP**                  | $84  |
+| $05  | COLOR: WHITE               | F1                        | $85  |
+| $06  | **MENU**                   | F3                        | $86  |
+| $07  | **BELL**                   | F5                        | $87  |
+| $08  | DISALLOW CHARSET SW (SHIFT+ALT) | F7                        | $88  |
+| $09  | **TAB** / ALLOW CHARSET SW | F2                        | $89  |
+| $0A  | **LF**                     | F4                        | $8A  |
+| $0B  | -                          | F6                        | $8B  |
+| $0C  | -                          | F8                        | $8C  |
+| $0D  | RETURN                     | SHIFTED RETURN            | $8D  |
+| $0E  | CHARSET: LOWER/UPPER       | CHARSET: UPPER/PETSCII    | $8E  |
+| $0F  | **CHARSET: ISO ON**        | **CHARSET: ISO OFF**      | $8F  |
+| $10  | **F9**                     | COLOR: BLACK              | $90  |
+| $11  | CURSOR: DOWN               | CURSOR: UP                | $91  |
+| $12  | REVERSE ON                 | REVERSE OFF               | $92  |
+| $13  | HOME                       | CLEAR                     | $93  |
+| $14  | DEL (PS/2 BACKSPACE)       | INSERT                    | $94  |
+| $15  | **F10**                    | COLOR: BROWN              | $95  |
+| $16  | **F11**                    | COLOR: LIGHT RED          | $96  |
+| $17  | **F12**                    | COLOR: DARK GRAY          | $97  |
+| $18  | **SHIFT+TAB**              | COLOR: MIDDLE GRAY        | $98  |
+| $19  | **FWD DEL (PS/2 DEL)**     | COLOR: LIGHT GREEN        | $99  |
+| $1A  | -                          | COLOR: LIGHT BLUE         | $9A  |
+| $1B  | ESC                        | COLOR: LIGHT GRAY         | $9B  |
+| $1C  | COLOR: RED                 | COLOR: PURPLE             | $9C  |
+| $1D  | CURSOR: RIGHT              | CURSOR: LEFT              | $9D  |
+| $1E  | COLOR: GREEN               | COLOR: YELLOW             | $9E  |
+| $1F  | COLOR: BLUE                | COLOR: CYAN               | $9F  |
 
 **Notes:**
 
-* \$01: SWAP COLORS swaps the foreground and background colors in text mode
-* \$07/\$09/\$0A/\$18/\$1B: have been added for ASCII compatibility. *[\$0A/\$18/\$1B do not have any effect on output. Outputs of \$08/\$09 have their traditional C64 effect]*
-* \$80: VERBATIM MODE prints the next character (only!) as a glyph without interpretation. This is similar to quote mode, but also includes codes CR ($0D) and DEL (\$14).
+* $01: SWAP COLORS swaps the foreground and background colors in text mode
+* $07/$09/$0A/$18/$1B: have been added for ASCII compatibility. *[$0A/$18/$1B do not have any effect on output. Outputs of $08/$09 have their traditional C64 effect]*
+* $80: VERBATIM MODE prints the next character (only!) as a glyph without interpretation. This is similar to quote mode, but also includes codes CR ($0D) and DEL ($14).
 * F9-F12: these codes match the C65 additions
-* \$84: This code is generated when pressing SHIFT+END.
-* Additionally, the codes \$04/\$06/\$0B/\$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
+* $84: This code is generated when pressing SHIFT+END.
+* Additionally, the codes $04/$06/$0B/$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
@@ -328,24 +328,24 @@ The BASIC command `KEYMAP` allows activating a specific keyboard layout. It can 
 
 ### Loadable Keyboard Layouts
 
-The tables for the active keyboard layout reside in banked RAM, at \$A000 on bank 0:
+The tables for the active keyboard layout reside in banked RAM, at $A000 on bank 0:
 
 | Addresses   | Description |
 |-------------|-------------|
-| \$A000-\$A07F | Table 0     |
-| \$A080-\$A0FF | Table 1     |
-| \$A100-\$A17F | Table 2     |
-| \$A180-\$A1FF | Table 3     |
-| \$A200-\$A27F | Table 4     |
-| \$A280-\$A07F | Table 5     |
-| \$A300-\$A37F | Table 6     |
-| \$A380-\$A3FF | Table 7     |
-| \$A400-\$A47F | Table 8     |
-| \$A480-\$A4FF | Table 9     |
-| \$A500-\$A57F | Table 10    |
-| \$A580-\$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
-| \$A590-\$A66F | dead key table |
-| \$A670-\$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
+| $A000-$A07F | Table 0     |
+| $A080-$A0FF | Table 1     |
+| $A100-$A17F | Table 2     |
+| $A180-$A1FF | Table 3     |
+| $A200-$A27F | Table 4     |
+| $A280-$A07F | Table 5     |
+| $A300-$A37F | Table 6     |
+| $A380-$A3FF | Table 7     |
+| $A400-$A47F | Table 8     |
+| $A480-$A4FF | Table 9     |
+| $A500-$A57F | Table 10    |
+| $A580-$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
+| $A590-$A66F | dead key table |
+| $A670-$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
 
 The first byte of each of the 11 tables is the table ID which contains the encoding and the combination of modifiers that this table is for.
 
@@ -358,9 +358,9 @@ The first byte of each of the 11 tables is the table ID which contains the encod
 | 0   | Shift              |
 
 * AltGr is represented by Ctrl+Alt.
-* ID \$C6 represents Alt *or* AltGr (ISO only)
-* ID \$C7 represents Shift+Alt *or* Shift+AltGr (ISO only)
-* Empty tables have an ID of \$FF.
+* ID $C6 represents Alt *or* AltGr (ISO only)
+* ID $C7 represents Shift+Alt *or* Shift+AltGr (ISO only)
+* Empty tables have an ID of $FF.
 
 The identifier is followed by 127 output codes for the keynum inputs 1-127.
 
@@ -408,7 +408,7 @@ Some use cases of the BASIN (CHRIN) API call may benefit from being able to modi
 
 To set up a custom handler, one must configure it before each call to BASIN.
 
-The key handler vector is in RAM bank 0 at addresses \$ac03-\$ac05.  The first two bytes are the call address, and the next byte is the RAM or ROM bank.  If your callback routine is in low ram, specifying the bank in \$ac05 is not necessary.
+The key handler vector is in RAM bank 0 at addresses $ac03-$ac05.  The first two bytes are the call address, and the next byte is the RAM or ROM bank.  If your callback routine is in low ram, specifying the bank in $ac05 is not necessary.
 
 The editor will call your callback for every keystroke received and pass the PETSCII code in the A register with carry set.  If your handler does not want to override, simply return with carry set.
 
@@ -485,7 +485,7 @@ start:
 
 **Note**: This is new behavior for R43, differing from previous releases.
 
-If you need more control over the translation of keynum codes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at \$032E/\$032F.
+If you need more control over the translation of keynum codes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at $032E/$032F.
 
 On all key down and key up events, the keyboard driver calls this vector with
 
@@ -500,8 +500,8 @@ The handler needs to return a key event the same way in .A
 
 You can even write a completely custom keyboard translation layer:
 
-* Place the code at \$A000-\$A58F in RAM bank 0. This is safe, since the tables won't be used in this case, and the active RAM bank will be set to 0 before entry to the handler.
-* Fill the locale at \$A590.
+* Place the code at $A000-$A58F in RAM bank 0. This is safe, since the tables won't be used in this case, and the active RAM bank will be set to 0 before entry to the handler.
+* Fill the locale at $A590.
 * For every keynum that should produce a PETSCII/ISO code, use `kbdbuf_put` to store it in the keyboard buffer.
 * Always set .A = 0 before return from the custom handler.
 
