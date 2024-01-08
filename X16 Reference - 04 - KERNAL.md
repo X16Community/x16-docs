@@ -608,7 +608,7 @@ $FF50: `clock_get_date_time` - get date and time
 
 Purpose: Set the date and time  
 Call address: $FF4D  
-Communication registers: r0, r1, r2, r3
+Communication registers: r0, r1, r2, r3  
 Preparatory routines: None  
 Error returns: None  
 Stack requirements: 0  
@@ -635,7 +635,7 @@ Jiffies are 1/60th seconds.
 
 Purpose: Get the date and time  
 Call address: $FF50  
-Communication registers: r0, r1, r2, r3L  
+Communication registers: r0, r1, r2, r3  
 Preparatory routines: None  
 Error returns: None  
 Stack requirements: 0  
