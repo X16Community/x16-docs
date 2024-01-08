@@ -918,17 +918,13 @@ Stop the Processor
 | --------------- | ----------- | ------ | ------ |
 | Implied         | STP         | 1      | 3      |
 
-Stops the processer and places it in a lower power
-state until a hardware reset occurs. This is mostly
-useful for embedded systems and may have little 
-affect when used with the X16.
-
-Also the acronym for Stone Temple Pilots, a rock band
-prominent in the 90's. The mneonic used here is 
-likely a coincidence.
+Stops the processor and places it in a lower power
+state until a hardware reset occurs. For the X16 emulator,
+when the debugger is enabled using the `-debug` command-line
+parameter, the STP instruction will break into the debugger
+automatically.
 
 Specific to the 65C02.
-
 
 ### STX
 
