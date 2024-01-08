@@ -10,10 +10,11 @@ TODO:
 
 ## Possible 65C816 Support Compatibilty
 
-There are conversations about supporting the WDC 65C816 on the X16. The '816 is 
-_almost_ fully comnpatibe with the 65C02 **except** for 4 opcodes 
-(`BBRx`, `BBSx`, `RMBx`, and `SMBx`). If you plan on using these opcodes in your 
-programs, be aware they may need to be modified should the `816 become officially
+The 8-Bit Guy has indicated that a future upgrade path for the X16 may
+involve the WDC 65C816. The '816 is  _almost_ fully comnpatibe with the 
+65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
+If you plan on using these opcodes in your programs, be aware they may 
+need to be modified should the `816 become officially
 supported.
 
 ## Overview
