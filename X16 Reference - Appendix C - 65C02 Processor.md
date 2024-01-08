@@ -924,10 +924,6 @@ when the debugger is enabled using the `-debug` command-line
 parameter, the STP instruction will break into the debugger
 automatically.
 
-Also the acronym for Stone Temple Pilots, a rock band
-prominent in the 90's. The mnemonic used here is 
-likely a coincidence.
-
 Specific to the 65C02.
 
 ### STX
