@@ -5,7 +5,7 @@ The Commander X16 is a modern home computer in the philosophy of Commodore compu
 
 **Features:**
 
-* 8-bit 65C02 CPU at 8 MHz [^1]
+* 8-bit 65C02 CPU at 8 MHz[^1]
 * 512 KB or 2 MB RAM banked RAM
 * 512 KB ROM
 * Expansion Cards (Gen 1) & Cartridges (Gen 1 and Gen 2)
