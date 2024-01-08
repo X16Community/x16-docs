@@ -101,8 +101,10 @@ Logical Bitwise And
 | Indirect,X      | AND ($44,X) | 2      | 6      |
 | Indirect,Y      | AND ($44),Y | 2      | 5[^1]  |
 
-Add provided value to the A (accumulator) register. There is no way to add
-without a carry. Results depend on wether decimal mode is enabled.
+Bitwise AND the provided value with the accumulator.
+
+  - Sets N (Negative) flag if the bit 7 of the result is 1, and otherewise clears it
+  - Sets Z (Zero) is the result is zero, and otherwise clears it
 
 ### ASL
 
