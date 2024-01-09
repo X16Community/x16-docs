@@ -120,8 +120,8 @@ native mode.
 
 #### Cons
 
-  * Requires soldering and board modifications
-  * Upgrade is not easy to revert
+  * Requires soldering and board modifications of which some users may be unwilling or unable to do
+  * Upgrade is not easy to revert, may involve "damaging" the board (cutting traces)
 
 ### CPU and ROM Upgrade Kit
 
@@ -137,6 +137,8 @@ An upgrade kit would be made available that included the 65816 CPU and an update
 
   * 65C02 native could would not longer work properly. To run 65C02 programs, one would have to 
     swap the CPU/ROM back  
+  * Need to maintain two KERNALs which increases the chance of bugs, divergence, and requires more
+    human work.
 
 ### Super CPU Style Expansion Card
 
