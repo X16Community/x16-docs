@@ -1,5 +1,5 @@
 
-# Appendix  ZZ9 Plural Z α: The WDC 65816 Processor Support Plans
+# Appendix  ZZ9 Plural Z α: The WDC 65816 Processor Support Plan
 
 ## Work In Progress
 
@@ -97,10 +97,12 @@ going from an Apple ][ to an Apple iigs. And at present the project is really
 still in the feasibility phase. Unlike the Apple ][, existing X16 machines will
 be upgradeable to support the 65816 in the same way future revisions will.
 
-Likewise this is not a near term upgrade. All the X16 Developer machines currently
+git Likewise this is not a near term upgrade. All the X16 Developer machines currently
 ship with a 65C02.
 
 ## Further Reading
 
   * [David's Statement On Discord](https://discord.com/channels/547559626024157184/549248037923454986/1194034437281812540)
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>
