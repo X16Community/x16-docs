@@ -124,7 +124,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
 | [`RPT$`](#rpt) | function | Returns a string of repeated characters | X16 |
 | `RUN` | command | Clears the variable state and starts a BASIC program | C64 |
-| `SAVE` | command | Saves a BASIC program from memory to disk | C64 |
+| [`SAVE`](#save) | command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | command | Selects a text or graphics mode | X16 |
 | `SGN` | function | Returns the sign of a numeric value | C64 |
 | `SIN` | function | Returns the sine of an angle in radians | C64 |
@@ -1320,6 +1320,30 @@ RUN
 READY.
 ```
 
+### SAVE
+
+**TYPE: Command**
+**FORMAT: SAVE &lt;filename&gt; \[, &lt;device&gt;**\]
+
+**Action:** Saves a BASIC program to a file.
+
+This saves the currently loaded BASIC program to a file. If the device number is not supplied, SAVE will use the default drive. This is usually the SD card.
+
+Note that SAVE will not overwrite an existing file by default. To do this, you must prefix the filename with @:, like this: `SAVE "@:filename"`
+
+**EXAMPLES of SAVE:**
+
+```BASIC
+SAVE "HELLO.PRG"
+```
+
+The above example saves your Hello World program to the SD card.
+
+```BASIC
+SAVE "@:HELLO.PRG",9
+```
+
+The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port. 
 
 ### SCREEN
 
