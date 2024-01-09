@@ -1,7 +1,7 @@
 
 # Appendix  ZZ9 Plural Z α: The WDC 65816 Processor Support Plan
 
-## Work In Progress
+## Beware of Leopard
 
 This is a living document with information being updated regularly as
 the 65816 plans materialize.
