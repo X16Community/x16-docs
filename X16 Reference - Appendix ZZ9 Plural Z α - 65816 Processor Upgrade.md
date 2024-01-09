@@ -13,9 +13,8 @@ the 65816 processor for all X16s (current and future). This is not guaranteed an
 the capabilities depend in several factors with many details still to be discussed.
 
 At present, 
-**The X16 is a 65C02 machine**.  
-However, to provide an upgrade path at all, 4 instructions from the 65C02 
-instructions/opcodes should not be used in programs. 
+**the X16 is a 65C02 machine**. However, to provide an upgrade path at all, 4 
+instructions from the 65C02 instructions/opcodes should not be used in programs. 
 These are `BBRx`, `BBSx`, `RMBx`, and `SMBx`.
 
 ## How Might This Affect My Programs?
@@ -35,14 +34,14 @@ that have a 65816 as long as they do not use the CPU instructions noted above.
 
 The 65816 can be used in your X16 now, though the KERNAL does not support the native 
 mode and if you use any 65816 features, your code will not run on stock X16s or any
-of the emulators.
+of the emulators. You also cannot service intterupts while in native mode.
 
-SHould the 65816 end up being supported in some capacity, part of the requirements 
+Should the 65816 end up being supported in some capacity, part of the requirements 
 include an upgrade path for existing machines. Apart from swapping the CPU, there may be 
 firmware (ROM) upgrades required as well as possible hardware changes. The price for 
-these upgrades, if required, would be around $17 (including the CPU).
+the hardware upgrades, if required, is estimated to be around $17 (including the CPU).
 
-These hardware upgrades would allow for better utilize the 65816. Specifically they
+These upgrades would allow for better utilize the 65816. Specifically they
 enable using the 16-bit modes with interrupts, something that is not supported on 
 existing X16 machines.
 
