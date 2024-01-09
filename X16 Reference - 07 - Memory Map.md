@@ -45,7 +45,7 @@ Here is the ROM/Cartridge bank allocation:
 |11    |UTIL   |System Configuration (Date/Time, Display Preferences)  |
 |12    |BANNEX |BASIC Annex (code for some added BASIC functions)      |
 |13-14 |X16EDIT|The built-in text editor                               |
-|13-31 |–      |*[Currently unused]*                                   |
+|15-31 |–      |*[Currently unused]*                                   |
 |32-255|–      |Cartridge RAM/ROM                                      |
 
 **Important**: The layout of the banks may still change.
