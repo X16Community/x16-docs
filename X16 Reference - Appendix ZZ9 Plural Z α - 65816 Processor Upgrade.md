@@ -138,7 +138,7 @@ An upgrade kit would be made available that included the 65816 CPU and an update
   * 65C02 native could would not longer work properly. To run 65C02 programs, one would have to 
     swap the CPU/ROM back  
 
-#### Super CPU Style Expansion Card
+### Super CPU Style Expansion Card
 
 Since the X16 Developer edition has 3 expansion slots and 1 cartridge slot, a Super CPU style card
 could be designed. This card would "take over" functions of the on board X16. Unlike the above
