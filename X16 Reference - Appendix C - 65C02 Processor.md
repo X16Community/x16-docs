@@ -8,6 +8,15 @@ TODO:
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
   * Add flag changes where relevant (likely missing some)
 
+## Possible 65C816 Support Compatibilty
+
+The 8-Bit Guy has indicated that a future upgrade path for the X16 may
+involve the WDC 65C816. The '816 is  _almost_ fully comnpatibe with the 
+65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
+If you plan on using these opcodes in your programs, be aware they may 
+need to be modified should the `816 become officially
+supported.
+
 ## Overview
 
 The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
@@ -25,13 +34,13 @@ information can be found at those (and other) sources.
 
 |     |     |     |     |     |     |     |     |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [ADC](#adc)     | [AND](#and)     | [ASL](#asl) | [BBR](#bbr)[^4] | [BBS](#bbs)[^4] | [BCC](#bcc)     | [BCS](#bcs)     | [BEQ](#beq)     |
+| [ADC](#adc)     | [AND](#and)     | [ASL](#asl) | [BBR](#bbr)[^4] [^5] | [BBS](#bbs)[^4] [^5] | [BCC](#bcc)     | [BCS](#bcs)     | [BEQ](#beq)     |
 | [BIT](#bit)     | [BMI](#bmi)     | [BNE](#bne) | [BPL](#bpl)     | [BRA](#bra)     | [BRK](#brk)     | [BVC](#bvc)     | [BVS](#bvs)     |
 | [CLC](#clc)     | [CLD](#cld)     | [CLI](#cli) | [CLV](#clv)     | [CMP](#cmp)     | [CPX](#cpx)     | [CPY](#cpy)     | [DEC](#dec)     |
 | [DEX](#dex)     | [DEY](#dey)     | [EOR](#eor) | [INC](#inc)     | [INX](#inx)     | [INY](#iny)     | [JMP](#jmp)     | [JSR](#jsr)     |
 | [LDA](#lda)     | [LDX](#ldx)     | [LDY](#ldy) | [LSR](#lsr)     | [NOP](#nop)     | [ORA](#ora)     | [PHA](#pha)     | [PHP](#php)     |
-| [PHX](#phx)[^4] | [PHY](#phy)[^4] | [PLA](#pla) | [PLP](#plp)     | [PLX](#plx)[^4] | [PLY](#ply)[^4] | [RMB](#rmb)[^4] | [ROL](#rol)     |
-| [ROR](#ror)     | [RTI](#rti)     | [RTS](#rts) | [SBC](#sbc)     | [SEC](#sec)     | [SED](#sed)     | [SEI](#sei)     | [SMB](#smb)[^4] | 
+| [PHX](#phx)[^4] | [PHY](#phy)[^4] | [PLA](#pla) | [PLP](#plp)     | [PLX](#plx)[^4] | [PLY](#ply)[^4] | [RMB](#rmb)[^4] [^5] | [ROL](#rol)     |
+| [ROR](#ror)     | [RTI](#rti)     | [RTS](#rts) | [SBC](#sbc)     | [SEC](#sec)     | [SED](#sed)     | [SEI](#sei)     | [SMB](#smb)[^4] [^5] | 
 | [STA](#sta)     | [STP](#stp)[^4] | [STX](#stx) | [STY](#sty)     | [STZ](#stz)[^4] | [TAX](#tax)     | [TAY](#tay)     | [TRB](#trb)[^4] | 
 | [TSB](#trb)[^4] | [TSX](#tsx)     | [TXA](#txa) | [TXS](#txs)     | [TYA](#tya)     | [WAI](#wai)[^4] |                 |                 |
 
@@ -47,11 +56,11 @@ information can be found at those (and other) sources.
 | [STY](#sty)     | [TYA](#tya) | [PLP](#plp)     | [BIT](#bit)     | [INC](#inc) | [BPL](#bpl)     | [BRK](#brk)     | [SED](#sed) |
 | [STZ](#stz)[^4] |             | [PLX](#plx)[^4] | [EOR](#eor)     | [INX](#inx) | [BVC](#bvc)     | [STP](#stp)[^4] | [SEI](#sei) |
 |                 |             | [PLY](#ply)[^4] | [ORA](#ora)     | [INY](#iny) | [BVS](#bvs)     | [WAI](#wai)[^4] |             |
-|                 |             |                 | [TRB](#trb)[^4] | [DEC](#dec) | [BBR](#bbr)[^4] |                 |             |
-|                 |             |                 | [TSB](#tsb)[^4] | [DEX](#dex) | [BBS](#bbs)[^4] |                 |             |
+|                 |             |                 | [TRB](#trb)[^4] | [DEC](#dec) | [BBR](#bbr)[^4] [^5] |                 |             |
+|                 |             |                 | [TSB](#tsb)[^4] | [DEX](#dex) | [BBS](#bbs)[^4] [^5] |                 |             |
 |                 |             |                 | [NOP](#nop)     | [DEY](#dey) |                 |                 |             |
-|                 |             |                 | [RMB](#rmb)[^4] |             |                 |                 |             |
-|                 |             |                 | [SMB](#smb)[^4] |             |                 |                 |             |
+|                 |             |                 | [RMB](#rmb)[^4] [^5] |             |                 |                 |             |
+|                 |             |                 | [SMB](#smb)[^4] [^5] |             |                 |                 |             |
 
 ## Opcodes
 
@@ -93,8 +102,10 @@ Logical Bitwise And
 | Indirect,X      | AND ($44,X) | 2      | 6      |
 | Indirect,Y      | AND ($44),Y | 2      | 5[^1]  |
 
-Add provided value to the A (accumulator) register. There is no way to add
-without a carry. Results depend on wether decimal mode is enabled.
+Bitwise AND the provided value with the accumulator.
+
+  - Sets N (Negative) flag if the bit 7 of the result is 1, and otherewise clears it
+  - Sets Z (Zero) is the result is zero, and otherwise clears it
 
 ### ASL
 
@@ -126,7 +137,7 @@ Branch If Bit Reset
 Branch to LABEL if bit x of zero page address is 0 where x is the number 
 of the specific bit (0-7).
 
-Specific to the 65C02.
+Specific to the 65C02 (*unavailable on the 65C816*)
 
 #### Example (ca65)
 
@@ -156,7 +167,7 @@ Branch If Bit Set
 Branch to LABEL if bit x of zero page address is 1 where x is the number 
 of the specific bit (0-7).
 
-Specific to the 65C02.
+Specific to the 65C02 (*unavailable on the 65C816*)
 
 #### Example (ca65)
 
@@ -764,6 +775,8 @@ of the specific bit (0-7).
 
 Often used in conjunction with [BBR](#bbr) and [BBS](#bbs).
 
+Specific to the 65C02 (*unavailable on the 65C816*)
+
 ### ROL
 
 Rotate Left
@@ -893,6 +906,8 @@ Set bit x to 1 at the given zero page address where x is the number
 of the specific bit (0-7).
 
 Often used in conjunction with [BBR](#bbr) and [BBS](#bbs).
+
+Specific to the 65C02 (*unavailable on the 65C816*)
 
 ### STA
 
@@ -1110,12 +1125,14 @@ P-Register:
   * <https://www.nesdev.org/wiki/Status_flags>
   * <https://skilldrick.github.io/easy6502/>
   * <https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf>
+  * <https://www.westerndesigncenter.com/wdc/documentation/w65c816s.pdf>
 
 
 [^1]: Add 1 cycle if a page boundary is crossed  
 [^2]: Add 1 cycle if branch is taken on the same page, or 2 if it's taken to a different page  
 [^3]: 65C02 specific addressing mode  
-[^4]: 65C02 specific op-code  
+[^4]: 65C02 specific op-code
+[^5]: Not supported on the 65C816
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
