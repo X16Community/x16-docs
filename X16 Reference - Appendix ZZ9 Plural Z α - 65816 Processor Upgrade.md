@@ -138,7 +138,7 @@ An upgrade kit would be made available that included the 65816 CPU and an update
   * 65C02 native could would not longer work properly. To run 65C02 programs, one would have to 
     swap the CPU/ROM back  
   * Need to maintain two KERNALs which increases the chance of bugs, divergence, and requires more
-    human work.
+    human (likely volunteer) work to maintain.
 
 ### Super CPU Style Expansion Card
 
@@ -149,9 +149,10 @@ the card's I/O panel, or perhaps there might be a software solution to switch mo
 
 #### Pros
 
-  * Easiest upgrade path
+  * Easiest hardware based upgrade path
   * Easy to disable/revert
   * No board changes or swapping socketed chips required
+  * Avoids hacky (hard to maintain) KERNAL changes
 
 #### Cons
 
@@ -159,6 +160,25 @@ the card's I/O panel, or perhaps there might be a software solution to switch mo
   * Eats up an expansion slot
   * May prevent other cards from using DMA as it takes over the bus
   * May need to be disabled to run 65C02 programs
+  * Still requires a modified KERNAL separate from the stock KERNAL
+
+### 1337 Software Hack
+
+The KERNAL is updated with some hacky trickery to allow for interrupts to work in both modes. Specifically
+handling certain KERNAL calls (like SCREEN) which at present stomp over address the 65816 uses for 
+interrupt handling.
+
+#### Pros
+
+  * Zero cost solution (for users)
+  * No hardware changes required
+  * X16 can run both 65C02 and 65816 programs
+
+#### Cons
+
+  * Hacky code introduced to the KERNAL which may be hard to understand and maintain
+  * Minor but non-zero performance impact when using certain KERNEL calls due to the double jump and stack 
+    usage
 
 ### Do Nothing
 
