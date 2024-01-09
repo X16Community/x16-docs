@@ -34,7 +34,7 @@ that have a 65816 as long as they do not use the CPU instructions noted above.
 
 The 65816 can be used in your X16 now, though the KERNAL does not support the native 
 mode and if you use any 65816 features, your code will not run on stock X16s or any
-of the emulators. You also cannot service intterupts while in native mode.
+of the emulators. You also cannot service interrupts while in native mode.
 
 Should the 65816 end up being supported in some capacity, part of the requirements 
 include an upgrade path for existing machines. Apart from swapping the CPU, there may be 
@@ -92,7 +92,7 @@ are some things that need to be addressed:
 ## Won't This Fragment the Community?
 
 David has made it clear this is what he does not want. The 65816 is more like
-going from an Apple ][ to an Apple iigs. And at present the project is really
+going from an Apple ][ (Apple 2) to an Apple iigs (Apple 2 GS). And at present the project is really
 still in the feasibility phase. Unlike the Apple ][, existing X16 machines will
 be upgradeable to support the 65816 in the same way future revisions will.
 

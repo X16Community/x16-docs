@@ -8,10 +8,10 @@ TODO:
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
   * Add flag changes where relevant (likely missing some)
 
-## Possible 65C816 Support Compatibilty
+## Possible 65C816 Support Compatibility
 
 The 8-Bit Guy has indicated that a future upgrade path for the X16 may
-involve the WDC 65C816. The '816 is  _almost_ fully comnpatibe with the 
+involve the WDC 65C816. The '816 is  _almost_ fully compatible with the 
 65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
 If you plan on using these opcodes in your programs, be aware they may 
 need to be modified should the `816 become officially
@@ -19,8 +19,8 @@ supported.
 
 ## Overview
 
-The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
-and addressing modes capable of running at up to 14 MHz. On the Commander X16
+The WDC65C02S CPU is a modern version of the MOS6502 with a few additional opcodes
+and addressing modes and is capable of running at up to 14 MHz. On the Commander X16
 it is clocked at 8 MHz.
 
 This is not meant to be a complete manual on the 65C02 processor, though is meant 
