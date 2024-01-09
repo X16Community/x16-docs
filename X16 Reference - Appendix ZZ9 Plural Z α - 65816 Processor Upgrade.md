@@ -99,6 +99,79 @@ be upgradeable to support the 65816 in the same way future revisions will.
 Likewise this is not a near term upgrade. All the X16 Developer machines currently
 ship with a 65C02.
 
+## Proposed Upgrade Paths
+
+This is rapidly evolving. Based on conversations within #cpu-65816 on the community Discord,
+there are the various options proposed thus far. Note that all of these assume there are 
+folks willing to do the work to realize these solutions as software and/or hardware development
+would be required.
+
+### Bodge Based Upgrade
+
+Users that wish to upgrade their X16 would be required to make changes to the board directly
+which would require soldering a small PCB underneath the X16. This PCB modifies the behavior
+of the ROM bank switching to allow for interrupts to be used while the 65816 is running in
+native mode.
+
+#### Pros
+
+  * Probably inexpensive
+  * X16 could run both 65C02 and 65816 programs
+
+#### Cons
+
+  * Requires soldering and board modifications
+  * Upgrade is not easy to revert
+
+### CPU and ROM Upgrade Kit
+
+An upgrade kit would be made available that included the 65816 CPU and an updated ROM.
+
+#### Pros
+  
+  * Reasonably easy to revert
+  * Inexpensive
+  * No soldering required or permanent modifications to boards
+
+#### Cons
+
+  * 65C02 native could would not longer work properly. To run 65C02 programs, one would have to 
+    swap the CPU/ROM back  
+
+#### Super CPU Style Expansion Card
+
+Since the X16 Developer edition has 3 expansion slots and 1 cartridge slot, a Super CPU style card
+could be designed. This card would "take over" functions of the on board X16. Unlike the above
+options, this one would be the easiest to revert - simply remove the card, or flip a switch on
+the card's I/O panel, or perhaps there might be a software solution to switch modes.
+
+#### Pros
+
+  * Easiest upgrade path
+  * Easy to disable/revert
+  * No board changes or swapping socketed chips required
+
+#### Cons
+
+  * Most expensive
+  * Eats up an expansion slot
+  * May prevent other cards from using DMA as it takes over the bus
+  * May need to be disabled to run 65C02 programs
+
+### Do Nothing
+
+While fairly unlikely, among the feasible options is to run all 65816 systems in emulation (65C02) mode.
+
+#### Pros
+
+  * No changes required
+  * Zero cost
+  * No tech debt (updating KERNAL, designing hardware, etc.)
+
+#### Cons
+
+  * Zero benefits to having an 65816
+
 ## Further Reading
 
   * [David's Statement On Discord](https://discord.com/channels/547559626024157184/549248037923454986/1194034437281812540)
