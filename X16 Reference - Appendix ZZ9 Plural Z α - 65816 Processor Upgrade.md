@@ -96,7 +96,7 @@ going from an Apple ][ to an Apple iigs. And at present the project is really
 still in the feasibility phase. Unlike the Apple ][, existing X16 machines will
 be upgradeable to support the 65816 in the same way future revisions will.
 
-git Likewise this is not a near term upgrade. All the X16 Developer machines currently
+Likewise this is not a near term upgrade. All the X16 Developer machines currently
 ship with a 65C02.
 
 ## Further Reading
