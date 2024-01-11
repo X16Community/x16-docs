@@ -120,6 +120,23 @@ Read binary data into VERA without a header. This works like BLOAD, but into VER
 
 `BVLOAD "filename",8,<vram_bank>,<start_address>`
 
+### DOS WEDGE
+
+The DOS wedge allows you to issue quick commands from BASIC with the > or @
+symbol.
+
+| Command | Action |
+|-|-|
+| `/<filename>` | Load a BASIC program into RAM |
+| `%<filename>` | Load a machine language program into RAM (like `,8,1`) |
+| `↑<filename>` | Load a BASIC program into RAM and then unconditionally run it |
+| `←<filename>` | Save a BASIC program to disk |
+| `@` | Display (and clear) the disk drive status |
+| `@$` | Display the disk directory without overwriting the BASIC program in memory |
+| `@#<device number>` | Change default DOS device |
+| `@<command>` | Execute a disk drive command (e.g. `@S0:<filename>`) |
+| `><command>` | Execute a disk drive command (e.g. `>CD:<dir>`) |
+
 ## Sequential Files
 
 Sequential files have two basic modes: read and write. The OPEN command opens a file for reading or writing. The PRINT# command writes to a file, and the GET# and INPUT# commands read from the file.

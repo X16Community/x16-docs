@@ -98,6 +98,26 @@ This is the allocation of banked RAM in the KERNAL/BASIC environment.
 
 During startup, the KERNAL activates RAM bank 1 as the default for the user.
 
+### Bank 0
+
+|Addresses  |Description                            |
+|-----------|---------------------------------------|
+|$A000-$BEFF| System Reserved                       |
+|$BF00-$BFFF| Parameter passing space               |
+
+You can use the space at $0:BF00-0:$BFFF to pass parameters between programs.
+This space is initalized to zeroes, so you may use it however you wish. 
+
+The suggested use is to store a PETSCII string in this space and use
+semicolons to separate parameters. The string should be null terminated:
+
+Example:
+
+`FRANK;3;BLUE\x00`
+
+A program that reads the parameters is responsible for resetting the data to
+zeroes, so that another program does not see unexpected data and malfunction.
+
 ## I/O Area
 
 This is the memory map of the I/O Area:
