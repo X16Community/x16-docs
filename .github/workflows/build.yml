@@ -44,7 +44,7 @@ jobs:
           "X16 Reference - Appendix B - VERA Recovery.md" \
           "X16 Reference - Appendix C - 65C02 Processor.md" \
           "X16 Reference - Appendix D - Official Expansion Cards.md" \
-          "X16 Reference - Appendix Z - 65816 Processor Upgrade.md"
+          "X16 Reference - Appendix Z - 65816 Processor Upgrade.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
       - uses: actions/upload-artifact@v3
         with:
