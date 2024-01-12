@@ -1,10 +1,11 @@
 
-# Appendix  ZZ9 Plural Z α: The WDC 65816 Processor Support Plan
+# Appendix  Z: The WDC 65816 Processor Upgrade Plans
 
 ## Beware of Leopard
 
-This is a living document with information being updated regularly as
-the 65816 plans materialize.
+This is a temporary/living document with information being updated regularly as
+the 65816 plans materialize. If/when the project matures, this content may likely
+end up within other documents. 
 
 ## Overview
 
@@ -23,8 +24,9 @@ If you are writing BASIC or Prog8 code, you are likely not affected. If you are 
 you may be somewhat affected.
 
 If you are writing assembly, however, you would be affected if you are or had plans to
-use these instructions. These instructions can be simulated via macros or equivalent 
-assembly at the cost of a slight increase in code size.
+use these instructions. Folks writing assembly programs can use [these marcos](http://localhost:8000/#X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#replacement-macros-for-bit-instructions) 
+to emulate the behavior of the instructions.
+
 
 ## How Might This Affect My Existing X16?
 
@@ -162,10 +164,10 @@ the card's I/O panel, or perhaps there might be a software solution to switch mo
   * May need to be disabled to run 65C02 programs
   * Still requires a modified KERNAL separate from the stock KERNAL
 
-### 1337 Software Hack
+### Software SOlution
 
-The KERNAL is updated with some hacky trickery to allow for interrupts to work in both modes. Specifically
-handling certain KERNAL calls (like SCREEN) which at present stomp over address the 65816 uses for 
+The KERNAL is updated with some trickery to allow for interrupts to work in both modes. Specifically
+handling certain KERNAL calls (like SCREEN) which at present stomp over addresses the 65816 uses for 
 interrupt handling.
 
 #### Pros
@@ -176,9 +178,8 @@ interrupt handling.
 
 #### Cons
 
-  * Hacky code introduced to the KERNAL which may be hard to understand and maintain
-  * Minor but non-zero performance impact when using certain KERNEL calls due to the double jump and stack 
-    usage
+  * Code introduced to the KERNAL which may be hard to understand and maintain
+  * Performance implications when calling the affected KERNAL routines
 
 ### Do Nothing
 
