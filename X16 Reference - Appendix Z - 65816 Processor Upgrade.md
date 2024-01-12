@@ -1,5 +1,5 @@
 
-# Appendix  Z: The WDC 65816 Processor Upgrade Plans
+# Appendix  Z: 65816 Processor Upgrade Plans
 
 ## Beware of Leopard
 
@@ -10,7 +10,7 @@ end up within other documents.
 ## Overview
 
 The 8-Bit Guy (David Murray) has expressed a desire to have a possible upgrade path to 
-the 65816 processor for all X16s (current and future). This is not guaranteed and
+the WDC 65816 processor for all X16s (current and future). This is not guaranteed and
 the capabilities depend in several factors with many details still to be discussed.
 
 At present, 
