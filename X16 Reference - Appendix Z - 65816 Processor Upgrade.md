@@ -24,8 +24,11 @@ If you are writing BASIC or Prog8 code, you are likely not affected. If you are 
 you may be somewhat affected.
 
 If you are writing assembly, however, you would be affected if you are or had plans to
-use these instructions. Folks writing assembly programs can use [these marcos](http://localhost:8000/#X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#replacement-macros-for-bit-instructions) 
+use these instructions. Folks writing assembly programs can use [these marcos](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#replacement-macros-for-bit-instructions) 
 to emulate the behavior of the instructions.
+
+
+
 
 
 ## How Might This Affect My Existing X16?
