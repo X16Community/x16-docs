@@ -27,10 +27,6 @@ If you are writing assembly, however, you would be affected if you are or had pl
 use these instructions. Folks writing assembly programs can use [these marcos](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#replacement-macros-for-bit-instructions) 
 to emulate the behavior of the instructions.
 
-
-
-
-
 ## How Might This Affect My Existing X16?
 
 If you already have an X16 or are planning on [purchasing](https://texelec.com/product/cx16-preorder/?highlight=x16) 
@@ -167,7 +163,7 @@ the card's I/O panel, or perhaps there might be a software solution to switch mo
   * May need to be disabled to run 65C02 programs
   * Still requires a modified KERNAL separate from the stock KERNAL
 
-### Software SOlution
+### Software Solution
 
 The KERNAL is updated with some trickery to allow for interrupts to work in both modes. Specifically
 handling certain KERNAL calls (like SCREEN) which at present stomp over addresses the 65816 uses for 
