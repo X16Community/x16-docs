@@ -8,25 +8,25 @@ TODO:
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
   * Add flag changes where relevant (likely missing some)
 
-## Possible 65C816 Support Compatibilty
-
-The 8-Bit Guy has indicated that a future upgrade path for the X16 may
-involve the WDC 65C816. The '816 is  _almost_ fully comnpatibe with the 
-65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
-If you plan on using these opcodes in your programs, be aware they may 
-need to be modified should the `816 become officially
-supported.
-
 ## Overview
 
-The WDC65C02 CPU is a modern version of the MOS6502 with a few additional opcodes
-and addressing modes capable of running at up to 14 MHz. On the Commander X16
+The WDC65C02S CPU is a modern version of the MOS6502 with a few additional opcodes
+and addressing modes and is capable of running at up to 14 MHz. On the Commander X16
 it is clocked at 8 MHz.
 
 This is not meant to be a complete manual on the 65C02 processor, though is meant 
 to serve as a convenient quick reference. Much of this information comes from
 6502.org and pagetable.com. It is been placed here for convenience though further
 information can be found at those (and other) sources.
+
+## Possible 65C816 Support Compatibility
+
+The 8-Bit Guy has indicated that a future upgrade path for the X16 may
+involve the WDC 65C816. The '816 is  _almost_ fully compatible with the 
+65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
+If you plan on using these opcodes in your programs, be aware they may 
+need to be modified should the `816 become officially
+supported.
 
 ## Opcode Tables
 
@@ -1096,7 +1096,6 @@ hardware interrupt occurs. The intterupt is processed
 immediately since the processor is not otherwise running
 any instructions. This can improve interrupt timing.
 
-
 ## Status Flags
 
 Flags are stored in the P register. PHP and PLP can be used
@@ -1116,6 +1115,60 @@ P-Register:
   I = Interupts Disabled  
   Z = Zero  
   C = Carry  
+
+## Replacement Macros for Bit Instructions
+
+Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used to support a possible
+upgrade path to the 65816, here are some example macros that can be used to
+help convert existing software that may have been using these instructions:
+
+```
+.macro bbs bit_position, data, destination
+	.if (bit_position = 7)
+		bit data
+		bmi destination
+	.else
+		.if (bit_position = 6)
+			bit data
+			bvs destination
+		.else
+			lda data
+			and #1 << bit_position
+			bne destination
+		.endif
+  .endif
+.endmacro
+
+.macro bbr bit_position, data, destination
+	.if (bit_position = 7)
+		bit data
+		bpl destination
+	.else
+		.if (bit_position = 6)
+			bit data
+			bvc destination
+		.else
+			lda data
+			and #1 << bit_position
+			beq destination
+		.endif
+	.endif
+.endmacro
+
+.macro rmb bit, destination
+	lda #$1 << bit
+	trb destination
+.endmacro
+
+.macro smb bit, destination
+	lda #$1 << bit
+	tsb destination
+.endmacro
+```
+
+The above is CA65 specific but the code should work similarly for other languages.
+The logic can also be used to if using an assembly language tool that does not have
+macro support with small changes.
 
 ## Further Reading
 
