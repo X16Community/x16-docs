@@ -37,7 +37,7 @@ As a modern sibling of the line of Commodore home computers, the Commander X16 i
 
 A future upgrade path for the X16 may involve the 65C816. It is almost fully
 compatible with the 65C02 except for 4 instructions (`BBRx`, `BBSx`, `RMBx`, and `SMBx`).
-It is adviseable not to use these instructions when writing programs for the X16.
+It is advisable not to use these instructions when writing programs for the X16.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
