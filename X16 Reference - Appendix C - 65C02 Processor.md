@@ -1167,7 +1167,7 @@ help convert existing software that may have been using these instructions:
 ```
 
 The above is CA65 specific but the code should work similarly for other languages.
-The logic can also be used to if using an assembly language that does not have
+The logic can also be used to if using an assembly language tool that does not have
 macro support with small changes.
 
 ## Further Reading
