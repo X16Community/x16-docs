@@ -45,8 +45,6 @@ first.
   * [Appendix B: VERA Firmware Recovery](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20Recovery.md#appendix-b-vera-firmware-recovery)
   * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#appendix-c-the-65c02-processor)
   * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
-  * [Appendix Z: 65816 Upgrade Plans](X16%20Reference%20-%20Appendix%20Z%20-%2065816%20Processor%20Upgrade.md#appendix-z-65816-processor-upgrade-plans)
-
 
 ### External Links
 
