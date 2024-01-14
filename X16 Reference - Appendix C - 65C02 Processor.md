@@ -1156,13 +1156,13 @@ help convert existing software that may have been using these instructions:
 .endmacro
 
 .macro rmb bit, destination
-  lda #$1 << bit
-  trb destination
+	lda #$1 << bit
+	trb destination
 .endmacro
 
 .macro smb bit, destination
-  lda #$1 << bit
-  tsb destination
+	lda #$1 << bit
+	tsb destination
 .endmacro
 ```
 
