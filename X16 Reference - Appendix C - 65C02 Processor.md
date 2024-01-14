@@ -1161,7 +1161,7 @@ help convert existing software that may have been using these instructions:
 .endmacro
 
 .macro smb bit, destination
-	lda #$1 << bit
+  lda #$1 << bit
   tsb destination
 .endmacro
 ```
