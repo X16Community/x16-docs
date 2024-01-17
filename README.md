@@ -46,7 +46,6 @@ first.
   * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#appendix-c-the-65c02-processor)
   * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
 
-
 ### External Links
 
   * [Official Website](https://www.commanderx16.com/)

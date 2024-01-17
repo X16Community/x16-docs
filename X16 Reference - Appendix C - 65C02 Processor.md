@@ -1,6 +1,11 @@
 
 # Appendix C: The 65C02 Processor
 
+This is not meant to be a complete manual on the 65C02 processor, though is meant 
+to serve as a convenient quick reference. Much of this information comes from
+6502.org and pagetable.com. It is been placed here for convenience though further
+information can be found at those (and other) sources.
+
 ## Work In Progress
 
 TODO:
@@ -10,26 +15,20 @@ TODO:
 
 ## Possible 65C816 Support Compatibilty
 
-The Commander X16 may be upgraded at some point to use the WDC 65C816.
-The 65C816 is _almost_ fully comnpatibe with the 65C02 **except** for 
-4 instructions (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
+The Commander X16 may be upgraded at some point to use the WDC 65C816 CPU.
+The 65C816 is mostly compatible with the 65C02, except for 4 instructions 
+(`BBRx`, `BBSx`, `RMBx`, and `SMBx`).
 
-We recommend *not* using the BBR, BBS, RMB and SMB instructions, as these
-are not even fully supported across different 65C02 CPUs and the corresponding
-opcodes are completely different instructions on the 65C816. 
+As a result, we recommend *not* using the BBR, BBS, RMB and SMB instructions, as these
+may become invalid in future versions of the Commander X16. 
 
 These instruction are *not* supported on the Commander X16 as of the R47 release.
 
 ## Overview
 
 The WDC65C02 CPU is a modern version of the MOS6502 with a few additional instructions
-and addressing modes capable of running at up to 14 MHz. On the Commander X16
+and addressing modes and is capable of running at up to 14 MHz. On the Commander X16
 it is clocked at 8 MHz.
-
-This is not meant to be a complete manual on the 65C02 processor, though is meant 
-to serve as a convenient quick reference. Much of this information comes from
-6502.org and pagetable.com. It is been placed here for convenience though further
-information can be found at those (and other) sources.
 
 ## Instruction Tables
 
@@ -1128,6 +1127,60 @@ P-Register:
 ## Opcode Matrix
 
 (TODO)
+
+## Replacement Macros for Bit Instructions
+
+Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used to support a possible
+upgrade path to the 65816, here are some example macros that can be used to
+help convert existing software that may have been using these instructions:
+
+```
+.macro bbs bit_position, data, destination
+	.if (bit_position = 7)
+		bit data
+		bmi destination
+	.else
+		.if (bit_position = 6)
+			bit data
+			bvs destination
+		.else
+			lda data
+			and #1 << bit_position
+			bne destination
+		.endif
+  .endif
+.endmacro
+
+.macro bbr bit_position, data, destination
+	.if (bit_position = 7)
+		bit data
+		bpl destination
+	.else
+		.if (bit_position = 6)
+			bit data
+			bvc destination
+		.else
+			lda data
+			and #1 << bit_position
+			beq destination
+		.endif
+	.endif
+.endmacro
+
+.macro rmb bit, destination
+	lda #$1 << bit
+	trb destination
+.endmacro
+
+.macro smb bit, destination
+	lda #$1 << bit
+	tsb destination
+.endmacro
+```
+
+The above is CA65 specific but the code should work similarly for other languages.
+The logic can also be used to if using an assembly language tool that does not have
+macro support with small changes.
 
 ## Further Reading
 
