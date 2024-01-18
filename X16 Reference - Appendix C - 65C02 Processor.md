@@ -22,7 +22,7 @@ The 65C816 is mostly compatible with the 65C02, except for 4 instructions
 As a result, we recommend *not* using the BBR, BBS, RMB and SMB instructions, as these
 may become invalid in future versions of the Commander X16. 
 
-These instruction are *not* supported on the Commander X16 as of the R47 release.
+These instructions are *not* supported on the Commander X16 as of the R47 release.
 
 ## Overview
 
