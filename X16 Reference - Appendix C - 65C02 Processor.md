@@ -1,6 +1,11 @@
 
 # Appendix C: The 65C02 Processor
 
+This is not meant to be a complete manual on the 65C02 processor, though is meant 
+to serve as a convenient quick reference. Much of this information comes from
+6502.org and pagetable.com. It is been placed here for convenience though further
+information can be found at those (and other) sources.
+
 ## Work In Progress
 
 TODO:
@@ -8,27 +13,24 @@ TODO:
   * Add 65C02 addressing modes for ADC AND CMP EOR LDA ORA SBC STA
   * Add flag changes where relevant (likely missing some)
 
+## Possible 65C816 Support Compatibilty
+
+The Commander X16 may be upgraded at some point to use the WDC 65C816 CPU.
+The 65C816 is mostly compatible with the 65C02, except for 4 instructions 
+(`BBRx`, `BBSx`, `RMBx`, and `SMBx`).
+
+As a result, we recommend *not* using the BBR, BBS, RMB and SMB instructions, as these
+may become invalid in future versions of the Commander X16. 
+
+These instructions are *not* supported on the Commander X16 as of the R47 release.
+
 ## Overview
 
-The WDC65C02S CPU is a modern version of the MOS6502 with a few additional opcodes
+The WDC65C02 CPU is a modern version of the MOS6502 with a few additional instructions
 and addressing modes and is capable of running at up to 14 MHz. On the Commander X16
 it is clocked at 8 MHz.
 
-This is not meant to be a complete manual on the 65C02 processor, though is meant 
-to serve as a convenient quick reference. Much of this information comes from
-6502.org and pagetable.com. It is been placed here for convenience though further
-information can be found at those (and other) sources.
-
-## Possible 65C816 Support Compatibility
-
-The 8-Bit Guy has indicated that a future upgrade path for the X16 may
-involve the WDC 65C816. The '816 is  _almost_ fully compatible with the 
-65C02 **except** for 4 opcodes (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). 
-If you plan on using these opcodes in your programs, be aware they may 
-need to be modified should the `816 become officially
-supported.
-
-## Opcode Tables
+## Instruction Tables
 
 ### Alphabetical
 
@@ -62,7 +64,7 @@ supported.
 |                 |             |                 | [RMB](#rmb)[^4] [^5] |             |                 |                 |             |
 |                 |             |                 | [SMB](#smb)[^4] [^5] |             |                 |                 |             |
 
-## Opcodes
+## Instructions
 
 ### ADC
 
@@ -194,7 +196,7 @@ Branch If Carry Clear
 | --------------- | ------------- | ------ | -------- |
 | Relative        | BCC LABEL     | 3      | 2-4 [^2] |
 
-Branch to LABEL if the carry flag is clear.
+Branch to LABEL if the carry flag (C) is clear. 
 
 ### BCS
 
@@ -204,7 +206,7 @@ Branch If Carry Set
 | --------------- | ------------- | ------ | -------- |
 | Relative        | BCS LABEL     | 3      | 2-4 [^2] |
 
-Branch to LABEL if the carry flag is set.
+Branch to LABEL if the carry flag (C) is set.
 
 ### BEQ
 
@@ -214,7 +216,7 @@ Branch If Equals
 | --------------- | ------------- | ------ | -------- |
 | Relative        | BEQ LABEL     | 3      | 2-4 [^2] |
 
-Branch to LABEL if the zero flag is set.
+Branch to LABEL if the zero flag (Z) is set. 
 
 ### BIT
 
@@ -237,7 +239,7 @@ Branch If Minus
 | --------------- | ------------- | ------ | -------- |
 | Relative        | BMI LABEL     | 3      | 2-4 [^2] |
 
-Branch to LABEL if the negative flag is set.
+Branch to LABEL if the negative flag (N) is set.
 
 ### BNE
 
@@ -247,7 +249,7 @@ Branch If Not-Equal
 | --------------- | ------------- | ------ | -------- |
 | Relative        | BNE LABEL     | 3      | 2-4 [^2] |
 
-Branch to LABEL if the negative flag is set.
+Branch to LABEL if the zero (Z) flag is clear.
 
 ### BPL
 
@@ -380,9 +382,8 @@ Compare X Register
 | Zero Page       | CPX $44     | 2      | 3      |
 | Absolute        | CPX $4400   | 3      | 4      |
 
-Compare value in X with given value. Apart from the 
-fewer addressing modes, the behavior is the same
-as with [CMP](#cmp) only using the X register insteaf of
+Compare value in X with given value. The behavior is the same
+as with [CMP](#cmp) only using the X register instead of
 A.
 
 ### CPY
@@ -395,9 +396,8 @@ Compare Y Register
 | Zero Page       | CPY $44     | 2      | 3      |
 | Absolute        | CPY $4400   | 3      | 4      |
 
-Compare value in Y with given value. Apart from the 
-fewer addressing modes, the behavior is the same
-as with [CMP](#cmp) only using the Y register insteaf of
+Compare value in Y with given value. The behavior is the same
+as with [CMP](#cmp) only using the Y register instead of
 A.
 
 ### DEC
@@ -406,6 +406,7 @@ Decrement Value In Memory
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
+| Implied / A     | DEC         | 1      | 2      |
 | Zero Page       | DEC $44     | 2      | 5      |
 | Zero Page,X     | DEC $44,X   | 2      | 6      |
 | Absolute        | DEC $4400   | 3      | 6      |
@@ -415,6 +416,9 @@ Decrement value in memory by one.
 
   - Sets N (Negative) flag if the two's compliment value is negative
   - Sets Z (Zero) flag is the value is zero
+
+Implied/A mode is specific to 65C02 and 65C816. This operates on the 
+Accumulator (A)
 
 ### DEX
 
@@ -478,6 +482,7 @@ Increment Value In Memory
 
 | Addressing Mode | Usage       | Length | Cycles |
 | --------------- | ----------- | ------ | ------ |
+| Implied / A     | INC         | 1      | 2      |
 | Zero Page       | INC $44     | 2      | 5      |
 | Zero Page,X     | INC $44,X   | 2      | 6      |
 | Absolute        | INC $4400   | 3      | 6      |
@@ -487,6 +492,9 @@ Increment value in memory by one.
 
   - Sets N (Negative) flag if the two's compliment value is negative
   - Sets Z (Zero) flag is the value is zero
+
+Implied/A mode is specific to 65C02 and 65C816. This operates on the 
+Accumulator (A)
 
 ### INX
 
@@ -1101,7 +1109,7 @@ any instructions. This can improve interrupt timing.
 Flags are stored in the P register. PHP and PLP can be used
 to directly manipulate this register. Otherwise the flags
 are used to indicate certain statuses and changed by 
-various opcodes.
+various instructions.
 
 P-Register:
 
@@ -1115,6 +1123,10 @@ P-Register:
   I = Interupts Disabled  
   Z = Zero  
   C = Carry  
+
+## Opcode Matrix
+
+(TODO)
 
 ## Replacement Macros for Bit Instructions
 
@@ -1175,6 +1187,7 @@ macro support with small changes.
   * <http://www.6502.org/tutorials/6502opcodes.html>
   * <http://6502.org/tutorials/65c02opcodes.html>
   * <https://www.pagetable.com/c64ref/6502/?cpu=65c02>
+  * <http://www.oxyron.de/html/opcodesc02.html>
   * <https://www.nesdev.org/wiki/Status_flags>
   * <https://skilldrick.github.io/easy6502/>
   * <https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf>
