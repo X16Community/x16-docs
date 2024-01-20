@@ -77,7 +77,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`LINE`](#line) | command | Draws a line in graphics mode | X16 |
 | [`LINPUT`](#linput) | command | Reads a line from the keyboard | X16 |
 | [`LINPUT#`](#linput-1) | command | Reads a line or other delimited data from an open file | X16 |
-| `LIST` | command | Outputs the program listing to the screen | C64 |
+| [`LIST`](#list) | command | Outputs the program listing to the screen | C64 |
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
 | `LOG` | function | Returns the natural logarithm of a number | C64 |
@@ -846,14 +846,44 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 120 IF ST=0 THEN 30
 130 CLOSE 1
 ```
+
 The above example parses and prints out the filenames from a directory listing.
+
+### LIST
+
+**TYPE: Command**
+**FORMAT: LIST [start] [-] [end]**
+
+**Action:** `LIST` Displays the currently loaded BASIC program on the screen.
+The start and ending line numbers are both optional.
+
+The start and/or end may be specified. If both are specified, a hyphen must
+be included. So LIST has 4 modes:
+
+`LIST` by itself will display the entire program.
+
+`LIST 10-20` will display lines 10 to 20, inclusive.
+
+`LIST -100` will display from the start to line 100
+
+`LIST 50-` will display line 50 to the end of the program.
+
+Pressing the `CONTROL` key during a listing will slow the listing down once
+printing reaches the bottom of the screen. Approxmately one line per second will
+be displayed.
+
+Pressing the `SPACE BAR` during the listing will cause the listing to pause.
+Pressing the `SPACE BAR` a second time will unpause the listing. You may also
+use the down arrow key to scroll by one line or use the `PgDn` key to scroll
+approximately one screen full of text.
 
 ### LOCATE
 
 **TYPE: Command**  
 **FORMAT: LOCATE &lt;line&gt;[,&lt;column&gt;]**
 
-**Action:** This command positions the text mode cursor at the given location. The values are 1-based. If no column is given, only the line is changed.
+**Action:** This command positions the text mode cursor at the given location.
+The values are 1-based. If no column is given, only the line is changed.
 
 **EXAMPLE of LOCATE Statement:**
 
