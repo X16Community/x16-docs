@@ -17,12 +17,14 @@ The Commander X16 may be upgraded at some point to use the WDC 65C816 CPU.
 The 65C816 is mostly compatible with the 65C02, except for 4 instructions
 (`BBRx`, `BBSx`, `RMBx`, and `SMBx`).
 
-These instructions are *not* supported on the Commander X16 as of the R47
-release and will generate an error when used in the emulator.
+These instructions *may* be deprecated in a future release of the emulator, and
+so we suggest not using these instructions. Some people are already using the
+65C816 in their X16 systems, and so using these instructions will cause your
+programs to malfunction on these computers.
 
 ## Instruction Tables
 
-## Opcodes By Number
+## Instructions By Number
 
 |            | x0          | x1          | x2          | x3          | x4          | x5          | x6          | x7          | x8          | x9          | xA          | xB          | xC          | xD          | xE          | xF          |
 |------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
@@ -43,7 +45,7 @@ release and will generate an error when used in the emulator.
 |Ex           |[CPX](#cpx)|[SBC](#sbc)|||[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[SMB6](#smbx)|[INX](#inc)|[SBC](#sbc)|[NOP](#nop)||[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[BBS6](#bbsx)|
 |Fx           |[BEQ](#bra)|[SBC](#sbc)|[SBC](#sbc)|||[SBC](#sbc)|[INC](#inc)|[SMB7](#smbx)|[SED](#sed)|[SBC](#sbc)|[PLX](#pla)|||[SBC](#sbc)|[INC](#inc)|[BBS7](#bbsx)|
 
-## Opcodes By Name
+## Instructions By Name
 
 |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
 |-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -53,7 +55,7 @@ release and will generate an error when used in the emulator.
 | [ROR](#ror) | [RTI](#rti) | [RTS](#rts) | [SBC](#sbc) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) | [SMBx](#smbx) | [STA](#sta) | [STP](#stp) | [STX](#stx) | [STY](#sty) | [STZ](#stz) | [TAX](#txx) | [TAY](#txx) | [TRB](#trb) |
 | [TSB](#tsb) | [TSX](#txx) | [TXA](#txx) | [TXS](#txx) | [TYA](#txx) | [WAI](#wai) |
 
-## Opcodes By Category
+## Instructions By Category
 
 |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
 |-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -62,11 +64,12 @@ release and will generate an error when used in the emulator.
 |  Bit Shift | [ASL](#asl) | [LSR](#lsr) | [ROL](#rol) | [ROR](#ror) |
 |  Branch | [BBRx](#bbrx) | [BBSx](#bbsx) |
 |  Test Bit | [BIT](#bit) | [TRB](#trb) | [TSB](#tsb) |
-|  Branching | [BCC](#bra) | [BCS](#bra) | [BEQ](#bra) | [BMI](#bra) | [BNE](#bra) | [BPL](#bra) | [BVC](#bra) | [BVS](#bra) | [BRA](#bra) | [JMP](#jmp) | [JSR](#jsr) | [RTI](#rti) | [RTS](#rts) |
+|  Branching | [BCC](#bra) | [BCS](#bra) | [BEQ](#bra) | [BMI](#bra) | [BNE](#bra) | [BPL](#bra) | [BVC](#bra) | [BVS](#bra) | [BRA](#bra) |
 |  Misc | [BRK](#brk) | [NOP](#nop) | [STP](#stp) | [WAI](#wai) |
 |  Flags | [CLC](#clc) | [CLD](#cld) | [CLI](#cli) | [CLV](#clv) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) |
 |  Compare | [CMP](#cmp) | [CPX](#cpx) | [CPY](#cpy) |
 |  Increment/Decrement | [DEC](#dec) | [DEX](#dec) | [DEY](#dec) | [INX](#inc) | [INY](#inc) | [INC](#inc) |
+|  Flow | [JMP](#jmp) | [JSR](#jsr) | [RTI](#rti) | [RTS](#rts) |
 |  Load Data | [LDA](#lda) | [LDX](#ldx) | [LDY](#ldy) |
 |  Stack | [PHA](#pha) | [PHP](#pha) | [PHX](#pha) | [PHY](#pha) | [PLA](#pla) | [PLP](#pla) | [PLX](#pla) | [PLY](#pla) |
 |  Bit Operations | [RMBx](#rmbx) | [SMBx](#smbx) |
@@ -77,18 +80,17 @@ release and will generate an error when used in the emulator.
 
 Add with Carry
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-ADC #$12     Immediate      $69   2     2     CZ---VN 
-ADC $12      Zero Page      $65   2     3     CZ---VN 
-ADC $12,X    Zero Page,X    $75   2     4     CZ---VN 
-ADC $1234    Absolute       $6D   3     4     CZ---VN 
-ADC $1234,X  Absolute,X     $7D   3     4     CZ---VN 
-ADC $1234,Y  Absolute,Y     $79   3     4     CZ---VN 
-ADC ($12,X)  Indirect,X     $61   2     6     CZ---VN 
-ADC ($12),Y  Indirect,Y     $71   2     5     CZ---VN 
-ADC ($12)    ZP Indirect    $72   2     5     CZ---VN +c
+ADC #$20     Immediate      $69   2     2     CZ---VN 
+ADC $20      Zero Page      $65   2     3     CZ---VN 
+ADC $20,X    Zero Page,X    $75   2     4     CZ---VN 
+ADC $8080    Absolute       $6D   3     4     CZ---VN 
+ADC $8080,X  Absolute,X     $7D   3     4     CZ---VN 
+ADC $8080,Y  Absolute,Y     $79   3     4     CZ---VN 
+ADC ($20,X)  Indirect,X     $61   2     6     CZ---VN 
+ADC ($20),Y  Indirect,Y     $71   2     5     CZ---VN 
+ADC ($20)    ZP Indirect    $72   2     5     CZ---VN +c
 ```
 
 Add a number to the Accumulator and stores the result in A.
@@ -114,18 +116,17 @@ N is set when result is negative (bit 7=1)<br/>
 
 Logical And
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-AND #$12     Immediate      $29   2     2     -Z----N 
-AND $12      Zero Page      $25   2     3     -Z----N 
-AND $12,X    Zero Page,X    $35   2     4     -Z----N 
-AND $1234    Absolute       $2D   3     4     -Z----N 
-AND $1234,X  Absolute,X     $3D   3     4     -Z----N 
-AND $1234,Y  Absolute,Y     $39   3     4     -Z----N 
-AND ($12,X)  Indirect,X     $21   2     6     -Z----N 
-AND ($12),Y  Indirect,Y     $31   2     5     -Z----N 
-AND ($12)    ZP Indirect    $32   2     5     -Z----N +c
+AND #$20     Immediate      $29   2     2     -Z----N 
+AND $20      Zero Page      $25   2     3     -Z----N 
+AND $20,X    Zero Page,X    $35   2     4     -Z----N 
+AND $8080    Absolute       $2D   3     4     -Z----N 
+AND $8080,X  Absolute,X     $3D   3     4     -Z----N 
+AND $8080,Y  Absolute,Y     $39   3     4     -Z----N 
+AND ($20,X)  Indirect,X     $21   2     6     -Z----N 
+AND ($20),Y  Indirect,Y     $31   2     5     -Z----N 
+AND ($20)    ZP Indirect    $32   2     5     -Z----N +c
 ```
 
 Bitwise AND the provided value with the Accumulator.
@@ -161,14 +162,13 @@ in A.<br/>
 
 Arithmetic Shift Left
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 ASL A        Accumulator    $0A   1     2     CZ----N +c
-ASL $12      Zero Page      $06   2     5     CZ----N +c
-ASL $12,X    Zero Page,X    $16   2     6     CZ----N +c
-ASL $1234    Absolute       $0E   3     6     CZ----N +c
-ASL $1234,X  Absolute,X     $1E   3    6/7    CZ----N +p
+ASL $20      Zero Page      $06   2     5     CZ----N +c
+ASL $20,X    Zero Page,X    $16   2     6     CZ----N +c
+ASL $8080    Absolute       $0E   3     6     CZ----N +c
+ASL $8080,X  Absolute,X     $1E   3    6/7    CZ----N +p
 ```
 
 Shifts all bits to the left by one position, through the Carry bit.
@@ -192,17 +192,16 @@ Bit 7 is shifted into Carry.<br/>
 
 Branch on Bit Reset
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-BBR0 $1234   ZP Relative    $0F   3     5     ------- 
-BBR1 $1234   ZP Relative    $1F   3     5     ------- 
-BBR2 $1234   ZP Relative    $2F   3     5     ------- 
-BBR3 $1234   ZP Relative    $3F   3     5     ------- 
-BBR4 $1234   ZP Relative    $4F   3     5     ------- 
-BBR5 $1234   ZP Relative    $5F   3     5     ------- 
-BBR6 $1234   ZP Relative    $6F   3     5     ------- 
-BBR7 $1234   ZP Relative    $7F   3     5     ------- 
+BBR0 $20,$8080 ZP Relative    $0F   3     5     ------- 
+BBR1 $20,$8080 ZP Relative    $1F   3     5     ------- 
+BBR2 $20,$8080 ZP Relative    $2F   3     5     ------- 
+BBR3 $20,$8080 ZP Relative    $3F   3     5     ------- 
+BBR4 $20,$8080 ZP Relative    $4F   3     5     ------- 
+BBR5 $20,$8080 ZP Relative    $5F   3     5     ------- 
+BBR6 $20,$8080 ZP Relative    $6F   3     5     ------- 
+BBR7 $20,$8080 ZP Relative    $7F   3     5     ------- 
 ```
 
 Branch to LABEL if bit x of zero page address is 0 where x is the number of the
@@ -236,17 +235,16 @@ taken to `@flag_not_set`.
 
 Branch on Bit Set
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-BBS0 $1234   ZP Relative    $8F   3     5     ------- 
-BBS1 $1234   ZP Relative    $9F   3     5     ------- 
-BBS2 $1234   ZP Relative    $AF   3     5     ------- 
-BBS3 $1234   ZP Relative    $BF   3     5     ------- 
-BBS4 $1234   ZP Relative    $CF   3     5     ------- 
-BBS5 $1234   ZP Relative    $DF   3     5     ------- 
-BBS6 $1234   ZP Relative    $EF   3     5     ------- 
-BBS7 $1234   ZP Relative    $FF   3     5     ------- 
+BBS0 $20,$8080 ZP Relative    $8F   3     5     ------- 
+BBS1 $20,$8080 ZP Relative    $9F   3     5     ------- 
+BBS2 $20,$8080 ZP Relative    $AF   3     5     ------- 
+BBS3 $20,$8080 ZP Relative    $BF   3     5     ------- 
+BBS4 $20,$8080 ZP Relative    $CF   3     5     ------- 
+BBS5 $20,$8080 ZP Relative    $DF   3     5     ------- 
+BBS6 $20,$8080 ZP Relative    $EF   3     5     ------- 
+BBS7 $20,$8080 ZP Relative    $FF   3     5     ------- 
 ```
 
 
@@ -281,14 +279,13 @@ taken to `@flag_set`.
 
 Test Bit
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-BIT $12      Zero Page      $24   2     3     -Z---VN 
-BIT $1234    Absolute       $2C   3     4     -Z---VN 
-BIT #$12     Immediate      $89   2     2     -Z----- 
-BIT $12,X    Zero Page,X    $34   2     4     -Z---VN 
-BIT $1234,X  Absolute,X     $3C   3     4     -Z---VN 
+BIT $20      Zero Page      $24   2     3     -Z---VN 
+BIT $8080    Absolute       $2C   3     4     -Z---VN 
+BIT #$20     Immediate      $89   2     2     -Z----- 
+BIT $20,X    Zero Page,X    $34   2     4     -Z---VN 
+BIT $8080,X  Absolute,X     $3C   3     4     -Z---VN 
 ```
 
 - Sets Z (Zero) flag based on an AND of value provided to the Accumulator.
@@ -304,18 +301,17 @@ BIT $1234,X  Absolute,X     $3C   3     4     -Z---VN
 
 Branch Instructions
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-BCC $1234    Relative       $90   2    2/3    ------- +p Carry Clear
-BCS $1234    Relative       $B0   2    2/3    ------- +p Carry Set
-BEQ $1234    Relative       $F0   2    2/3    ------- +p Equal: Zero bit set
-BMI $1234    Relative       $30   2    2/3    ------- +p Negative bit set
-BNE $1234    Relative       $D0   2    2/3    ------- +p Not Equal: Zero bit clear
-BPL $1234    Relative       $10   2    2/3    ------- +p Negative bit not set
-BVC $1234    Relative       $50   2    2/3    ------- +p oVerflow Clear
-BVS $1234    Relative       $70   2    2/3    ------- +p oVerflow Set
-BRA $1234    Relative       $80   2    3/4    ------- +p Always
+BCC $8080    Relative       $90   2    2/3    ------- +p Carry Clear
+BCS $8080    Relative       $B0   2    2/3    ------- +p Carry Set
+BEQ $8080    Relative       $F0   2    2/3    ------- +p Equal: Zero bit set
+BMI $8080    Relative       $30   2    2/3    ------- +p Negative bit set
+BNE $8080    Relative       $D0   2    2/3    ------- +p Not Equal: Zero bit clear
+BPL $8080    Relative       $10   2    2/3    ------- +p Negative bit not set
+BVC $8080    Relative       $50   2    2/3    ------- +p oVerflow Clear
+BVS $8080    Relative       $70   2    2/3    ------- +p oVerflow Set
+BRA $8080    Relative       $80   2    3/4    ------- +p Always
 ```
 
 The branch instructions take the branch when the related flag is Set (1) or
@@ -347,7 +343,6 @@ For example, if the PC is $1000, the statement `BCS $1023` will be `$B0 $21`.
 
 Break: Software Interrupt
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 BRK          Implied        $00   1     7     ---DB-- 
@@ -377,7 +372,6 @@ of BASIC, rather than jumping to MONitor.
 
 Clear Carry
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 CLC          Implied        $18   1     2     C------ 
@@ -396,7 +390,6 @@ routine or return certain information.
 
 Clear Decimal Flag
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 CLD          Implied        $D8   1     2     ---D--- 
@@ -413,7 +406,6 @@ was previously in BCD mode.
 ### CLI
 
 Clear Interrupt Disable
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -434,7 +426,6 @@ Use SEI to disable interrupts
 
 Clear oVerflow
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 CLV          Implied        $B8   1     2     -----V- 
@@ -451,18 +442,17 @@ Clear the Overflow (V) flag after an arithmetic operation, such as ADC or SBC.
 
 Compare A to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-CMP #$12     Immediate      $C9   2     2     CZ----N 
-CMP $12      Zero Page      $C5   2     3     CZ----N 
-CMP $12,X    Zero Page,X    $D5   2     4     CZ----N 
-CMP $1234    Absolute       $CD   3     4     CZ----N 
-CMP $1234,X  Absolute,X     $DD   3     4     CZ----N 
-CMP $1234,Y  Absolute,Y     $D9   3     4     CZ----N 
-CMP ($12,X)  Indirect,X     $C1   2     6     CZ----N 
-CMP ($12),Y  Indirect,Y     $D1   2     5     CZ----N 
-CMP ($12)    ZP Indirect    $D2   2     5     CZ----N +c
+CMP #$20     Immediate      $C9   2     2     CZ----N 
+CMP $20      Zero Page      $C5   2     3     CZ----N 
+CMP $20,X    Zero Page,X    $D5   2     4     CZ----N 
+CMP $8080    Absolute       $CD   3     4     CZ----N 
+CMP $8080,X  Absolute,X     $DD   3     4     CZ----N 
+CMP $8080,Y  Absolute,Y     $D9   3     4     CZ----N 
+CMP ($20,X)  Indirect,X     $C1   2     6     CZ----N 
+CMP ($20),Y  Indirect,Y     $D1   2     5     CZ----N 
+CMP ($20)    ZP Indirect    $D2   2     5     CZ----N +c
 ```
 
 Compares the value in the Accumulator (A) with the given value. It sets flags
@@ -483,12 +473,11 @@ based on subtracting A - _Value_.
 
 Compare X to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-CPX #$12     Immediate      $E0   2     2     CZ----N 
-CPX $12      Zero Page      $E4   2     3     CZ----N 
-CPX $1234    Absolute       $EC   3     4     CZ----N 
+CPX #$20     Immediate      $E0   2     2     CZ----N 
+CPX $20      Zero Page      $E4   2     3     CZ----N 
+CPX $8080    Absolute       $EC   3     4     CZ----N 
 ```
 
 Compares the value in the X register with the given value. It sets flags
@@ -511,12 +500,11 @@ based on subtracting X - _Value_.
 
 Compare Y to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-CPY #$12     Immediate      $C0   2     2     CZ----N 
-CPY $12      Zero Page      $C4   2     3     CZ----N 
-CPY $1234    Absolute       $CC   3     4     CZ----N 
+CPY #$20     Immediate      $C0   2     2     CZ----N 
+CPY $20      Zero Page      $C4   2     3     CZ----N 
+CPY $8080    Absolute       $CC   3     4     CZ----N 
 ```
 
 Compares the value in the Y register with the given value. It sets flags
@@ -537,13 +525,12 @@ based on subtracting Y - _Value_.
 
 Decrement Value
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-DEC $12      Zero Page      $C6   2     5     -Z----N 
-DEC $12,X    Zero Page,X    $D6   2     6     -Z----N 
-DEC $1234    Absolute       $CE   3     6     -Z----N 
-DEC $1234,X  Absolute,X     $DE   3     7     -Z----N 
+DEC $20      Zero Page      $C6   2     5     -Z----N 
+DEC $20,X    Zero Page,X    $D6   2     6     -Z----N 
+DEC $8080    Absolute       $CE   3     6     -Z----N 
+DEC $8080,X  Absolute,X     $DE   3     7     -Z----N 
 DEC A        Accumulator    $3A   1     2     -Z----N 
 DEX          Implied        $CA   1     2     -Z----N 
 DEY          Implied        $88   1     2     -Z----N 
@@ -583,18 +570,17 @@ LABEL DEC Num_Low
 
 Exclusive OR
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-EOR #$12     Immediate      $49   2     2     -Z----N 
-EOR $12      Zero Page      $45   2     3     -Z----N 
-EOR $12,X    Zero Page,X    $55   2     4     -Z----N 
-EOR $1234    Absolute       $4D   3     4     -Z----N 
-EOR $1234,X  Absolute,X     $5D   3     4     -Z----N 
-EOR $1234,Y  Absolute,Y     $59   3     4     -Z----N 
-EOR ($12,X)  Indirect,X     $41   2     6     -Z----N 
-EOR ($12),Y  Indirect,Y     $51   2     5     -Z----N 
-EOR ($12)    ZP Indirect    $52   2     5     -Z----N +c
+EOR #$20     Immediate      $49   2     2     -Z----N 
+EOR $20      Zero Page      $45   2     3     -Z----N 
+EOR $20,X    Zero Page,X    $55   2     4     -Z----N 
+EOR $8080    Absolute       $4D   3     4     -Z----N 
+EOR $8080,X  Absolute,X     $5D   3     4     -Z----N 
+EOR $8080,Y  Absolute,Y     $59   3     4     -Z----N 
+EOR ($20,X)  Indirect,X     $41   2     6     -Z----N 
+EOR ($20),Y  Indirect,Y     $51   2     5     -Z----N 
+EOR ($20)    ZP Indirect    $52   2     5     -Z----N +c
 ```
 
 
@@ -634,15 +620,14 @@ tested. It returns a 0 for each bit that is the same.
 
 Increment Value
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 INX          Implied        $E8   1     2     -Z----N 
 INY          Implied        $C8   1     2     -Z----N 
-INC $12      Zero Page      $E6   2     5     -Z----N 
-INC $12,X    Zero Page,X    $F6   2     6     -Z----N 
-INC $1234    Absolute       $EE   3     6     -Z----N 
-INC $1234,X  Absolute,X     $FE   3     7     -Z----N 
+INC $20      Zero Page      $E6   2     5     -Z----N 
+INC $20,X    Zero Page,X    $F6   2     6     -Z----N 
+INC $8080    Absolute       $EE   3     6     -Z----N 
+INC $8080,X  Absolute,X     $FE   3     7     -Z----N 
 INC A        Accumulator    $1A   1     2     -Z----N 
 ```
 
@@ -679,12 +664,11 @@ Inc16_1: ...
 
 Jump to new address
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-JMP $1234    Absolute       $4C   3     3     ------- 
-JMP ($1234)  Indirect       $6C   3     5     ------- 
-JMP $1234,X  Absolute,X     $7C   3     6     ------- 
+JMP $8080    Absolute       $4C   3     3     ------- 
+JMP ($8080)  Indirect       $6C   3     5     ------- 
+JMP $8080,X  Absolute,X     $7C   3     6     ------- 
 ```
 
 Jump to specified memory location and begin execution
@@ -724,10 +708,9 @@ RTS.
 
 Jump to Subroutine
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-JSR $1234    Absolute       $20   3     6     ------- 
+JSR $8080    Absolute       $20   3     6     ------- 
 ```
 
 Stores the address of the Program Counter to the stack.<br/>
@@ -749,18 +732,17 @@ either overflow or underflow the stack.
 
 Read memory to Accumulator
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-LDA #$12     Immediate      $A9   2     2     -Z----N 
-LDA $12      Zero Page      $A5   2     3     -Z----N 
-LDA $12,X    Zero Page,X    $B5   2     4     -Z----N 
-LDA $1234    Absolute       $AD   3     4     -Z----N 
-LDA $1234,X  Absolute,X     $BD   3     4     -Z----N +p
-LDA $1234,Y  Absolute,Y     $B9   3     4     -Z----N +p
-LDA ($12,X)  Indirect,X     $A1   2     6     -Z----N 
-LDA ($12),Y  Indirect,Y     $B1   2     5     -Z----N +p
-LDA ($12)    ZP Indirect    $B2   2     5     -Z----N +c
+LDA #$20     Immediate      $A9   2     2     -Z----N 
+LDA $20      Zero Page      $A5   2     3     -Z----N 
+LDA $20,X    Zero Page,X    $B5   2     4     -Z----N 
+LDA $8080    Absolute       $AD   3     4     -Z----N 
+LDA $8080,X  Absolute,X     $BD   3     4     -Z----N +p
+LDA $8080,Y  Absolute,Y     $B9   3     4     -Z----N +p
+LDA ($20,X)  Indirect,X     $A1   2     6     -Z----N 
+LDA ($20),Y  Indirect,Y     $B1   2     5     -Z----N +p
+LDA ($20)    ZP Indirect    $B2   2     5     -Z----N +c
 ```
 
 Place the given value from memory into the accumulator (A).
@@ -780,14 +762,13 @@ Place the given value from memory into the accumulator (A).
 
 Read memory to X Index Register
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-LDX #$12     Immediate      $A2   2     2     -Z----N 
-LDX $12      Zero Page      $A6   2     3     -Z----N 
-LDX $12,Y    Zero Page,Y    $B6   2     4     -Z----N 
-LDX $1234    Absolute       $AE   3     4     -Z----N 
-LDX $1234,Y  Absolute,Y     $BE   3     4     -Z----N +p
+LDX #$20     Immediate      $A2   2     2     -Z----N 
+LDX $20      Zero Page      $A6   2     3     -Z----N 
+LDX $20,Y    Zero Page,Y    $B6   2     4     -Z----N 
+LDX $8080    Absolute       $AE   3     4     -Z----N 
+LDX $8080,Y  Absolute,Y     $BE   3     4     -Z----N +p
 ```
 
 Place the given value from memory into the X register.
@@ -807,14 +788,13 @@ Place the given value from memory into the X register.
 
 Read memory to Y Index Register
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-LDY #$12     Immediate      $A0   2     2     -Z----N 
-LDY $12      Zero Page      $A4   2     3     -Z----N 
-LDY $12,X    Zero Page,X    $B4   2     4     -Z----N 
-LDY $1234    Absolute       $AC   3     4     -Z----N 
-LDY $1234,X  Absolute,X     $BC   3     4     -Z----N +p
+LDY #$20     Immediate      $A0   2     2     -Z----N 
+LDY $20      Zero Page      $A4   2     3     -Z----N 
+LDY $20,X    Zero Page,X    $B4   2     4     -Z----N 
+LDY $8080    Absolute       $AC   3     4     -Z----N 
+LDY $8080,X  Absolute,X     $BC   3     4     -Z----N +p
 ```
 
 Place the given value from memory into the Y register.
@@ -834,14 +814,13 @@ Place the given value from memory into the Y register.
 
 Logical Shift Right
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 LSR A        Accumulator    $4A   1     2     -Z----N 
-LSR $12      Zero Page      $46   2     5     -Z----N 
-LSR $12,X    Zero Page,X    $56   2     6     -Z----N 
-LSR $1234    Absolute       $4E   3     6     -Z----N 
-LSR $1234,X  Absolute,X     $5E   3    6/7    -Z----N [^2]
+LSR $20      Zero Page      $46   2     5     -Z----N 
+LSR $20,X    Zero Page,X    $56   2     6     -Z----N 
+LSR $8080    Absolute       $4E   3     6     -Z----N 
+LSR $8080,X  Absolute,X     $5E   3    6/7    -Z----N [^2]
 ```
 
 Shifts all bits to the right by one position, through the Carry bit.
@@ -864,7 +843,6 @@ The Carry bit is shifted into bit 7.<br/>
 ### NOP
 
 No Operation
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -891,18 +869,17 @@ bit of delay when writing to the YM2151 chip (see
 
 Logical OR
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-ORA #$12     Immediate      $09   2     2     -Z----N 
-ORA $12      Zero Page      $05   2     3     -Z----N 
-ORA $12,X    Zero Page,X    $15   2     4     -Z----N 
-ORA $1234    Absolute       $0D   3     4     -Z----N 
-ORA $1234,X  Absolute,X     $1D   3     4     -Z----N 
-ORA $1234,Y  Absolute,Y     $19   3     4     -Z----N 
-ORA ($12,X)  Indirect,X     $01   2     6     -Z----N 
-ORA ($12),Y  Indirect,Y     $11   2     5     -Z----N 
-ORA ($12)    ZP Indirect    $12   2     5     -Z----N +c
+ORA #$20     Immediate      $09   2     2     -Z----N 
+ORA $20      Zero Page      $05   2     3     -Z----N 
+ORA $20,X    Zero Page,X    $15   2     4     -Z----N 
+ORA $8080    Absolute       $0D   3     4     -Z----N 
+ORA $8080,X  Absolute,X     $1D   3     4     -Z----N 
+ORA $8080,Y  Absolute,Y     $19   3     4     -Z----N 
+ORA ($20,X)  Indirect,X     $01   2     6     -Z----N 
+ORA ($20),Y  Indirect,Y     $11   2     5     -Z----N 
+ORA ($20)    ZP Indirect    $12   2     5     -Z----N +c
 ```
 
 Perform a logical OR of the given value in A
@@ -936,7 +913,6 @@ Perform a logical OR of the given value in A
 
 Push to stack
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 PHA          Implied        $48   1     3     ------- 
@@ -966,7 +942,6 @@ and [PHY](#pla).
 ### PLA
 
 Pull from stack
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -1000,17 +975,16 @@ and [PHY](#pha).
 
 Memory Bit Operations
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-RMB0 $12     Zero Page      $07   2     5     ------- +c -816
-RMB1 $12     Zero Page      $17   2     5     ------- +c -816
-RMB2 $12     Zero Page      $27   2     5     ------- +c -816
-RMB3 $12     Zero Page      $37   2     5     ------- +c -816
-RMB4 $12     Zero Page      $47   2     5     ------- +c -816
-RMB5 $12     Zero Page      $57   2     5     ------- +c -816
-RMB6 $12     Zero Page      $67   2     5     ------- +c -816
-RMB7 $12     Zero Page      $77   2     5     ------- +c -816
+RMB0 $20     Zero Page      $07   2     5     ------- +c -816
+RMB1 $20     Zero Page      $17   2     5     ------- +c -816
+RMB2 $20     Zero Page      $27   2     5     ------- +c -816
+RMB3 $20     Zero Page      $37   2     5     ------- +c -816
+RMB4 $20     Zero Page      $47   2     5     ------- +c -816
+RMB5 $20     Zero Page      $57   2     5     ------- +c -816
+RMB6 $20     Zero Page      $67   2     5     ------- +c -816
+RMB7 $20     Zero Page      $77   2     5     ------- +c -816
 ```
 
 Set bit x to 0 at the given zero page address where x is the number of the
@@ -1030,14 +1004,13 @@ Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 
 Rotate Left
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 ROL A        Accumulator    $2A   1     2     CZ----N 
-ROL $12      Zero Page      $26   2     5     CZ----N 
-ROL $12,X    Zero Page,X    $36   2     6     CZ----N 
-ROL $1234    Absolute       $2E   3     6     CZ----N 
-ROL $1234,X  Absolute,X     $3E   3    6/7    CZ----N +p
+ROL $20      Zero Page      $26   2     5     CZ----N 
+ROL $20,X    Zero Page,X    $36   2     6     CZ----N 
+ROL $8080    Absolute       $2E   3     6     CZ----N 
+ROL $8080,X  Absolute,X     $3E   3    6/7    CZ----N +p
 ```
 
 Rotate all bits to the left one position. The value in the carry (C) flag is
@@ -1057,14 +1030,13 @@ shifted into bit 0 and the original bit 7 is shifted into the carry (C).
 
 Rotate Right
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 ROR A        Accumulator    $6A   1     2     CZ----N 
-ROR $12      Zero Page      $66   2     5     CZ----N 
-ROR $12,X    Zero Page,X    $76   2     6     CZ----N 
-ROR $1234    Absolute       $7E   3     6     CZ----N 
-ROR $1234,X  Absolute,X     $6E   3    6/7    CZ----N [^2]
+ROR $20      Zero Page      $66   2     5     CZ----N 
+ROR $20,X    Zero Page,X    $76   2     6     CZ----N 
+ROR $8080    Absolute       $7E   3     6     CZ----N 
+ROR $8080,X  Absolute,X     $6E   3    6/7    CZ----N [^2]
 ```
 
 Rotate all bits to the right one position. The value in
@@ -1082,7 +1054,6 @@ bit 0 is shifted into the carry (C).
 ### RTI
 
 Return from Interrupt
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -1105,7 +1076,6 @@ return address (rather than address-1).
 
 Return from Subroutine
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 RTS          Implied        $60   1     6     ------- 
@@ -1125,18 +1095,17 @@ control to that address +1.
 
 Subtract With Carry
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-SBC #$12     Immediate      $E9   2     2     CZ---VN 
-SBC $12      Zero Page      $E5   2     3     CZ---VN 
-SBC $12,X    Zero Page,X    $F5   2     4     CZ---VN 
-SBC $1234    Absolute       $ED   3     4     CZ---VN 
-SBC $1234,X  Absolute,X     $FD   3     4     CZ---VN 
-SBC $1234,Y  Absolute,Y     $F9   3     4     CZ---VN 
-SBC ($12,X)  Indirect,X     $E1   2     6     CZ---VN 
-SBC ($12),Y  Indirect,Y     $F1   2     5     CZ---VN 
-SBC ($12)    ZP Indirect    $F2   2     5     CZ---VN +c
+SBC #$20     Immediate      $E9   2     2     CZ---VN 
+SBC $20      Zero Page      $E5   2     3     CZ---VN 
+SBC $20,X    Zero Page,X    $F5   2     4     CZ---VN 
+SBC $8080    Absolute       $ED   3     4     CZ---VN 
+SBC $8080,X  Absolute,X     $FD   3     4     CZ---VN 
+SBC $8080,Y  Absolute,Y     $F9   3     4     CZ---VN 
+SBC ($20,X)  Indirect,X     $E1   2     6     CZ---VN 
+SBC ($20),Y  Indirect,Y     $F1   2     5     CZ---VN 
+SBC ($20)    ZP Indirect    $F2   2     5     CZ---VN +c
 ```
 
 Subtract the operand from A and places the result in A.
@@ -1164,7 +1133,6 @@ N is set when result is negative (bit 7=1)<br/>
 
 Set Carry
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 SEC          Implied        $38   1     2     C------ 
@@ -1182,7 +1150,6 @@ or return certain information.
 ### SED
 
 Set Decimal
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -1208,7 +1175,6 @@ rounding.
 
 Set Interrupt Disable
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 SEI          Implied        $78   1     2     --I---- 
@@ -1227,17 +1193,16 @@ interrupts.
 
 Set Memory Bit
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-SMB0 $12     Zero Page      $87   2     5     ------- +c -816
-SMB1 $12     Zero Page      $97   2     5     ------- +c -816
-SMB2 $12     Zero Page      $A7   2     5     ------- +c -816
-SMB3 $12     Zero Page      $B7   2     5     ------- +c -816
-SMB4 $12     Zero Page      $C7   2     5     ------- +c -816
-SMB5 $12     Zero Page      $D7   2     5     ------- +c -816
-SMB6 $12     Zero Page      $E7   2     5     ------- +c -816
-SMB7 $12     Zero Page      $F7   2     5     ------- +c -816
+SMB0 $20     Zero Page      $87   2     5     ------- +c -816
+SMB1 $20     Zero Page      $97   2     5     ------- +c -816
+SMB2 $20     Zero Page      $A7   2     5     ------- +c -816
+SMB3 $20     Zero Page      $B7   2     5     ------- +c -816
+SMB4 $20     Zero Page      $C7   2     5     ------- +c -816
+SMB5 $20     Zero Page      $D7   2     5     ------- +c -816
+SMB6 $20     Zero Page      $E7   2     5     ------- +c -816
+SMB7 $20     Zero Page      $F7   2     5     ------- +c -816
 ```
 
 Set bit x to 1 at the given zero page address where x is the number
@@ -1259,17 +1224,16 @@ Specific to the 65C02 (*unavailable on the 65C816*)
 
 Store Accumulator contents to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-STA $12      Zero Page      $85   2     3     ------- 
-STA $12,X    Zero Page,X    $95   2     4     ------- 
-STA $1234    Absolute       $8D   3     4     ------- 
-STA $1234,X  Absolute,X     $9D   3     5     ------- 
-STA $1234,Y  Absolute,Y     $99   3     5     ------- 
-STA ($12,X)  Indirect,X     $81   2     6     ------- 
-STA ($12),Y  Indirect,Y     $91   2     6     ------- 
-STA ($12)    ZP Indirect    $92   2     5     ------- +c
+STA $20      Zero Page      $85   2     3     ------- 
+STA $20,X    Zero Page,X    $95   2     4     ------- 
+STA $8080    Absolute       $8D   3     4     ------- 
+STA $8080,X  Absolute,X     $9D   3     5     ------- 
+STA $8080,Y  Absolute,Y     $99   3     5     ------- 
+STA ($20,X)  Indirect,X     $81   2     6     ------- 
+STA ($20),Y  Indirect,Y     $91   2     6     ------- 
+STA ($20)    ZP Indirect    $92   2     5     ------- +c
 ```
 
 Place the given value from the accumulator (A) into memory.
@@ -1284,7 +1248,6 @@ Place the given value from the accumulator (A) into memory.
 ### STP
 
 Stop
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -1310,12 +1273,11 @@ emulator or reset the emulation.
 
 Save X Index Register contents to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-STX $12      Zero Page      $86   2     3     ------- 
-STX $12,Y    Zero Page,Y    $96   2     4     ------- 
-STX $1234    Absolute       $8E   3     4     ------- 
+STX $20      Zero Page      $86   2     3     ------- 
+STX $20,Y    Zero Page,Y    $96   2     4     ------- 
+STX $8080    Absolute       $8E   3     4     ------- 
 ```
 
 
@@ -1328,12 +1290,11 @@ STX $1234    Absolute       $8E   3     4     -------
 
 Save Y Index Register contents to memory
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-STY $12      Zero Page      $84   2     3     ------- 
-STY $12,X    Zero Page,X    $94   2     4     ------- 
-STY $1234    Absolute       $8C   3     4     ------- 
+STY $20      Zero Page      $84   2     3     ------- 
+STY $20,X    Zero Page,X    $94   2     4     ------- 
+STY $8080    Absolute       $8C   3     4     ------- 
 ```
 
 
@@ -1346,13 +1307,12 @@ STY $1234    Absolute       $8C   3     4     -------
 
 Set memory to zero
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-STZ $12      Zero Page      $64   2     3     ------- 
-STZ $12,X    Zero Page,X    $74   2     4     ------- 
-STZ $1234    Absolute       $9C   3     4     ------- 
-STZ $1234,X  Absolute,X     $9E   3     5     ------- 
+STZ $20      Zero Page      $64   2     3     ------- 
+STZ $20,X    Zero Page,X    $74   2     4     ------- 
+STZ $8080    Absolute       $9C   3     4     ------- 
+STZ $8080,X  Absolute,X     $9E   3     5     ------- 
 ```
 
 
@@ -1365,11 +1325,10 @@ STZ $1234,X  Absolute,X     $9E   3     5     -------
 
 Test and reset bit
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-TRB $12      Zero Page      $14   2     5     -Z----- 
-TRB $1234    Absolute       $1C   3     5     -Z----- 
+TRB $20      Zero Page      $14   2     5     -Z----- 
+TRB $8080    Absolute       $1C   3     5     -Z----- 
 ```
 
 Effectively an inverted AND between memory and the Accumulator. The bits that
@@ -1404,11 +1363,10 @@ STA $20  ; Store it back to memory.
 
 Test and set bit
 
-
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
-TSB $12      Zero Page      $04   2     5     -Z----- 
-TSB $1234    Absolute       $0C   3     5     -Z----- 
+TSB $20      Zero Page      $04   2     5     -Z----- 
+TSB $8080    Absolute       $0C   3     5     -Z----- 
 ```
 
 Performs an OR with each bit in the accumulator and memory.
@@ -1426,7 +1384,6 @@ data is 0.
 ### Txx
 
 Transfer between registers
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
@@ -1457,7 +1414,6 @@ TXS
 ### WAI
 
 Wait
-
 
 ```text
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
