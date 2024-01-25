@@ -1,5 +1,5 @@
 
-# Chapter 2: Editor
+# Chapter 3: Editor
 
 The X16 has a built-in screen editor that is backwards-compatible with the C64, but has many new features.
 
@@ -77,15 +77,19 @@ In regular BASIC text mode, the video controller supports 16 foreground colors a
 
 The new "swap fg/bg color" code is useful to change the background color of the cursor, like this:
 
-	PRINT CHR$(1);   : REM SWAP FG/BG
-	PRINT CHR$($1C); : REM SET FG COLOR TO RED
-	PRINT CHR$(1);   : REM SWAP FG/BG
+```basic
+PRINT CHR$(1);   : REM SWAP FG/BG
+PRINT CHR$($1C); : REM SET FG COLOR TO RED
+PRINT CHR$(1);   : REM SWAP FG/BG
+```
 
 The new BASIC instruction `COLOR` makes this easier, but the trick above can also be used from machine code programs.
 
 To set the background color of the complete screen, it just has to be cleared after setting the color:
 
-      PRINT CHR$(147);
+```basic
+PRINT CHR$(147);
+```
 
 ## Scrolling
 

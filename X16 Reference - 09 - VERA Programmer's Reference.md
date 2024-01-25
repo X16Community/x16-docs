@@ -2,26 +2,33 @@
 # Chapter 9: VERA Programmer's Reference
 
 This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA. 
-Which was originally written and conceived by Frank van den Hoef. The core of this
-document has been forked from Version 0.9 of the VERA. The original documentation
-can be found [here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md).
+Which was originally written and conceived by Frank van den Hoef. 
 
-The Commander X16 uses a modified version of VERA which includes extra functionality,
-notably the FX Aid additions. See [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference) 
+The VERA video chip supports resolutions up to 640x480 with up to 256 colors
+from a palette of 4096, two layers of either a bitmap or tiles, 128 sprites of
+up to 64x64 pixels in size. It can output VGA as well as a 525 line interlaced
+signal, either as NTSC or as RGB (Amiga-style).
+
+The FPGA core used in the Commander X16 has been forked from Version 0.9 of the
+VERA. The original documentation can be found
+[here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md).
+
+The Commander X16 uses a modified version of VERA which includes extra
+functionality, notably the FX Aid additions. See
+[Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference)
 for more information on the FX additions.
 
 The VERA consists of:
 
 * Video generator featuring:
-	* Multiple output formats (VGA, NTSC Composite, NTSC S-Video, RGB video) at a fixed resolution of 640x480@60Hz
-	* Support for 2 layers, both supporting either tile or bitmap mode.
-	* Support for up to 128 sprites.
-	* Embedded video RAM of 128kB.
-	* Palette with 256 colors selected from a total range of 4096 colors.
+  * Multiple output formats (VGA, NTSC Composite, NTSC S-Video, RGB video) at a fixed resolution of 640x480@60Hz
+  * Support for 2 layers, both supporting either tile or bitmap mode.
+  * Support for up to 128 sprites.
+  * Embedded video RAM of 128kB.
+  * Palette with 256 colors selected from a total range of 4096 colors.
 * 16-channel Programmable Sound Generator with multiple waveforms (Pulse, Sawtooth, Triangle, Noise)
 * High quality PCM audio playback from an 4kB FIFO buffer featuring up to 48kHz 16-bit stereo sound.
 * SPI controller for SecureDigital storage.
-
 
 # Registers
 
@@ -455,10 +462,27 @@ The VERA consists of:
 | $1FA00 - $1FBFF | Palette                    |
 | $1FC00 - $1FFFF | Sprite attributes          |
 
+The X16 KERNAL uses the following video memory layout:
+
+| Addresses     | Description                                               |
+|---------------|-----------------------------------------------------------|
+| $00000-$12BFF | 320x240@256c Bitmap                                       |
+| $12C00-$12FFF | *unused* (1024 bytes)                                     |
+| $13000-$1AFFF | Sprite Image Data (up to $1000 per sprite at 64x64 8-bit) |
+| $1B000-$1EBFF | Text Mode                                                 |
+| $1EC00-$1EFFF | *unused* (1024 bytes)                                     |
+| $1F000-$1F7FF | Charset                                                   |
+| $1F800-$1F9BF | *unused* (1024 bytes)                                     |
+| $1F9C0-$1F9FF | VERA PSG Registers (16 x 4 bytes)                         |
+| $1FA00-$1FBFF | VERA Color Palette (256 x 2 bytes)                        |
+| $1FC00-$1FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
+
+Application software is free to use any part of video RAM if it does not use the
+corresponding KERNAL functionality. To restore text mode, call `CINT` ($FF81).
+
 ***Important note:
 Video RAM locations 1F9C0-1FFFF contain registers for the PSG/Palette/Sprite attributes. Reading anywhere in VRAM will always read back the 128kB VRAM itself (not the contents of the (write-only) PSG/Palette/Sprite attribute registers). Writing to a location in the register area will write to the registers in addition to writing the value also to VRAM. Since the VRAM contains random values at startup the values read back in the register area will not correspond to the actual values in the write-only registers until they are written to once.
 Because of this it is highly recommended to initialize the area from 1F9C0-1FFFF at startup.***
-
 
 ## Video RAM access
 The video RAM (VRAM) isn't directly accessible on the CPU bus. VERA only exposes an address space of 32 bytes to the CPU as described in the section [Registers](#registers). To access the VRAM (which is 128kB in size) an indirection mechanism is used. First the address to be accessed needs to be set (ADDRx_L/ADDRx_M/ADDRx_H) and then the data on that VRAM address can be read from or written to via the DATA0/1 register. To make accessing the VRAM more efficient an auto-increment mechanism is present.

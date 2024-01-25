@@ -1,5 +1,5 @@
 
-# Chapter 7: Memory Map
+# Chapter 8: Memory Map
 
 The Commander X16 has 512 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM with up to 3.5MB of RAM or ROM available to cartridges.
 
