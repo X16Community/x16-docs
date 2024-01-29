@@ -82,7 +82,7 @@ Pin 1 is in the rear-left corner.
 |   Desc |  Pin |   | Pin  | Desc |
 |-------:|-----:|---|------|------|
 |   -12V |   1 |\[ \]| 2  | +12V  |
-|    GND |   3 |\[ "VERA FX Reference.md" \\]| 4  | +5V   |
+|    GND |   3 |\[ \]| 4  | +5V   |
 |AUDIO_L |   5 |\[ \]| 6  | GND   |
 |AUDIO_R |   7 |\[ \]| 8  | ROMB7 |
 |    IO3 |   9 |\[ \]| 10 | ROMB0 |
