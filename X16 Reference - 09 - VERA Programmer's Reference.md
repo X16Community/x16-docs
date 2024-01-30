@@ -455,34 +455,35 @@ The VERA consists of:
 
 ## VRAM address space layout
 
-| Address range   | Description                |
-| --------------- | -------------------------- |
-| $00000 - $1F9BF | Video RAM                  |
-| $1F9C0 - $1F9FF | PSG registers              |
-| $1FA00 - $1FBFF | Palette                    |
-| $1FC00 - $1FFFF | Sprite attributes          |
+| Address range     | Description                |
+| ----------------- | -------------------------- |
+| $0:0000 - $1:F9BF | Video RAM                  |
+| $1:F9C0 - $1:F9FF | PSG registers              |
+| $1:FA00 - $1:FBFF | Palette                    |
+| $1:FC00 - $1:FFFF | Sprite attributes          |
 
 The X16 KERNAL uses the following video memory layout:
 
-| Addresses     | Description                                               |
-|---------------|-----------------------------------------------------------|
-| $00000-$12BFF | 320x240@256c Bitmap                                       |
-| $12C00-$12FFF | *unused* (1024 bytes)                                     |
-| $13000-$1AFFF | Sprite Image Data (up to $1000 per sprite at 64x64 8-bit) |
-| $1B000-$1EBFF | Text Mode                                                 |
-| $1EC00-$1EFFF | *unused* (1024 bytes)                                     |
-| $1F000-$1F7FF | Charset                                                   |
-| $1F800-$1F9BF | *unused* (1024 bytes)                                     |
-| $1F9C0-$1F9FF | VERA PSG Registers (16 x 4 bytes)                         |
-| $1FA00-$1FBFF | VERA Color Palette (256 x 2 bytes)                        |
-| $1FC00-$1FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
+| Addresses       | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| $0:0000-$1:2BFF | 320x240@256c Bitmap                                       |
+| $1:2C00-$1:2FFF | *unused* (1024 bytes)                                     |
+| $1:3000-$1:AFFF | Sprite Image Data (up to $1000 per sprite at 64x64 8-bit) |
+| $1:B000-$1:EBFF | Text Mode                                                 |
+| $1:EC00-$1:EFFF | *unused* (1024 bytes)                                     |
+| $1:F000-$1:F7FF | Charset                                                   |
+| $1:F800-$1:F9BF | *unused* (1024 bytes)                                     |
+| $1:F9C0-$1:F9FF | VERA PSG Registers (16 x 4 bytes)                         |
+| $1:FA00-$1:FBFF | VERA Color Palette (256 x 2 bytes)                        |
+| $1:FC00-$1:FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
 
-Application software is free to use any part of video RAM if it does not use the
-corresponding KERNAL functionality. To restore text mode, call `CINT` ($FF81).
+**This memory map is not fixed**: All of the address space between $0:0000 and $1:F9BF is available for any use in machine language and compiled programs. You can completely re-arrange the buffers and tile definitions for your own needs. 
 
-***Important note:
-Video RAM locations 1F9C0-1FFFF contain registers for the PSG/Palette/Sprite attributes. Reading anywhere in VRAM will always read back the 128kB VRAM itself (not the contents of the (write-only) PSG/Palette/Sprite attribute registers). Writing to a location in the register area will write to the registers in addition to writing the value also to VRAM. Since the VRAM contains random values at startup the values read back in the register area will not correspond to the actual values in the write-only registers until they are written to once.
-Because of this it is highly recommended to initialize the area from 1F9C0-1FFFF at startup.***
+To restore the standard text mode, call `CINT` ($FF81).
+
+The registers in $1:F9C0-$1:FFFF are actually write-only. However, they share the same address as part of the video RAM. Be aware that when you read back the register data, you are actually reading the last value sent by the host system, which is not necessarily the value in the register.
+To make sure this data is filled with known values, we recommend fully initializng the registers before use. Normally, the X16 KERNAL handles this for you, but if you are writing a cartridge program, using the system with a custom ROM, or even running VERA on another computer, then you'll 
+need to make sure this block gets initialized to known values. 
 
 ## Video RAM access
 The video RAM (VRAM) isn't directly accessible on the CPU bus. VERA only exposes an address space of 32 bytes to the CPU as described in the section [Registers](#registers). To access the VRAM (which is 128kB in size) an indirection mechanism is used. First the address to be accessed needs to be set (ADDRx_L/ADDRx_M/ADDRx_H) and then the data on that VRAM address can be read from or written to via the DATA0/1 register. To make accessing the VRAM more efficient an auto-increment mechanism is present.
