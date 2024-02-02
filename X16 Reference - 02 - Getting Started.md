@@ -1,6 +1,6 @@
 # Chapter 2: Getting Started
 
-This is a brief guide to your first few minutes on the Commander X16. For a complete New User experience, please refer to the [Commander X16 User Guide](https://github.com/X16Community/x16-user-guide). 
+This is a brief guide to your first few minutes on the Commander X16. For a complete New User experience, please refer to the [Commander X16 User Guide](https://github.com/X16Community/x16-user-guide).
 
 ## Finding and starting programs
 
@@ -13,7 +13,7 @@ arrow keys to move around the screen and edit or re-enter input from previous
 interactions.
 
 The first thing you will want to do is view a list of files on your SD card.
-Type the below command and press the Return key (or Enter key) to see a list of 
+Type the below command and press the Return key (or Enter key) to see a list of
 files:
 
 ### DOS
@@ -66,7 +66,7 @@ hold Control, Alt, and press the Del key. (Or just press the RESET button.)
 
 The Commander X16's keyboard is a little different than a standard PC: there are
 three distinct modes of operation, and the keyboard can create graphic symbols
-known as PETSCII characters. There are also some special keys used for 
+known as PETSCII characters. There are also some special keys used for
 controlling the computer.
 
 ### PETSCII Characters
@@ -192,7 +192,7 @@ BOOT
 
 ### F-KEYS**
 
-The F-keys, also known as the "Function Keys" are pre-loaded with special 
+The F-keys, also known as the "Function Keys" are pre-loaded with special
 shortcuts:
 
 **F1** `LIST` Displays your currently loaded BASIC program.
@@ -219,7 +219,7 @@ found in chapter 13.
 
 ## WHAT IS `PC  RA RO AC XR YR SP NV#BDIZC`?
 
-There are times when the computer will drop to the MONITOR prompt. That looks 
+There are times when the computer will drop to the MONITOR prompt. That looks
 like this:
 
 ```text
@@ -239,4 +239,3 @@ MONITOR is covered in [Chapter 7](X16%20Reference%20-%2007%20-%20Machine%20Langu
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
-

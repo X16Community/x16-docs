@@ -327,8 +327,10 @@ All remaining keyboards are based on the respective Windows layouts. `EN-US/INT`
 
 The BASIC command `KEYMAP` allows activating a specific keyboard layout. It can be added to the auto-boot file, e.g.:
 
-	10 KEYMAP"NB-NO"
-	SAVE"AUTOBOOT.X16
+```basic
+10 KEYMAP"NB-NO"
+SAVE"AUTOBOOT.X16
+```
 
 ### Loadable Keyboard Layouts
 
@@ -362,8 +364,8 @@ The first byte of each of the 11 tables is the table ID which contains the encod
 | 0   | Shift              |
 
 * AltGr is represented by Ctrl+Alt.
-* ID $C6 represents Alt *or* AltGr (ISO only)
-* ID $C7 represents Shift+Alt *or* Shift+AltGr (ISO only)
+* ID $C6 represents Alt _or_ AltGr (ISO only)
+* ID $C7 represents Shift+Alt _or_ Shift+AltGr (ISO only)
 * Empty tables have an ID of $FF.
 
 The identifier is followed by 127 output codes for the keynum inputs 1-127.
@@ -385,8 +387,8 @@ The dead key table has one section for every dead key with the following layout:
 | ...  | ...                                          |
 | n-1  | terminator 0xFF                              |
 
-
 Custom layouts can be loaded from disk like this:
+
 ```BASIC
 BLOAD"KEYMAP",8,0,$A000
 ```
@@ -416,7 +418,7 @@ The key handler vector is in RAM bank 0 at addresses $ac03-$ac05.  The first two
 
 The editor will call your callback for every keystroke received and pass the PETSCII code in the A register with carry set.  If your handler does not want to override, simply return with carry set.
 
-If you do wish to override, return with carry clear.  The editor will then unblink the cursor and call your callback a second time with carry clear *for the same PETSCII code*.  This is your opportunity to override. Before returning, you are free to update the screen or perform other KERNAL API calls (with the exception of BASIN). At the end of your routine, set `A` to the PETSCII code you wish the editor to process. If you wish to suppress the input keystroke, set `A` to `0`.
+If you do wish to override, return with carry clear.  The editor will then unblink the cursor and call your callback a second time with carry clear _for the same PETSCII code_.  This is your opportunity to override. Before returning, you are free to update the screen or perform other KERNAL API calls (with the exception of BASIN). At the end of your routine, set `A` to the PETSCII code you wish the editor to process. If you wish to suppress the input keystroke, set `A` to `0`.
 
 ```ASM
 ram_bank = $00
@@ -542,20 +544,20 @@ exit:
 
 The following Function key macros are pre-defined for your convenience. These shortcuts only work in the screen editor. When a program is running, the F-keys generate the corresponding PETSCII character code.
 
-| Key | Function   | Comment
-|-----|------------|-----------
-| F1  | `LIST:`      | Lists the current program
-| F2  | `SAVE"@:`    | Press F2 and then type a filename to save your program. The `@:` instructs DOS to allow overwrite.
-| F3  | `LOAD "`     | Load a file directly, or cursor up over a file listing and press F3 to load a program.
-| F4  | 40/80      | Toggles between 40 and 80 column screen modes, clearing the screen. Pressing return is required to prevent accidental mode switches.
-| F5  | `RUN:`       | Run the current program.
-| F6  | `MONITOR`    | Opens the Supermon machine language monitor.
-| F7  | `DOS"$<cr>` | Displays a directory listing.
-| F8  | `DOS"`       | Issue DOS commands.
-| F9  | -          | Not defined.  Formerly cycled through keyboard layouts. Instead, use the `MENU` command to enter the X16 Control Panel, select one, and optionally save the layout as a boot preference.
-| F10 | -          | Not defined
-| F11 | -          | Not defined
-| F12 | debug      | debug features in emulators
+| Key | Function   | Comment   |
+|-----|------------|-----------|
+| F1  | `LIST:`    | Lists the current program |
+| F2  | `SAVE"@:`  | Press F2 and then type a filename to save your program. The `@:` instructs DOS to allow overwrite. |
+| F3  | `LOAD "`   | Load a file directly, or cursor up over a file listing and press F3 to load a program. |
+| F4  | 40/80      | Toggles between 40 and 80 column screen modes, clearing the screen. Pressing return is required to prevent accidental mode switches. |
+| F5  | `RUN:`     | Run the current program. |
+| F6  | `MONITOR`  | Opens the Supermon machine language monitor. |
+| F7  | `DOS"$<cr>`| Displays a directory listing. |
+| F8  | `DOS"`     | Issue DOS commands. |
+| F9  | -          | Not defined.  Formerly cycled through keyboard layouts. Instead, use the `MENU` command to enter the X16 Control Panel, select one, and optionally save the layout as a boot preference. |
+| F10 | -          | Not defined |
+| F11 | -          | Not defined |
+| F12 | debug      | debug features in emulators |
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

@@ -1,8 +1,8 @@
 
 # Chapter 9: VERA Programmer's Reference
 
-This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA. 
-Which was originally written and conceived by Frank van den Hoef. 
+This document describes the **V**ersatile **E**mbedded **R**etro **A**dapter or VERA.
+Which was originally written and conceived by Frank van den Hoef.
 
 The VERA video chip supports resolutions up to 640x480 with up to 256 colors
 from a palette of 4096, two layers of either a bitmap or tiles, 128 sprites of
@@ -11,7 +11,7 @@ signal, either as NTSC or as RGB (Amiga-style).
 
 The FPGA core used in the Commander X16 has been forked from Version 0.9 of the
 VERA. The original documentation can be found
-[here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md).
+[here](https://github.com/fvdhoef/vera-module/blob/rev4/doc/VERA%20Programmer's%20Reference.md#vera-programmers-reference).
 
 The Commander X16 uses a modified version of VERA which includes extra
 functionality, notably the FX Aid additions. See

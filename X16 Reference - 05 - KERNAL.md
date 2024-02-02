@@ -42,7 +42,7 @@ The following features must not be relied upon:
 The KERNAL [fully supports](#kernal-api-functions) the C64 KERNAL API.
 
 These routines have been stable ever since the C64 came out and are extensively documented
-in various resources dedicated to the C64. Currently, they are not documented *here* so if you
+in various resources dedicated to the C64. Currently, they are not documented _here_ so if you
 need to look them up, here is a very thorough [reference of these standard kernal routines](https://www.pagetable.com/c64ref/kernal/) (hosted on M. Steil's website).
 It integrates a dozen or so different sources for documentation about these routines.
 
@@ -167,7 +167,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
 | [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
-| `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key *[not yet implemented]* | | | C128 |
+| `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key _[not yet implemented]_ | | | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
@@ -293,7 +293,6 @@ Like with `CIOUT`, the status of the operation can be retrieved using the `READS
 
 ---
 
-
 ### Channel I/O
 
 ---
@@ -310,8 +309,8 @@ Registers affected: .A, .X, .Y, .C
 **Description:** Save the contents of a memory range to a file.  Unlike `SAVE`, this call does not write the start address to the beginning of the output file.
 
 `SETLFS` and `SETNAM` must be called beforehand.  
-A is address of zero page pointer to the start address,   
-X and Y contain the *exclusive* end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
+A is address of zero page pointer to the start address.  
+X and Y contain the _exclusive_ end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
 Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
 
 ---
@@ -340,19 +339,20 @@ Registers affected: .A, .X, .Y, .P
 
 **Description:** Loads a file from disk to memory.
 
-The behavior of `LOAD` can be modified by parameters passed to prior call to `SETLFS`.  In particular, the .Y register, which usually denotes the *secondary address*, has a specific meaning as follows:
+The behavior of `LOAD` can be modified by parameters passed to prior call to `SETLFS`.  In particular, the .Y register, which usually denotes the _secondary address_, has a specific meaning as follows:
+
 * .Y = 0: load to the address given in .X/.Y to the `LOAD` call, skipping the first two bytes of the file. (like `LOAD "FILE",8` in BASIC)
 * .Y = 1: load to the address given by the first two bytes of the file. The address in .X/.Y is ignored. (like `LOAD "FILE",8,1` in BASIC)
-* .Y = 2: load the entire file to the address given in .X/.Y to the `LOAD` call. This is also known as a *headerless* load. (like `BLOAD "FILE",8,1,$A000` in BASIC)
+* .Y = 2: load the entire file to the address given in .X/.Y to the `LOAD` call. This is also known as a _headerless_ load. (like `BLOAD "FILE",8,1,$A000` in BASIC)
 
 For the `LOAD` call itself, .X and .Y is the memory address to load
 the file into. .A controls where the file is to be loaded. On the X16, `LOAD` has an
 additional feature to load the contents of a file directly into VRAM.
 
-  * If the A register is zero, the kernal loads into system memory.
-  * If the A register is 1, the kernal performs a verify.
-  * If the A register is 2, the kernal loads into VRAM, starting from $00000 + the specified starting address.
-  * If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
+* If the A register is zero, the kernal loads into system memory.
+* If the A register is 1, the kernal performs a verify.
+* If the A register is 2, the kernal loads into VRAM, starting from $00000 + the specified starting address.
+* If the A register is 3, the kernal loads into VRAM, starting from $10000 + the specified starting address.
 
 (On the C64, if A is greater than or equal to 1, the kernal performs a verify)
 
@@ -392,7 +392,7 @@ Registers affected: .A, .X, .Y, .C
 **Description:** Save the contents of a memory range to a file. The (little-endian) start address is written to the file as the first two bytes of output, followed by the requested data.
 
 `SETLFS` and `SETNAM` must be called beforehand.  
-A is address of zero page pointer to start address,   
+A is address of zero page pointer to start address.  
 X = low byte of end address + 1, Y = high byte of end address.  
 If C is zero there were no errors; 1 is an error in which case A will have the error  
 
@@ -414,23 +414,23 @@ A is the logical file number, X is the device number, and Y is the secondary add
 Since multiple files can be open (with some exceptions), the value of A specifies the file
 number. If only one file is being opened at a time, $01 can be used.
 
-The device number corresponds to the hardware device where the file lives. On the X16, 
+The device number corresponds to the hardware device where the file lives. On the X16,
 $08 would be the SD card.
 
 The secondary address has some special meanings:  
 
 When used with `OPEN` on disk type devices, the following applies:  
 
-  * 0 = Load (open for read)
-  * 1 = Save (open for write)
-  * 2-14 = Read mode, by default. Write, Append, and Modify modes can be specified in the SETNAM filename string as the third argument, e.g. `"FILE.DAT,S,W"` for write mode. The seek command "P" is available in any mode.
-  * 15 = Command Channel (for sending special commands to CMDR-DOS or the disk device)
+* 0 = Load (open for read)
+* 1 = Save (open for write)
+* 2-14 = Read mode, by default. Write, Append, and Modify modes can be specified in the SETNAM filename string as the third argument, e.g. `"FILE.DAT,S,W"` for write mode. The seek command "P" is available in any mode.
+* 15 = Command Channel (for sending special commands to CMDR-DOS or the disk device)
 
 When used with `LOAD` the following applies:
 
-  * 0 = Load the data to address specified in the X and Y register of the LOAD call, regardless of the address header. The two-byte header itself is not loaded into RAM.
-  * 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
-  * 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
+* 0 = Load the data to address specified in the X and Y register of the LOAD call, regardless of the address header. The two-byte header itself is not loaded into RAM.
+* 1 = Load to the address specified in the file's header. The two-byte header itself is not loaded into RAM.
+* 2 = Load the data to address specified in the X and Y register of the LOAD call. The entire file is loaded ("headerless").
 
 For more information see [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos)
 
@@ -450,7 +450,7 @@ Registers affected: .A, .X, .Y
 
 For example:
 
-```
+```asm
   lda #$08
   ldx #<filename
   ldy #>filename
@@ -522,7 +522,7 @@ Call address: $FEED
 
 **Description:** This function decompresses an LZSA2-compressed data block from the location passed in r0 and outputs the decompressed data at the location passed in r1. After the call, r1 will be updated with the location of the last output byte plus one.
 
-If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory ($9F23 or $9F24), for example. Note that decompressing *from* I/O is not supported.
+If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory ($9F23 or $9F24), for example. Note that decompressing _from_ I/O is not supported.
 
 **Notes**:
 
@@ -561,7 +561,7 @@ Call address: $FF99
 Communication registers: P (Carry), .A, .X, .Y  
 Registers affected: .A, .X, .Y  
 
-**Description:** Original C64 function which gets or 
+**Description:** Original C64 function which gets or
 sets the top of the usable address in RAM. On the X16,
 it additionally provides the number of RAM banks
 available on the system and can even be used to set
@@ -582,7 +582,7 @@ On the X16, calling MEMTOP with the carry flag set
 will return the number of available RAM banks on
 the system in A. For example:
 
-```
+```asm
   sec
   jsr MEMTOP
   sta zp_NUM_BANKS
@@ -592,7 +592,7 @@ If the system has 512k of banked RAM, zp_NUM_BANKS
 will contain $40 (64). For 1024k, $80; for 1536k, $C0.
 For 2048k, the result will be $00 (which can be thought
 of as $100, or 256). It is possible to have other
-values (e.g. $42), such as if the system has bad 
+values (e.g. $42), such as if the system has bad
 banked RAM.
 
 ---
@@ -643,7 +643,7 @@ Registers affected: .A, .X, .Y
 
 **Description:** The routine `clock_get_date_time` returns the state of the system's real-time-clock. The register assignment is identical to `clock_set_date_time`.
 
-On the Commander X16, the *jiffies* field is unsupported and will always read back as 0.
+On the Commander X16, the _jiffies_ field is unsupported and will always read back as 0.
 
 ---
 
@@ -723,6 +723,7 @@ Registers affected: -
 Keyboard layout identifiers are in the form "DE", "DE-CH" etc.
 
 ---
+
 #### Function Name: SCNKEY
 
 Purpose: Poll the SMC for a keystroke, and add it to the X16's buffer.  
@@ -733,7 +734,7 @@ Error returns: None
 Stack requirements: 0  
 Registers affected: .A, .X., .Y
 
-**Description:** 
+**Description:**
 
 This routine is called by the default KERNAL interrupt service routine in order to poll a keystroke from the System Management Controller and place it in the KERNAL's keyboard buffer. Unless the KERNAL ISR is being bypassed or supplemented, it is not normally necessary to call this routine from user code.  
 
@@ -822,6 +823,7 @@ If available, the movement of the scroll wheel since the last call to this funct
 by a negative value, and moving it towards the user is represented by a positive value. If the connected mouse has no scroll wheel, the value 0 is returned in the .X register.
 
 **EXAMPLE:**
+
 ```ASM
 LDX #$70
 JSR mouse_get ; get mouse position in $70/$71 (X) and $72/$73 (Y)
@@ -927,6 +929,7 @@ $FEC6: `i2c_read_byte` - read a byte from an I2C device
 $FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 ---
+
 #### Function Name: i2c_batch_read
 
 Purpose: Read bytes from a given I2C device into a RAM location  
@@ -955,6 +958,7 @@ sta r1+1
 clc
 jsr i2c_batch_read ; read 500 bytes from I2C device $50 into RAM starting at $0400
 ```
+
 ---
 
 #### Function Name: i2c_batch_write
@@ -990,9 +994,8 @@ jsr i2c_batch_write ; write 500 bytes to I2C device $50 from RAM
                     ; in the I2C flash. This, of course, varies
                     ; between various I2C device types.
 ```
+
 ---
-
-
 
 #### Function Name: i2c_read_byte
 
@@ -1012,6 +1015,7 @@ LDX #$6F ; RTC device
 LDY #$20 ; start of NVRAM inside RTC
 JSR i2c_read_byte ; read first byte of NVRAM
 ```
+
 ---
 
 #### Function Name: i2c_write_byte
@@ -1089,7 +1093,7 @@ Error returns: None
 
 The framebuffer API is a low-level graphics API that completely abstracts the framebuffer by exposing a minimal set of high-performance functions. It is useful as an abstraction and as a convenience library for applications that need high performance framebuffer access.
 
-```
+```asm
 $FEF6: `FB_init` - enable graphics mode  
 $FEF9: `FB_get_info` - get screen size and color depth  
 $FEFC: `FB_set_palette` - set (parts of) the palette  
@@ -1108,7 +1112,7 @@ $FF1D: `FB_move_pixels` - copy horizontally consecutive pixels to a different po
 
 All calls are vectored, which allows installing a replacement framebuffer driver.
 
-```
+```asm
 $02E4: I_FB_init  
 $02E6: I_FB_get_info  
 $02E8: I_FB_set_palette  

@@ -10,11 +10,11 @@ The following functions are available from machine language code after setting t
 ## Format Conversions
 
 | Address | Symbol   | Description                                                                                 |
-|---------|----------|---------------------------------------------------------------------------------------------| 
+|---------|----------|---------------------------------------------------------------------------------------------|
 | $FE00   | `AYINT`  | convert floating point to integer (signed word)                                             |
 | $FE03   | `GIVAYF` | convert integer (signed word) to floating point                                             |
 | $FE06   | `FOUT`   | convert floating point to ASCII string                                                      |
-| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. *Caveat! Read below!* |
+| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. *Caveat! Read below!_ |
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                        |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                           |
 
@@ -25,7 +25,7 @@ that is inside BASIC, and so it requires much of the BASIC zeropage to be intact
 The reason is that that routine ultimately relies on some internal BASIC routines that use a lot of BASIC zero page space.
 Ideally in the future, the `VAL_1` routine gets a new implementation that doesn't rely on the code in BASIC, thereby removing this restriction.
 
-#### X16 Additions
+**X16 Additions**
 
 The following calls are new to the X16 and were not part of the C128 math library API:
 
@@ -35,7 +35,6 @@ The following calls are new to the X16 and were not part of the C128 math librar
 | $FE8A  | `FLOATS` | FAC = (s16)facho+1:facho                        |
 | $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = u32(FAC)        |
 | $FE93  | `FOUTC`  | Convert FAC to ASCIIZ string at fbuffr - 1 + .Y |
-
 
 ## Movement
 
@@ -49,14 +48,13 @@ The following calls are new to the X16 and were not part of the C128 math librar
 | $FE69  | `MOVFA`  | move ARG to FACC                     |
 | $FE6C  | `MOVAF`  | move FACC to ARG                     |
 
-#### X16 Additions
+**X16 Additions**
 
 The following calls are new to the X16 and were not part of the C128 math library API:
 
 | Address | Symbol  | Description                                     |
 |---------|---------|-------------------------------------------------|
 | $FE81  | `MOVEF` | ARG = FAC    (just use MOVAF)                   |
-
 
 ## Math Functions
 
@@ -87,7 +85,7 @@ The following calls are new to the X16 and were not part of the C128 math librar
 | $FE54  | `FCOMP`  | .A = compare FACC with MEM            |
 | $FE57  | `RND_0`  | FACC = random floating point number   |
 
-#### X16 Additions to math functions
+**X16 Additions to math functions**
 
 The following calls are new to the X16 and were not part of the C128 math library API:
 
@@ -104,24 +102,23 @@ The following calls are new to the X16 and were not part of the C128 math librar
 | $FE96  | `POLYX`  | Polynomial Evaluation 1 (SIN/COS/ATN/LOG) |
 | $FE99  | `POLY`   | Polynomial Evaluation 2 (EXP)             |
 
-
 ## How to use the routines
 
 **Concepts:**
 
 * **FACC** (sometimes abbreviated to FAC): the floating point accumulator. You can compare this to the 6502 CPU's .A register,
-  which is the accumulator for most integer operations performed by the CPU. 
+  which is the accumulator for most integer operations performed by the CPU.
   FACC is the primary floating point register. Calculations are done on the value in this register,
   usually combined with ARG. After the operation, usually the original value in FACC has been replaced by the result of the calculation.
 * **ARG**: the second floating point register, used in most calculation functions. Often the value in this register will be lost after a calculation.
 * **MEM**: means a floating point value stored in system memory somewhere.  The format is [40 bits (5 bytes) Microsoft binary format](https://en.wikipedia.org/wiki/Microsoft_Binary_Format).
-  To be able to work with given values in calculations, they need to be stored in memory somewhere in this format. 
+  To be able to work with given values in calculations, they need to be stored in memory somewhere in this format.
   To do this you'll likely need to use a separate program to pre-convert floating point numbers to this format, unless you are using a compiler that
   directly supports it.
 
-*Note that FACC and ARG are just a bunch of zero page locations. This means you can poke around in them. 
+*Note that FACC and ARG are just a bunch of zero page locations. This means you can poke around in them.
 But that's not good practice because their locations aren't guaranteed/public, and the format is slightly different
-than how the 5-byte floats are normally stored into memory. Just use one of the Movement routines to 
+than how the 5-byte floats are normally stored into memory. Just use one of the Movement routines to
 copy values into or out of FACC and ARG.*
 
 To perform a floating point calculation, follow the following pattern:
@@ -180,8 +177,6 @@ flt_g:      .byte  $84, $1c, $f5, $c2, $8f  ; float 9.81
 flt_time:   .byte  $83, $20, $00, $00, $00  ; float 5.0
 flt_two:    .byte  $82, $00, $00, $00, $00  ; float 2.0
 ```
-
-
 
 ## Notes
 

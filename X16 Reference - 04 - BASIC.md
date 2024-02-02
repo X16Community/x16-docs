@@ -298,7 +298,6 @@ Note: If the file is loaded to high RAM (starting in the range `$A000-$BFFF`), a
 
 After a successful load, `$030D` and `$030E` will contain the address of the final byte loaded + 1.  If relevant, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
-
 **EXAMPLES of BLOAD:**
 
 ```BASIC
@@ -377,8 +376,8 @@ The string can contain printable ASCII characters (`CHR$($20)` to `CHR$($7E)`), 
 **EXAMPLE of CLOSE Statement:**
 
 ```BASIC
-	CLOSE 0   : REM CLOSE FILE OPENED AS 0
-	CLOSE 4   : REM CLOSE FILE OPENED AS 4
+CLOSE 0   : REM CLOSE FILE OPENED AS 0
+CLOSE 4   : REM CLOSE FILE OPENED AS 4
 ```
 
 ### CLS
@@ -448,7 +447,6 @@ EDIT "README.TXT"
 
 A more elaborate X16-Edit manual can be found [here](https://github.com/X16Community/x16-rom/blob/master/x16-edit/docs/manual.pdf)
 
-
 ### EXEC
 
 **TYPE: Command**  
@@ -468,7 +466,6 @@ POKE PEEK($30D)+(PEEK($30E)*256),0 : REM NULL TERMINATE IN END BANK
 EXEC $A000,1
 
 ```
-
 
 ### FMCHORD
 
@@ -501,7 +498,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 150 FMCHORD 1,"RRR" : REM RELEASE THE CHANNELS THAT ARE PLAYING THE CHORD
 ```
 
-This will play the first few lines of *Silent Night* with a vibraphone lead and organ accompaniment.
+This will play the first few lines of _Silent Night* with a vibraphone lead and organ accompaniment.
 
 ### FMDRUM
 
@@ -721,7 +718,7 @@ This command sets a byte in NVRAM on the RTC to the value `$80`
 
 **Action:** Return the state of a joystick.
 
-`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](X16%20Reference%20-%2004%20-%20KERNAL.md#function-name-joystick_get) for details.
+`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](X16%20Reference%20-%2005%20-%20KERNAL.md#function-name-joystick_get) for details.
 
 If no controller is connected to the SNES port (or no keyboard is connected), the function returns -1. Otherwise, the result is a bit field, with pressed buttons `OR`ed together:
 
@@ -818,7 +815,6 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 40 END
 50 PRINT "YOU TYPED AN EMPTY STRING: ";A$
 ```
-
 
 ### LINPUT&#35;
 
@@ -918,7 +914,7 @@ MENU
 **TYPE: Command**  
 **FORMAT: MON (Alternative: MONITOR)**
 
-**Action:** This command enters the machine language monitor. See the [dedicated chapter](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor) for a  description.
+**Action:** This command enters the machine language monitor. See the [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor) for a  description.
 
 **EXAMPLE of MON Statement:**
 
@@ -970,7 +966,6 @@ MOUSE 0 : REM DISABLE MOUSE
 40 MOVSPR 1,320,200
 ```
 
-
 ### MX/MY/MB
 
 **TYPE: System variable**  
@@ -1007,7 +1002,7 @@ REM SIMPLE DRAWING PROGRAM
 ### MWHEEL
 
 **TYPE: System variable**  
-**FORMAT: MWHEEL** 
+**FORMAT: MWHEEL**
 
 **Action:** Return the mouse scroll wheel movement since the value was last read. The value is negative if the scroll wheel is
 moved away from the user, and positive if it is moved towards the user. The range of the returned value is -128 to +127.
@@ -1021,7 +1016,7 @@ moved away from the user, and positive if it is moved towards the user. The rang
 
 **EXAMPLE of OLD Statement:**
 
-```
+```BASIC
 OLD
 ```
 
@@ -1040,7 +1035,6 @@ OLD
 RUN
 0823
 ```
-
 
 ### POWEROFF
 
@@ -1250,9 +1244,10 @@ REBOOT
 **Action:** Renumbers a BASIC program while updating the line number arguments of GOSUB, GOTO, RESTORE, RUN, and THEN.
 
 Optional arguments:  
-- The line number of the first line after renumbering, default: **10**  
-- The value of the increment for subsequent lines, default **10**  
-- The earliest old line to start renumbering at, default: **0**  
+
+* The line number of the first line after renumbering, default: **10**  
+* The value of the increment for subsequent lines, default **10**  
+* The earliest old line to start renumbering at, default: **0**  
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
@@ -1373,7 +1368,7 @@ The above example saves your Hello World program to the SD card.
 SAVE "@:HELLO.PRG",9
 ```
 
-The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port. 
+The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port.
 
 ### SCREEN
 
@@ -1382,7 +1377,7 @@ The above example overwrites an existing file on drive 9, which would be a Commo
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes $00 and $03.
+For a list of supported modes, see [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor). The value of -1 toggles between modes $00 and $03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1437,7 +1432,6 @@ Note: If VERA's sprite layer is disabled when the `SPRITE` command is called, th
 40 MOVSPR 1,320,200
 ```
 
-
 ### SPRMEM
 
 **TYPE: Command**  
@@ -1460,7 +1454,6 @@ The first three arguments are required, but the last one is optional.
 30 SPRITE 1,3,0,0,3,3
 40 MOVSPR 1,320,200
 ```
-
 
 ### STRPTR
 
@@ -1511,7 +1504,7 @@ When the routine is over, the CPU registers will be loaded back in to these loca
 
 Push a &lt;CR&gt; into the keyboard buffer.
 
-```
+```BASIC
 POKE $30C,13
 SYS $FEC3
 ```
@@ -1556,7 +1549,6 @@ In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
 BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
 
-
 **EXAMPLE of VPEEK Function:**
 
 ```BASIC
@@ -1574,7 +1566,6 @@ In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
 BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
 BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
-
 
 **EXAMPLE of VPOKE Statement:**
 
