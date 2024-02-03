@@ -498,7 +498,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 150 FMCHORD 1,"RRR" : REM RELEASE THE CHANNELS THAT ARE PLAYING THE CHORD
 ```
 
-This will play the first few lines of _Silent Night* with a vibraphone lead and organ accompaniment.
+This will play the first few lines of _Silent Night_ with a vibraphone lead and organ accompaniment.
 
 ### FMDRUM
 

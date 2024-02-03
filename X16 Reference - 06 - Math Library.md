@@ -14,7 +14,7 @@ The following functions are available from machine language code after setting t
 | $FE00   | `AYINT`  | convert floating point to integer (signed word)                                             |
 | $FE03   | `GIVAYF` | convert integer (signed word) to floating point                                             |
 | $FE06   | `FOUT`   | convert floating point to ASCII string                                                      |
-| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. *Caveat! Read below!_ |
+| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. _Caveat! Read below!_ |
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                        |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                           |
 
