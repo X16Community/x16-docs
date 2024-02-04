@@ -1,10 +1,15 @@
+
 # Chapter 2: Getting Started
 
-This is a brief guide to your first few minutes on the Commander X16. For a complete New User experience, please refer to the [Commander X16 User Guide](https://github.com/X16Community/x16-user-guide).
+This is a brief guide to your first few minutes on the Commander X16. For a
+complete New User experience, please refer to the
+[Commander X16 User Guide](https://github.com/X16Community/x16-user-guide).
 
 ## Finding and starting programs
 
-When starting your Commander X16, you'll notice that it's not like other computers. There is no GUI, and command line commands like `DIR` or `LS` don't get you anywhere. Here are some quick tips to getting started:
+When starting your Commander X16, you'll notice that it's not like other
+computers. There is no GUI, and command line commands like `DIR` or `LS` don't
+get you anywhere. Here are some quick tips to getting started:
 
 The Commander X16 uses a full screen interface known as "Editor". This was unique
 when it was introduced on the PET in 1977, when most computers still treated the
@@ -20,7 +25,8 @@ files:
 
 `DOS "$"`
 
-You can also type `@$` and press Return. All of the commands you type must be followed by the Return or Enter key, to actually execute the command.
+You can also type `@$` and press Return. All of the commands you type must be
+followed by the Return or Enter key, to actually execute the command.
 
 Let's try some variations on this command:
 
