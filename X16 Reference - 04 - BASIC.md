@@ -464,7 +464,16 @@ A more elaborate X16-Edit manual can be found [here](https://github.com/X16Commu
 BLOAD "MYPROGRAM.BAS",8,1,$A000 : REM "BANK PEEK(0)" NO LONGER NEEDED
 POKE PEEK($30D)+(PEEK($30E)*256),0 : REM NULL TERMINATE IN END BANK
 EXEC $A000,1
+```
 
+This program will load a plain ASCII or PETSCII FILE.BAS from disk and tokenize
+it for you:
+
+```BASIC
+10 BLOAD "FILE.BAS", 8, 1, $A000
+20 POKE PEEK(781) + 256 * PEEK(782), 0
+30 EXEC $A000, 1
+40 NEW
 ```
 
 ### FMCHORD

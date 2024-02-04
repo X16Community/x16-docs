@@ -30,7 +30,7 @@ first.
 * [Chapter 2: Getting Started](X16%20Reference%20-%2002%20-%20Getting%20Started.md#chapter-2-getting-started)
 * [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor)
 * [Chapter 4: BASIC](X16%20Reference%20-%2004%20-%20BASIC.md#chapter-4-basic-programming)
-* [Chapter 5: KERNAL](X16%20Reference%20-%2005%20-%20KERNAL.md#chapter-5-kernal#chapter-5-kernal)  
+* [Chapter 5: KERNAL](X16%20Reference%20-%2005%20-%20KERNAL.md#chapter-5-kernal)  
 * [Chapter 6: Math Library](X16%20Reference%20-%2006%20-%20Math%20Library.md#chapter-6-math-library)  
 * [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor)  
 * [Chapter 8: Memory Map](X16%20Reference%20-%2008%20-%20Memory%20Map.md#chapter-8-memory-map)  
