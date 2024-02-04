@@ -190,7 +190,7 @@ SAVE "@:AUTOBOOT.X16"
 BOOT
 ```
 
-### F-KEYS**
+### F-KEYS
 
 The F-keys, also known as the "Function Keys" are pre-loaded with special
 shortcuts:
