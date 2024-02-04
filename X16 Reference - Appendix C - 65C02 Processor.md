@@ -1,3 +1,4 @@
+
 # Appendix C: The 65C02 Processor
 
 This is not meant to be a complete manual on the 65C02 processor, though is
@@ -26,55 +27,55 @@ programs to malfunction on these computers.
 
 ## Instructions By Number
 
-|            | x0          | x1          | x2          | x3          | x4          | x5          | x6          | x7          | x8          | x9          | xA          | xB          | xC          | xD          | xE          | xF          |
-|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-|0x           |[BRK](#brk)|[ORA](#ora)|||[TSB](#tsb)|[ORA](#ora)|[ASL](#asl)|[RMB0](#rmbx)|[PHP](#pha)|[ORA](#ora)|[ASL](#asl)||[TSB](#tsb)|[ORA](#ora)|[ASL](#asl)|[BBR0](#bbrx)|
-|1x           |[BPL](#bra)|[ORA](#ora)|[ORA](#ora)||[TRB](#trb)|[ORA](#ora)|[ASL](#asl)|[RMB1](#rmbx)|[CLC](#clc)|[ORA](#ora)|[INC](#inc)||[TRB](#trb)|[ORA](#ora)|[ASL](#asl)|[BBR1](#bbrx)|
-|2x           |[JSR](#jsr)|[AND](#and)|||[BIT](#bit)|[AND](#and)|[ROL](#rol)|[RMB2](#rmbx)|[PLP](#pla)|[AND](#and)|[ROL](#rol)||[BIT](#bit)|[AND](#and)|[ROL](#rol)|[BBR2](#bbrx)|
-|3x           |[BMI](#bra)|[AND](#and)|[AND](#and)||[BIT](#bit)|[AND](#and)|[ROL](#rol)|[RMB3](#rmbx)|[SEC](#sec)|[AND](#and)|[DEC](#dec)||[BIT](#bit)|[AND](#and)|[ROL](#rol)|[BBR3](#bbrx)|
-|4x           |[RTI](#rti)|[EOR](#eor)||||[EOR](#eor)|[LSR](#lsr)|[RMB4](#rmbx)|[PHA](#pha)|[EOR](#eor)|[LSR](#lsr)||[JMP](#jmp)|[EOR](#eor)|[LSR](#lsr)|[BBR4](#bbrx)|
-|5x           |[BVC](#bra)|[EOR](#eor)|[EOR](#eor)|||[EOR](#eor)|[LSR](#lsr)|[RMB5](#rmbx)|[CLI](#cli)|[EOR](#eor)|[PHY](#pha)|||[EOR](#eor)|[LSR](#lsr)|[BBR5](#bbrx)|
-|6x           |[RTS](#rts)|[ADC](#adc)|||[STZ](#stz)|[ADC](#adc)|[ROR](#ror)|[RMB6](#rmbx)|[PLA](#pla)|[ADC](#adc)|[ROR](#ror)||[JMP](#jmp)|[ADC](#adc)|[ROR](#ror)|[BBR6](#bbrx)|
-|7x           |[BVS](#bra)|[ADC](#adc)|[ADC](#adc)||[STZ](#stz)|[ADC](#adc)|[ROR](#ror)|[RMB7](#rmbx)|[SEI](#sei)|[ADC](#adc)|[PLY](#pla)||[JMP](#jmp)|[ADC](#adc)|[ROR](#ror)|[BBR7](#bbrx)|
-|8x           |[BRA](#bra)|[STA](#sta)|||[STY](#sty)|[STA](#sta)|[STX](#stx)|[SMB0](#smbx)|[DEY](#dec)|[BIT](#bit)|[TXA](#txx)||[STY](#sty)|[STA](#sta)|[STX](#stx)|[BBS0](#bbsx)|
-|9x           |[BCC](#bra)|[STA](#sta)|[STA](#sta)||[STY](#sty)|[STA](#sta)|[STX](#stx)|[SMB1](#smbx)|[TYA](#txx)|[STA](#sta)|[TXS](#txx)||[STZ](#stz)|[STA](#sta)|[STZ](#stz)|[BBS1](#bbsx)|
-|Ax           |[LDY](#ldy)|[LDA](#lda)|[LDX](#ldx)||[LDY](#ldy)|[LDA](#lda)|[LDX](#ldx)|[SMB2](#smbx)|[TAY](#txx)|[LDA](#lda)|[TAX](#txx)||[LDY](#ldy)|[LDA](#lda)|[LDX](#ldx)|[BBS2](#bbsx)|
-|Bx           |[BCS](#bra)|[LDA](#lda)|[LDA](#lda)||[LDY](#ldy)|[LDA](#lda)|[LDX](#ldx)|[SMB3](#smbx)|[CLV](#clv)|[LDA](#lda)|[TSX](#txx)||[LDY](#ldy)|[LDA](#lda)|[LDX](#ldx)|[BBS3](#bbsx)|
-|Cx           |[CPY](#cpy)|[CMP](#cmp)|||[CPY](#cpy)|[CMP](#cmp)|[DEC](#dec)|[SMB4](#smbx)|[INY](#inc)|[CMP](#cmp)|[DEX](#dec)|[WAI](#wai)|[CPY](#cpy)|[CMP](#cmp)|[DEC](#dec)|[BBS4](#bbsx)|
-|Dx           |[BNE](#bra)|[CMP](#cmp)|[CMP](#cmp)|||[CMP](#cmp)|[DEC](#dec)|[SMB5](#smbx)|[CLD](#cld)|[CMP](#cmp)|[PHX](#pha)|[STP](#stp)||[CMP](#cmp)|[DEC](#dec)|[BBS5](#bbsx)|
-|Ex           |[CPX](#cpx)|[SBC](#sbc)|||[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[SMB6](#smbx)|[INX](#inc)|[SBC](#sbc)|[NOP](#nop)||[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[BBS6](#bbsx)|
-|Fx           |[BEQ](#bra)|[SBC](#sbc)|[SBC](#sbc)|||[SBC](#sbc)|[INC](#inc)|[SMB7](#smbx)|[SED](#sed)|[SBC](#sbc)|[PLX](#pla)|||[SBC](#sbc)|[INC](#inc)|[BBS7](#bbsx)|
+|             | x0         | x1         | x2         | x3         | x4         | x5         | x6         | x7         | x8         | x9         | xA         | xB         | xC         | xD         | xE         | xF         |
+|-------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
+|0x           |[BRK](#brk) |[ORA](#ora) |            |            |[TSB](#tsb) |[ORA](#ora) |[ASL](#asl) |[RMB0](#rmbx)|[PHP](#pha) |[ORA](#ora) |[ASL](#asl) |            |[TSB](#tsb) |[ORA](#ora) |[ASL](#asl) |[BBR0](#bbrx)|
+|1x           |[BPL](#bra) |[ORA](#ora) |[ORA](#ora) |            |[TRB](#trb) |[ORA](#ora) |[ASL](#asl) |[RMB1](#rmbx)|[CLC](#clc) |[ORA](#ora) |[INC](#inc) |            |[TRB](#trb) |[ORA](#ora) |[ASL](#asl) |[BBR1](#bbrx)|
+|2x           |[JSR](#jsr) |[AND](#and) |            |            |[BIT](#bit) |[AND](#and) |[ROL](#rol) |[RMB2](#rmbx)|[PLP](#pla) |[AND](#and) |[ROL](#rol) |            |[BIT](#bit) |[AND](#and) |[ROL](#rol) |[BBR2](#bbrx)|
+|3x           |[BMI](#bra) |[AND](#and) |[AND](#and) |            |[BIT](#bit) |[AND](#and) |[ROL](#rol) |[RMB3](#rmbx)|[SEC](#sec) |[AND](#and) |[DEC](#dec) |            |[BIT](#bit) |[AND](#and) |[ROL](#rol) |[BBR3](#bbrx)|
+|4x           |[RTI](#rti) |[EOR](#eor) |            |            |            |[EOR](#eor) |[LSR](#lsr) |[RMB4](#rmbx)|[PHA](#pha) |[EOR](#eor) |[LSR](#lsr) |            |[JMP](#jmp) |[EOR](#eor) |[LSR](#lsr) |[BBR4](#bbrx)|
+|5x           |[BVC](#bra) |[EOR](#eor) |[EOR](#eor) |            |            |[EOR](#eor) |[LSR](#lsr) |[RMB5](#rmbx)|[CLI](#cli) |[EOR](#eor) |[PHY](#pha) |            |            |[EOR](#eor) |[LSR](#lsr) |[BBR5](#bbrx)|
+|6x           |[RTS](#rts) |[ADC](#adc) |            |            |[STZ](#stz) |[ADC](#adc) |[ROR](#ror) |[RMB6](#rmbx)|[PLA](#pla) |[ADC](#adc) |[ROR](#ror) |            |[JMP](#jmp) |[ADC](#adc) |[ROR](#ror) |[BBR6](#bbrx)|
+|7x           |[BVS](#bra) |[ADC](#adc) |[ADC](#adc) |            |[STZ](#stz) |[ADC](#adc) |[ROR](#ror) |[RMB7](#rmbx)|[SEI](#sei) |[ADC](#adc) |[PLY](#pla) |            |[JMP](#jmp) |[ADC](#adc) |[ROR](#ror) |[BBR7](#bbrx)|
+|8x           |[BRA](#bra) |[STA](#sta) |            |            |[STY](#sty) |[STA](#sta) |[STX](#stx) |[SMB0](#smbx)|[DEY](#dec) |[BIT](#bit) |[TXA](#txx) |            |[STY](#sty) |[STA](#sta) |[STX](#stx) |[BBS0](#bbsx)|
+|9x           |[BCC](#bra) |[STA](#sta) |[STA](#sta) |            |[STY](#sty) |[STA](#sta) |[STX](#stx) |[SMB1](#smbx)|[TYA](#txx) |[STA](#sta) |[TXS](#txx) |            |[STZ](#stz) |[STA](#sta) |[STZ](#stz) |[BBS1](#bbsx)|
+|Ax           |[LDY](#ldy) |[LDA](#lda) |[LDX](#ldx) |            |[LDY](#ldy) |[LDA](#lda) |[LDX](#ldx) |[SMB2](#smbx)|[TAY](#txx) |[LDA](#lda) |[TAX](#txx) |            |[LDY](#ldy) |[LDA](#lda) |[LDX](#ldx) |[BBS2](#bbsx)|
+|Bx           |[BCS](#bra) |[LDA](#lda) |[LDA](#lda) |            |[LDY](#ldy) |[LDA](#lda) |[LDX](#ldx) |[SMB3](#smbx)|[CLV](#clv) |[LDA](#lda) |[TSX](#txx) |            |[LDY](#ldy) |[LDA](#lda) |[LDX](#ldx) |[BBS3](#bbsx)|
+|Cx           |[CPY](#cpy) |[CMP](#cmp) |            |            |[CPY](#cpy) |[CMP](#cmp) |[DEC](#dec) |[SMB4](#smbx)|[INY](#inc) |[CMP](#cmp) |[DEX](#dec) |[WAI](#wai) |[CPY](#cpy) |[CMP](#cmp) |[DEC](#dec) |[BBS4](#bbsx)|
+|Dx           |[BNE](#bra) |[CMP](#cmp) |[CMP](#cmp) |            |            |[CMP](#cmp) |[DEC](#dec) |[SMB5](#smbx)|[CLD](#cld) |[CMP](#cmp) |[PHX](#pha) |[STP](#stp) |            |[CMP](#cmp) |[DEC](#dec) |[BBS5](#bbsx)|
+|Ex           |[CPX](#cpx) |[SBC](#sbc) |            |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[SMB6](#smbx)|[INX](#inc) |[SBC](#sbc) |[NOP](#nop) |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[BBS6](#bbsx)|
+|Fx           |[BEQ](#bra) |[SBC](#sbc) |[SBC](#sbc) |            |            |[SBC](#sbc) |[INC](#inc) |[SMB7](#smbx)|[SED](#sed) |[SBC](#sbc) |[PLX](#pla) |            |            |[SBC](#sbc) |[INC](#inc) |[BBS7](#bbsx)|
 
 ## Instructions By Name
 
-|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
-|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| [ADC](#adc) | [AND](#and) | [ASL](#asl) | [BBRx](#bbrx) | [BBSx](#bbsx) | [BCC](#bra) | [BCS](#bra) | [BEQ](#bra) | [BIT](#bit) | [BMI](#bra) | [BNE](#bra) | [BPL](#bra) | [BRA](#bra) | [BRK](#brk) | [BVC](#bra) | [BVS](#bra) |
-| [CLC](#clc) | [CLD](#cld) | [CLI](#cli) | [CLV](#clv) | [CMP](#cmp) | [CPX](#cpx) | [CPY](#cpy) | [DEC](#dec) | [DEX](#dec) | [DEY](#dec) | [EOR](#eor) | [INC](#inc) | [INX](#inc) | [INY](#inc) | [JMP](#jmp) | [JSR](#jsr) |
-| [LDA](#lda) | [LDX](#ldx) | [LDY](#ldy) | [LSR](#lsr) | [NOP](#nop) | [ORA](#ora) | [PHA](#pha) | [PHP](#pha) | [PHX](#pha) | [PHY](#pha) | [PLA](#pla) | [PLP](#pla) | [PLX](#pla) | [PLY](#pla) | [RMBx](#rmbx) | [ROL](#rol) |
-| [ROR](#ror) | [RTI](#rti) | [RTS](#rts) | [SBC](#sbc) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) | [SMBx](#smbx) | [STA](#sta) | [STP](#stp) | [STX](#stx) | [STY](#sty) | [STZ](#stz) | [TAX](#txx) | [TAY](#txx) | [TRB](#trb) |
-| [TSB](#tsb) | [TSX](#txx) | [TXA](#txx) | [TXS](#txx) | [TYA](#txx) | [WAI](#wai) |
+|               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |
+|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|
+| [ADC](#adc)   | [AND](#and)   | [ASL](#asl)   | [BBRx](#bbrx) | [BBSx](#bbsx) | [BCC](#bra)   | [BCS](#bra)   | [BEQ](#bra)   | [BIT](#bit)   | [BMI](#bra)   | [BNE](#bra)   | [BPL](#bra)   | [BRA](#bra)   | [BRK](#brk)   | [BVC](#bra)   | [BVS](#bra)   |
+| [CLC](#clc)   | [CLD](#cld)   | [CLI](#cli)   | [CLV](#clv)   | [CMP](#cmp)   | [CPX](#cpx)   | [CPY](#cpy)   | [DEC](#dec)   | [DEX](#dec)   | [DEY](#dec)   | [EOR](#eor)   | [INC](#inc)   | [INX](#inc)   | [INY](#inc)   | [JMP](#jmp)   | [JSR](#jsr)   |
+| [LDA](#lda)   | [LDX](#ldx)   | [LDY](#ldy)   | [LSR](#lsr)   | [NOP](#nop)   | [ORA](#ora)   | [PHA](#pha)   | [PHP](#pha)   | [PHX](#pha)   | [PHY](#pha)   | [PLA](#pla)   | [PLP](#pla)   | [PLX](#pla)   | [PLY](#pla)   | [RMBx](#rmbx) | [ROL](#rol)   |
+| [ROR](#ror)   | [RTI](#rti)   | [RTS](#rts)   | [SBC](#sbc)   | [SEC](#sec)   | [SED](#sed)   | [SEI](#sei)   | [SMBx](#smbx) | [STA](#sta)   | [STP](#stp)   | [STX](#stx)   | [STY](#sty)   | [STZ](#stz)   | [TAX](#txx)   | [TAY](#txx)   | [TRB](#trb)   |
+| [TSB](#tsb)   | [TSX](#txx)   | [TXA](#txx)   | [TXS](#txx)   | [TYA](#txx)   | [WAI](#wai)   |               |               |               |               |               |               |               |               |               |               |
 
 ## Instructions By Category
 
-|     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
-|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-|  Arithmetic | [ADC](#adc) | [SBC](#sbc) |
-|  Boolean | [AND](#and) | [EOR](#eor) | [ORA](#ora) |
-|  Bit Shift | [ASL](#asl) | [LSR](#lsr) | [ROL](#rol) | [ROR](#ror) |
-|  Branch | [BBRx](#bbrx) | [BBSx](#bbsx) |
-|  Test Bit | [BIT](#bit) | [TRB](#trb) | [TSB](#tsb) |
-|  Branching | [BCC](#bra) | [BCS](#bra) | [BEQ](#bra) | [BMI](#bra) | [BNE](#bra) | [BPL](#bra) | [BVC](#bra) | [BVS](#bra) | [BRA](#bra) |
-|  Misc | [BRK](#brk) | [NOP](#nop) | [STP](#stp) | [WAI](#wai) |
-|  Flags | [CLC](#clc) | [CLD](#cld) | [CLI](#cli) | [CLV](#clv) | [SEC](#sec) | [SED](#sed) | [SEI](#sei) |
-|  Compare | [CMP](#cmp) | [CPX](#cpx) | [CPY](#cpy) |
-|  Increment/Decrement | [DEC](#dec) | [DEX](#dec) | [DEY](#dec) | [INX](#inc) | [INY](#inc) | [INC](#inc) |
-|  Flow | [JMP](#jmp) | [JSR](#jsr) | [RTI](#rti) | [RTS](#rts) |
-|  Load Data | [LDA](#lda) | [LDX](#ldx) | [LDY](#ldy) |
-|  Stack | [PHA](#pha) | [PHP](#pha) | [PHX](#pha) | [PHY](#pha) | [PLA](#pla) | [PLP](#pla) | [PLX](#pla) | [PLY](#pla) |
-|  Bit Operations | [RMBx](#rmbx) | [SMBx](#smbx) |
-|  Store Data | [STA](#sta) | [STX](#stx) | [STY](#sty) | [STZ](#stz) |
-|  Transfer | [TAX](#txx) | [TXA](#txx) | [TAY](#txx) | [TYA](#txx) | [TSX](#txx) | [TXS](#txx) |
+|                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|---------------------|
+| Arithmetic          | [ADC](#adc)         | [SBC](#sbc)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Boolean             | [AND](#and)         | [EOR](#eor)         | [ORA](#ora)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Bit Shift           | [ASL](#asl)         | [LSR](#lsr)         | [ROL](#rol)         | [ROR](#ror)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Branch              | [BBRx](#bbrx)       | [BBSx](#bbsx)       |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Test Bit            | [BIT](#bit)         | [TRB](#trb)         | [TSB](#tsb)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Branching           | [BCC](#bra)         | [BCS](#bra)         | [BEQ](#bra)         | [BMI](#bra)         | [BNE](#bra)         | [BPL](#bra)         | [BVC](#bra)         | [BVS](#bra)         | [BRA](#bra)         |                     |                     |                     |                     |                     |                     |
+| Misc                | [BRK](#brk)         | [NOP](#nop)         | [STP](#stp)         | [WAI](#wai)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Flags               | [CLC](#clc)         | [CLD](#cld)         | [CLI](#cli)         | [CLV](#clv)         | [SEC](#sec)         | [SED](#sed)         | [SEI](#sei)         |                     |                     |                     |                     |                     |                     |                     |                     |
+| Compare             | [CMP](#cmp)         | [CPX](#cpx)         | [CPY](#cpy)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Increment/Decrement | [DEC](#dec)         | [DEX](#dec)         | [DEY](#dec)         | [INX](#inc)         | [INY](#inc)         | [INC](#inc)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Flow                | [JMP](#jmp)         | [JSR](#jsr)         | [RTI](#rti)         | [RTS](#rts)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Load Data           | [LDA](#lda)         | [LDX](#ldx)         | [LDY](#ldy)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Stack               | [PHA](#pha)         | [PHP](#pha)         | [PHX](#pha)         | [PHY](#pha)         | [PLA](#pla)         | [PLP](#pla)         | [PLX](#pla)         | [PLY](#pla)         |                     |                     |                     |                     |                     |                     |                     |
+| Bit Operations      | [RMBx](#rmbx)       | [SMBx](#smbx)       |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Store Data          | [STA](#sta)         | [STX](#stx)         | [STY](#sty)         | [STZ](#stz)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |                     |
+| Transfer            | [TAX](#txx)         | [TXA](#txx)         | [TAY](#txx)         | [TYA](#txx)         | [TSX](#txx)         | [TXS](#txx)         |                     |                     |                     |                     |                     |                     |                     |                     |                     |
 
 ### ADC
 
@@ -1459,9 +1460,10 @@ P-Register:
 
 ## Replacement Macros for Bit Instructions
 
-Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used to support a possible
-upgrade path to the 65816, here are some example macros that can be used to
-help convert existing software that may have been using these instructions:
+Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used to support a
+possible upgrade path to the 65816, here are some example macros that can be
+used to help convert existing software that may have been using these
+instructions:
 
 ```asm
 .macro bbs bit_position, data, destination
