@@ -13,7 +13,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential make fonts-dejavu
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - name: Install md-to-pdf (npm)
         run: |
           npm i md-to-pdf
