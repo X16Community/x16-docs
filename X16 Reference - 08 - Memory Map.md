@@ -1,16 +1,16 @@
 
-# Chapter 7: Memory Map
+# Chapter 8: Memory Map
 
 The Commander X16 has 512 KB of ROM and 2,088 KB (2 MB[^1] + 40 KB) of RAM with up to 3.5MB of RAM or ROM available to cartridges.
 
-Some of the ROM/RAM is always visible at certain address ranges, while the remaining ROM/RAM is banked into one of two address windows. 
+Some of the ROM/RAM is always visible at certain address ranges, while the remaining ROM/RAM is banked into one of two address windows.
 
 This is an overview of the X16 memory map:
 
 |Addresses  |Description                                                                             |
 |-----------|----------------------------------------------------------------------------------------|
-|$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)						                                 |
-|$9F00-$9FFF|I/O Area (256 bytes)										                             |
+|$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)                                                       |
+|$9F00-$9FFF|I/O Area (256 bytes)                                                                    |
 |$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)                      |
 |$C000-$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 256 banks, see below) |
 
@@ -45,12 +45,12 @@ Here is the ROM/Cartridge bank allocation:
 |11    |UTIL   |System Configuration (Date/Time, Display Preferences)  |
 |12    |BANNEX |BASIC Annex (code for some added BASIC functions)      |
 |13-14 |X16EDIT|The built-in text editor                               |
-|15-31 |–      |*[Currently unused]*                                   |
+|15-31 |–      |_[Currently unused]_                                   |
 |32-255|–      |Cartridge RAM/ROM                                      |
 
 **Important**: The layout of the banks may still change.
 
-#### Cartridge Allocation
+### Cartridge Allocation
 
 Cartridges can use the remaining 32-255 banks in any combination of ROM, RAM, Memory-Mapped IO, etc. See Kevin's reference cartridge design
 for ideas on how this may be used. This provides up to 3.5MB of additional RAM or ROM.
@@ -106,7 +106,7 @@ During startup, the KERNAL activates RAM bank 1 as the default for the user.
 |$BF00-$BFFF| Parameter passing space               |
 
 You can use the space at $0:BF00-0:$BFFF to pass parameters between programs.
-This space is initalized to zeroes, so you may use it however you wish. 
+This space is initalized to zeroes, so you may use it however you wish.
 
 The suggested use is to store a PETSCII string in this space and use
 semicolons to separate parameters. The string should be null terminated:
@@ -135,26 +135,26 @@ This is the memory map of the I/O Area:
 |$9FC0-$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
 |$9FE0-$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
 
-#### Expansion Cards & Cartridges
+### Expansion Cards & Cartridges
 
-Expansion cards can be accessed via memory-mapped I/O (MMIO), as well as I2C. Cartridges are 
+Expansion cards can be accessed via memory-mapped I/O (MMIO), as well as I2C. Cartridges are
 essentially expansion cards which are housed in an external enclosure and may contain RAM, ROM
 and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space,
 though this could cause conflicts.
 
-While they may be uncomon, since cartridges are essentially external expansion cards in a 
-shell, that means they can also use MMIO. This is only necessary when a cartridge includes 
-some sort of hardware expansion and MMIO was desired (as opposed to using the I2C bus). In 
-that case, it is recommended cartridges use the IO7 range and that range should be the 
+While they may be uncomon, since cartridges are essentially external expansion cards in a
+shell, that means they can also use MMIO. This is only necessary when a cartridge includes
+some sort of hardware expansion and MMIO was desired (as opposed to using the I2C bus). In
+that case, it is recommended cartridges use the IO7 range and that range should be the
 last option used by expansion cards in the system.
 **MMIO is unneeded for cartridges which simply have RAM/ROM.**
 
-For more information, consult the 
+For more information, consult the
 [Hardware](X16%20Reference%20-%2014%20-%20Hardware.md#chapter-14-hardware-pinouts) section of the manual.
 
 ---
 
-[^1]: Current development systems have 2 MB of bankable RAM. 
+[^1]: Current development systems have 2 MB of bankable RAM.
 Actual hardware is currently planned to have an option of either 512 KB or 2 MB of RAM.
 
 <!-- For PDF formatting -->

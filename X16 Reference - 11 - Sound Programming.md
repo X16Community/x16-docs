@@ -6,6 +6,7 @@
 The Commander X16 provides many convenience routines for controlling the YM2151 and VERA PSG. These are called similarly to how KERNAL API calls are done in machine language.
 
 In order to gain access to these routines, you must either use `jsrfar` from the KERNAL API:
+
 ```ASM
 AUDIO_BANK = $0A
   
@@ -25,7 +26,7 @@ Conveniently, the KERNAL API still exists in this bank, and calling a KERNAL API
 
 ### Audio API routines
 
-For the audio chips, some of the documentation uses the words *channel* and *voice* interchangeably. This table of API routines uses *channel* for the 8 on the YM2151, and *voice* for the 16 on the PSG.
+For the audio chips, some of the documentation uses the words _channel_ and _voice_ interchangeably. This table of API routines uses _channel_ for the 8 on the YM2151, and _voice_ for the 16 on the PSG.
 
 | Label | Address | Class | Description | Inputs | Returns | Preserves |
 |-|-|-|-|-|-|-|
@@ -95,10 +96,10 @@ Essentially, it can be thought of as an 8.8 fixed point 16-bit number.
 
 The YM2151 handles semitones differently than the PSG and requires converting
 the MIDI note to the appropriate KC value using `notecon_midi2fm`. KF is the
-fractional semitone (albeit with only the top 6-bits used) 
+fractional semitone (albeit with only the top 6-bits used)
 and requires no conversion.
 
-The PSG, by contrast, operates with linear pitch which is why 
+The PSG, by contrast, operates with linear pitch which is why
 `notecon_midi2psg` also takes the fractional component (y) as input.
 
 Thus, if you manage all your pitch slides using MIDI notes along with a fractional
@@ -111,7 +112,6 @@ Use of the API routines above is not required to access the capabilities of the 
 
 The sections below describe how to do raw access to the sound chips outside of the API.
 
-
 ## VERA PSG and PCM Programming
 
 * For VERA PSG and PCM, refer to [Chapter 9](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#chapter-9-vera-programmers-reference).
@@ -122,7 +122,7 @@ The Yamaha YM2151 (OPM) sound chip is an FM synthesizer ASIC in the Commander X1
 It is connected to the system bus at I/O address `0x9F40` (address register) and at `0x9F41` (data register). It has 8 independent voices with 4 FM operators each. Each
 voice is capable of left/right/both audio channel output. The four operators of each channel may be connected in one of 8 pre-defined "connection algorithms" in order to produce a wide variety of timbres.
 
-### YM2151 Communication:
+### YM2151 Communication
 
 There are 3 basic operations to communicate with the YM chip: Reading its status,
 address select, and data write. These are performed by reading from or writing to
@@ -144,21 +144,20 @@ to know the values in the registers, you must store a copy of the values somewhe
 
 *Note:* You may write into the same register multiple times without repeating a write to `YM_address`. The same register will be updated with each data write.
 
-### Write Timing: ###
+### Write Timing
 
 **The YM2151 is sensitive to the speed at which you write data into it. If you
 make writes when it is not ready to receive them, they will be dropped and the sound output will be corrupted.**
 
 You must include a delay between writes to the address select register ($9F40) and the subsequent data write. 10 CPU cycles is the recommended minimum delay.
 
-
 The YM becomes `BUSY` for approximately 150 CPU cycles' (at 8Mhz) whenever it receives a data write. *Any writes into YM_data during this `BUSY` period will be ignored!*
 
-In order to avoid this, you can use the `BUSY` flag which is bit 7 of the `YM status` byte. Read the status byte from `YM_data` (0x9F41). If the top bit (7) is set, the YM may not be written into at this time. Note that it is not *required* that you read `YM_status`, only that writes occur no less than ~150 CPU cycles apart. For instance, BASIC executes slowly enough that you are in no danger of writing into the YM too quickly, so BASIC programs may skip checking `YM_status`.
+In order to avoid this, you can use the `BUSY` flag which is bit 7 of the `YM status` byte. Read the status byte from `YM_data` (0x9F41). If the top bit (7) is set, the YM may not be written into at this time. Note that it is not _required_ that you read `YM_status`, only that writes occur no less than ~150 CPU cycles apart. For instance, BASIC executes slowly enough that you are in no danger of writing into the YM too quickly, so BASIC programs may skip checking `YM_status`.
 
 Lastly, the `BUSY` flag sometimes takes a (very) short period before it goes high. This has only been observed when IMMEDIATELY polling the flag after a write into `YM_data.` As long as your code does not do so, this quirk should not be an issue.
 
-### Example Code: ###
+### Example Code
 
 **Assembly Language:**
 
@@ -179,6 +178,7 @@ check_busy:
 ```
 
 **BASIC:**
+
 ```BASIC
 10 YA=$9F40      : REM YM_ADDRESS
 20 YD=$9F41      : REM YM_DATA
@@ -203,7 +203,8 @@ Range|Type|Description
 
 ## YM2151 Register Map
 
-#### Global Settings:
+### Global Settings
+
 <table>
   <tr>
     <th>Addr</th>
@@ -344,10 +345,8 @@ Range|Type|Description
   </tr>
 </table>
 
+#### Channel CFG Registers
 
-
-
-#### Channel CFG Registers:
 <table>
   <tr>
     <th>Register Range</th>
@@ -399,7 +398,8 @@ Range|Type|Description
   </tr>
 </table>
 
-#### Operator CFG Registers:
+#### Operator CFG Registers
+
 <table>
   <tr>
     <th>Register Range</th>
@@ -556,7 +556,7 @@ Range|Type|Description
 
 # YM2151 Register Details
 
-## Global Parameters:
+## Global Parameters
 
 **LR** (LFO Reset)
 
@@ -647,6 +647,7 @@ it running.
 Register $18, Bits 0-7
 
 Sets the LFO frequency.
+
 * $00 = ~0.008Hz
 * $FF = ~32.6Hz
 
@@ -654,7 +655,7 @@ Note that even setting the value zero here results in a positive LFO frequency. 
 
 **AMD** (Amplitude Modulation Depth)
 
-Register $19 Bits 0-6, Bit 7 clear
+Register $19 Bits 0-6, Bit 7 clearParameters
 
 Sets the peak strength of the LFO's Amplitude Modulation effect. Note that bit 7 of the value written into $19 must be clear in order to set the AMD. If bit 7 is set, the write will be interpreted as PMD.
 
@@ -677,7 +678,7 @@ Register $1B, Bits 0-1
 Sets the LFO waveform:
 0: Sawtooth, 1: Square (50% duty cycle), 2: Triangle, 3: Noise
 
-## Channel Control Parameters:
+## Channel Control Parameters
 
 **RL** (Right/Left output enable)
 
@@ -743,7 +744,7 @@ Sensitivity values: (dB)
 -|-|-|-
 0|23.90625|47.8125|95.625
 
-## Operator Control Parameters:
+## Operator Control Parameters
 
 Operators are arranged as follows:
 
@@ -754,7 +755,6 @@ index|0|1|2|3
 These are the names used throughout this document for consistency, but they may function as either modulators or carriers, depending on which `CON` ALG is used.
 
 The Operator Control parameters are mapped to channels/operators as follows: Register + 8\*op + channel. You may also choose to think of these register addresses as using bits 0-2 = channel, bits 3-4 = operator, and bits 5-7 = parameter. This reference will refer to them using the address range, e.g. $60-$7F = TL. To set TL for channel 2, operator 1, the register address would be $6A ($60 + 1\*8 + 2).
-
 
 **DT1** (Detune 1 - fine detune)
 
@@ -822,7 +822,6 @@ Registers $E0-$FF, Bits 4-7
 
 Sets the level at which the ADSR envelope changes decay rates from D1R to D2R. 0=minimum (no D2R), $0F=maximum (immediately at peak, which effectively disables D1R)
 
-
 **RR**
 
 Registers $E0-$FF, Bitst 0-3
@@ -846,7 +845,7 @@ YM2151, these are two distinct actions.
 
 For this tutorial, we will start with the simplest operation, (triggering notes) and proceed to note selection, and finally patch configuration.
 
-## Triggering and Releasing Notes: ###
+## Triggering and Releasing Notes
 
 **Key On/Off (KON) Register ($08):**
 
@@ -908,7 +907,8 @@ Suppose a note is playing on channel 2 with all 4 operators active. You can rele
 
 ## Pitch Control
 
-**YM Registers:**
+### YM Registers
+
 * `KC` = $28 + channel number
 * `KF` = $30 + channel number
 
@@ -920,7 +920,7 @@ the pitch selected in `KC` in 1/64th increments of the way up to the next semito
 
 Like all registers in the YM, whenever a channel's `KC` or `KF` value is written, it takes effect immediately. If a note is playing, its pitch immediately changes. When triggering new notes, it is not important whether you write the pitch or key the note first. This happens quickly in real-time and you will not hear any real difference. Changing the pitch without re-triggering the ADSR envelope is how to achieve pitch slides or a legato effect.
 
-##### Key Code (KC):
+#### Key Code (KC)
 
 `KC` codes are "conveniently" arranged so that the upper nybble is the octave (0-7) and the
 lower nybble is the pitch. The pitches are arranged as follows within an octave:
@@ -933,7 +933,8 @@ Low Nybble (hex)|0|1|2|4|5|6|8|9|A|C|D|E
 
 Combine the above with an octave to get a note's `KC` value. For instance: concert A (440hz) is (by sheer coincidence) `$4A`. Middle C is `$3E`, and so forth.
 
-##### Key Fraction (KF):
+#### Key Fraction (KF)
+
 `KF` values are written into the top 6 bits of the voice's `KF` register. Basically the value is `0, 1<<2, 2<<2, .. 63<<2`
 
 ## Loading a patch
@@ -959,20 +960,19 @@ Once a voice has been patched as above, you can now POKE notes into it with very
 
 Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the $20 range register (LR|FB|CON), for the $38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at $40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
 
-
 ## Using the LFO
 
 There is a single global LFO in the YM2151 which can affect the level (volume) and/or pitch of all 8 channels simultaneously. It has a single frequency and waveform setting which must be shared among all channels, and shared between both phase and amplitude modulation. The global parameters `AMD` and `PMD` act as modifiers to the sensitivity settings of the channels. While the frequency and waveform of the LFO pattern must be shared, the depths of the two types of modulation are independent of each other.
 
 You can re-trigger the LFO by setting and then clearing the `LR` bit in the test register ($01).
 
-### Vibrato:
+### Vibrato
 
 Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of $7F means 100% effectiveness, $40 means all channels' vibrato depths will be reduced by half, etc.
 
 The vibrato speed is global, depending solely on the value set to `LFRQ.`
 
-### Amplitude Modulation:
+### Amplitude Modulation
 
 Amplitude modulation works similarly to phase modulation, except that the intensity is a combination of the per-channel `AMS` value modified by the global `AMD` value. Additionally, within channels having non-zero amplitude modulation sensitivity, individual operators must have their `AMS-en` bit enabled in order to be affected by the modulation.
 
