@@ -46,6 +46,9 @@ programs to malfunction on these computers.
 |Ex           |[CPX](#cpx) |[SBC](#sbc) |            |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[SMB6](#smbx)|[INX](#inc) |[SBC](#sbc) |[NOP](#nop) |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[BBS6](#bbsx)|
 |Fx           |[BEQ](#bra) |[SBC](#sbc) |[SBC](#sbc) |            |            |[SBC](#sbc) |[INC](#inc) |[SMB7](#smbx)|[SED](#sed) |[SBC](#sbc) |[PLX](#pla) |            |            |[SBC](#sbc) |[INC](#inc) |[BBS7](#bbsx)|
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>
+
 ## Instructions By Name
 
 |               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |
