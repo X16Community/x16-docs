@@ -33,6 +33,10 @@ As a modern sibling of the line of Commodore home computers, the Commander X16 i
 * POKEs for video and audio are not compatible with any Commodore computer. (There are no VIC or SID chips, for example.)
 * Pure machine language programs ($FF81+ KERNAL API) are compatible with Commodore computers.
 
+## Block Diagram
+
+![X16 Block Diagram](images/Chapter_1/x16_block_diagram.png)
+
 ## Future 65C816 Support
 
 A future upgrade path for the X16 may involve the 65C816. It is almost fully
