@@ -108,10 +108,10 @@ large for an 8 bit number.
 
 If C is set before operation, then 1 will be added to the result.
 
-C is set when result is more than 255 ($FF)<br/>
-Z is set when result is zero<br/>
-V is set when signed result is too large. (Goes below -128 or above 127).<br/>
-N is set when result is negative (bit 7=1)<br/>
+C is set when result is more than 255 ($FF)  
+Z is set when result is zero  
+V is set when signed result is too large. (Goes below -128 or above 127).  
+N is set when result is negative (bit 7=1)  
 
 +c new for 65C02
 
@@ -141,12 +141,12 @@ Bitwise AND the provided value with the Accumulator.
 
 - Sets N (Negative) flag if the bit 7 of the result is 1, and otherewise
 clears it.
-- Sets Z (Zero) is the result is zero, and otherwise clears it<br/>
+- Sets Z (Zero) is the result is zero, and otherwise clears it  
 
-`AND #$FF` will leave A unaffected (but still set the flags).<br/>
-`AND #$00` will clear A.<br/>
+`AND #$FF` will leave A unaffected (but still set the flags).  
+`AND #$00` will clear A.  
 `AND #$0F` will clear the high nibble of A, leaving a value of $00 to $0F
-in A.<br/>
+in A.  
 
 | M | A | Result |
 |---|---|--------|
@@ -155,9 +155,9 @@ in A.<br/>
 | 1 | 0 |   0    |
 | 1 | 1 |   1    |
 
-**Other Boolean Instructions:**<br/>
-[EOR](#eor) exclusive-OR<br/>
-[ORA](#ora) bitwise OR<br/>
+**Other Boolean Instructions:**  
+[EOR](#eor) exclusive-OR  
+[ORA](#ora) bitwise OR  
 
 +c new for 65C02
 
@@ -181,15 +181,15 @@ ASL $8080,X  Absolute,X     $1E   3    6/7    CZ----N +p
 
 Shifts all bits to the left by one position, moving 0 into the low bit.
 
-0 is shifted into bit 0.<br/>
-Bit 7 is shifted to Carry.<br/>
+0 is shifted into bit 0.  
+Bit 7 is shifted to Carry.  
 
-**Similar instructions:**<br/>
-[LSR](#lsr) is the opposite instruction and shifts to the right.<br/>
+**Similar instructions:**  
+[LSR](#lsr) is the opposite instruction and shifts to the right.  
 [ROL](#rol) shifts left through Carry.
 
-+p Adds a cycle if ,X crosses a page boundary.<br/>
-+c New for the 65C02<br/>
++p Adds a cycle if ,X crosses a page boundary.  
++c New for the 65C02  
 
 
 ---
@@ -549,8 +549,8 @@ leaving the new value in its place.
 
 `DEC` with an operand operates on memory.
 
-`DEX` operates on the X register<br/>
-`DEY` operates on the Y register<br/>
+`DEX` operates on the X register  
+`DEY` operates on the Y register  
 `DEC A` or `DEC` operates on the Accumulator.
 
 - Sets N (Negative) flag if the two's compliment value is negative
@@ -603,8 +603,8 @@ The exclusive OR version of [ORA](#ora).
 Exclusive OR returns a 1 bit for each bit that is different in the values
 tested. It returns a 0 for each bit that is the same.
 
-`EOR #$00` has no effect on A, but still sets the Z and N flags.<br/>
-`EOR #$FF` inverts the bits in A.<br/>
+`EOR #$00` has no effect on A, but still sets the Z and N flags.  
+`EOR #$FF` inverts the bits in A.  
 
 | M | A | Result |
 |---|---|--------|
@@ -613,9 +613,9 @@ tested. It returns a 0 for each bit that is the same.
 | 1 | 0 |   1    |
 | 1 | 1 |   0    |
 
-**Other Boolean Instructions:**<br/>
-[ORA](#ora) bitwise OR<br/>
-[AND](#and) bitwise AND<br/>
+**Other Boolean Instructions:**  
+[ORA](#ora) bitwise OR  
+[AND](#and) bitwise AND  
 
 +c new for 65C02
 
@@ -645,10 +645,10 @@ new value in its place.
 - Sets N (Negative) flag if the two's compliment value is negative
 - Sets Z (Zero) flag is the value is zero
 
-`INC oper` operates on memory.<br/>
-`INX` operates on the X register.<br/>
-`INY` operates on the Y register.<br/>
-`INC A` or `INC` with no operand operates on the Accumulator.<br/>
+`INC oper` operates on memory.  
+`INX` operates on the X register.  
+`INY` operates on the Y register.  
+`INC A` or `INC` with no operand operates on the Accumulator.  
 
 **Example**
 
@@ -721,8 +721,8 @@ SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS
 JSR $8080    Absolute       $20   3     6     ------- 
 ```
 
-Stores the address of the Program Counter to the stack.<br/>
-Jump to specified memory location and begin execution from this point.<br/>
+Stores the address of the Program Counter to the stack.  
+Jump to specified memory location and begin execution from this point.  
 
 This is used to run subroutines in user programs, as well as running KERNAL
 routines. RTS is used at the end of the routine to return to the instruction
@@ -758,8 +758,8 @@ Place the given value from memory into the accumulator (A).
 - Sets N (Negative) flag if the two's compliment value is negative
 - Sets Z (Zero) flag is the value is zero
 
-+c New for the 65C02<br/>
-+p add 1 cycle if addr+offset spans a page boundary<br/>
++c New for the 65C02  
++p add 1 cycle if addr+offset spans a page boundary  
 
 
 ---
@@ -784,8 +784,8 @@ Place the given value from memory into the X register.
 - Sets N (Negative) flag if the two's compliment value is negative
 - Sets Z (Zero) flag is the value is zero
 
-+c New for the 65C02<br/>
-+p add 1 cycle if addr+offset spans a page boundary<br/>
++c New for the 65C02  
++p add 1 cycle if addr+offset spans a page boundary  
 
 
 ---
@@ -810,8 +810,8 @@ Place the given value from memory into the Y register.
 - Sets N (Negative) flag if the two's compliment value is negative
 - Sets Z (Zero) flag is the value is zero
 
-+c New for the 65C02<br/>
-+p add 1 cycle if addr+offset spans a page boundary<br/>
++c New for the 65C02  
++p add 1 cycle if addr+offset spans a page boundary  
 
 
 ---
@@ -833,15 +833,15 @@ LSR $8080,X  Absolute,X     $5E   3    6/7    -Z----N [^2]
 
 Shifts all bits to the right by one position.
 
-Bit 0 is shifted into Carry.<br/>
-0 shifted into bit 7.<br/>
+Bit 0 is shifted into Carry.  
+0 shifted into bit 7.  
 
-**Similar instructions:**<br/>
-[ASL](#asl) is the opposite instruction, shifting to the left.<br/>
-[ROR](#ror) rotates bit 0 through Carry to bit 7.<br/>
+**Similar instructions:**  
+[ASL](#asl) is the opposite instruction, shifting to the left.  
+[ROR](#ror) rotates bit 0 through Carry to bit 7.  
 
-+p Adds a cycle if ,X crosses a page boundary.<br/>
-+c New for the 65C02<br/>
++p Adds a cycle if ,X crosses a page boundary.  
++c New for the 65C02  
 
 
 ---
@@ -896,7 +896,7 @@ Perform a logical OR of the given value in A
 - Sets N (Negative) flag if the two's compliment value is negative
 - Sets Z (Zero) flag is the value is zero
 
-`OR #$00` has no effect on A, but still sets the Z and N flags.<br/>
+`OR #$00` has no effect on A, but still sets the Z and N flags.  
 `OR #$FF` results in $FF.
 
 | M | A | Result |
@@ -906,9 +906,9 @@ Perform a logical OR of the given value in A
 | 1 | 0 |   1    |
 | 1 | 1 |   1    |
 
-**Other Boolean Instructions:**<br/>
-[EOR](#eor) exclusive-OR<br/>
-[AND](#and) bitwise AND<br/>
+**Other Boolean Instructions:**  
+[EOR](#eor) exclusive-OR  
+[AND](#and) bitwise AND  
 
 +c new for 65C02
 
@@ -1000,8 +1000,8 @@ specified bit (0-7).
 
 Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 
-+c new to the 65C02<br/>
--816 _not available_ on the 65C816<br/>
++c new to the 65C02  
+-816 _not available_ on the 65C816  
 
 
 ---
@@ -1125,10 +1125,10 @@ flag.
 
 If D=1, subtraction is Binary Coded Decimal. If D=0 then subtraction is binary.
 
-C is clear when result is less than 0. (ie: Borrow took place)<br/>
-Z is set when result is zero<br/>
-V is set when signed result goes below -128 or above 127.<br/>
-N is set when result is negative (bit 7=1)<br/>
+C is clear when result is less than 0. (ie: Borrow took place)  
+Z is set when result is zero  
+V is set when signed result goes below -128 or above 127.  
+N is set when result is negative (bit 7=1)  
 
 +c new for 65C02
 
@@ -1167,8 +1167,8 @@ SED          Implied        $F8   1     2     ---D---
 Sets the Decimal flag. This will put the CPU in BCD mode, which affects the
 behavior of ADC and SBC.
 
-In binary mode, adding 1 to $09 will set the Accumulator to $0F.<br/>
-In BCD mode, adding 1 to $09 will set the Accumulator to $10.<br/>
+In binary mode, adding 1 to $09 will set the Accumulator to $0F.  
+In BCD mode, adding 1 to $09 will set the Accumulator to $10.  
 
 Using BCD allows for easier conversion of binary numbers to decimal. BCD also
 allows for storing decimal numbers without loss of precision due to power-of-2
@@ -1220,8 +1220,8 @@ Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 
 Specific to the 65C02 (*unavailable on the 65C816*)
 
-+c new to the 65C02<br/>
--816 _not available_ on the 65C816<br/>
++c new to the 65C02  
+-816 _not available_ on the 65C816  
 
 
 ---
