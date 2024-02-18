@@ -133,7 +133,7 @@ cause a bus conflict with cartridges that make us of MMIO (such as those with ex
 hardware). See below for more information on cartridges.
 
 ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`)
-address the on-boar"VERA FX Reference.md" \d ROM chips, and 32-255 are intended for expansion ROM or RAM chips
+address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips
 (typically used by cartridges, see below). This allows for a total of 3.5MB of address space
 in the `$C000-$FFFF` address range.
 
