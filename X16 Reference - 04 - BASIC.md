@@ -1550,8 +1550,8 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 ### TATTR
 
-**TYPE: Function***
-**FORMAT: TATTR(<x coordinate>,<y coordinate>)**
+**TYPE: Function**
+**FORMAT: TATTR(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TATTR`function retrieves the text/tile attribute at the given x/y coordinate. It works for tiles or text on Layer 1.
 
@@ -1570,8 +1570,8 @@ In the default text modes, this can be used to retrieve the color attribute (fg/
 
 ### TDATA
 
-**TYPE: Function***
-**FORMAT: TDATA(<x coordinate>,<y coordinate>)**
+**TYPE: Function**
+**FORMAT: TDATA(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TDATA`function retrieves the text/tile at the given x/y coordinate. It works for tiles or text on Layer 1.
 
