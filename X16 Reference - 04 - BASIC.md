@@ -141,6 +141,8 @@ for GitHub's Markdown flavor. Do not remove!
 | [`SYS`](#sys) | command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | function | Returns a string with spaces used for column alignment | C64 |
 | `TAN` | function | Return the tangent for an angle in radians | C64 |
+| `TATTR` | function | Returns a tile attribute on the tile/text layer | X16 |
+| `TDATA` | function | Returns a tile on the tile/text layer | X16 |
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
 | `TI` | variable | Returns the jiffy timer value | C64 |
 | `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
