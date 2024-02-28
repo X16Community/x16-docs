@@ -1550,7 +1550,7 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 ### TATTR
 
-**TYPE: Function**
+**TYPE: Function**  
 **FORMAT: TATTR(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TATTR`function retrieves the text/tile attribute at the given x/y coordinate. It works for tiles or text on Layer 1.
@@ -1564,13 +1564,15 @@ In the default text modes, this can be used to retrieve the color attribute (fg/
 20 XO = 37 : YO = 27
 30 FOR X = 0 TO 6
 40 FOR Y = 0 TO 6
-50 TILE XO+X, YO+Y, TDATA(X, Y), TATTR(X, Y)
-60 NEXT:NEXT
+50 TD = TDATA(X, Y)
+60 TA = TATTR(X, Y)
+70 TILE XO+X, YO+Y, TD, TA
+80 NEXT:NEXT
 ```
 
 ### TDATA
 
-**TYPE: Function**
+**TYPE: Function**  
 **FORMAT: TDATA(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TDATA`function retrieves the text/tile at the given x/y coordinate. It works for tiles or text on Layer 1.
@@ -1584,8 +1586,9 @@ In the default text modes, this can be used to retrieve the character a specific
 20 XO = 37 : YO = 27
 30 FOR X = 0 TO 6
 40 FOR Y = 0 TO 6
-50 TILE XO+X, YO+Y, TDATA(X, Y)
-60 NEXT:NEXT
+50 TD = TDATA(X, Y)
+60 TILE XO+X, YO+Y, TD
+70 NEXT:NEXT
 ```
 
 ### VPEEK
