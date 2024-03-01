@@ -44,7 +44,8 @@ first.
 * [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#appendix-a-sound)
 * [Appendix B: VERA Firmware Recovery](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20Recovery.md#appendix-b-vera-firmware-recovery)
 * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#appendix-c-the-65c02-processor)
-* [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
+* [Appendix D: Diagnostic Bank](X16%20Reference%20-%20Appendix%20D%20-%20Diagnostic%20Bank.md#appendix-d-diagnostic-bank)
+* [Appendix E: Official Expansion Cards](X16%20Reference%20-%20Appendix%20E%20-%20Official%20Expansion%20Cards.md#appendix-e-official-expansion-cards)
 
 ## External Links
 
