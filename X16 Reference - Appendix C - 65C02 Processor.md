@@ -46,7 +46,6 @@ programs to malfunction on these computers.
 |Ex           |[CPX](#cpx) |[SBC](#sbc) |            |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[SMB6](#smbx)|[INX](#inc) |[SBC](#sbc) |[NOP](#nop) |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[BBS6](#bbsx)|
 |Fx           |[BEQ](#bra) |[SBC](#sbc) |[SBC](#sbc) |            |            |[SBC](#sbc) |[INC](#inc) |[SMB7](#smbx)|[SED](#sed) |[SBC](#sbc) |[PLX](#pla) |            |            |[SBC](#sbc) |[INC](#inc) |[BBS7](#bbsx)|
 
-
 <!-- For PDF formatting -->
 <div class="page-break"></div>
 
@@ -115,10 +114,8 @@ N is set when result is negative (bit 7=1)
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### AND
 
@@ -161,10 +158,8 @@ in A.
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### ASL
 
@@ -191,10 +186,8 @@ Bit 7 is shifted to Carry.
 +p Adds a cycle if ,X crosses a page boundary.  
 +c New for the 65C02  
 
-
 ---
 [top](#)
-
 
 ### BBRx
 
@@ -234,10 +227,8 @@ The above BBR3 looks at value in zeropage_flag (here it's a label to an actual
 zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_not_set`.
 
-
 ---
 [top](#)
-
 
 ### BBSx
 
@@ -254,7 +245,6 @@ BBS5 $20,$8080 ZP Relative    $DF   3     5     -------
 BBS6 $20,$8080 ZP Relative    $EF   3     5     ------- 
 BBS7 $20,$8080 ZP Relative    $FF   3     5     ------- 
 ```
-
 
 Branch to LABEL if bit x of zero page address is 1 where x is the number
 of the specific bit (0-7).
@@ -278,10 +268,8 @@ The above BBR3 looks at value in zeropage_flag (here it's a label to an actual
 zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_set`.
 
-
 ---
 [top](#)
-
 
 ### BIT
 
@@ -300,10 +288,8 @@ BIT $8080,X  Absolute,X     $3C   3     4     -Z---VN
 - Sets N (Negative) flag to the value of bit 7 at the provided address.
 - Sets V (Overflow) flag to the value of bit 6 at the provided addres.
 
-
 ---
 [top](#)
-
 
 ### BRA
 
@@ -342,10 +328,8 @@ For example, if the PC is $1000, the statement `BCS $1023` will be `$B0 $21`.
 
 +p: Execution takes one additional cycle when moving across a page boundary.
 
-
 ---
 [top](#)
-
 
 ### BRK
 
@@ -371,10 +355,8 @@ The B flag is used to distinguish a BRK from an NMI. An interrupt triggered by
 asserting the NMI pin does not set the B flag, and so the X16 does a warm boot
 of BASIC, rather than jumping to MONitor.
 
-
 ---
 [top](#)
-
 
 ### CLC
 
@@ -389,10 +371,8 @@ Clears the Carry flag. This is useful before ADC to prevent an extra 1 during
 addition. C is also often used in KERNAL routines to alter the operation of the
 routine or return certain information.
 
-
 ---
 [top](#)
-
 
 ### CLD
 
@@ -406,10 +386,8 @@ CLD          Implied        $D8   1     2     ---D---
 Clears the Decimal flag. This switches the CPU back to binary operation if it
 was previously in BCD mode.
 
-
 ---
 [top](#)
-
 
 ### CLI
 
@@ -425,10 +403,8 @@ and RST are always enabled.
 
 Use SEI to disable interrupts
 
-
 ---
 [top](#)
-
 
 ### CLV
 
@@ -441,10 +417,8 @@ CLV          Implied        $B8   1     2     -----V-
 
 Clear the Overflow (V) flag after an arithmetic operation, such as ADC or SBC.
 
-
 ---
 [top](#)
-
 
 ### CMP
 
@@ -472,10 +446,8 @@ based on subtracting A - _Value_.
 - Clears Z (Zero) flag if the values are not equal
 - Sets N (Negative) flag if value in A is < given value
 
-
 ---
 [top](#)
-
 
 ### CPX
 
@@ -499,10 +471,8 @@ based on subtracting X - _Value_.
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### CPY
 
@@ -524,10 +494,8 @@ based on subtracting Y - _Value_.
 - Clears Z (Zero) flag if the values are not equal
 - Sets N (Negative) flag if value in Y is < given value
 
-
 ---
 [top](#)
-
 
 ### DEC
 
@@ -569,10 +537,8 @@ byte before decrementing the high byte:
 LABEL DEC Num_Low
 ```
 
-
 ---
 [top](#)
-
 
 ### EOR
 
@@ -590,7 +556,6 @@ EOR ($20,X)  Indirect,X     $41   2     6     -Z----N
 EOR ($20),Y  Indirect,Y     $51   2     5     -Z----N 
 EOR ($20)    ZP Indirect    $52   2     5     -Z----N +c
 ```
-
 
 Perform an exclusive OR of the given value in A
 (the accumulator), storing the result in A.
@@ -619,10 +584,8 @@ tested. It returns a 0 for each bit that is the same.
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### INC
 
@@ -663,10 +626,8 @@ byte after incrementing it.
 Inc16_1: ...
 ```
 
-
 ---
 [top](#)
-
 
 ### JMP
 
@@ -707,10 +668,8 @@ The above would jump to the address of `routine2`, and is much faster than
 the old 6502 method of pushing the two bytes onto the stack and performing an
 RTS.
 
-
 ---
 [top](#)
-
 
 ### JSR
 
@@ -731,10 +690,8 @@ immediately after the JSR.
 Be careful to always match JSR and RTS, as imbalanced JSR/RTS operations will
 either overflow or underflow the stack.
 
-
 ---
 [top](#)
-
 
 ### LDA
 
@@ -761,10 +718,8 @@ Place the given value from memory into the accumulator (A).
 +c New for the 65C02  
 +p add 1 cycle if addr+offset spans a page boundary  
 
-
 ---
 [top](#)
-
 
 ### LDX
 
@@ -787,10 +742,8 @@ Place the given value from memory into the X register.
 +c New for the 65C02  
 +p add 1 cycle if addr+offset spans a page boundary  
 
-
 ---
 [top](#)
-
 
 ### LDY
 
@@ -813,10 +766,8 @@ Place the given value from memory into the Y register.
 +c New for the 65C02  
 +p add 1 cycle if addr+offset spans a page boundary  
 
-
 ---
 [top](#)
-
 
 ### LSR
 
@@ -843,10 +794,8 @@ Bit 0 is shifted into Carry.
 +p Adds a cycle if ,X crosses a page boundary.  
 +c New for the 65C02  
 
-
 ---
 [top](#)
-
 
 ### NOP
 
@@ -868,10 +817,8 @@ It is also useful for adding small delays to your code. For instance, to add a
 bit of delay when writing to the YM2151 chip (see
 [Chapter 11 - YM Write Procedure](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#vera-psg-and-pcm-programming)).
 
-
 ---
 [top](#)
-
 
 ### ORA
 
@@ -912,10 +859,8 @@ Perform a logical OR of the given value in A
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### PHA
 
@@ -942,10 +887,8 @@ PHP pushes the Flags, also called P for Program Status Register.
 The corresponding "Pull" instructions are [PLA](#pla), [PHP](#pla), [PHX](#pla),
 and [PHY](#pla).
 
-
 ---
 [top](#)
-
 
 ### PLA
 
@@ -974,10 +917,8 @@ Use TXS or TSX to directly manage the stack pointer.
 The corresponding "Push" instructions are [PHA](#pha), [PHP](#pha), [PHX](#pha),
 and [PHY](#pha).
 
-
 ---
 [top](#)
-
 
 ### RMBx
 
@@ -1003,10 +944,8 @@ Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 +c new to the 65C02  
 -816 _not available_ on the 65C816  
 
-
 ---
 [top](#)
-
 
 ### ROL
 
@@ -1024,15 +963,13 @@ ROL $8080,X  Absolute,X     $3E   3    6/7    CZ----N +p
 Rotate all bits to the left one position. The value in the carry (C) flag is
 shifted into bit 0 and the original bit 7 is shifted into the carry (C).
 
-[ASL](#asl) shifts left, moving 0 into bit 0
+[ASL](#asl) shifts left, moving 0 into bit 0  
 [ROR](#ror) rotates to the right.
 
 +p add one cycle when addr + x crosses a page boundary.
 
-
 ---
 [top](#)
-
 
 ### ROR
 
@@ -1051,13 +988,11 @@ Rotate all bits to the right one position. The value in
 the carry (C) flag is shifted into bit 7 and the original
 bit 0 is shifted into the carry (C).
 
-[LSR](#lsr) shifts right, placing 0 into bit 7.
-[ROL](#rol) rotates to the left.
-
+[LSR](#lsr) shifts right, placing 0 into bit 7.  
+[ROL](#rol) rotates to the left.  
 
 ---
 [top](#)
-
 
 ### RTI
 
@@ -1075,10 +1010,8 @@ program counter.
 Note that unlike [RTS](#rts), the popped address is the actual
 return address (rather than address-1).
 
-
 ---
 [top](#)
-
 
 ### RTS
 
@@ -1094,10 +1027,8 @@ back to the address after the [JSR](#jsr) that called it
 by popping the top 2 bytes off the stack and transferring
 control to that address +1.
 
-
 ---
 [top](#)
-
 
 ### SBC
 
@@ -1132,10 +1063,8 @@ N is set when result is negative (bit 7=1)
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### SEC
 
@@ -1150,10 +1079,8 @@ Sets the Carry flag. This is used before SBC to prevent an extra subtract. C
 is also often used in KERNAL routines to alter the operation of the routine
 or return certain information.
 
-
 ---
 [top](#)
-
 
 ### SED
 
@@ -1174,10 +1101,8 @@ Using BCD allows for easier conversion of binary numbers to decimal. BCD also
 allows for storing decimal numbers without loss of precision due to power-of-2
 rounding.
 
-
 ---
 [top](#)
-
 
 ### SEI
 
@@ -1192,10 +1117,8 @@ Sets or clears the Interrupt Disable flag. When I is set, the CPU will not
 execute IRQ interrupts, even if the line is asserted. Use CLI to re-enable
 interrupts.
 
-
 ---
 [top](#)
-
 
 ### SMBx
 
@@ -1223,10 +1146,8 @@ Specific to the 65C02 (*unavailable on the 65C816*)
 +c new to the 65C02  
 -816 _not available_ on the 65C816  
 
-
 ---
 [top](#)
-
 
 ### STA
 
@@ -1248,10 +1169,8 @@ Place the given value from the accumulator (A) into memory.
 
 +c new for 65C02
 
-
 ---
 [top](#)
-
 
 ### STP
 
@@ -1272,10 +1191,8 @@ emulator or reset the emulation.
 
 +c New for the 65C02
 
-
 ---
 [top](#)
-
 
 ### STX
 
@@ -1288,11 +1205,8 @@ STX $20,Y    Zero Page,Y    $96   2     4     -------
 STX $8080    Absolute       $8E   3     4     ------- 
 ```
 
-
-
 ---
 [top](#)
-
 
 ### STY
 
@@ -1305,11 +1219,8 @@ STY $20,X    Zero Page,X    $94   2     4     -------
 STY $8080    Absolute       $8C   3     4     ------- 
 ```
 
-
-
 ---
 [top](#)
-
 
 ### STZ
 
@@ -1323,11 +1234,8 @@ STZ $8080    Absolute       $9C   3     4     -------
 STZ $8080,X  Absolute,X     $9E   3     5     ------- 
 ```
 
-
-
 ---
 [top](#)
-
 
 ### TRB
 
@@ -1362,10 +1270,8 @@ AND $20  ; AND with memory, saving the result in .A
 STA $20  ; Store it back to memory.
 ```
 
-
 ---
 [top](#)
-
 
 ### TSB
 
@@ -1384,10 +1290,8 @@ an ORA operation, execpt that the result is stored in memory, not in A.
 The Z flag is set based on the final result of the operation, ie: the memory
 data is 0.
 
-
 ---
 [top](#)
-
 
 ### Txx
 
@@ -1414,10 +1318,8 @@ LDX #$FF
 TXS
 ```
 
-
 ---
 [top](#)
-
 
 ### WAI
 
@@ -1427,7 +1329,6 @@ Wait
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 WAI          Implied        $CB   1     3     ------- +c
 ```
-
 
 Effectively stops the processor until a hardware interrupt occurs. The intterupt
 is processed immediately, and execution resumes in the Interrupt handler.
@@ -1440,10 +1341,8 @@ interrupt, and so the interrupt can be handled immediately.
 
 +c New for the 65C02
 
-
 ---
 [top](#)
-
 
 ## Status Flags
 
