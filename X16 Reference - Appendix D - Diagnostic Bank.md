@@ -5,9 +5,9 @@ The Diagnostic ROM bank can run a full diagnostic on the system memory (base + 5
 
 ## Index
 
-* [Running Diagnostics](<#Running Diagnostics>)
-* [Progress indicators](<#Progress Indicators>)
-* [Error communication](<#Error communication>)
+* [Running Diagnostics](#Running-Diagnostics)
+* [Progress indicators](#Progress-Indicators)
+* [Error communication](#Error-communication)
 
 ## Running Diagnostics
 ### Functional system
