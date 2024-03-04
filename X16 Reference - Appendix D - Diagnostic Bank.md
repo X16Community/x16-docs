@@ -11,6 +11,8 @@ The Diagnostic ROM bank can run a full diagnostic on the system memory (base + 5
 	* [With screen](#with-screen)
 * [Error communication](#Error-communication)
 * [Test algorithm](#test-algorithm)
+	* [Theory](#theory)
+	* [Implementation](#implementation)
 
 ## Running Diagnostics
 ### Functional system
@@ -83,6 +85,42 @@ The errorcodes on screen are as follows:
 ![Errorcode definition](images/Appendix_D/mem-diag-error-code.jpg)
 
 ## Test algorithm
-
+### Theory
+RAM diagnostics are performed with the March C- algorithm. This algorithm should be fairly godd at finding most common memory errors.  
+  
+In short, he aslgorithm is described as follows:
+1. Write 0 to all memory cells
+2. For each cell, check that it contains 0 and write 1 in ascending order
+3. For each cell, check that it contains 1 and write 0 in ascending order
+4. For each cell, check that it contains 0 and write 1 in descending order
+5. For each cell, check that it contains 1 and write 0 in descending order
+6. Check that all cells contain 0
+  
+On the Commander X16 and most other 6502 based computers, above algorithm would take a very long time to complete. For this reason, the algorithm has been modified slightly to write and compare entire bytes instead of single bits.
+To catch most memory errors, the following bit patterns are tested:
+* 0000 0000
+* 0101 0101
+* 0011 0011
+* 0000 1111
+  
+The algorithm is then implemented in the following way:
+1. Write pattern to all memory addresses
+2. For each addres, check the patterna and write the inverted patterin in ascending order
+3. For each address, check the inverted pattern and write the original pattern in ascending order
+4. For each address, check the original pattern and write the inverted pattern in descending order
+5. For eac address, check the inverted pattern and write the original pattern in descending order
+6. Check all addresses contain the original pattern
+### Implementation
+When memory test starts, the first thing that happens is that zero-page is tested by it self. If this test passes, the rest of base memory is tested from $0100-$9EFF while ensuring that these tests do not affect zero-page memory.  
+  
+When basememory has passed the initial test, zero-page is used for variables and stack pointer is initialized to enable pushing and popping of registers and function calls.  
+VERA is initialized and the number of memory banks is tested.  
+  
+All available memory banks are tested together as opposed to checking and clearing a single memory page at a time.  
+When all memory banks have been tested, the base memory $0200-$9EFF is tested again.  
+  
+Memory banks and base memory is tested in continous loop.  
+  
+If an error is detected, this is either communicated through the activity LED, if VERA has not yet been initialized, or by writing information about the error on the display.
 <!-- For PDF formatting -->
 <div class="page-break"></div>
