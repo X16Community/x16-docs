@@ -110,6 +110,8 @@ The 16 bit ABI generally follows the following conventions:
 | [`console_set_paging_message`](#function-name-console_set_paging_message) | `$FED5` | Video | Set paging message or disable paging | r0 | A P | X16
 | [`enter_basic`](#function-name-enter_basic) | `$FF47` | Misc | Enter BASIC | C | A X Y P | X16
 | [`entropy_get`](#function-name-entropy_get) | `$FECF` | Misc | get 24 random bits | none | A X Y P | X16
+| [`extapi`](#function-name-extapi) | `$FEAB` | Misc | Extended API | A X Y P | A X Y P | X16
+| [`extapi16`](#function-name-extapi16) | `$FEA8` | Misc | Extended 65C816 API | A X Y P | A X Y P | X16
 | [`fetch`](#function-name-fetch) | `$FF74` | Mem | Read a byte from any RAM or ROM bank | (A) X Y | A X P | X16
 | [`FB_cursor_next_line`](#function-name-fb_cursor_next_line) &#8224; | `$FF02` | Video | Move direct-access cursor to next line | r0&#8224; | A P | X16
 | [`FB_cursor_position`](#function-name-fb_cursor_position) | `$FEFF` | Video | Position the direct-access cursor | r0 r1 | A P | X16
@@ -1488,10 +1490,11 @@ Call address: $FED5
 ### Other
 
 $FECF: `entropy_get` - get 24 random bits  
+$FEAB: `extapi` - extended API  
 $FECC: `monitor` - enter machine language monitor  
 $FF47: `enter_basic` - enter BASIC  
 $FF5F: `screen_mode` - get/set screen mode  
-$FF62: `screen_set_charset` - activate 8x8 text mode charset
+$FF62: `screen_set_charset` - activate 8x8 text mode charset  
 
 #### Function Name: entropy_get
 
@@ -1531,6 +1534,50 @@ Registers affected: .A, .X, .Y
       BEQ again ; 7 is illegal
       ORA #$30  ; convert to ASCII
       JMP $FFD2 ; print character
+```
+
+---
+#### Function Name: extapi
+Purpose: Additional API functions  
+Call address: $FEAB  
+Communication registers: .A, .X, .Y, .P  
+Preparatory routines: None  
+Error returns: Varies, but usually .C=1  
+Stack requirements: Varies  
+Registers affected: Varies
+
+**Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
+
+| Call # | Name         | Description                          | Inputs | Outputs | Preserves |
+| -------|--------------|--------------------------------------|--------|---------|-----------|
+|  `$01` | clear_status | resets the KERNAL IEC status to zero | none   | none    | -         |
+|  `$02` | get_fa       | returns the most recently used fa (device) number in .A | none | A | - |
+
+**EXAMPLE:**
+
+```ASM
+LOADFILE:
+    ; Get the most recently used disk device
+    LDA #2    ; extapi:get_fa
+    JSR $FEAB ; extapi
+    LDA #1
+    TAX
+    LDY #2
+    JSR $FFBA ; SETLFS
+    LDA #FNEND-FN
+    LDX #<FN
+    LDY #>FN
+    JSR $FFBD ; SETNAM
+    LDA #1
+    STA $00   ; ram_bank
+    LDA #0
+    LDX #<$A000
+    LDY #>$A000
+    JSR $FFD5 ; LOAD
+    RTS
+FN:
+    .byte "MYFILENAME.EXT"
+FNEND = *
 ```
 
 ---
@@ -1661,6 +1708,65 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
       .WORD $C000 ; ADDRESS
       .BYTE 1     ; BANK
 ```
+
+### 65C816 support
+
+When writing native 65C816 code for the Commander X16, extra care must be given when using the KERNAL API. With the exception of `extapi16`, documented below, the entire kernal API must be called:
+
+* With e=1 (emulation mode set).  Due to some of the KERNAL internals doing 65C02 style stack manipulation, attempting to use native mode with 8-bit registers/memory has the potential to break the stack pointer, even when SP=$01xx.
+* DP=$0000 (must be set so that zeropage is the direct page)
+
+$FEA8: `extapi16` - 16-bit extended API for 65C816 native mode  
+
+---
+
+#### Function Name: extapi16
+
+Purpose: API functions for 65C816  
+Call address: $FEA8  
+Communication registers: .A, .X, .Y, .P  
+Preparatory routines: None  
+Error returns: Varies, but usually .C=1  
+Stack requirements: Varies  
+Registers affected: Varies
+
+**Description:** This API slot provides access to various native mode 65C816 calls. The call is selected by the .A register, and each call has its own register use and return behavior.
+
+**IMPORTANT**  
+* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, x=0, DP=$0000.
+* In addition, these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
+
+| Call # | Name           | Description                           | Inputs | Outputs | Preserves |
+| -------|----------------|---------------------------------------|--------|---------|-----------|
+|  `$01` | `stack_push`   | Switches to a new stack context       | X      | none    | -         |
+|  `$02` | `stack_pop`    | Returns to the previous stack context | none   | none    | -         |
+|  `$03` | `stack_enter_kernal_stack` | Switches to the page $01 stack | none | none | -         |
+|  `$04` | `stack_leave_kernal_stack` | Returns to a the previous stack context after `stack_enter_kernal_stack`  | none | none | - |
+
+
+#### 65C816 extapi16 Function Name: stack_push
+
+Purpose: Point the SP to a new stack
+Call address: $FEA8  
+Communication registers: .A, .X  
+Preparatory routines: None  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .SP
+
+**Description:** This function informs the KERNAL that you're moving the stack pointer to a new location so that it can preserve the previous SP, and then brings the new SP into effect. The main purpose of this call is to preserve the position of the $01xx stack pointer, and to track the length of the chain of stacks in the case of multiple pushes. In order for the 65C02 code in the emulated mode ISR to run properly, it must be able to temporarily switch to the stack in $01xx, regardless of the SP in main code.
+
+**How to Use:**
+
+1) Load .X with the new SP to switch to, then call the routine. Upon return, the SP will be set to the new stack value. If the stack chain depth is greater than 1, the new stack will also have the old stack's address pushed onto it.
+2) To return to the previous stack context, call `stack_pop`.
+
+**Notes:**
+
+* If you wish to preserve your current SP while temporarily switching back to the $01xx stack, for instance, to use the KERNAL API, begin that section of code with a call to `stack_enter_kernal_stack` and end with a call to `stack_leave_kernal_stack`.
+
+
+---
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   
