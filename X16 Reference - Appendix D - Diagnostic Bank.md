@@ -10,6 +10,7 @@ The Diagnostic ROM bank can run a full diagnostic on the system memory (base + 5
 	* [Without screen](#without-screen)
 	* [With screen](#with-screen)
 * [Error communication](#Error-communication)
+* [Test algorithm](#test-algorithm)
 
 ## Running Diagnostics
 ### Functional system
@@ -76,6 +77,12 @@ This means that if an error occurs before VERA is initialized, you have no way o
   
 When the initial test of base memory has succeeded and VERA is initialized, any errors will be reported to the display. Only if more than 32 errors are encountered, will the tests stop and the activity LED will flash the same way as when an error is encountered before VERA initialization.  
   
+Even when tests are stopped, VERA output will still be switched between VGA and Composite/S-Video about every minute.
+  
 The errorcodes on screen are as follows:
+![Errorcode definition](images/Appendix_D/mem-diag-error-code.jpg)
+
+## Test algorithm
+
 <!-- For PDF formatting -->
 <div class="page-break"></div>
