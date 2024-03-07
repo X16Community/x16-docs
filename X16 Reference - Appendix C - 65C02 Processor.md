@@ -346,7 +346,7 @@ BRK is a software interrupt. With any interrupt several things happen:
 2. The new PC and flags are pushed onto the stack.
 3. The B flag is set.
 4. The D (Decimal) flag is cleared, forcing the CPU into binary mode.
-5. The CPU reads the address from the NMI vector at $FFFE and jumps there.
+5. The CPU reads the address from the IRQ vector at $FFFE and jumps there.
 
 On the X16, BRK will jump out of the running program to the machine monitor.
 You can then examine the state of the CPU registers and memory.
