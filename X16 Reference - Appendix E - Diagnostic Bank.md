@@ -1,5 +1,5 @@
 
-# Appendix D: Diagnostic Bank
+# Appendix E: Diagnostic Bank
 
 The Diagnostic ROM bank can run a full diagnostic on the system memory (base + 512K-2048K extended) of the Commander X16.
 
