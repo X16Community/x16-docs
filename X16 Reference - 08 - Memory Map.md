@@ -38,7 +38,7 @@ Here is the ROM/Cartridge bank allocation:
 |4     |BASIC  |BASIC interpreter                                      |
 |5     |MONITOR|Machine Language Monitor                               |
 |6     |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
-|7     |CODEX  |CodeX16 Interactive Assembly Environment / Monitor     |
+|7     |DIAG   |Memory diagnostic                                      |
 |8     |GRAPH  |Kernal graph and font routines                         |
 |9     |DEMO   |Demo routines                                          |
 |10    |AUDIO  |Audio API routines                                     |
@@ -46,8 +46,7 @@ Here is the ROM/Cartridge bank allocation:
 |12    |BANNEX |BASIC Annex (code for some added BASIC functions)      |
 |13-14 |X16EDIT|The built-in text editor                               |
 |15    |BASLOAD|A transpiler that converts BASLOAD dialect to BASIC V2 |
-|16    |DIAGNOSTIC|Memory diagnostic                                   |
-|17-31 |–      |_[Currently unused]_                                   |
+|16-31 |–      |_[Currently unused]_                                   |
 |32-255|–      |Cartridge RAM/ROM                                      |
 
 **Important**: The layout of the banks may still change.
