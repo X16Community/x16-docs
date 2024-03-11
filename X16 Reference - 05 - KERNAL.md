@@ -1743,7 +1743,7 @@ Registers affected: Varies
 |  `$01` | `stack_push`   | Switches to a new stack context         | .X     | none    | x=0, $01=0               |
 |  `$02` | `stack_pop`    | Returns to the previous stack context   | none   | none    | x=0, $01=0               |
 |  `$03` | `stack_enter_kernal_stack` | Switches to the $01xx stack | none   | none    | x=0, $01=0               |
-|  `$04` | `stack_leave_kernal_stack` | Returns to the previous stack context after `stack_enter_kernal_stack`  | none | none | x=0,$01=0 |
+|  `$04` | `stack_leave_kernal_stack` | Returns to the previous stack context after `stack_enter_kernal_stack`  | none | none | x=0, $01=0 |
 
 #### 65C816 extapi16 Function Name: test
 
@@ -1757,6 +1757,7 @@ Registers affected: .C
 
 **Description:** This API is used by unit tests and is not useful for applications.
 
+---
 
 #### 65C816 extapi16 Function Name: stack_push
 
