@@ -74,7 +74,7 @@ The 16 bit ABI generally follows the following conventions:
 * arguments
   * word-sized arguments: passed in r0-r5
   * byte-sized arguments: if three or less, passed in .A, .X, .Y; otherwise in 16 bit registers
-  * boolean arguments: .C, .N
+  * boolean arguments: c, n
 * return values
   * basic rules as above
   * function takes no arguments: r0-r5, else indirect through passed-in pointer
@@ -83,7 +83,7 @@ The 16 bit ABI generally follows the following conventions:
   * r0-r5: arguments (saved)
   * r6-r10: saved
   * r11-r15: scratch
-  * .A, .X, .Y, .C, .N: scratch (unless used otherwise)
+  * .A, .X, .Y, c, n: scratch (unless used otherwise)
 
 ## KERNAL API functions
 
@@ -110,6 +110,8 @@ The 16 bit ABI generally follows the following conventions:
 | [`console_set_paging_message`](#function-name-console_set_paging_message) | `$FED5` | Video | Set paging message or disable paging | r0 | A P | X16
 | [`enter_basic`](#function-name-enter_basic) | `$FF47` | Misc | Enter BASIC | C | A X Y P | X16
 | [`entropy_get`](#function-name-entropy_get) | `$FECF` | Misc | get 24 random bits | none | A X Y P | X16
+| [`extapi`](#function-name-extapi) | `$FEAB` | Misc | Extended API | A X Y P | A X Y P | X16
+| [`extapi16`](#function-name-extapi16) | `$FEA8` | Misc | Extended 65C816 API | A X Y P | A X Y P | X16
 | [`fetch`](#function-name-fetch) | `$FF74` | Mem | Read a byte from any RAM or ROM bank | (A) X Y | A X P | X16
 | [`FB_cursor_next_line`](#function-name-fb_cursor_next_line) &#8224; | `$FF02` | Video | Move direct-access cursor to next line | r0&#8224; | A P | X16
 | [`FB_cursor_position`](#function-name-fb_cursor_position) | `$FEFF` | Video | Position the direct-access cursor | r0 r1 | A P | X16
@@ -249,7 +251,7 @@ Registers affected: .A, .X, .Y, .P
 
 Purpose: Read multiple bytes from the peripheral bus  
 Call address: $FF44  
-Communication registers: .A, .X, .Y, .C  
+Communication registers: .A, .X, .Y, c  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
 Error returns: None  
 Registers affected: .A, .X, .Y
@@ -260,9 +262,9 @@ The number of bytes to be read is passed in the .A register; a value of 0 indica
 
 For reading into Hi RAM, you must set the desired bank prior to calling `MACPTR`. During the read, `MACPTR` will automatically wrap to the next bank as required, leaving the new bank active when finished.
 
-Upon return, a set .C flag indicates that the device or file does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
+Upon return, a set c flag indicates that the device or file does not support `MACPTR`, and the program needs to read the data byte-by-byte using the `ACPTR` call instead.
 
-If `MACPTR` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes read.
+If `MACPTR` is supported, c is clear and .X (lo) and .Y (hi) contain the number of bytes read.
 *It is possible that this is less than the number of bytes requested to be read! (But is always greater than 0)*
 
 Like with `ACPTR`, the status of the operation can be retrieved using the `READST` KERNAL call.
@@ -273,7 +275,7 @@ Like with `ACPTR`, the status of the operation can be retrieved using the `READS
 
 Purpose: Write multiple bytes to the peripheral bus  
 Call address: $FEB1  
-Communication registers: .A, .X, .Y, .C  
+Communication registers: .A, .X, .Y, c  
 Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`  
 Error returns: None  
 Registers affected: .A, .X, .Y
@@ -284,9 +286,9 @@ The number of bytes to be written is passed in the .A register; a value of 0 ind
 
 For reading from Hi RAM, you must set the desired bank prior to calling `MCIOUT`. During the operation, `MCIOUT` will automatically wrap to the next bank as required, leaving the new bank active when finished.
 
-Upon return, a set .C flag indicates that the device or file does not support `MCIOUT`, and the program needs to write the data byte-by-byte using the `CIOUT` call instead.
+Upon return, a set c flag indicates that the device or file does not support `MCIOUT`, and the program needs to write the data byte-by-byte using the `CIOUT` call instead.
 
-If `MCIOUT` is supported, .C is clear and .X (lo) and .Y (hi) contain the number of bytes written.
+If `MCIOUT` is supported, c is clear and .X (lo) and .Y (hi) contain the number of bytes written.
 *It is possible that this is less than the number of bytes requested to be written! (But is always greater than 0)*
 
 Like with `CIOUT`, the status of the operation can be retrieved using the `READST` KERNAL call.  If an error occurred, `READST` should return nonzero.
@@ -303,8 +305,8 @@ Purpose: Save an area of memory to a file without writing an address header.
 Call Address: \$FEBA  
 Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
-Registers affected: .A, .X, .Y, .C  
+Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .P  
 
 **Description:** Save the contents of a memory range to a file.  Unlike `SAVE`, this call does not write the start address to the beginning of the output file.
 
@@ -358,7 +360,7 @@ additional feature to load the contents of a file directly into VRAM.
 
 For loads into the banked RAM area. The current RAM bank (in location `$00`) is used as the start point for the load along with the supplied address. If the load is large enough to advance to the end of banked RAM (`$BFFF`), the RAM bank is automatically advanced, and the load continues into the next bank starting at `$A000`.
 
-After the load, if .C is set, an error occurred and .A will contain the error code. If .C is clear, .X/.Y will point to the address of final byte loaded + 1.
+After the load, if c is set, an error occurred and .A will contain the error code. If c is clear, .X/.Y will point to the address of final byte loaded + 1.
 
 Note: One does not need to call `CLOSE` after `LOAD`.
 
@@ -386,8 +388,8 @@ Purpose: Save an area of memory to a file.
 Call Address: $FFD8  
 Communication Registers: .A, .X, .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: .C = 0 if no error, .C = 1 in case of error and A will contain kernel error code  
-Registers affected: .A, .X, .Y, .C  
+Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code  
+Registers affected: .A, .X, .Y, .P  
 
 **Description:** Save the contents of a memory range to a file. The (little-endian) start address is written to the file as the first two bytes of output, followed by the requested data.
 
@@ -480,7 +482,7 @@ $FF7A: `cmpare` - compare a byte on any RAM or ROM bank
 
 #### Function Name: memory_fill
 
-Signature: void memory_fill(word address: r0, word num_bytes: r1, byte value: .a);  
+Signature: void memory_fill(word address: r0, word num_bytes: r1, byte value: .A);  
 Purpose: Fill a memory region with a byte value.  
 Call address: $FEE4
 
@@ -714,11 +716,11 @@ Purpose: Set or get the current keyboard layout
 Call address: $FED2  
 Communication registers: .X , .Y
 Preparatory routines: None  
-Error returns: .C = 1 in case of error
+Error returns: c = 1 in case of error
 Stack requirements: 0  
 Registers affected: -
 
-**Description:** If .C is set, the routine `keymap` returns a pointer to a zero-terminated string with the current keyboard layout identifier in .X/.Y. If .C is clear, it sets the keyboard layout to the zero-terminated identifier pointed to by .X/.Y. On return, .C is set in case the keyboard layout is unsupported.
+**Description:** If c is set, the routine `keymap` returns a pointer to a zero-terminated string with the current keyboard layout identifier in .X/.Y. If c is clear, it sets the keyboard layout to the zero-terminated identifier pointed to by .X/.Y. On return, c is set in case the keyboard layout is unsupported.
 
 Keyboard layout identifiers are in the form "DE", "DE-CH" etc.
 
@@ -934,9 +936,9 @@ $FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 Purpose: Read bytes from a given I2C device into a RAM location  
 Call address: $FEB4  
-Communication registers: .X, r0, r1, .C  
+Communication registers: .X, r0, r1, c  
 Preparatory routines: None  
-Error returns: .C = 1 in case of error  
+Error returns: c = 1 in case of error  
 Registers affected: .A .Y .P
 
 **Description:** The routine `i2c_batch_read` reads a fixed number of bytes from an I2C device into RAM.  To call, put I2C device (address) in .X, the pointer to the RAM location to which to place the data into r0, and the number of bytes to read into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I2C device and writing directly into VRAM.
@@ -965,9 +967,9 @@ jsr i2c_batch_read ; read 500 bytes from I2C device $50 into RAM starting at $04
 
 Purpose: Write bytes to a given I2C device with data in RAM  
 Call address: $FEB7  
-Communication registers: .X, r0, r1, r2, .C  
+Communication registers: .X, r0, r1, r2, c  
 Preparatory routines: None  
-Error returns: .C = 1 in case of error  
+Error returns: c = 1 in case of error  
 Registers affected: .A .Y .P r2
 
 **Description:** The routine `i2c_batch_write` writes a fixed number of bytes from RAM to an I2C device.  To call, put I2C device (address) in .X, the pointer to the RAM location from which to read into r0, and the number of bytes to write into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I/O device and writing that data to an I2C device.
@@ -1003,10 +1005,10 @@ Purpose: Read a byte at a given offset from a given I2C device
 Call address: $FEC6  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
-Error returns: .C = 1 in case of error  
+Error returns: c = 1 in case of error  
 Registers affected: .A
 
-**Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. .C is 0 if the read was successful, and 1 if no such device exists.
+**Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. c is 0 if the read was successful, and 1 if no such device exists.
 
 **EXAMPLE:**
 
@@ -1024,10 +1026,10 @@ Purpose: Write a byte at a given offset to a given I2C device
 Call address: $FEC9  
 Communication registers: .A, .X, .Y  
 Preparatory routines: None  
-Error returns: .C = 1 in case of error  
-Registers affected: .A
+Error returns: c = 1 in case of error  
+Registers affected: .A, .P
 
-**Description:** The routine `i2c_write_byte` writes the byte in .A at offset .Y of I2C device .X. .C is 0 if the write was successful, and 1 if no such device exists.
+**Description:** The routine `i2c_write_byte` writes the byte in .A at offset .Y of I2C device .X. c is 0 if the write was successful, and 1 if no such device exists.
 
 **EXAMPLES:**
 
@@ -1063,10 +1065,10 @@ $FEF3: `sprite_set_position` - set the position of a sprite
 
 Purpose: Set the image of a sprite  
 Call address: $FEF0  
-Signature: bool sprite_set_image(byte number: .a, width: .x, height: .y, apply_mask: .c, word pixels: r0, word mask: r1, byte bpp: r2L);  
-Error returns: .C = 1 in case of error
+Signature: bool sprite_set_image(byte number: .A, width: .X, height: .Y, apply_mask: c, word pixels: r0, word mask: r1, byte bpp: r2L);  
+Error returns: c = 1 in case of error
 
-**Description:** This function sets the image of a sprite. The number of the sprite is given in .A, The bits per pixel (bpp) in r2L, and the width and height in .X and .Y. The pixel data at r0 is interpreted accordingly and converted into the graphics hardware's native format. If the .C flag is set, the transparency mask pointed to by r1 is applied during the conversion. The function returns .C = 0 if converting the data was successful, and .C = 1 otherwise. Note that this does not change the visibility of the sprite.
+**Description:** This function sets the image of a sprite. The number of the sprite is given in .A, The bits per pixel (bpp) in r2L, and the width and height in .X and .Y. The pixel data at r0 is interpreted accordingly and converted into the graphics hardware's native format. If the c flag is set, the transparency mask pointed to by r1 is applied during the conversion. The function returns c = 0 if converting the data was successful, and c = 1 otherwise. Note that this does not change the visibility of the sprite.
 
 **Note**: There are certain limitations on the possible values of width, height, bpp and apply_mask:
 
@@ -1080,7 +1082,7 @@ Error returns: .C = 1 in case of error
 
 Purpose: Set the position of a sprite or hide it.  
 Call address: $FEF3  
-Signature: void sprite_set_position(byte number: .a, word x: r0, word y: r1);  
+Signature: void sprite_set_position(byte number: .A, word x: r0, word y: r1);  
 Error returns: None
 
 **Description:** This function shows a given sprite (.A) at a certain position or hides it. The position is passed in r0 and r1. If the x position is negative (&gt;$8000), the sprite will be hidden.
@@ -1144,14 +1146,14 @@ Purpose: Enter graphics mode.
 
 #### Function Name: FB_get_info
 
-Signature: void FB_get_info(out word width: r0, out word height: r1, out byte color_depth: .a);  
+Signature: void FB_get_info(out word width: r0, out word height: r1, out byte color_depth: .A);  
 Purpose: Return the resolution and color depth
 
 ---
 
 #### Function Name: FB_set_palette
 
-Signature: void FB_set_palette(word pointer: r0, index: .a, color count: .x);  
+Signature: void FB_set_palette(word pointer: r0, index: .A, color count: .X);  
 Purpose: Set (parts of) the palette
 
 **Description:** `FB_set_palette` copies color data from the address pointed to by r0, updates the color in VERA palette RAM starting at the index A, with the length of the update (in words) in X.  If X is 0, all 256 colors are copied (512 bytes)
@@ -1194,7 +1196,7 @@ Purpose: Copy pixels into RAM, update cursor
 
 #### Function Name: FB_set_pixel
 
-Signature: void FB_set_pixel(byte color: .a);  
+Signature: void FB_set_pixel(byte color: .A);  
 Purpose: Set one pixel, update cursor
 
 ---
@@ -1210,7 +1212,7 @@ Purpose: Copy pixels from RAM, update cursor
 
 #### Function Name: FB_set_8_pixels
 
-Signature: void FB_set_8_pixels(byte pattern: .a, byte color: .x);  
+Signature: void FB_set_8_pixels(byte pattern: .A, byte color: .X);  
 Purpose: Set 8 pixels from bit mask (transparent), update cursor
 
 **Description:** This function sets all 1-bits of the pattern to a given color and skips a pixel for every 0 bit. The order is MSB to LSB. The cursor will be moved by 8 pixels.
@@ -1219,7 +1221,7 @@ Purpose: Set 8 pixels from bit mask (transparent), update cursor
 
 #### Function Name: FB_set_8_pixels_opaque
 
-Signature: void FB_set_8_pixels_opaque(byte pattern: .a, byte mask: r0L, byte color1: .x, byte color2: .y);  
+Signature: void FB_set_8_pixels_opaque(byte pattern: .A, byte mask: r0L, byte color1: .X, byte color2: .Y);  
 Purpose: Set 8 pixels from bit mask (opaque), update cursor
 
 **Description:** For every 1-bit in the mask, this function sets the pixel to color1 if the corresponding bit in the pattern is 1, and to color2 otherwise. For every 0-bit in the mask, it skips a pixel. The order is MSB to LSB. The cursor will be moved by 8 pixels.
@@ -1228,7 +1230,7 @@ Purpose: Set 8 pixels from bit mask (opaque), update cursor
 
 #### Function Name: FB_fill_pixels
 
-Signature: void FB_fill_pixels(word count: r0, word step: r1, byte color: .a);  
+Signature: void FB_fill_pixels(word count: r0, word step: r1, byte color: .A);  
 Purpose: Fill pixels with constant color, update cursor
 
 **Description:** `FB_fill_pixels` sets pixels with a constant color. The argument `step` specifies the increment between pixels. A value of 0 or 1 will cause consecutive pixels to be set. Passing a `step` value of the screen width will set vertically adjacent pixels going top down. Smaller values allow drawing dotted horizontal lines, and multiples of the screen width allow drawing dotted vertical lines.
@@ -1240,7 +1242,7 @@ Purpose: Fill pixels with constant color, update cursor
 Signature: void FB_filter_pixels(word ptr: r0, word count: r1);  
 Purpose: Apply transform to pixels, update cursor
 
-**Description:** This function allows modifying consecutive pixels. The function pointer will be called for every pixel, with the color in .a, and it needs to return the new color in .a.
+**Description:** This function allows modifying consecutive pixels. The function pointer will be called for every pixel, with the color in .A, and it needs to return the new color in .A.
 
 ---
 
@@ -1301,7 +1303,7 @@ Purpose: Set the clipping region
 
 #### Function Name: GRAPH_set_colors
 
-Signature: void GRAPH_set_colors(byte stroke: .a, byte fill: .x, byte background: .y);  
+Signature: void GRAPH_set_colors(byte stroke: .A, byte fill: .X, byte background: .Y);  
 Purpose: Set the three colors
 
 **Description:** This function sets the three colors: The stroke color, the fill color and the background color.
@@ -1317,7 +1319,7 @@ Purpose: Draw a line using the stroke color
 
 #### Function Name: GRAPH_draw_rect
 
-Signature: void GRAPH_draw_rect(word x: r0, word y: r1, word width: r2, word height: r3, word corner_radius: r4, bool fill: .c);  
+Signature: void GRAPH_draw_rect(word x: r0, word y: r1, word width: r2, word height: r3, word corner_radius: r4, bool fill: c);  
 Purpose: Draw a rectangle.
 
 **Description:** This function will draw the frame of a rectangle using the stroke color. If `fill` is `true`, it will also fill the area using the fill color. To only fill a rectangle, set the stroke color to the same value as the fill color.
@@ -1339,7 +1341,7 @@ Purpose: Copy a rectangular screen area to a different location
 
 #### Function Name: GRAPH_draw_oval
 
-Signature: void GRAPH_draw_oval(word x: r0, word y: r1, word width: r2, word height: r3, bool fill: .c);  
+Signature: void GRAPH_draw_oval(word x: r0, word y: r1, word width: r2, word height: r3, bool fill: c);  
 Purpose: Draw an oval or a circle
 
 **Description:** This function draws an oval filling the given bounding box. If width equals height, the resulting shape is a circle. The oval will be outlined by the stroke color. If `fill` is `true`, it will be filled using the fill color. To only fill an oval, set the stroke color to the same value as the fill color.
@@ -1366,10 +1368,10 @@ Purpose: Set the current font
 
 #### Function Name: GRAPH_get_char_size
 
-Signature: (byte baseline: .a, byte width: .x, byte height_or_style: .y, bool is_control: .c) GRAPH_get_char_size(byte c: .a, byte format: .x);  
+Signature: (byte baseline: .A, byte width: .X, byte height_or_style: .Y, bool is_control: c) GRAPH_get_char_size(byte c: .A, byte format: .X);  
 Purpose: Get the size and baseline of a character, or interpret a control code
 
-**Description:** This functionality of `GRAPH_get_char_size` depends on the type of code that is passed in: For a printable character, this function returns the metrics of the character in a given format. For a control code, it returns the resulting format. In either case, the current format is passed in .x, and the character in .a.
+**Description:** This functionality of `GRAPH_get_char_size` depends on the type of code that is passed in: For a printable character, this function returns the metrics of the character in a given format. For a control code, it returns the resulting format. In either case, the current format is passed in .X, and the character in .A.
 
 * The format is an opaque byte value whose value should not be relied upon, except for `0`, which is plain text.
 * The resulting values are measured in pixels.
@@ -1379,7 +1381,7 @@ Purpose: Get the size and baseline of a character, or interpret a control code
 
 #### Function Name: GRAPH_put_char
 
-Signature: void GRAPH_put_char(inout word x: r0, inout word y: r1, byte c: .a);  
+Signature: void GRAPH_put_char(inout word x: r0, inout word y: r1, byte c: .A);  
 Purpose: Print a character onto the graphics screen
 
 **Description:** This function prints a single character at a given location on the graphics screen. The location is then updated. The following control codes are supported:
@@ -1436,11 +1438,11 @@ Call address: $FEDB
 
 #### Function Name: console_put_char
 
-Signature: void console_put_char(byte char: .a, bool wrapping: .c);  
+Signature: void console_put_char(byte char: .A, bool wrapping: c);  
 Purpose: Print a character to the console.  
 Call address: $FEDE
 
-**Description:** This function prints a character to the console. The .C flag specifies whether text should be wrapped at character (.C=0) or word (.C=1) boundaries. In the latter case, characters will be buffered until a SPACE, CR or LF character is sent, so make sure the text that is printed always ends in one of these characters.
+**Description:** This function prints a character to the console. The c flag specifies whether text should be wrapped at character (c=0) or word (c=1) boundaries. In the latter case, characters will be buffered until a SPACE, CR or LF character is sent, so make sure the text that is printed always ends in one of these characters.
 
 **Note**: If the bottom of the screen is reached, this function will scroll its contents up to make extra room.
 
@@ -1463,7 +1465,7 @@ Call address: $FEE1
 
 #### Function Name: console_get_char
 
-Signature: (byte char: .a) console_get_char();  
+Signature: (byte char: .A) console_get_char();  
 Purpose: Get a character from the console.  
 Call address: $FEE1
 
@@ -1488,10 +1490,11 @@ Call address: $FED5
 ### Other
 
 $FECF: `entropy_get` - get 24 random bits  
+$FEAB: `extapi` - extended API  
 $FECC: `monitor` - enter machine language monitor  
 $FF47: `enter_basic` - enter BASIC  
 $FF5F: `screen_mode` - get/set screen mode  
-$FF62: `screen_set_charset` - activate 8x8 text mode charset
+$FF62: `screen_set_charset` - activate 8x8 text mode charset  
 
 #### Function Name: entropy_get
 
@@ -1534,6 +1537,50 @@ Registers affected: .A, .X, .Y
 ```
 
 ---
+#### Function Name: extapi
+Purpose: Additional API functions  
+Call address: $FEAB  
+Communication registers: .A, .X, .Y, .P  
+Preparatory routines: None  
+Error returns: Varies, but usually c=1  
+Stack requirements: Varies  
+Registers affected: Varies
+
+**Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
+
+| Call # | Name         | Description                          | Inputs | Outputs | Preserves |
+| -------|--------------|--------------------------------------|--------|---------|-----------|
+|  `$01` | clear_status | resets the KERNAL IEC status to zero | none   | none    | -         |
+|  `$02` | get_fa       | returns the most recently used fa (device) number in .A | none | A | - |
+
+**EXAMPLE:**
+
+```ASM
+LOADFILE:
+    ; Get the most recently used disk device
+    LDA #2    ; extapi:get_fa
+    JSR $FEAB ; extapi
+    LDA #1
+    TAX
+    LDY #2
+    JSR $FFBA ; SETLFS
+    LDA #FNEND-FN
+    LDX #<FN
+    LDY #>FN
+    JSR $FFBD ; SETNAM
+    LDA #1
+    STA $00   ; ram_bank
+    LDA #0
+    LDX #<$A000
+    LDY #>$A000
+    JSR $FFD5 ; LOAD
+    RTS
+FN:
+    .byte "MYFILENAME.EXT"
+FNEND = *
+```
+
+---
 
 #### Function Name: monitor
 
@@ -1563,11 +1610,11 @@ Registers affected: Does not return
 
 Purpose: Enter BASIC  
 Call address: $FF47  
-Communication registers: .C  
+Communication registers: .P  
 Preparatory routines: None  
 Error returns: Does not return
 
-**Description:** Call this to enter BASIC mode, either through a cold start (.C=1) or a warm start (.C=0).
+**Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
 
 **EXAMPLE:**
 
@@ -1582,13 +1629,13 @@ JMP enter_basic ; returns to the "READY." prompt
 
 Purpose: Get/Set the screen mode  
 Call address: $FF5F  
-Communication registers: .A, .X, .Y, .C  
+Communication registers: .A, .X, .Y, .P  
 Preparatory routines: None  
-Error returns: .C = 1 in case of error  
+Error returns: c = 1 in case of error  
 Stack requirements: 4  
 Registers affected: .A, .X, .Y
 
-**Description:** If .C is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If .C is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, .C will be set, otherwise cleared.
+**Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, c will be set, otherwise cleared.
 
 **EXAMPLE:**
 
@@ -1661,6 +1708,66 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
       .WORD $C000 ; ADDRESS
       .BYTE 1     ; BANK
 ```
+
+### 65C816 support
+
+When writing native 65C816 code for the Commander X16, extra care must be given when using the KERNAL API. With the exception of `extapi16`, documented below, the entire kernal API must be called:
+
+* With m=1, x=1 (accumulator and index are 8 bits)
+* SP set to the KERNAL stack ($01xx). see 
+* DP=$0000 (must be set so that zeropage is the direct page)
+
+$FEA8: `extapi16` - 16-bit extended API for 65C816 native mode  
+
+---
+
+#### Function Name: extapi16
+
+Purpose: API functions for 65C816  
+Call address: $FEA8  
+Communication registers: .C, .X, .Y, .P  
+Preparatory routines: None  
+Error returns: Varies, but usually c=1  
+Stack requirements: Varies  
+Registers affected: Varies
+
+**Description:** This API slot provides access to various native mode 65C816 calls. The call is selected by the .C register (accumulator), and each call has its own register use and return behavior.
+
+**IMPORTANT**  
+* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, x=0, DP=$0000.
+* In addition, these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
+
+| Call # | Name           | Description                           | Inputs | Outputs | Preserves |
+| -------|----------------|---------------------------------------|--------|---------|-----------|
+|  `$01` | `stack_push`   | Switches to a new stack context       | X      | none    | -         |
+|  `$02` | `stack_pop`    | Returns to the previous stack context | none   | none    | -         |
+|  `$03` | `stack_enter_kernal_stack` | Switches to the page $01 stack | none | none | -         |
+|  `$04` | `stack_leave_kernal_stack` | Returns to a the previous stack context after `stack_enter_kernal_stack`  | none | none | - |
+
+
+#### 65C816 extapi16 Function Name: stack_push
+
+Purpose: Point the SP to a new stack
+Call address: $FEA8  
+Communication registers: .A, .X  
+Preparatory routines: None  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .SP
+
+**Description:** This function informs the KERNAL that you're moving the stack pointer to a new location so that it can preserve the previous SP, and then brings the new SP into effect. The main purpose of this call is to preserve the position of the $01xx stack pointer (AKA KERNAL stack), and to track the length of the chain of stacks in the case of multiple pushes. In order for the 65C02 code in the emulated mode ISR to run properly, it must be able to temporarily switch to using the KERNAL stack, regardless of the SP in main code.
+
+**How to Use:**
+
+1) Load .X with the new SP to switch to, then call the routine. Upon return, .SP will be set to the new stack value. If the stack chain depth is greater than 1, the new stack will also have the old stack's address pushed onto it.
+2) To return to the previous stack context, call `stack_pop`.
+
+**Notes:**
+
+* If you wish to preserve your current SP while temporarily switching back to the $01xx stack, for instance, to use the KERNAL API, begin that section of code with a call to `stack_enter_kernal_stack` and end with a call to `stack_leave_kernal_stack`.
+
+
+---
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   
