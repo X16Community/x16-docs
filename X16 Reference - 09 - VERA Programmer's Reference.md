@@ -472,7 +472,7 @@ The X16 KERNAL uses the following video memory layout:
 | $1:B000-$1:EBFF | Text Mode                                                 |
 | $1:EC00-$1:EFFF | *unused* (1024 bytes)                                     |
 | $1:F000-$1:F7FF | Charset                                                   |
-| $1:F800-$1:F9BF | *unused* (1024 bytes)                                     |
+| $1:F800-$1:F9BF | *unused* (448 bytes)                                     |
 | $1:F9C0-$1:F9FF | VERA PSG Registers (16 x 4 bytes)                         |
 | $1:FA00-$1:FBFF | VERA Color Palette (256 x 2 bytes)                        |
 | $1:FC00-$1:FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
