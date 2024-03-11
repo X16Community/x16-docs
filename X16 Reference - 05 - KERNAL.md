@@ -1551,17 +1551,17 @@ Registers affected: Varies
 | Call # | Name         | Description                          | Inputs | Outputs | Preserves |
 | -------|--------------|--------------------------------------|--------|---------|-----------|
 |  `$01` | clear_status | resets the KERNAL IEC status to zero | none   | none    | -         |
-|  `$02` | get_fa       | returns the most recently used fa (device) number in .A | none | A | - |
+|  `$02` | getlfs       | getter counterpart to setlfs         | none   | .A .X .Y | - |
 
 **EXAMPLE:**
 
 ```ASM
 LOADFILE:
-    ; Get the most recently used disk device
-    LDA #2    ; extapi:get_fa
+    ; getlfs returns the most recently used disk device (`fa`) in .X
+    ; Also returns `la` in .A and `sa` in .Y, but we ignore those
+    LDA #2    ; extapi:getlfs
     JSR $FEAB ; extapi
     LDA #1
-    TAX
     LDY #2
     JSR $FFBA ; SETLFS
     LDA #FNEND-FN
@@ -1734,23 +1734,36 @@ Registers affected: Varies
 **Description:** This API slot provides access to various native mode 65C816 calls. The call is selected by the .C register (accumulator), and each call has its own register use and return behavior.
 
 **IMPORTANT**  
-* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, x=0, DP=$0000.
-* In addition, these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
+* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.
+* In addition, some of these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
 
-| Call # | Name           | Description                           | Inputs | Outputs | Preserves |
-| -------|----------------|---------------------------------------|--------|---------|-----------|
-|  `$01` | `stack_push`   | Switches to a new stack context       | X      | none    | -         |
-|  `$02` | `stack_pop`    | Returns to the previous stack context | none   | none    | -         |
-|  `$03` | `stack_enter_kernal_stack` | Switches to the page $01 stack | none | none | -         |
-|  `$04` | `stack_leave_kernal_stack` | Returns to a the previous stack context after `stack_enter_kernal_stack`  | none | none | - |
+| Call # | Name           | Description                             | Inputs | Outputs | Additional Prerequisites |
+| -------|----------------|-----------------------------------------|--------|---------|--------------------------|
+|  `$00` | `test`         | Used by unit tests                      | .X .Y  | .C      | -                        |
+|  `$01` | `stack_push`   | Switches to a new stack context         | .X     | none    | x=0, $01=0               |
+|  `$02` | `stack_pop`    | Returns to the previous stack context   | none   | none    | x=0, $01=0               |
+|  `$03` | `stack_enter_kernal_stack` | Switches to the $01xx stack | none   | none    | x=0, $01=0               |
+|  `$04` | `stack_leave_kernal_stack` | Returns to the previous stack context after `stack_enter_kernal_stack`  | none | none | x=0,$01=0 |
+
+#### 65C816 extapi16 Function Name: test
+
+Purpose: Used by unit tests for jsrfar  
+Call address: $FEA8, .C=0  
+Communication registers: .C .X .Y  
+Preparatory routines: none  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .C
+
+**Description:** This API is used by unit tests and is not useful for applications.
 
 
 #### 65C816 extapi16 Function Name: stack_push
 
-Purpose: Point the SP to a new stack
-Call address: $FEA8  
-Communication registers: .A, .X  
-Preparatory routines: None  
+Purpose: Point the SP to a new stack  
+Call address: $FEA8, .C=1  
+Communication registers: .X  
+Preparatory routines: none  
 Error returns: none  
 Stack requirements: Varies  
 Registers affected: .SP
@@ -1759,12 +1772,73 @@ Registers affected: .SP
 
 **How to Use:**
 
-1) Load .X with the new SP to switch to, then call the routine. Upon return, .SP will be set to the new stack value. If the stack chain depth is greater than 1, the new stack will also have the old stack's address pushed onto it.
-2) To return to the previous stack context, call `stack_pop`.
+1) Ensure `rom_bank` (ZP $01) is set to `0`. This function will not work if it traverses through `jsrfar`.
+2) Load .X with the new SP to switch to, then call the routine. Upon return, .SP will be set to the new stack value. If the stack chain depth is greater than 1, the new stack will also have the old stack's address pushed onto it.
+3) To return to the previous stack context, call `stack_pop`.
 
 **Notes:**
 
 * If you wish to preserve your current SP while temporarily switching back to the $01xx stack, for instance, to use the KERNAL API, begin that section of code with a call to `stack_enter_kernal_stack` and end with a call to `stack_leave_kernal_stack`.
+
+---
+
+#### 65C816 extapi16 Function Name: stack_pop
+
+Purpose: Point the SP to the previously-saved stack  
+Call address: $FEA8, .C=2  
+Communication registers: none  
+Preparatory routines: `stack_push`  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .SP
+
+**Description:** This function informs the KERNAL that you're finished using the stack set previously by `stack_push`. It brings the previous SP into effect.
+
+**How to Use:**
+
+1) Ensure `rom_bank` (ZP $01) is set to `0`. This function will not work if it traverses through `jsrfar`.
+2) Ensure the current SP is set to the same value that was set immediately after the return from `stack_push`. In other words, you cannot use this function to bail out early from a deep subroutine chain without taking care to reset the stack first. In addition, you cannot simply reset the stack to the value that _you_ called `stack_push` with since the new stack may have had state pushed by the call to `stack_push`.
+3) Call `stack_pop`.  The call will return to the address immediately after, but with the previously-pushed SP.
+
+---
+
+#### 65C816 extapi16 Function Name: stack_enter_kernal_stack
+
+Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one  
+Call address: $FEA8, .C=3  
+Communication registers: none  
+Preparatory routines: `stack_push`  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .SP
+
+**Description:** This function requests that the KERNAL temporarily bring the $01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from $01xx but need to call the KERNAL API or legacy code.
+
+**How to Use:**
+
+1) Ensure `rom_bank` (ZP $01) is set to `0`. This function will not work if it traverses through `jsrfar`.
+2) A prior call to `stack_push` must be in effect that hasn't been undone by `stack_pop`, and the current SP must not be the default $01xx stack.
+3) Call `stack_enter_kernal_stack`, call the legacy functions, then call `stack_leave_kernal_stack`.
+
+---
+
+#### 65C816 extapi16 Function Name: stack_leave_kernal_stack
+
+Purpose: Point the SP to the previously-preserved stack  
+Call address: $FEA8, .C=4  
+Communication registers: none  
+Preparatory routines: `stack_enter_kernal_stack`  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .SP
+
+**Description:** This function is the counterpart to `stack_enter_kernal_stack`, and restores the previously preserved stack.
+
+**How to Use:**
+
+1) Ensure `rom_bank` (ZP $01) is set to `0`. This function will not work if it traverses through `jsrfar`.
+2) A prior call to `stack_enter_kernal_stack` must be in effect that hasn't been undone by this function.
+3) Call `stack_leave_kernal_stack`.
 
 
 ---
