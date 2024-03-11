@@ -46,7 +46,8 @@ Here is the ROM/Cartridge bank allocation:
 |12    |BANNEX |BASIC Annex (code for some added BASIC functions)      |
 |13-14 |X16EDIT|The built-in text editor                               |
 |15    |BASLOAD|A transpiler that converts BASLOAD dialect to BASIC V2 |
-|16-31 |–      |_[Currently unused]_                                   |
+|16    |DIAGNOSTIC|Memory diagnostic                                   |
+|17-31 |–      |_[Currently unused]_                                   |
 |32-255|–      |Cartridge RAM/ROM                                      |
 
 **Important**: The layout of the banks may still change.
