@@ -597,6 +597,40 @@ of as $100, or 256). It is possible to have other
 values (e.g. $42), such as if the system has bad
 banked RAM.
 
+**Setting the top of BASIC RAM**
+
+This routine changes the top of memory, allowing you to save a small machine
+language routine at the top of BASIC RAM, just below the I/O space:
+
+```BASIC
+10 POKE$30F,1:SYS$FF99
+20 Y=$8C:X=$00
+30 POKE$30D,X:POKE$30E,Y:POKE$30F,0:SYS$FF99
+40 CLR
+```
+
+Analysis: 
+
+The SYS command uses memory locations $30C-$30F to pre-load the CPU registers,
+it then dumps the registers back to these locations after the SYS call is
+complete. $30D is the X register, $30E is .Y, and $30F is the flags. The Carry
+flag is bit 0, so setting $30F to 1 before calling MEMTOP indicates that this is
+a _read_ of the values. 
+
+1. Line 10 reads the current values. Do this to preserve the extended RAM bank
+   count.
+2. Line 20 uses the X and Y variables to make the code easier to read. Set Y to
+   the high byte of the address and X to the low byte. 
+3. Line 30 POKEs those values in, clears the Carry bit ($30F is now 0), and
+   calls MEMTOP again.
+
+The address entered is actually the first byte of free space _after_
+your BASIC program space, so if you set MEMTOP to $9C00, then you can start your
+assembly program at $9C00 with `* = $9C00` or `org $9c00`.
+
+To reserve 256 bytes, set X to $9E. To reserve 1KB, set X to $9C. To return to
+the default values, set Y=$9F and X=0.
+
 ---
 
 ### Clock
