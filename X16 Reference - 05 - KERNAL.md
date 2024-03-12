@@ -623,6 +623,8 @@ a _read_ of the values.
    the high byte of the address and X to the low byte. 
 3. Line 30 POKEs those values in, clears the Carry bit ($30F is now 0), and
    calls MEMTOP again.
+4. Finally, use CLR to lock in the new values. Since this clears all the
+   variables, you should _probably_ do this at the top of your program.
 
 The address entered is actually the first byte of free space _after_
 your BASIC program space, so if you set MEMTOP to $9C00, then you can start your
