@@ -1584,10 +1584,39 @@ Registers affected: Varies
 
 **Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
 
-| Call # | Name         | Description                          | Inputs | Outputs | Preserves |
-| -------|--------------|--------------------------------------|--------|---------|-----------|
-|  `$01` | clear_status | resets the KERNAL IEC status to zero | none   | none    | -         |
-|  `$02` | getlfs       | getter counterpart to setlfs         | none   | .A .X .Y | - |
+| Call # | Name                | Description                          | Inputs   | Outputs  | Preserves |
+| -------|---------------------|--------------------------------------|----------|----------|-----------|
+|  `$01` | clear_status        | resets the KERNAL IEC status to zero | none     | none     | -         |
+|  `$02` | getlfs              | getter counterpart to setlfs         | none     | .A .X .Y | -         |
+|  `$03` | mouse_sprite_offset | get or set mouse sprite pixel offset | r0 r1 .P | r0 r1    | -         |
+
+---
+
+####  extapi Function Name: clear_status
+
+Purpose: Reset the IEC status byte to 0   
+Call address: $FEAB, .A=1  
+Communication registers: none  
+Preparatory routines: none  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A  
+
+**Description:** This function explicitly clears the IEC status byte. This is the value which is returned by calling `readst`.
+
+---
+
+####  extapi Function Name: getlfs
+
+Purpose: Return the values from the last call to `setlfs`   
+Call address: $FEAB, .A=2  
+Communication registers: .A .X .Y  
+Preparatory routines: none  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A .X .Y  
+
+**Description:** This function returns the values from the most recent call to `setlfs`. This is most useful for fetching the most recently-used disk device.
 
 **EXAMPLE:**
 
@@ -1614,6 +1643,51 @@ LOADFILE:
 FN:
     .byte "MYFILENAME.EXT"
 FNEND = *
+```
+
+---
+
+#### extapi Function Name: mouse_sprite_offset
+
+Purpose: Set the mouse sprite x/y offset  
+Call address: $FEAB, .A=3  
+Communication registers: r0 r1  
+Preparatory routines: `mouse_config`  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A .X .Y .P r0 r1
+
+**Description:** This function allows you to set or retrieve the display offset of the mouse sprite, relative to the calculated mouse position. Setting it negative can be useful for mouse sprites in which the locus is not the upper left corner. Combined with configuring a smaller X/Y with mouse_config, it can be set positive to confine the mouse pointer to a limited region of the screen.
+
+* Set: If carry is clear when called, the X and Y sprite offsets are configured from the values in r0 and r1 respectively.
+* Get: If carry is set when called, the X and Y sprite offsets are retrieved and placed in r0 and r1 respectively.
+
+**How to Use:**
+
+1) Set up your mouse sprite and call `mouse_config`. Any call to `mouse_config` resets this offset.
+2) Load r0 with the 16-bit X offset and r1 with the 16-bit Y offset. Most of the time these values will be negative. For instance, a 16x16 sprite pointer in which the locus is near the center would have an offset of -8 ($FFF8) on both axes.
+3) Clear carry and call `mouse_sprite_offset`
+
+**EXAMPLE:**
+
+```ASM
+  ; configure your mouse sprite here
+
+  ; configure mouse before setting offset
+  LDA #$FF
+  LDY #0
+  LDX #0
+  JSR $FF68 ; mouse_config (resets sprite offsets to zero)
+
+  LDA #<(-8)
+  STA r0L
+  STA r1L
+  LDA #>(-8)
+  STA r0H
+  STA r1H
+  LDA #3    ; mouse_sprite_offset
+  CLC
+  JSR $FEAB ; extapi
 ```
 
 ---
@@ -1803,7 +1877,7 @@ Communication registers: .X
 Preparatory routines: none  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're moving the stack pointer to a new location so that it can preserve the previous SP, and then brings the new SP into effect. The main purpose of this call is to preserve the position of the $01xx stack pointer (AKA KERNAL stack), and to track the length of the chain of stacks in the case of multiple pushes. In order for the 65C02 code in the emulated mode ISR to run properly, it must be able to temporarily switch to using the KERNAL stack, regardless of the SP in main code.
 
@@ -1827,7 +1901,7 @@ Communication registers: none
 Preparatory routines: `stack_push`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're finished using the stack set previously by `stack_push`. It brings the previous SP into effect.
 
@@ -1847,7 +1921,7 @@ Communication registers: none
 Preparatory routines: `stack_push`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function requests that the KERNAL temporarily bring the $01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from $01xx but need to call the KERNAL API or legacy code.
 
@@ -1867,7 +1941,7 @@ Communication registers: none
 Preparatory routines: `stack_enter_kernal_stack`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function is the counterpart to `stack_enter_kernal_stack`, and restores the previously preserved stack.
 
