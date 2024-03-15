@@ -313,7 +313,7 @@ And this table shows which of the standard commands are supported:
 | U9/UI            | `UI`                                                  | Soft RESET                      | yes       |
 | U:/UJ            | `UJ`                                                  | Hard RESET                      | yes       |
 | USER             | `U0>` _pa_                                            | Set unit primary address        | yes       |
-| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | no        |
+| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | yes<sup>6</sup>        |
 | USER             | `U0>D`_val_                                           | Set directory sector interleave | no<sup>1</sup>|
 | USER             | `U0>H` _number_                                       | Select head 0/1                 | no<sup>1</sup>|
 | USER             | `U0>L`_flag_                                          | Large REL file support on/off   | no        |
@@ -333,6 +333,7 @@ And this table shows which of the standard commands are supported:
 * <sup>3</sup>: third argument `FAT32` _has_ to be passed
 * <sup>4</sup>: CMDR-DOS was architected to run on the main computer, so it shouldn't be DOS that keeps track of the time
 * <sup>5</sup>: Instead of testing the ROM, this command currently verifies that no buffers are allocated, otherwise it halts. This is used by unit tests to detect leaks.
+* <sup>6</sup>: Repurposed for SD card read and write mode. _flag_ selects whether fast read (auto_tx) and fast writes are enabled. 0=none, 1=auto_tx, 2=fast writes, 3=both
 
 The following special file syntax and `OPEN` options are specific to CMDR-DOS:
 
