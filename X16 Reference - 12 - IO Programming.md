@@ -42,7 +42,7 @@ The Commander X16 contains an I2C bus, which is implemented through two pins of 
 
 ### System Management Controller
 
-The system management controller (SMC) is device $42 on the I2C bus. It controls the power and activity LEDs, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
+The system management controller (SMC) is device $42 on the I2C bus. It controls the activity LED, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
 the PS/2 keyboard and mouse.
 
 | Register | Value           | Description               |
@@ -51,7 +51,6 @@ the PS/2 keyboard and mouse.
 | $01      | $01           | Hard reboot               |
 | $02      | $00           | Inject RESET              |
 | $03      | $00           | Inject NMI                |
-| $04      | $00..$FF     | Power LED brightness      |
 | $05      | $00..$FF     | Activity LED brightness   |
 | $07      | -              | Read from keyboard buffer |
 | $08      | $00..$FF     | Echo                      |
