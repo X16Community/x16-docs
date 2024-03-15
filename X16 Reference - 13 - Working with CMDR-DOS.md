@@ -313,7 +313,7 @@ And this table shows which of the standard commands are supported:
 | U9/UI            | `UI`                                                  | Soft RESET                      | yes       |
 | U:/UJ            | `UJ`                                                  | Hard RESET                      | yes       |
 | USER             | `U0>` _pa_                                            | Set unit primary address        | yes       |
-| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | yes<sup>6</sup>        |
+| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | yes<sup>6</sup>|
 | USER             | `U0>D`_val_                                           | Set directory sector interleave | no<sup>1</sup>|
 | USER             | `U0>H` _number_                                       | Select head 0/1                 | no<sup>1</sup>|
 | USER             | `U0>L`_flag_                                          | Large REL file support on/off   | no        |
