@@ -1697,7 +1697,7 @@ Registers affected: .A .X .Y .P r0 r1
 
 Purpose: Set or get the keyboard mapping for joystick 0  
 Call address: $FEAB, .A=4  
-Communication registers: r0L-r6H  
+Communication registers: .P r0L-r6H  
 Preparatory routines: none  
 Error returns: none  
 Registers affected: .A .X .Y .P r0L-r6H
@@ -1746,7 +1746,7 @@ Registers affected: .A .X .Y .P r0L-r6H
   STZ r6H   ; Disable the secondary A button mapping
   LDA #4    ; joystick_ps2_keycodes
   CLC       ; set values
-  JSR $FEAB ; extapi
+  JSR $FEAB ; extapi (brings the new mapping into effect)
 ```
 
 ---
