@@ -51,7 +51,7 @@ the PS/2 keyboard and mouse.
 | $01      | $01           | Hard reboot               |
 | $02      | $00           | Inject RESET              |
 | $03      | $00           | Inject NMI                |
-| $05      | $00..$FF     | Activity LED brightness   |
+| $05      | $00/$FF     | Activity LED off/on   |
 | $07      | -              | Read from keyboard buffer |
 | $08      | $00..$FF     | Echo                      |
 | $18      | -              | Read ps2 status           |
