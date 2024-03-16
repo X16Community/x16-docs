@@ -382,7 +382,7 @@ BRK
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -435,7 +435,7 @@ AND does not set the overflow or carry flags.
 See also: [ORA](#ora), [EOR](#eor)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -458,7 +458,7 @@ the Carry flag and a zero into the low bit.
 See also: [LSR](#lsr), [ROL](#rol), [ROR](#ror)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -476,7 +476,7 @@ multi-byte math, where you will use the Carry flag to decide whether to add or
 subtract the higher bytes in a 16 or 32-bit number.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -498,7 +498,7 @@ instruction after the branch. So the branch destination can be 126 bytes before
 or 128 bytes after the branch instruction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -521,7 +521,7 @@ instruction after the branch. So the branch destination can be 126 bytes before
 or 128 bytes after the branch instruction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -543,7 +543,7 @@ operation internally, and The **n**, **v**, and **z** flags are set accordingly.
 The Accumulator is *not* modified after the operation.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -566,7 +566,7 @@ instruction after the branch. So the branch destination can be 126 bytes before
 or 128 bytes after the branch instruction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -589,7 +589,7 @@ instruction after the branch. So the branch destination can be 126 bytes before
 or 128 bytes after the branch instruction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -608,7 +608,7 @@ Jumps to the specified address when the Negative flag (**n**) is clear.
 of an ALU operation is 0.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -628,7 +628,7 @@ instruction after the branch. So the branch destination can be 126 bytes before
 or 128 bytes after the branch instruction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -675,7 +675,7 @@ stack to dispatch a BRK vs IRQ interrupt. You can just handle each immediately.
 See the [Vectors](#vectors) section for the break vector.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -701,7 +701,7 @@ Since this is a _relatve_ branch, that means code assembled with BRL, instead of
 JMP, can be moved around in memory without the need for re-assembly.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -717,7 +717,7 @@ BVC LABEL      rel8          50  2   2+t+t*e*p   ........ .
 Branches to the specified address when the Overflow bit is 0.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -733,7 +733,7 @@ BVS LABEL      rel8          70  2   2+t+t*e*p   ........ .
 Branches to the specified address when the Overflow bit is 0.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -751,7 +751,7 @@ SEC before subtraction. You'll also want to use CLC or SEC appropriately before
 calling certain KERNAL routines that use the **c** bit as an input value.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -771,7 +771,7 @@ Clearing this flag restores the CPU to binary \(base 16\) operation. See
 [Decimal Mode](#decimal-mode) for more information.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -792,7 +792,7 @@ in the IRQ vector.
 See [BRK}(#brk) for more information on interrupt handling.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -812,7 +812,7 @@ CLV clears the overflow flag. There is no "SEV" instruction, but overflow can be
 set with SEP #$40.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -908,7 +908,7 @@ skip:
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -926,7 +926,7 @@ is to switch to a Co-Processor, but this can be used for any purpose on the X16
 (including triggering a DMA controller, if that's what you want to do.)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -946,7 +946,7 @@ This compares the X register to an operand and sets the flags accordingly.
 See [CMP](#cmp) for more information.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -966,7 +966,7 @@ This compares the Y register to an operand and sets the flags accordingly.
 See [CMP](#cmp) for more information.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -991,7 +991,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 **n** is set when the high bit gets set.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1012,7 +1012,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 **n** is set when the high bit gets set.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1033,7 +1033,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 **n** is set when the high bit gets set.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1078,7 +1078,7 @@ Result:    0110
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1118,7 +1118,7 @@ done:
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1136,7 +1136,7 @@ Increment the X register.
 See [INC}(#inc)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1154,7 +1154,7 @@ Increment the Y register.
 See [INC}(#inc)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1178,7 +1178,7 @@ Instructions like `JMP ($1234,X)` make it possible to branch to a selectable
 subroutine by setting X to the indesx into the vector table.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1197,7 +1197,7 @@ program bank.
 Use the [RTL](#rtl) instruction to return to the instruction following the JSL.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1222,7 +1222,7 @@ This means that the CPU still needs to increment the PC by 1 step during the
 RTS.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1253,7 +1253,7 @@ Reads a value from memory into .A. This sets **n** and **z** appropriately,
 allowing you to use BMI, BPL, BEQ, and BNE to act based on the value being read.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1273,7 +1273,7 @@ LDX $1234,Y    abs,Y         BE  3   6-2*x+x*p   n.....z. .
 Read a value into .X
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1293,7 +1293,7 @@ LDY $1234,X    abs,X         BC  3   6-2*x+x*p   n.....z. .
 Read a value into .Y
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1323,7 +1323,7 @@ Bit 0 is shifted into Carry.;
 +c New for the 65C02;
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1347,7 +1347,7 @@ As this requires 16 bit values in the index registers, set **x** with `rep #$30`
 * MVN #source_bank, #dest_bank
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1371,7 +1371,7 @@ As this requires 16 bit values in the index registers, set **x** with `rep #$30`
 * MVP #source_bank, #dest_bank
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1388,7 +1388,7 @@ The CPU performs no operation. This is useful when blocking out instructionsor
 reserving space for later use.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1431,7 +1431,7 @@ Result:    1110
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1451,7 +1451,7 @@ than an address. This will normally be written in teh form `PEA #1234`, and in
 this instance, the actual value pushed onto the stack is $1234.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1475,7 +1475,7 @@ PEI ($20)
 ```
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1507,7 +1507,7 @@ This gets the address following the BRL instruction and pushes that to the
 stack. See [JSR}(#jsr) to understand why the -1 is required.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1531,7 +1531,7 @@ range, so there is only room for 256 bytes on the stack. In native mode, the
 stack can live anywhere in RAM.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1550,7 +1550,7 @@ and LDY.
 This is always an 8-bit operation.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1568,7 +1568,7 @@ preserving the location of .D before relocating Direct Page for another use
 (such as an operating system routine.)
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1585,7 +1585,7 @@ Pushes the Program Bank register to the stack. The Program Bank is the top 8
 bits of the 24-bit Program Counter address.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1608,7 +1608,7 @@ behavior, make sure your Interrupt handler code reads from the stack, not the .P
 bits, when dispatching a IRQ/BRK interrupt.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1628,7 +1628,7 @@ An 8-bit stack push writes data at the Stack Pointer address, then moves SP down
 by 1 byte. A 16-bit stack push moves the stack pointer down 2 bytes.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1648,7 +1648,7 @@ An 8-bit stack push writes data at the Stack Pointer address, then moves SP down
 by 1 byte. A 16-bit stack push moves the stack pointer down 2 bytes.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1669,7 +1669,7 @@ stack and _increments_ the stack pointer by 1 or 2 bytes.
 The number of bytes read is based on the value of the **m** flag.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1688,7 +1688,7 @@ In the opposite of PHB, the PLB instruction reads the current value from the
 stack and _increments_ the stack pointer by 1 byte.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1705,7 +1705,7 @@ This sets the Direct Page address based on the value on the stack. You will
 commonly set the Direct Page through a PEA/PLD or PHX/PLX combo.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1723,7 +1723,7 @@ the **m** and **x** register-width flags, this should be performed *before* a
 PLA, PLX, or PLY operation.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1744,7 +1744,7 @@ stack and _increments_ the stack pointer by 1 or 2 bytes.
 The number of bytes read is based on the value of the **x** flag.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1765,7 +1765,7 @@ stack and _increments_ the stack pointer by 1 or 2 bytes.
 The number of bytes read is based on the value of the **x** flag.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1782,7 +1782,7 @@ This clears (to 0) flags in the Program Status Byte. The 1 bits in the will be
 cleard in the flags, so REP #$30 will set the **a** and **x** bits low.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1804,7 +1804,7 @@ shifted in to bit 0. The high bit (7 or 15) is copied to **c**. So this is
 effectively a 9 bit shift.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1826,7 +1826,7 @@ shifted into the high bit (15 or 7). The low bit (0) is copied to **c**. So this
 is effectively a 9 bit shift.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1848,7 +1848,7 @@ switch to 8/16 bit mode, as appropriate.
 3. If the CPU is in native mode, the CPU pulls the Program Bank register.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1869,7 +1869,7 @@ Program Bank register. The next instruction executed will then be the
 instruction after the JSL that jumped to the subroutine.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1889,7 +1889,7 @@ Program Counter. The next instruction executed will then be the
 instruction after the JSR that jumped to the subroutine.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1933,7 +1933,7 @@ first SBC in a sequence, to ensure that the Carry bit is _set_, going into a
 subtraction.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1949,7 +1949,7 @@ SEC            imp           38  1   2           .......c .
 Sets the Carry bit to 1
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1976,7 +1976,7 @@ have a number like $1A on the accumulator and you SED, you will need to ADC #$00
 to actually convert .A to $20.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -1996,7 +1996,7 @@ when the IRQ pin is asserted.
 See [BRK](#brk) for a brief description of interrupts.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2015,7 +2015,7 @@ This sets (to 1) a flag in the Program Status Byte. The operand value will be
 loaded into the flags, so SEP #$30 will set the **a** and **x** bits high.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2048,7 +2048,7 @@ memory. When **m** is 1, the value will be an 8-bit number, using one byte of
 RAM.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2065,7 +2065,7 @@ Halts the CPU. The CPU will no longer process instructions until the Reset pin
 is asserted.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2087,7 +2087,7 @@ bytes of memory. When **x** is 1, the value will be an 8-bit number, using one
 byte of RAM.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2109,7 +2109,7 @@ bytes of memory. When **x** is 1, the value will be an 8-bit number, using one
 byte of RAM.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2132,7 +2132,7 @@ memory. When **m** is 1, the value will be an 8-bit number, using one byte of
 RAM.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2153,7 +2153,7 @@ If **m** or **x** is 1, the copy will only be 8 bits, and the upper byte of .X
 will nt be affected.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2174,7 +2174,7 @@ If **m** or **x** is 1, the copy will only be 8 bits, and the upper byte of .Y
 will nt be affected.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2191,7 +2191,7 @@ This is one of the times that the 16-bit Accumulator is called .C. This copies
 the 16-bit value from the 16-bit Accumulator to the Stack Pointer
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2208,7 +2208,7 @@ This is one of the times that the 16-bit Accumulator is called .C. This copies
 the 16-bit value from the 16-bit Accumulator to the Stack Pointer
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2224,7 +2224,7 @@ TDC            imp           7B  1   2           n.....z. .
 Copies the value of the Direct Register to the Accumulator.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2244,7 +2244,7 @@ of the AND operation is Zero, **z** is set.
 After this, the bits that were 1 in the Accumulator are cleared.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2264,7 +2264,7 @@ of the AND operation is Zero, **z** is set.
 After this, the bits that were 1 in the Accumulator are set to 1.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2280,7 +2280,7 @@ TSC            imp           3B  1   2           n.....z. .
 Copies the Stack Pointer to the 16-bit Accumulator.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2296,7 +2296,7 @@ TSX            imp           BA  1   2           n.....z. .
 Copies the Stack Pointer to the X register.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2312,7 +2312,7 @@ TXA            imp           8A  1   2           n.....z. .
 Copies the value in .X to .A
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2329,7 +2329,7 @@ Copies the X register to the Stack Pointer. This is used to reset the stack to a
 known location, usually at boot or when context-switching.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2345,7 +2345,7 @@ TXY            imp           9B  1   2           n.....z. .
 Copies the value in .X to .Y
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2361,7 +2361,7 @@ TYA            imp           98  1   2           n.....z. .
 Copies the value in .Y to .A
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2377,7 +2377,7 @@ TYX            imp           BB  1   2           n.....z. .
 Copies the value in .Y to .X
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2395,7 +2395,7 @@ respond to an interrupt immediately, rather than waiting for an instruction to
 complete.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2415,7 +2415,7 @@ The WDM opcode is reserved for future use and should be avoided in 65C816
 programs.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2432,7 +2432,7 @@ Swaps the values in .A and .B. This exchanges the high and low bytes of the
 Accumulator.
 
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
@@ -2461,7 +2461,7 @@ SEC
 XCE
 ```
 
-[top](#instructions-by-opcode)
+[[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
