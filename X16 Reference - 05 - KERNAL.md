@@ -1584,11 +1584,12 @@ Registers affected: Varies
 
 **Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
 
-| Call # | Name                | Description                          | Inputs   | Outputs  | Preserves |
-| -------|---------------------|--------------------------------------|----------|----------|-----------|
-|  `$01` | clear_status        | resets the KERNAL IEC status to zero | none     | none     | -         |
-|  `$02` | getlfs              | getter counterpart to setlfs         | none     | .A .X .Y | -         |
-|  `$03` | mouse_sprite_offset | get or set mouse sprite pixel offset | r0 r1 .P | r0 r1    | -         |
+| Call # | Name                  | Description                          | Inputs     | Outputs  | Preserves |
+| -------|-----------------------|--------------------------------------|------------|----------|-----------|
+|  `$01` | clear_status          | resets the KERNAL IEC status to zero | none       | none     | -         |
+|  `$02` | getlfs                | getter counterpart to setlfs         | none       | .A .X .Y | -         |
+|  `$03` | mouse_sprite_offset   | get or set mouse sprite pixel offset | r0 r1 .P   | r0 r1    | -         |
+|  `$04` | joystick_ps2_keycodes | get or set joy0 keycode mappings     | r0L-r6H .P | r0L-r6H  | -         |
 
 ---
 
@@ -1687,6 +1688,64 @@ Registers affected: .A .X .Y .P r0 r1
   STA r1H
   LDA #3    ; mouse_sprite_offset
   CLC
+  JSR $FEAB ; extapi
+```
+
+---
+
+#### extapi Function Name: joystick_ps2_keycodes
+
+Purpose: Set or get the keyboard mapping for joystick 0  
+Call address: $FEAB, .A=4  
+Communication registers: r0L-r6H  
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .Y .P r0L-r6H
+
+**Description:** This function allows you to set or retrieve the list of keycodes that are mapped to joystick 0
+
+* Set: If carry is clear when called, the current values are set based on the contents of the 14 registers r0L-r6H.
+* Get: If carry is set when called, the current values are retrieved and placed in the 14 registers r0L-r6H.
+
+| Register | Controller Input | Default                  |
+|----------|------------------|--------------------------|
+| r0L      | D-pad Right      | KEYCODE_RIGHTARROW ($59) |
+| r0H      | D-pad Left       | KEYCODE_LEFTARROW ($4F)  |
+| r1L      | D-pad Down       | KEYCODE_DOWNARROW ($54)  |
+| r1H      | D-pad Up         | KEYCODE_UPARROW ($53)    |
+| r2L      | Start            | KEYCODE_ENTER ($2B)      |
+| r2H      | Select           | KEYCODE_LSHIFT ($2C)     |
+| r3L      | Y                | KEYCODE_A ($1F)          |
+| r3H      | B                | KEYCODE_Z ($2E)          |
+| r4L      | B                | KEYCODE_LALT ($3C)       |
+| r4H      | R                | KEYCODE_C ($30)          |
+| r5L      | L                | KEYCODE_D ($21)          |
+| r5H      | X                | KEYCODE_S ($20)          |
+| r6L      | A                | KEYCODE_X ($2F)          |
+| r6H      | A                | KEYCODE_LALT ($3C)       |
+
+* Note that there are two mappings for the controller button B, and two mappings for the controller button A. Both mapped keys will activate the controller button.
+
+**How to Use:**
+
+1) Unless you're replacing the entire set of mappings, call `joystick_ps2_keycodes` first with carry set to fetch the existing values into r0L-r6H.
+2) Load your desired changes into r0L-r6H. The keycodes are enumerated [here](https://github.com/X16Community/x16-rom/blob/master/inc/keycode.inc), and their names, similar to that of PS/2 codes, are based on their function in the ___US layout___.  You can also disable a mapping entirely with the value 0.
+
+3) Clear carry and call `joystick_ps2_keycodes`
+
+**EXAMPLE:**
+
+```ASM
+  ; first fetch the original values
+  LDA #4    ; joystick_ps2_keycodes
+  SEC       ; get values
+  JSR $FEAB ; extapi
+  LDA #$10  ; KEYCODE_TAB
+  STA r2H   ; Tab is to be mapped to the select button
+  STZ r4L   ; Disable the secondary B button mapping
+  STZ r6H   ; Disable the secondary A button mapping
+  LDA #4    ; joystick_ps2_keycodes
+  CLC       ; set values
   JSR $FEAB ; extapi
 ```
 
