@@ -1590,6 +1590,7 @@ Registers affected: Varies
 |  `$02` | getlfs                | getter counterpart to setlfs         | none       | .A .X .Y | -         |
 |  `$03` | mouse_sprite_offset   | get or set mouse sprite pixel offset | r0 r1 .P   | r0 r1    | -         |
 |  `$04` | joystick_ps2_keycodes | get or set joy0 keycode mappings     | r0L-r6H .P | r0L-r6H  | -         |
+|  `$05` | iso_cursor_char       | get or set the ISO mode cursor char  | .X .P      | .X       | -         |
 
 ---
 
@@ -1748,6 +1749,24 @@ Registers affected: .A .X .Y .P r0L-r6H
   CLC       ; set values
   JSR $FEAB ; extapi (brings the new mapping into effect)
 ```
+
+---
+
+#### extapi Function Name: iso_cursor_char
+
+Purpose: get or set the ISO mode cursor character  
+Call address: $FEAB, .A=5  
+Communication registers: .X .P  
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .Y .P  
+
+**Description:** This function allows you to set or retrieve the cursor screen code which is used in ISO mode.
+
+* Set: If carry is clear when called, the current value of .X is used as the blinking cursor character if the screen console is in ISO mode.
+* Get: If carry is set when called, the current value of the blinking cursor character is returned in .X.
+
+When entering ISO mode, such as by sending a `$0F` to the screen via `BSOUT` or pressing Ctrl+O, the cursor character is reset to the default of `$9F`.
 
 ---
 
