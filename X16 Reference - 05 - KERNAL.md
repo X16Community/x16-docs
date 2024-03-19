@@ -1595,6 +1595,7 @@ Registers affected: .A, .X, .Y
 ---
 #### Function Name: extapi
 Purpose: Additional API functions  
+Minimum ROM version: R47  
 Call address: $FEAB  
 Communication registers: .A, .X, .Y, .P  
 Preparatory routines: None  
@@ -1617,6 +1618,7 @@ Registers affected: Varies
 ####  extapi Function Name: clear_status
 
 Purpose: Reset the IEC status byte to 0   
+Minimum ROM version: R47  
 Call address: $FEAB, .A=1  
 Communication registers: none  
 Preparatory routines: none  
@@ -1631,6 +1633,7 @@ Registers affected: .A
 ####  extapi Function Name: getlfs
 
 Purpose: Return the values from the last call to `setlfs`   
+Minimum ROM version: R47  
 Call address: $FEAB, .A=2  
 Communication registers: .A .X .Y  
 Preparatory routines: none  
@@ -1672,6 +1675,7 @@ FNEND = *
 #### extapi Function Name: mouse_sprite_offset
 
 Purpose: Set the mouse sprite x/y offset  
+Minimum ROM version: R47  
 Call address: $FEAB, .A=3  
 Communication registers: r0 r1  
 Preparatory routines: `mouse_config`  
@@ -1717,6 +1721,7 @@ Registers affected: .A .X .Y .P r0 r1
 #### extapi Function Name: joystick_ps2_keycodes
 
 Purpose: Set or get the keyboard mapping for joystick 0  
+Minimum ROM version: R47  
 Call address: $FEAB, .A=4  
 Communication registers: .P r0L-r6H  
 Preparatory routines: none  
@@ -1775,6 +1780,7 @@ Registers affected: .A .X .Y .P r0L-r6H
 #### extapi Function Name: iso_cursor_char
 
 Purpose: get or set the ISO mode cursor character  
+Minimum ROM version: R47  
 Call address: $FEAB, .A=5  
 Communication registers: .X .P  
 Preparatory routines: none  
@@ -1817,6 +1823,7 @@ Registers affected: Does not return
 #### Function Name: PFKEY
 
 Purpose: Reprogram a function key macro  
+Minimum ROM version: R47  
 Call address: $FF65  
 Communication registers: .A .X .Y  
 Preparatory routines: None  
@@ -1991,6 +1998,7 @@ $FEA8: `extapi16` - 16-bit extended API for 65C816 native mode
 #### Function Name: extapi16
 
 Purpose: API functions for 65C816  
+Minimum ROM version: R47  
 Call address: $FEA8  
 Communication registers: .C, .X, .Y, .P  
 Preparatory routines: None  
@@ -2017,6 +2025,7 @@ Registers affected: Varies
 #### 65C816 extapi16 Function Name: test
 
 Purpose: Used by unit tests for jsrfar  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=0  
 Communication registers: .C .X .Y  
 Preparatory routines: none  
@@ -2031,6 +2040,7 @@ Registers affected: .C
 #### 65C816 extapi16 Function Name: stack_push
 
 Purpose: Point the SP to a new stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=1  
 Communication registers: .X  
 Preparatory routines: none  
@@ -2055,6 +2065,7 @@ Registers affected: .A .X .Y .P .SP
 #### 65C816 extapi16 Function Name: stack_pop
 
 Purpose: Point the SP to the previously-saved stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=2  
 Communication registers: none  
 Preparatory routines: `stack_push`  
@@ -2075,6 +2086,7 @@ Registers affected: .A .X .Y .P .SP
 #### 65C816 extapi16 Function Name: stack_enter_kernal_stack
 
 Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=3  
 Communication registers: none  
 Preparatory routines: `stack_push`  
@@ -2095,6 +2107,7 @@ Registers affected: .A .X .Y .P .SP
 #### 65C816 extapi16 Function Name: stack_leave_kernal_stack
 
 Purpose: Point the SP to the previously-preserved stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=4  
 Communication registers: none  
 Preparatory routines: `stack_enter_kernal_stack`  
