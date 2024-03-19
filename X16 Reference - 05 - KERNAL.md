@@ -169,7 +169,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
 | [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
-| `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key _[not yet implemented]_ | | | C128 |
+| [`PFKEY`](#function-name-pfkey) | `$FF65` | Kbd | Program a function key | A X Y | P | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
@@ -1525,12 +1525,32 @@ Call address: $FED5
 
 ### Other
 
+$FF47: `enter_basic` - enter BASIC  
 $FECF: `entropy_get` - get 24 random bits  
 $FEAB: `extapi` - extended API  
 $FECC: `monitor` - enter machine language monitor  
-$FF47: `enter_basic` - enter BASIC  
+$FF65: `PFKEY` - reprogram a function key macro  
 $FF5F: `screen_mode` - get/set screen mode  
 $FF62: `screen_set_charset` - activate 8x8 text mode charset  
+
+#### Function Name: enter_basic
+
+Purpose: Enter BASIC  
+Call address: $FF47  
+Communication registers: .P  
+Preparatory routines: None  
+Error returns: Does not return
+
+**Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
+
+**EXAMPLE:**
+
+```ASM
+CLC
+JMP enter_basic ; returns to the "READY." prompt
+```
+
+---
 
 #### Function Name: entropy_get
 
@@ -1586,11 +1606,11 @@ Registers affected: Varies
 
 | Call # | Name                  | Description                          | Inputs     | Outputs  | Preserves |
 | -------|-----------------------|--------------------------------------|------------|----------|-----------|
-|  `$01` | clear_status          | resets the KERNAL IEC status to zero | none       | none     | -         |
-|  `$02` | getlfs                | getter counterpart to setlfs         | none       | .A .X .Y | -         |
-|  `$03` | mouse_sprite_offset   | get or set mouse sprite pixel offset | r0 r1 .P   | r0 r1    | -         |
-|  `$04` | joystick_ps2_keycodes | get or set joy0 keycode mappings     | r0L-r6H .P | r0L-r6H  | -         |
-|  `$05` | iso_cursor_char       | get or set the ISO mode cursor char  | .X .P      | .X       | -         |
+| `$01` | [`clear_status`](#extapi-function-name-clear_status) | resets the KERNAL IEC status to zero | none | none | - |
+| `$02` | [`getlfs`](#extapi-function-name-getlfs) | getter counterpart to setlfs | none | .A .X .Y | - |
+| `$03` | [`mouse_sprite_offset`](#extapi-function-name-mouse_sprite_offset) | get or set mouse sprite pixel offset | r0 r1 .P | r0 r1 | - |
+| `$04` | [`joystick_ps2_keycodes`](#extapi-function-name-joystick_ps2_keycodes) | get or set joy0 keycode mappings | r0L-r6H .P | r0L-r6H  | - |
+| `$05` | [`iso_cursor_char`](#extapi-function-name-iso_cursor_char) | get or set the ISO mode cursor char | .X .P | .X | - |
 
 ---
 
@@ -1794,21 +1814,80 @@ Registers affected: Does not return
 
 ---
 
-#### Function Name: enter_basic
+#### Function Name: PFKEY
 
-Purpose: Enter BASIC  
-Call address: $FF47  
-Communication registers: .P  
+Purpose: Reprogram a function key macro  
+Call address: $FF65  
+Communication registers: .A .X .Y  
 Preparatory routines: None  
-Error returns: Does not return
+Error returns: c=1  
+Registers affected: .A .X .Y .P  
 
-**Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
+**Description:** This routine can be called to replace an F-key macro in the KERNAL editor with a user-defined string. The maximum length of each macro is 10 bytes, matching the size of the X16 KERNAL's keyboard buffer. It can also replace the action of SHIFT+RUN with a user-defined action.
+
+These macros are only available in the KERNAL editor, which is usually while editing BASIC program, or during a BASIN from the screen. The BASIC statements INPUT and LINPUT also operate in this mode.
+
+Inputs:
+* .A = pointer to string
+* .X = key number (1-9)
+* .Y = string length
+
+**How to Use:**
+
+1) Load .A with an immediate value of the ZP address containing the pointer to the string.
+2) Load .X with the key number to replace. Values 1-8 correspond to F1-F8. A value of 9 corresponds to SHIFT+RUN.
+3) Load .Y with the string length. This may be a range from 0-10 inclusive. A value of 0 disables the macro entirely.
+4) Call `PFKEY`. If carry is set when returning, an error occurred. The most likely reason is that one of the input parameters was out of range.
 
 **EXAMPLE:**
 
+Disable the SHIFT+RUN action, and replace the macro in F1 with "HELP" followed by a carriage return.
+
 ```ASM
-CLC
-JMP enter_basic ; returns to the "READY." prompt
+change_fkeys:
+  lda #<string1
+  sta $02
+  lda #>string1
+  sta $03
+  lda #$02
+  ldx #1
+  ldy #<(string1_end-string1)
+  jsr $ff65
+  lda #<string9
+  sta $02
+  lda #>string9
+  sta $03
+  lda #$02
+  ldx #9
+  ldy #<(string9_end-string9)
+  jsr $ff65
+  rts
+
+string1: .byte "HELP",13
+string1_end:
+string9:
+string9_end:
+```
+
+BASIC equivalent:
+
+```BASIC
+10 A$="HELP"+CHR$(13)
+20 K=1
+30 GOSUB 100
+40 A$=""
+50 K=9
+60 GOSUB 100
+70 END
+100 AL=LEN(A$)
+110 AP=STRPTR(A$)
+120 POKE $02,(AP-(INT(AP/256)*256))
+130 POKE $03,INT(AP/256)
+140 POKE $30C,$02
+150 POKE $30D,K
+160 POKE $30E,AL
+170 SYS $FF65
+180 RETURN
 ```
 
 ---
@@ -1925,13 +2004,15 @@ Registers affected: Varies
 * All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.
 * In addition, some of these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
 
-| Call # | Name           | Description                             | Inputs | Outputs | Additional Prerequisites |
-| -------|----------------|-----------------------------------------|--------|---------|--------------------------|
-|  `$00` | `test`         | Used by unit tests                      | .X .Y  | .C      | -                        |
-|  `$01` | `stack_push`   | Switches to a new stack context         | .X     | none    | x=0, $01=0               |
-|  `$02` | `stack_pop`    | Returns to the previous stack context   | none   | none    | x=0, $01=0               |
-|  `$03` | `stack_enter_kernal_stack` | Switches to the $01xx stack | none   | none    | x=0, $01=0               |
-|  `$04` | `stack_leave_kernal_stack` | Returns to the previous stack context after `stack_enter_kernal_stack`  | none | none | x=0, $01=0 |
+| Call # | Name           | Description                                 | Inputs | Outputs | Additional Prerequisites |
+| -------|----------------|---------------------------------------------|--------|---------|--------------------------|
+|  `$00` | [`test`](#65c816-extapi16-function-name-test) | Used by unit tests | .X .Y  | .C | -                       |
+|  `$01` | [`stack_push`](#65c816-extapi16-function-name-stack_push) | Switches to a new stack context | .X | none | x=0, $01=0 |
+|  `$02` | [`stack_pop`](#65c816-extapi16-function-name-stack_pop) | Returns to the previous stack context | none | none | x=0, $01=0 |
+|  `$03` | [`stack_enter_kernal_stack`](#65c816-extapi16-function-name-stack_enter_kernal_stack) | Switches to the $01xx stack | none | none | x=0, $01=0 |
+|  `$04` | [`stack_leave_kernal_stack`](#65c816-extapi16-function-name-stack_leave_kernal_stack) | Returns to the previous stack context after `stack_enter_kernal_stack` | none | none | x=0, $01=0 |
+
+---
 
 #### 65C816 extapi16 Function Name: test
 
