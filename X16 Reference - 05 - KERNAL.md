@@ -1934,17 +1934,22 @@ Registers affected: .A, .X, .Y
 
 **Description:** A call to this routine uploads a character set to the video hardware and activates it. The value of .A decides what charset to upload:
 
-| Value | Description                 |
-|-------|-----------------------------|
-| 0     | use pointer in .X/.Y        |
-| 1     | ISO                         |
-| 2     | PET upper/graph             |
-| 3     | PET upper/lower             |
-| 4     | PET upper/graph (thin)      |
-| 5     | PET upper/lower (thin)      |
-| 6     | ISO (thin)                  |
+| Value | Description                     |
+|-------|---------------------------------|
+| 0     | use pointer in .X/.Y            |
+| 1     | ISO                             |
+| 2     | PET upper/graph                 |
+| 3     | PET upper/lower                 |
+| 4     | PET upper/graph (thin)          |
+| 5     | PET upper/lower (thin)          |
+| 6     | ISO (thin)                      |
+| 7     | CP437 (since r47)               |
+| 8     | Cyrillic ISO (since r47)        |
+| 9     | Cyrillic ISO (thin) (since r47) |
+| 10    | Eastern Latin ISO (since r47)   |
+| 11    | Eastern ISO (thin) (since r47)  |
 
-If .A is zero, .X (lo) and .Y (hi) contain a pointer to a 2 KB RAM area that gets uploaded as the new 8x8 character set. The data has to consist of 256 characters of 8 bytes each, top to bottom, with the MSB on the left and set bits representing the foreground color.
+If .A is zero, .X (lo) and .Y (hi) contain a pointer to a 2 KB RAM area that gets uploaded as the new 8x8 character set. The data has to consist of 256 characters of 8 bytes each, top to bottom, with the MSB on the left, set bits (1) represent the foreground colored pixels.
 
 **EXAMPLE:**
 
