@@ -169,7 +169,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
 | [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
-| `PFKEY` &#128683; | `$FF65` | Kbd | Program a function key _[not yet implemented]_ | | | C128 |
+| [`PFKEY`](#function-name-pfkey) | `$FF65` | Kbd | Program a function key | A X Y | P | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
@@ -1525,12 +1525,32 @@ Call address: $FED5
 
 ### Other
 
+$FF47: `enter_basic` - enter BASIC  
 $FECF: `entropy_get` - get 24 random bits  
 $FEAB: `extapi` - extended API  
 $FECC: `monitor` - enter machine language monitor  
-$FF47: `enter_basic` - enter BASIC  
+$FF65: `PFKEY` - reprogram a function key macro  
 $FF5F: `screen_mode` - get/set screen mode  
 $FF62: `screen_set_charset` - activate 8x8 text mode charset  
+
+#### Function Name: enter_basic
+
+Purpose: Enter BASIC  
+Call address: $FF47  
+Communication registers: .P  
+Preparatory routines: None  
+Error returns: Does not return
+
+**Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
+
+**EXAMPLE:**
+
+```ASM
+CLC
+JMP enter_basic ; returns to the "READY." prompt
+```
+
+---
 
 #### Function Name: entropy_get
 
@@ -1575,6 +1595,7 @@ Registers affected: .A, .X, .Y
 ---
 #### Function Name: extapi
 Purpose: Additional API functions  
+Minimum ROM version: R47  
 Call address: $FEAB  
 Communication registers: .A, .X, .Y, .P  
 Preparatory routines: None  
@@ -1584,10 +1605,43 @@ Registers affected: Varies
 
 **Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
 
-| Call # | Name         | Description                          | Inputs | Outputs | Preserves |
-| -------|--------------|--------------------------------------|--------|---------|-----------|
-|  `$01` | clear_status | resets the KERNAL IEC status to zero | none   | none    | -         |
-|  `$02` | getlfs       | getter counterpart to setlfs         | none   | .A .X .Y | - |
+| Call # | Name                  | Description                          | Inputs     | Outputs  | Preserves |
+| -------|-----------------------|--------------------------------------|------------|----------|-----------|
+| `$01` | [`clear_status`](#extapi-function-name-clear_status) | resets the KERNAL IEC status to zero | none | none | - |
+| `$02` | [`getlfs`](#extapi-function-name-getlfs) | getter counterpart to setlfs | none | .A .X .Y | - |
+| `$03` | [`mouse_sprite_offset`](#extapi-function-name-mouse_sprite_offset) | get or set mouse sprite pixel offset | r0 r1 .P | r0 r1 | - |
+| `$04` | [`joystick_ps2_keycodes`](#extapi-function-name-joystick_ps2_keycodes) | get or set joy0 keycode mappings | r0L-r6H .P | r0L-r6H  | - |
+| `$05` | [`iso_cursor_char`](#extapi-function-name-iso_cursor_char) | get or set the ISO mode cursor char | .X .P | .X | - |
+
+---
+
+####  extapi Function Name: clear_status
+
+Purpose: Reset the IEC status byte to 0   
+Minimum ROM version: R47  
+Call address: $FEAB, .A=1  
+Communication registers: none  
+Preparatory routines: none  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A  
+
+**Description:** This function explicitly clears the IEC status byte. This is the value which is returned by calling `readst`.
+
+---
+
+####  extapi Function Name: getlfs
+
+Purpose: Return the values from the last call to `setlfs`   
+Minimum ROM version: R47  
+Call address: $FEAB, .A=2  
+Communication registers: .A .X .Y  
+Preparatory routines: none  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A .X .Y  
+
+**Description:** This function returns the values from the most recent call to `setlfs`. This is most useful for fetching the most recently-used disk device.
 
 **EXAMPLE:**
 
@@ -1618,6 +1672,130 @@ FNEND = *
 
 ---
 
+#### extapi Function Name: mouse_sprite_offset
+
+Purpose: Set the mouse sprite x/y offset  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=3  
+Communication registers: r0 r1  
+Preparatory routines: `mouse_config`  
+Error returns: none  
+Stack requirements: Varies  
+Registers affected: .A .X .Y .P r0 r1
+
+**Description:** This function allows you to set or retrieve the display offset of the mouse sprite, relative to the calculated mouse position. Setting it negative can be useful for mouse sprites in which the locus is not the upper left corner. Combined with configuring a smaller X/Y with mouse_config, it can be set positive to confine the mouse pointer to a limited region of the screen.
+
+* Set: If carry is clear when called, the X and Y sprite offsets are configured from the values in r0 and r1 respectively.
+* Get: If carry is set when called, the X and Y sprite offsets are retrieved and placed in r0 and r1 respectively.
+
+**How to Use:**
+
+1) Set up your mouse sprite and call `mouse_config`. Any call to `mouse_config` resets this offset.
+2) Load r0 with the 16-bit X offset and r1 with the 16-bit Y offset. Most of the time these values will be negative. For instance, a 16x16 sprite pointer in which the locus is near the center would have an offset of -8 ($FFF8) on both axes.
+3) Clear carry and call `mouse_sprite_offset`
+
+**EXAMPLE:**
+
+```ASM
+  ; configure your mouse sprite here
+
+  ; configure mouse before setting offset
+  LDA #$FF
+  LDY #0
+  LDX #0
+  JSR $FF68 ; mouse_config (resets sprite offsets to zero)
+
+  LDA #<(-8)
+  STA r0L
+  STA r1L
+  LDA #>(-8)
+  STA r0H
+  STA r1H
+  LDA #3    ; mouse_sprite_offset
+  CLC
+  JSR $FEAB ; extapi
+```
+
+---
+
+#### extapi Function Name: joystick_ps2_keycodes
+
+Purpose: Set or get the keyboard mapping for joystick 0  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=4  
+Communication registers: .P r0L-r6H  
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .Y .P r0L-r6H
+
+**Description:** This function allows you to set or retrieve the list of keycodes that are mapped to joystick 0
+
+* Set: If carry is clear when called, the current values are set based on the contents of the 14 registers r0L-r6H.
+* Get: If carry is set when called, the current values are retrieved and placed in the 14 registers r0L-r6H.
+
+| Register | Controller Input | Default                  |
+|----------|------------------|--------------------------|
+| r0L      | D-pad Right      | KEYCODE_RIGHTARROW ($59) |
+| r0H      | D-pad Left       | KEYCODE_LEFTARROW ($4F)  |
+| r1L      | D-pad Down       | KEYCODE_DOWNARROW ($54)  |
+| r1H      | D-pad Up         | KEYCODE_UPARROW ($53)    |
+| r2L      | Start            | KEYCODE_ENTER ($2B)      |
+| r2H      | Select           | KEYCODE_LSHIFT ($2C)     |
+| r3L      | Y                | KEYCODE_A ($1F)          |
+| r3H      | B                | KEYCODE_Z ($2E)          |
+| r4L      | B                | KEYCODE_LALT ($3C)       |
+| r4H      | R                | KEYCODE_C ($30)          |
+| r5L      | L                | KEYCODE_D ($21)          |
+| r5H      | X                | KEYCODE_S ($20)          |
+| r6L      | A                | KEYCODE_X ($2F)          |
+| r6H      | A                | KEYCODE_LALT ($3C)       |
+
+* Note that there are two mappings for the controller button B, and two mappings for the controller button A. Both mapped keys will activate the controller button.
+
+**How to Use:**
+
+1) Unless you're replacing the entire set of mappings, call `joystick_ps2_keycodes` first with carry set to fetch the existing values into r0L-r6H.
+2) Load your desired changes into r0L-r6H. The keycodes are enumerated [here](https://github.com/X16Community/x16-rom/blob/master/inc/keycode.inc), and their names, similar to that of PS/2 codes, are based on their function in the ___US layout___.  You can also disable a mapping entirely with the value 0.
+
+3) Clear carry and call `joystick_ps2_keycodes`
+
+**EXAMPLE:**
+
+```ASM
+  ; first fetch the original values
+  LDA #4    ; joystick_ps2_keycodes
+  SEC       ; get values
+  JSR $FEAB ; extapi
+  LDA #$10  ; KEYCODE_TAB
+  STA r2H   ; Tab is to be mapped to the select button
+  STZ r4L   ; Disable the secondary B button mapping
+  STZ r6H   ; Disable the secondary A button mapping
+  LDA #4    ; joystick_ps2_keycodes
+  CLC       ; set values
+  JSR $FEAB ; extapi (brings the new mapping into effect)
+```
+
+---
+
+#### extapi Function Name: iso_cursor_char
+
+Purpose: get or set the ISO mode cursor character  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=5  
+Communication registers: .X .P  
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .Y .P  
+
+**Description:** This function allows you to set or retrieve the cursor screen code which is used in ISO mode.
+
+* Set: If carry is clear when called, the current value of .X is used as the blinking cursor character if the screen console is in ISO mode.
+* Get: If carry is set when called, the current value of the blinking cursor character is returned in .X.
+
+When entering ISO mode, such as by sending a `$0F` to the screen via `BSOUT` or pressing Ctrl+O, the cursor character is reset to the default of `$9F`.
+
+---
+
 #### Function Name: monitor
 
 Purpose: Enter the machine language monitor  
@@ -1642,21 +1820,81 @@ Registers affected: Does not return
 
 ---
 
-#### Function Name: enter_basic
+#### Function Name: PFKEY
 
-Purpose: Enter BASIC  
-Call address: $FF47  
-Communication registers: .P  
+Purpose: Reprogram a function key macro  
+Minimum ROM version: R47  
+Call address: $FF65  
+Communication registers: .A .X .Y  
 Preparatory routines: None  
-Error returns: Does not return
+Error returns: c=1  
+Registers affected: .A .X .Y .P  
 
-**Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
+**Description:** This routine can be called to replace an F-key macro in the KERNAL editor with a user-defined string. The maximum length of each macro is 10 bytes, matching the size of the X16 KERNAL's keyboard buffer. It can also replace the action of SHIFT+RUN with a user-defined action.
+
+These macros are only available in the KERNAL editor, which is usually while editing BASIC program, or during a BASIN from the screen. The BASIC statements INPUT and LINPUT also operate in this mode.
+
+Inputs:
+* .A = pointer to string
+* .X = key number (1-9)
+* .Y = string length
+
+**How to Use:**
+
+1) Load .A with an immediate value of the ZP address containing the pointer to the string.
+2) Load .X with the key number to replace. Values 1-8 correspond to F1-F8. A value of 9 corresponds to SHIFT+RUN.
+3) Load .Y with the string length. This may be a range from 0-10 inclusive. A value of 0 disables the macro entirely.
+4) Call `PFKEY`. If carry is set when returning, an error occurred. The most likely reason is that one of the input parameters was out of range.
 
 **EXAMPLE:**
 
+Disable the SHIFT+RUN action, and replace the macro in F1 with "HELP" followed by a carriage return.
+
 ```ASM
-CLC
-JMP enter_basic ; returns to the "READY." prompt
+change_fkeys:
+  lda #<string1
+  sta $02
+  lda #>string1
+  sta $03
+  lda #$02
+  ldx #1
+  ldy #<(string1_end-string1)
+  jsr $ff65
+  lda #<string9
+  sta $02
+  lda #>string9
+  sta $03
+  lda #$02
+  ldx #9
+  ldy #<(string9_end-string9)
+  jsr $ff65
+  rts
+
+string1: .byte "HELP",13
+string1_end:
+string9:
+string9_end:
+```
+
+BASIC equivalent:
+
+```BASIC
+10 A$="HELP"+CHR$(13)
+20 K=1
+30 GOSUB 100
+40 A$=""
+50 K=9
+60 GOSUB 100
+70 END
+100 AL=LEN(A$)
+110 AP=STRPTR(A$)
+120 POKE $02,(AP-(INT(AP/256)*256))
+130 POKE $03,INT(AP/256)
+140 POKE $30C,$02
+150 POKE $30D,K
+160 POKE $30E,AL
+170 SYS $FF65
+180 RETURN
 ```
 
 ---
@@ -1760,6 +1998,7 @@ $FEA8: `extapi16` - 16-bit extended API for 65C816 native mode
 #### Function Name: extapi16
 
 Purpose: API functions for 65C816  
+Minimum ROM version: R47  
 Call address: $FEA8  
 Communication registers: .C, .X, .Y, .P  
 Preparatory routines: None  
@@ -1773,17 +2012,20 @@ Registers affected: Varies
 * All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.
 * In addition, some of these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
 
-| Call # | Name           | Description                             | Inputs | Outputs | Additional Prerequisites |
-| -------|----------------|-----------------------------------------|--------|---------|--------------------------|
-|  `$00` | `test`         | Used by unit tests                      | .X .Y  | .C      | -                        |
-|  `$01` | `stack_push`   | Switches to a new stack context         | .X     | none    | x=0, $01=0               |
-|  `$02` | `stack_pop`    | Returns to the previous stack context   | none   | none    | x=0, $01=0               |
-|  `$03` | `stack_enter_kernal_stack` | Switches to the $01xx stack | none   | none    | x=0, $01=0               |
-|  `$04` | `stack_leave_kernal_stack` | Returns to the previous stack context after `stack_enter_kernal_stack`  | none | none | x=0, $01=0 |
+| Call # | Name           | Description                                 | Inputs | Outputs | Additional Prerequisites |
+| -------|----------------|---------------------------------------------|--------|---------|--------------------------|
+|  `$00` | [`test`](#65c816-extapi16-function-name-test) | Used by unit tests | .X .Y  | .C | -                       |
+|  `$01` | [`stack_push`](#65c816-extapi16-function-name-stack_push) | Switches to a new stack context | .X | none | x=0, $01=0 |
+|  `$02` | [`stack_pop`](#65c816-extapi16-function-name-stack_pop) | Returns to the previous stack context | none | none | x=0, $01=0 |
+|  `$03` | [`stack_enter_kernal_stack`](#65c816-extapi16-function-name-stack_enter_kernal_stack) | Switches to the $01xx stack | none | none | x=0, $01=0 |
+|  `$04` | [`stack_leave_kernal_stack`](#65c816-extapi16-function-name-stack_leave_kernal_stack) | Returns to the previous stack context after `stack_enter_kernal_stack` | none | none | x=0, $01=0 |
+
+---
 
 #### 65C816 extapi16 Function Name: test
 
 Purpose: Used by unit tests for jsrfar  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=0  
 Communication registers: .C .X .Y  
 Preparatory routines: none  
@@ -1798,12 +2040,13 @@ Registers affected: .C
 #### 65C816 extapi16 Function Name: stack_push
 
 Purpose: Point the SP to a new stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=1  
 Communication registers: .X  
 Preparatory routines: none  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're moving the stack pointer to a new location so that it can preserve the previous SP, and then brings the new SP into effect. The main purpose of this call is to preserve the position of the $01xx stack pointer (AKA KERNAL stack), and to track the length of the chain of stacks in the case of multiple pushes. In order for the 65C02 code in the emulated mode ISR to run properly, it must be able to temporarily switch to using the KERNAL stack, regardless of the SP in main code.
 
@@ -1822,12 +2065,13 @@ Registers affected: .SP
 #### 65C816 extapi16 Function Name: stack_pop
 
 Purpose: Point the SP to the previously-saved stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=2  
 Communication registers: none  
 Preparatory routines: `stack_push`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're finished using the stack set previously by `stack_push`. It brings the previous SP into effect.
 
@@ -1842,12 +2086,13 @@ Registers affected: .SP
 #### 65C816 extapi16 Function Name: stack_enter_kernal_stack
 
 Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=3  
 Communication registers: none  
 Preparatory routines: `stack_push`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function requests that the KERNAL temporarily bring the $01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from $01xx but need to call the KERNAL API or legacy code.
 
@@ -1862,12 +2107,13 @@ Registers affected: .SP
 #### 65C816 extapi16 Function Name: stack_leave_kernal_stack
 
 Purpose: Point the SP to the previously-preserved stack  
+Minimum ROM version: R47  
 Call address: $FEA8, .C=4  
 Communication registers: none  
 Preparatory routines: `stack_enter_kernal_stack`  
 Error returns: none  
 Stack requirements: Varies  
-Registers affected: .SP
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function is the counterpart to `stack_enter_kernal_stack`, and restores the previously preserved stack.
 
