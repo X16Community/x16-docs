@@ -1612,6 +1612,7 @@ Registers affected: Varies
 | `$03` | [`mouse_sprite_offset`](#extapi-function-name-mouse_sprite_offset) | get or set mouse sprite pixel offset | r0 r1 .P | r0 r1 | - |
 | `$04` | [`joystick_ps2_keycodes`](#extapi-function-name-joystick_ps2_keycodes) | get or set joy0 keycode mappings | r0L-r6H .P | r0L-r6H  | - |
 | `$05` | [`iso_cursor_char`](#extapi-function-name-iso_cursor_char) | get or set the ISO mode cursor char | .X .P | .X | - |
+| `$06` | [`ps2kbd_typematic`](#extapi-function-name-ps2kbd_typematic) | set the keyboard repeat delay and rate | .X | - | - |
 
 ---
 
@@ -1793,6 +1794,39 @@ Registers affected: .A .X .Y .P
 * Get: If carry is set when called, the current value of the blinking cursor character is returned in .X.
 
 When entering ISO mode, such as by sending a `$0F` to the screen via `BSOUT` or pressing Ctrl+O, the cursor character is reset to the default of `$9F`.
+
+---
+
+#### extapi Function Name: ps2kbd_typematic
+
+Purpose: set the PS/2 typematic delay and repeat rate  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=6  
+Communication registers: .X  
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .Y .P  
+
+**Description:** This function allows you to set the delay and repeat rate of the PS/2 keyboard. Since the keyboard doesn't allow you to query the current value, there is no getter counterpart to this routine.
+
+NOTE: Since the SMC communicates with the keyboard using PS/2 scancode set 2, there is no way to instruct the keyboard to turn off typematic repeat entirely. However, with a very simple custom KERNAL key handler, you can suppress processing repeated key down events without an intervening key up.
+
+This function takes 7 bits of input in .X, a bitfieldcomposed of two parameter options.
+
+* .X = 0ddrrrrr
+
+Where dd is the delay before repeating,
+
+* dd = 00: 250 ms
+* dd = 01: 500 ms
+* dd = 10: 750 ms
+* dd = 11: 1000 ms
+
+and rrrrr is the repeat rate, given this conversion to Hz.
+
+* rate in Hz = ((-28)r / 31) + 30
+* A value of $00 (%00000) is 30 Hz
+* A value of $1f (%11111) is 2 Hz
 
 ---
 
