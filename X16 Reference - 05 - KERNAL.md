@@ -169,7 +169,6 @@ The 16 bit ABI generally follows the following conventions:
 | [`mouse_get`](#function-name-mouse_get) | `$FF6B` | Mouse | Get saved mouse sate | X | A (X) P | X16
 | [`mouse_scan`](#function-name-mouse_scan) | `$FF71` | Mouse | Poll mouse state and save it | none | A X Y P | X16
 | [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
-| [`PFKEY`](#function-name-pfkey) | `$FF65` | Kbd | Program a function key | A X Y | P | C128 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
 | `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
@@ -1529,7 +1528,6 @@ $FF47: `enter_basic` - enter BASIC
 $FECF: `entropy_get` - get 24 random bits  
 $FEAB: `extapi` - extended API  
 $FECC: `monitor` - enter machine language monitor  
-$FF65: `PFKEY` - reprogram a function key macro  
 $FF5F: `screen_mode` - get/set screen mode  
 $FF62: `screen_set_charset` - activate 8x8 text mode charset  
 
@@ -1613,6 +1611,7 @@ Registers affected: Varies
 | `$04` | [`joystick_ps2_keycodes`](#extapi-function-name-joystick_ps2_keycodes) | get or set joy0 keycode mappings | r0L-r6H .P | r0L-r6H  | - |
 | `$05` | [`iso_cursor_char`](#extapi-function-name-iso_cursor_char) | get or set the ISO mode cursor char | .X .P | .X | - |
 | `$06` | [`ps2kbd_typematic`](#extapi-function-name-ps2kbd_typematic) | set the keyboard repeat delay and rate | .X | - | - |
+| `$07` | [`pfkey`](#extapi-function-name-pfkey) | program macros for F1-F8 and the RUN key | .X | - | - |
 
 ---
 
@@ -1839,55 +1838,31 @@ and rrrrr is the repeat rate, given this conversion to Hz.
 
 ---
 
-#### Function Name: monitor
-
-Purpose: Enter the machine language monitor  
-Call address: $FECC  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: Does not return  
-Stack requirements: Does not return  
-Registers affected: Does not return
-
-**Description:** This routine switches from BASIC to machine language monitor mode. It does not return to the caller. When the user quits the monitor, it will restart BASIC.
-
-**How to Use:**
-
-1) Call this routine.
-
-**EXAMPLE:**
-
-```ASM
-      JMP monitor
-```
-
----
-
-#### Function Name: PFKEY
+#### extapi Function Name: pfkey
 
 Purpose: Reprogram a function key macro  
 Minimum ROM version: R47  
-Call address: $FF65  
-Communication registers: .A .X .Y  
+Call address: $FEAB, .A=7  
+Communication registers: .X .Y r0  
 Preparatory routines: None  
 Error returns: c=1  
-Registers affected: .A .X .Y .P  
+Registers affected: .A .X .Y .P r0  
 
 **Description:** This routine can be called to replace an F-key macro in the KERNAL editor with a user-defined string. The maximum length of each macro is 10 bytes, matching the size of the X16 KERNAL's keyboard buffer. It can also replace the action of SHIFT+RUN with a user-defined action.
 
 These macros are only available in the KERNAL editor, which is usually while editing BASIC program, or during a BASIN from the screen. The BASIC statements INPUT and LINPUT also operate in this mode.
 
 Inputs:
-* .A = pointer to string
+* r0 = pointer to string
 * .X = key number (1-9)
 * .Y = string length
 
 **How to Use:**
 
-1) Load .A with an immediate value of the ZP address containing the pointer to the string.
+1) Load r0L and r0H a pointer to the replacement macro string (ZP locations $02 and $03).
 2) Load .X with the key number to replace. Values 1-8 correspond to F1-F8. A value of 9 corresponds to SHIFT+RUN.
 3) Load .Y with the string length. This may be a range from 0-10 inclusive. A value of 0 disables the macro entirely.
-4) Call `PFKEY`. If carry is set when returning, an error occurred. The most likely reason is that one of the input parameters was out of range.
+4) Call `pfkey`. If carry is set when returning, an error occurred. The most likely reason is that one of the input parameters was out of range.
 
 **EXAMPLE:**
 
@@ -1907,10 +1882,10 @@ change_fkeys:
   sta $02
   lda #>string9
   sta $03
-  lda #$02
+  lda #7
   ldx #9
   ldy #<(string9_end-string9)
-  jsr $ff65
+  jsr $feab
   rts
 
 string1: .byte "HELP",13
@@ -1933,11 +1908,35 @@ BASIC equivalent:
 110 AP=STRPTR(A$)
 120 POKE $02,(AP-(INT(AP/256)*256))
 130 POKE $03,INT(AP/256)
-140 POKE $30C,$02
+140 POKE $30C,7
 150 POKE $30D,K
 160 POKE $30E,AL
-170 SYS $FF65
+170 SYS $FEAB
 180 RETURN
+```
+
+---
+
+#### Function Name: monitor
+
+Purpose: Enter the machine language monitor  
+Call address: $FECC  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: Does not return  
+Stack requirements: Does not return  
+Registers affected: Does not return
+
+**Description:** This routine switches from BASIC to machine language monitor mode. It does not return to the caller. When the user quits the monitor, it will restart BASIC.
+
+**How to Use:**
+
+1) Call this routine.
+
+**EXAMPLE:**
+
+```ASM
+      JMP monitor
 ```
 
 ---
