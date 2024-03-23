@@ -1811,6 +1811,8 @@ Registers affected: .A .X .Y .P
 
 NOTE: Since the SMC communicates with the keyboard using PS/2 scancode set 2, there is no way to instruct the keyboard to turn off typematic repeat entirely. However, with a very simple custom KERNAL key handler, you can suppress processing repeated key down events without an intervening key up.
 
+NOTE: **This routine does not work with the emulator**, as the key repeat rate is controlled by the operating system.
+
 This function takes 7 bits of input in .X, a bitfield composed of two parameter options.
 
 * .X = 0ddrrrrr
@@ -1824,9 +1826,16 @@ Where dd is the delay before repeating,
 
 and rrrrr is the repeat rate, given this conversion to Hz.
 
-* rate in Hz = ((-28)r / 31) + 30
-* A value of $00 (%00000) is 30 Hz
-* A value of $1f (%11111) is 2 Hz
+```
+ $00 = 30.0 Hz, $01 = 26.7 Hz, $02 = 24.0 Hz, $03 = 21.8 Hz
+ $04 = 20.7 Hz, $05 = 18.5 Hz, $06 = 17.1 Hz, $07 = 16.0 Hz
+ $08 = 15.0 Hz, $09 = 13.3 Hz, $0a = 12.0 Hz, $0b = 10.9 Hz
+ $0c = 10.0 Hz, $0d =  9.2 Hz, $0e =  8.6 Hz, $0f =  8.0 Hz
+ $10 =  7.5 Hz, $11 =  6.7 Hz, $12 =  6.0 Hz, $13 =  5.5 Hz
+ $14 =  5.0 Hz, $15 =  4.6 Hz, $16 =  4.3 Hz, $17 =  4.0 Hz
+ $18 =  3.7 Hz, $19 =  3.3 Hz, $1a =  3.0 Hz, $1b =  2.7 Hz
+ $1c =  2.5 Hz, $1d =  2.3 Hz, $1e =  2.1 Hz, $1f =  2.0 Hz
+```
 
 ---
 
