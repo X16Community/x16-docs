@@ -1811,7 +1811,7 @@ Registers affected: .A .X .Y .P
 
 NOTE: Since the SMC communicates with the keyboard using PS/2 scancode set 2, there is no way to instruct the keyboard to turn off typematic repeat entirely. However, with a very simple custom KERNAL key handler, you can suppress processing repeated key down events without an intervening key up.
 
-This function takes 7 bits of input in .X, a bitfieldcomposed of two parameter options.
+This function takes 7 bits of input in .X, a bitfield composed of two parameter options.
 
 * .X = 0ddrrrrr
 
