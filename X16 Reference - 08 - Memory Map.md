@@ -38,7 +38,7 @@ Here is the ROM/Cartridge bank allocation:
 |4     |BASIC  |BASIC interpreter                                      |
 |5     |MONITOR|Machine Language Monitor                               |
 |6     |CHARSET|PETSCII and ISO character sets (uploaded into VRAM)    |
-|7     |CODEX  |CodeX16 Interactive Assembly Environment / Monitor     |
+|7     |DIAG   |Memory diagnostic                                      |
 |8     |GRAPH  |Kernal graph and font routines                         |
 |9     |DEMO   |Demo routines                                          |
 |10    |AUDIO  |Audio API routines                                     |

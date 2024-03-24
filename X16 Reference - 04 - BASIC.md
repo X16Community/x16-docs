@@ -141,6 +141,8 @@ for GitHub's Markdown flavor. Do not remove!
 | [`SYS`](#sys) | command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | function | Returns a string with spaces used for column alignment | C64 |
 | `TAN` | function | Return the tangent for an angle in radians | C64 |
+| [`TATTR`](#tattr) | function | Returns a tile attribute from the tile/text layer | X16 |
+| [`TDATA`](#tdata) | function | Returns a tile from the tile/text layer | X16 |
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
 | `TI` | variable | Returns the jiffy timer value | C64 |
 | `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
@@ -1544,6 +1546,49 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 40 FOR I=255 TO 32 STEP -1
 50 TILE X,Y,I
 60 NEXT:NEXT:NEXT
+```
+
+### TATTR
+
+**TYPE: Function**  
+**FORMAT: TATTR(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
+
+**Action:** The `TATTR`function retrieves the text/tile attribute at the given x/y coordinate. It works for tiles or text on Layer 1.
+
+In the default text modes, this can be used to retrieve the color attribute (fg/bg) of a specific coordinate without needing to calculate the VRAM address for VPEEK.
+
+**EXAMPLE of TATTR command:**
+
+```BASIC
+10 REM COPY BUTTERFLY LOGO WITH COLORS TO CENTER OF 80X60 SCREEN
+20 XO = 37 : YO = 27
+30 FOR X = 0 TO 6
+40 FOR Y = 0 TO 6
+50 TD = TDATA(X, Y)
+60 TA = TATTR(X, Y)
+70 TILE XO+X, YO+Y, TD, TA
+80 NEXT:NEXT
+```
+
+### TDATA
+
+**TYPE: Function**  
+**FORMAT: TDATA(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
+
+**Action:** The `TDATA`function retrieves the text/tile at the given x/y coordinate. It works for tiles or text on Layer 1.
+
+In the default text modes, this can be used to retrieve the character a specific coordinate without needing to calculate the VRAM address for VPEEK.
+
+**EXAMPLE of TATTR command:**
+
+```BASIC
+10 REM COPY BUTTERFLY LOGO TO CENTER OF 80X60 SCREEN
+20 XO = 37 : YO = 27
+30 FOR X = 0 TO 6
+40 FOR Y = 0 TO 6
+50 TD = TDATA(X, Y)
+60 TILE XO+X, YO+Y, TD
+70 NEXT:NEXT
 ```
 
 ### VPEEK
