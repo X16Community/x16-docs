@@ -1612,6 +1612,12 @@ Registers affected: Varies
 | `$05` | [`iso_cursor_char`](#extapi-function-name-iso_cursor_char) | get or set the ISO mode cursor char | .X .P | .X | - |
 | `$06` | [`ps2kbd_typematic`](#extapi-function-name-ps2kbd_typematic) | set the keyboard repeat delay and rate | .X | - | - |
 | `$07` | [`pfkey`](#extapi-function-name-pfkey) | program macros for F1-F8 and the RUN key | .X | - | - |
+| `$08` | [`ps2data_fetch`](#extapi-function-name-ps2data_fetch) | Polls the SMC for PS/2 keyboard and mouse data | - | - | - |
+| `$09` | [`ps2data_mouse_raw`](#extapi-function-name-ps2data_mouse_raw) | If the most recent `ps2data_fetch` received a mouse packet, returns its raw value | - | .X r0L-r1H | - |
+| `$0A` | [`cursor_blink`](#extapi-function-name-cursor_blink) | Blinks or un-blinks the KERNAL editor cursor if appropriate | - | - | - |
+| `$0B` | [`led_update`](#extapi-function-name-led_update) | Illuminates or clears the SMC activity LED based on disk activity or error status | - | - | - |
+| `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
+
 
 ---
 
@@ -1915,6 +1921,234 @@ BASIC equivalent:
 180 RETURN
 ```
 
+---
+
+#### extapi Function Name: ps2data_fetch
+
+Purpose: Poll the SMC for PS/2 events  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=8  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is called from the default KERNAL interrupt service handler to fetch a queued keycode, and if the mouse is enabled, a mouse packet. The values are stored inside internal KERNAL state used by subsequent calls to `mouse_scan`, `kbd_scan`, or `ps2data_mouse_raw`.
+
+If the mouse has not been enabled via `mouse_config`, no mouse data is polled.
+
+This call is mainly useful when overriding the default KERNAL ISR.
+
+---
+
+#### extapi Function Name: ps2data_mouse_raw
+
+Purpose: Return the most recently-fetched PS/2 mouse packet  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=9  
+Communication registers: .X r0L-r1H  
+Preparatory routines: `mouse_config`, `ps2data_fetch`  
+Error returns: None  
+Registers affected: .A .X .Y .P r0L-r1H  
+
+**Description:** This routine returns the most-recently fetched mouse data packet. If a mouse packet exists, it sets .X to the length of the packet, either 3 or 4 depending on mouse type, and stores the values into r0L-r1H. If there's no mouse packet to return, .X is set to zero, the zero flag is set, and r0L-r1H memory is unchanged.
+
+This call is mainly useful when overriding the default KERNAL ISR and implementing a fully custom mouse routine.  It is also available when using the default ISR as these values are kept even after processing, until the next `ps2data_fetch` call.
+
+Return values:
+* .X = number of mouse bytes
+
+If .X == 0, memory is left unchanged.
+
+If .X == 3
+
+* r0L = mouse byte 1
+* r0H = mouse byte 2
+* r1L = mouse byte 3
+
+If .X == 4
+
+* r1H = mouse byte 4
+
+**How to Use:**
+
+1) Call `mouse_config` with a non-zero value to enable the mouse.
+2) If you're overriding the default ISR entirely, call `ps2data_fetch`. If not, this will be called for you.
+3) Call `ps2data_mouse_raw`. If .X is nonzero, memory starting at r0L will contain the raw mouse packet.
+
+**EXAMPLE:**
+
+```ASM
+CHROUT = $FFD2
+STOP = $FFE1
+EXTAPI = $FEAB
+MOUSE_CONFIG = $FF68
+SCREEN_MODE = $FF5F
+
+TMP1 = $22
+r0 = $02
+
+start:
+        sec
+        jsr SCREEN_MODE ; get the screen size to pass to MOUSE_CONFIG
+        lda #1
+        jsr MOUSE_CONFIG
+loop:
+        wai ; wait for interrupt
+        lda #9 ; ps2data_mouse_raw
+        jsr EXTAPI
+        beq aftermouse
+        stx TMP1
+        ldx #0
+printloop:
+        lda r0,x
+        phx
+        jsr print_hex_byte
+        plx
+        inx
+        cpx TMP1
+        bne printloop
+        lda #13
+        jsr CHROUT
+aftermouse:
+        jsr KBDSCAN
+        jsr STOP
+        bne loop
+done:
+        rts
+
+print_hex_byte:
+        jsr byte_to_hex
+        jsr CHROUT
+        txa
+        jsr CHROUT
+        rts
+
+byte_to_hex:
+        pha
+        and #$0f
+        tax
+        pla
+        lsr
+        lsr
+        lsr
+        lsr
+        pha
+        txa
+        jsr @hexify
+        tax
+        pla
+@hexify:
+        cmp #10
+        bcc @nothex
+        adc #$66
+@nothex:
+        eor #%00110000
+        rts
+
+```
+
+---
+#### extapi Function Name: cursor_blink
+
+Purpose: Blink or un-blink the cursor in the KERNAL editor  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=10  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is called from the default KERNAL interrupt service handler to cause the text mode cursor to blink on or off as appropriate, depending on the number of times this function has been called since the last blink event. If the editor is not waiting for input, this function has no effect.
+
+This call is mainly useful when overriding the default KERNAL ISR.
+
+---
+
+#### extapi Function Name: led_update
+
+Purpose: Set the illumination status of the SMC's activity LED based on disk status  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=11  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is called from the default KERNAL interrupt service handler to update the status of the SMC's activity LED based on CMDR-DOS's status flags. It is illuminated solid during DOS disk activity, and flashes when there was a disk error.
+
+This call is mainly useful when overriding the default KERNAL ISR.
+
+---
+
+#### extapi Function Name: mouse_set_position
+
+Purpose: Move the mouse pointer to an absolute X/Y position  
+Minimum ROM version: R47  
+Call address: $FEAB, .A=12  
+Communication registers: .X (.X)-(.X+3)  
+Preparatory routines: `mouse_config`  
+Error returns: None  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine set the absolute position of the mouse pointer and updates the sprite.
+
+This call is mainly useful when overriding the default KERNAL ISR.
+
+Inputs:
+* .X = the zeropage location from which to read the new values
+* $00,X = X position low byte
+* $01,X = X position high byte
+* $02,X = Y position low byte
+* $03,X = Y position high byte
+
+**How to Use:**
+
+1) Call `mouse_config` with a non-zero value to enable the mouse.
+2) Store the new X/Y position in four contiguous zeropage locations as described above. Load .X with the starting zeropage location.
+3) Call `mouse_set_position`
+
+**EXAMPLE:**
+
+This demo program slowly causes the mouse pointer to slowly drift down and to the right.
+
+```ASM
+r0L = $02
+r0H = $03
+r1L = $04
+r1H = $05
+
+EXTAPI = $FEAB
+MOUSE_CONFIG = $FF68
+MOUSE_GET = $FF6B
+SCREEN_MODE = $FF5F
+STOP = $FFE1
+
+start:
+        sec
+        jsr SCREEN_MODE
+        lda #1
+        jsr MOUSE_CONFIG
+loop:
+        ldx #r0L ; starting ZP location for mouse_get
+        jsr MOUSE_GET
+        inc r0L
+        bne :+
+        inc r0H
+:       inc r1L
+        bne :+
+        inc r1H
+:
+        ldx #r0L ; starting ZP location for mouse_set_position
+        lda #12 ; mouse_set_position
+        jsr EXTAPI
+        wai ; delay until next interrupt
+        jsr STOP
+        bne loop
+done:
+        rts
+
+```
 ---
 
 #### Function Name: monitor
