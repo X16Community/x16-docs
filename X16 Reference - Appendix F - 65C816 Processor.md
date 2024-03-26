@@ -1116,7 +1116,7 @@ Adds 1 to the value in .A or the specified memory address. The **n** and **z**
 flags are set, based on the resultant value.
 
 INC is useful for reading strings and operating on large areas of memory,
-especially ith indirect and indexed addressing modes.
+especially with indirect and indexed addressing modes.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -1484,8 +1484,8 @@ PEA, PEI, and PER push values to the stack *without* affecting registers.
 PEA pushes the operand value onto the stack. The literal operand is used, rather
 than an address.
 
-Some assemblers might not assemble `PEA $1234`. If you run into this problem,
-use the immediate mode syntax `PEA #$1234`.
+This seems inconsistent with the absolute address syntax, as PEA and PEI follow
+their own syntax rules.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -1510,6 +1510,9 @@ Example:
 PEI ($20)
 ; pushes $1234 onto the stack.
 ```
+
+The written form of PEI is inconsistent with the usual indirect mode syntax, as
+PEI and PEA follow their own syntax rules.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -2280,11 +2283,29 @@ TRB $20          dir        14  2   7-2*m+w     ......z. .
 TRB $1234        abs        1C  3   8-2*m       ......z. .
 ```
 
-TRB clears bits in memory, based on the bits that were set in the accumulator.
-This can be used to selectively clear or reset specific bits in a memory value.
+TRB does two things with one operation: it tests specified bits in a memory
+location, and it clears (resets) those bits after the test.
 
-TRB also performs a bitwise AND with a memory value and the Accumulator. When
-the result of the AND operation is Zero, **z** is set.
+First, TRB performs a logical AND between the memory address specified and the
+Accmulator. If the result of the AND is zero, the **z** flag will be set.
+
+Second, TRB clears bits in the memory value based on the bit mask in the
+accmulator. Any bit that is 1 in .A will be changed to 0 in memory.
+
+So to _clear_ a bit in a memory value, set that value to 1 in .A, like this:
+
+```
+; memory at $2000 contains $84
+LDA #$80
+TRB $2000
+; memory at $2000 now contains $04, and z flag is clear
+
+; memory at $1234 contains $20
+LDA #$01
+TRB $1234
+; memory at $1234 contains $20 and z flag is set
+; because $20 AND $01 == 0.
+```
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -2301,11 +2322,14 @@ TSB $20          dir        04  2   7-2*m+w     ......z. .
 TSB $1234        abs        0C  3   8-2*m       ......z. .
 ```
 
-Selectively sets bits in a memory address, based on the value in the
-Accumulator.
+TSB does two things with one operation: it tests specified bits in a memory
+location, and it clears (resets) those bits after the test.
 
-Also performs a bitwise AND with a memory value and the Accumulator. When the
-result of the AND operation is Zero, **z** is set.
+First, TSB performs a logical AND between the memory address specified and the
+Accmulator. If the result of the AND is zero, the **z** flag will be set.
+
+TSB also _sets_ the bits that are 1 in the accumulator, similar to an OR
+operation.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
