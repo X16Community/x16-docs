@@ -46,6 +46,7 @@ first.
 * [Appendix C: The 65C02 Processor](X16%20Reference%20-%20Appendix%20C%20-%2065C02%20Processor.md#appendix-c-the-65c02-processor)
 * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
 * [Appendix E: Diagnostic Bank](X16%20Reference%20-%20Appendix%20E%20-%20Diagnostic%20Bank.md#appendix-e-diagnostic-bank)
+* [Appendix F: The 65C816 Processor](X16%20Reference%20-%20Appendix%20F%20-%2065C816%20Processor.md#appendix-f-the-65c816-processor)
 
 ## External Links
 
