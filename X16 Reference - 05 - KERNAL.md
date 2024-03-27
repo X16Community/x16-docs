@@ -1937,7 +1937,7 @@ Registers affected: .A .X .Y .P
 
 If the mouse has not been enabled via `mouse_config`, no mouse data is polled.
 
-This call is mainly useful when overriding the default KERNAL ISR.
+This call is mainly useful when overriding the default KERNAL IRQ handler, and since this function is not re-entrant safe, it is unsafe to call outside of an interrupt handler if interrupts are enabled and the default KERNAL IRQ handler is in place.
 
 ---
 
