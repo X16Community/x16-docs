@@ -1955,16 +1955,21 @@ Registers affected: .A .X .Y .P r0L-r1H
 
 If .X = 0, no mouse packet was received, and r0L-r1H memory is unchanged.
 
-If the zero flag is set, neither the keyboard nor mouse have events.
+If the zero flag is set, neither the keyboard nor mouse had pending events.
 
 This call is mainly useful when overriding the default KERNAL ISR and implementing a fully custom mouse and keyboard routine.  It is also available when using the default ISR as these values are kept even after processing, until the next `ps2data_fetch` call.
 
 Return values:
+
+##### Keyboard
+
 * .A = keycode
 
 If .A == $7F or .A == $FF
 
 * .Y = extended keycode
+
+##### Mouse
 
 * .X = number of mouse bytes
 
