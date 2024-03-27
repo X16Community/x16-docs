@@ -2034,7 +2034,6 @@ printloop:
         lda #13
         jsr CHROUT
 aftermouse:
-        jsr KBDSCAN
         jsr STOP
         bne loop
 done:
