@@ -1,7 +1,7 @@
 
 # Appendix F: The 65C816 Processor
 
-**Table of Contents**
+## Table Of Contents
 
 1. [Overview](#overview)
 2. [Compatibility with the 65C02](#compatibility-with-the-65c02)
@@ -241,9 +241,58 @@ pushed verbatim, since BRK has its own handler.
 There is also no native RESET vector, since the CPU always boots to emulation
 mode. The CPU always starts at the address stored in $FFFC.
 
+## Decimal Mode
+
+When the **d** flag is set, the CPU operates in Decimal mode. In this mode, a
+byte is treated as two decimal digits, rather than a binary number. As a result,
+you can easily add, subtract, and display decimal numbers.
+
+While in Decimal mode, the lower nibble of a byte contains the 1s digit, and the
+upper nibble contains the 10s digit. Each nibble can only contain value from
+0-9, and addition will wrap from 9 to 0. Subtraction works similarly, wrapping
+down from 0 to 9.
+
+[SED](#sed) enables Decimal mode. At that point, ADC and SBC will perform base-10
+addition and subtraction. [CLD](#cld) clears Decimal mode and returns to binary
+mode.
+
+When adding, the Carry bit will be set if the result is 100 or greater. The
+total result can never exceed 199, so two digits plus Carry is all that is
+needed to represent values from 0 to 199.
+
+If you perform an ADC with the Carry bit set, this will add an extra 1 to the
+result. 
+
+Examples
+
+| Operation | .A   | Result | Notes                         |
+|-----------|------|--------|-------------------------------|
+| ADC #$01  | $09  | $10    |                               |
+| ADC #$01  | $99  | $00    | Carry is set, indicating 100. |
+
+When subtracting, the Carry bit operates as a _borrow_ bit, and the sense is
+inverted: 0 indicates a borrow took place, and 1 means it did not.
+
+| Operation | .A   | Result | Notes                               |
+|-----------|------|--------|-------------------------------------|
+| SBC #$01  | $10  | $09    | Carry is set, indicating no borrow. |
+| SBC #$01  | $00  | $99    | Carry is clear, indicating a borrow.|
+
+In the second example ($00 - $01), the final result was $99 with a borrow. 
+
+Note that the **n** flag tracks the high bit, but two's complement doesn't work
+as expected in Decimal mode. Instead, we have to use _Ten's complement_. 
+
+Simply put, $00 - $01 gives you $99. So when working in signed BCD, any value
+where the high digit is 5-9 is actually a negative value. To convert negative
+values to positive values for printing, you would subtract from 99 and add 1.
+
+For example: the integer -49 is $51 in BCD. `99 - 51 + 1 = 49`. You'd print that
+as `-49`.
+
 ## Instruction Tables
 
-## Instructions By Opcode
+### Instructions By Opcode
 
 |           |x0         |x1         |x2         |x3         |x4         |x5         |x6         |x7         |x8         |x9         |xA         |xB         |xC         |xD         |xE         |xF         |
 |-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
@@ -264,7 +313,7 @@ mode. The CPU always starts at the address stored in $FFFC.
 |        Ex |[CPX](#cpx)|[SBC](#sbc)|[SEP](#sep)|[SBC](#sbc)|[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[SBC](#sbc)|[INX](#inx)|[SBC](#sbc)|[NOP](#nop)|[XBA](#xba)|[CPX](#cpx)|[SBC](#sbc)|[INC](#inc)|[SBC](#sbc)|
 |        Fx |[BEQ](#beq)|[SBC](#sbc)|[SBC](#sbc)|[SBC](#sbc)|[PEA](#pea)|[SBC](#sbc)|[INC](#inc)|[SBC](#sbc)|[SED](#sed)|[SBC](#sbc)|[PLX](#plx)|[XCE](#xce)|[JSR](#jsr)|[SBC](#sbc)|[INC](#inc)|[SBC](#sbc)|
 
-## Instructions By Name
+### Instructions By Name
 
 |             |             |             |             |             |             |             |             |             |             |
 |-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
@@ -279,7 +328,7 @@ mode. The CPU always starts at the address stored in $FFFC.
 | [TSB](#tsb) | [TSC](#tsc) | [TSX](#tsx) | [TXA](#txa) | [TXS](#txs) | [TXY](#txy) | [TYA](#tya) | [TYX](#tyx) | [WAI](#wai) | [WDM](#wdm) |
 | [XBA](#xba) | [XCE](#xce) |             |             |             |             |             |             |             |             |
 
-## Instructions By Category
+### Instructions By Category
 
 |Category       |Instructions   |
 |---------------|---------------|
@@ -299,7 +348,7 @@ mode. The CPU always starts at the address stored in $FFFC.
 | Store         | [STA](#sta) , [STP](#stp) , [STX](#stx) , [STY](#sty) , [STZ](#stz) |
 | Register Swap | [TAX](#tax) , [TAY](#tay) , [TCD](#tcd) , [TCS](#tcs) , [TDC](#tdc) , [TSC](#tsc) , [TSX](#tsx) , [TXA](#txa) , [TXS](#txs) , [TXY](#txy) , [TYA](#tya) , [TYX](#tyx) , [XBA](#xba) , [XCE](#xce) |
 
-### ADC
+#### ADC
 
 **Add with Carry**
 
@@ -379,7 +428,7 @@ BRK
 
 ---
 
-### AND
+#### AND
 
 **Boolean AND**
 
@@ -430,7 +479,7 @@ See also: [ORA](#ora), [EOR](#eor)
 
 ---
 
-### ASL
+#### ASL
 
 **Arithmetic Shift Left**
 
@@ -453,7 +502,7 @@ See also: [LSR](#lsr), [ROL](#rol), [ROR](#ror)
 
 ---
 
-### BCC
+#### BCC
 
 **Branch on Carry Clear**
 
@@ -464,22 +513,22 @@ BCC LABEL        rel8       90  2   2+t+t*e*p   ........ .
 
 Jumps to the target address when the Carry flag (**c**) is Zero.
 
-A branch operation uses an 8 bit signed value internally, starting from the
-instruction after the branch. So the branch destination can be 126 bytes before
-or 128 bytes after the branch instruction.
-
 BCC can be used after add, subtract, or compare operations. After a compare,
 **c** is as follows:
 
 * When A < Operand, **c** is clear.
 * When A >= Operand, **c** is set.
 
+A branch operation uses an 8 bit signed value internally, starting from the
+instruction after the branch. So the branch destination can be 126 bytes before
+or 128 bytes after the branch instruction.
+
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### BCS
+#### BCS
 
 **Branch on Carry Set**
 
@@ -490,22 +539,22 @@ BCS LABEL        rel8       B0  2   2+t+t*e*p   ........ .
 
 Jumps to the target address when the Carry flag is 1.
 
-A branch operation uses an 8 bit signed value internally, starting from the
-instruction after the branch. So the branch destination can be 126 bytes before
-or 128 bytes after the branch instruction.
-
 BCC can be used after add, subtract, or compare operations. After a compare,
 **c** is as follows:
 
 * When A < Operand, **c** is clear.
 * When A >= Operand, **c** is set.
 
+A branch operation uses an 8 bit signed value internally, starting from the
+instruction after the branch. So the branch destination can be 126 bytes before
+or 128 bytes after the branch instruction.
+
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### BEQ
+#### BEQ
 
 **Branch on Equal.**
 
@@ -528,7 +577,7 @@ or 128 bytes after the branch instruction.
 
 ---
 
-### BIT
+#### BIT
 
 **Bit Test**
 
@@ -555,7 +604,7 @@ memory.
 
 ---
 
-### BMI
+#### BMI
 
 **Branch on Minus**
 
@@ -578,7 +627,7 @@ or 128 bytes after the branch instruction.
 
 ---
 
-### BNE
+#### BNE
 
 **Branch on Not Equal.**
 
@@ -601,7 +650,7 @@ or 128 bytes after the branch instruction.
 
 ---
 
-### BPL
+#### BPL
 
 **Branch on Plus**
 
@@ -615,12 +664,16 @@ Jumps to the specified address when the Negative flag (**n**) is clear.
 **n** is clear when ALU operations result in a positive number, or when the high bit
 of an ALU operation is 0.
 
+A branch operation uses an 8 bit signed value internally, starting from the
+instruction after the branch. So the branch destination can be 126 bytes before
+or 128 bytes after the branch instruction.
+
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### BRA
+#### BRA
 
 **Branch Always**
 
@@ -640,7 +693,7 @@ or 128 bytes after the branch instruction.
 
 ---
 
-### BRK
+#### BRK
 
 **Break**
 
@@ -695,7 +748,7 @@ See the [Vectors](#vectors) section for the break vector.
 
 ---
 
-### BRL
+#### BRL
 
 **Branch Long**
 
@@ -721,7 +774,7 @@ JMP, can be moved around in memory without the need for re-assembly.
 
 ---
 
-### BVC
+#### BVC
 
 **Branch on Overflow Clear**
 
@@ -732,12 +785,16 @@ BVC LABEL        rel8       50  2   2+t+t*e*p   ........ .
 
 Branches to the specified address when the Overflow bit is 0.
 
+A branch operation uses an 8 bit signed value internally, starting from the
+instruction after the branch. So the branch destination can be 126 bytes before
+or 128 bytes after the branch instruction.
+
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### BVS
+#### BVS
 
 **Branch on Overflow Set**
 
@@ -746,14 +803,18 @@ SYNTAX           MODE       HEX LEN CYCLES      FLAGS
 BVS LABEL        rel8       70  2   2+t+t*e*p   ........ .
 ```
 
-Branches to the specified address when the Overflow bit is 0.
+Branches to the specified address when the Overflow bit is 1.
+
+A branch operation uses an 8 bit signed value internally, starting from the
+instruction after the branch. So the branch destination can be 126 bytes before
+or 128 bytes after the branch instruction.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### CLC
+#### CLC
 
 **Clear Carry**
 
@@ -771,7 +832,7 @@ calling certain KERNAL routines that use the **c** bit as an input value.
 
 ---
 
-### CLD
+#### CLD
 
 **Clear Decimal**
 
@@ -783,7 +844,7 @@ CLD              imp        D8  1   2           ....d... .
 Clears the Decimal flag, returning the CPU to 8-bit or 16-bit binary operation.
 
 When Decimal is set, the CPU will store numbers in Binary Coded Decimal format.
-Clearing this flag restores the CPU to binary \(base 16\) operation. See
+Clearing this flag restores the CPU to binary operation. See
 [Decimal Mode](#decimal-mode) for more information.
 
 
@@ -791,7 +852,7 @@ Clearing this flag restores the CPU to binary \(base 16\) operation. See
 
 ---
 
-### CLI
+#### CLI
 
 **Clear Interrupt Flag**
 
@@ -813,7 +874,7 @@ See [BRK}(#brk) for more information on interrupt handling.
 
 ---
 
-### CLV
+#### CLV
 
 **Clear Overflow**
 
@@ -833,7 +894,7 @@ set with SEP #$40.
 
 ---
 
-### CMP
+#### CMP
 
 **Compare**
 
@@ -926,7 +987,7 @@ skip:
 
 ---
 
-### COP
+#### COP
 
 **COP interrupt.**
 
@@ -944,7 +1005,7 @@ is to switch to a Co-Processor, but this can be used for any purpose on the X16
 
 ---
 
-### CPX
+#### CPX
 
 **Compare X Register**
 
@@ -964,7 +1025,7 @@ See [CMP](#cmp) for more information.
 
 ---
 
-### CPY
+#### CPY
 
 **Compare Y Register**
 
@@ -984,7 +1045,7 @@ See [CMP](#cmp) for more information.
 
 ---
 
-### DEC
+#### DEC
 
 **Decrement**
 
@@ -1009,7 +1070,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 
 ---
 
-### DEX
+#### DEX
 
 **Decrement .X**
 
@@ -1030,7 +1091,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 
 ---
 
-### DEY
+#### DEY
 
 **Decrement .Y**
 
@@ -1051,7 +1112,7 @@ iterations, the repeated operation, then DEX followed by BNE.
 
 ---
 
-### EOR
+#### EOR
 
 **Exclusive OR**
 
@@ -1097,7 +1158,7 @@ Result:    0110
 
 ---
 
-### INC
+#### INC
 
 **Increment**
 
@@ -1123,7 +1184,7 @@ especially with indirect and indexed addressing modes.
 
 ---
 
-### INX
+#### INX
 
 **Increment .X**
 
@@ -1154,7 +1215,7 @@ See [INC}(#inc)
 
 ---
 
-### INY
+#### INY
 
 **Increment .Y**
 
@@ -1172,7 +1233,7 @@ See [INC}(#inc)
 
 ---
 
-### JMP
+#### JMP
 
 **Jump**
 
@@ -1194,7 +1255,7 @@ subroutine by setting X to the indesx into the vector table.
 
 ---
 
-### JML
+#### JML
 
 **Jump Long**
 
@@ -1213,7 +1274,7 @@ program banks.
 
 ---
 
-### JSL
+#### JSL
 
 **Jmp to Subroutine Long**
 
@@ -1232,7 +1293,7 @@ Use the [RTL](#rtl) instruction to return to the instruction following the JSL.
 
 ---
 
-### JSR
+#### JSR
 
 **Jump to Subroutine**
 
@@ -1257,7 +1318,7 @@ RTS.
 
 ---
 
-### LDA
+#### LDA
 
 **Load Accumulator**
 
@@ -1288,7 +1349,7 @@ allowing you to use BMI, BPL, BEQ, and BNE to act based on the value being read.
 
 ---
 
-### LDX
+#### LDX
 
 **Load X Register**
 
@@ -1309,7 +1370,7 @@ use BMI, BPL, BEQ, and BNE to act based on the value being read.
 
 ---
 
-### LDY
+#### LDY
 
 **Load X Register**
 
@@ -1330,7 +1391,7 @@ use BMI, BPL, BEQ, and BNE to act based on the value being read.
 
 ---
 
-### LSR
+#### LSR
 
 **Logical Shift Right**
 
@@ -1360,7 +1421,7 @@ Bit 0 is shifted into Carry.;
 
 ---
 
-### MVN
+#### MVN
 
 **Block Copy/Move Negative**
 
@@ -1385,7 +1446,7 @@ wise to clear **m** and **x** with `REP #$30`.
 
 ---
 
-### MVP
+#### MVP
 
 **Block Copy/Move Positive**
 
@@ -1410,7 +1471,7 @@ wise to clear **m** and **x** with `REP #$30`.
 
 ---
 
-### NOP
+#### NOP
 
 **No Operation**
 
@@ -1427,7 +1488,7 @@ reserving space for later use.
 
 ---
 
-### ORA
+#### ORA
 
 **Boolean OR**
 
@@ -1470,13 +1531,13 @@ Result:    1110
 
 ---
 
-### PEA
+#### PEA
 
 **Push Absolute**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
-PEA $2034        imm        F4  3   5           ........ .
+PEA $2034        abs        F4  3   5           ........ .
 ```
 
 PEA, PEI, and PER push values to the stack *without* affecting registers.
@@ -1492,13 +1553,13 @@ their own syntax rules.
 
 ---
 
-### PEI
+#### PEI
 
 **Push Effecive Indirect Address**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
-PEI ($20)        dir        D4  2   6+w         ........ .
+PEI ($20)        (dir)      D4  2   6+w         ........ .
 ```
 
 PEI takes a _pointer_ as an operand. The value written to the stack is the two
@@ -1519,13 +1580,13 @@ PEI and PEA follow their own syntax rules.
 
 ---
 
-### PER
+#### PER
 
 **Push Effective PC Relative Indirect Address**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
-PER LABEL        imm        62  3   6           ........ .
+PER LABEL        rel16      62  3   6           ........ .
 ```
 
 PER pushes the address _relative to the program counter_. This allows you to
@@ -1551,7 +1612,7 @@ stack. See [JSR](#jsr) to understand why the -1 is required.
 
 ---
 
-### PHA
+#### PHA
 
 **Push Accumulator**
 
@@ -1578,7 +1639,7 @@ stack can be anywhere in the first 64KB of RAM.
 
 ---
 
-### PHB
+#### PHB
 
 **Push Data Bank register.**
 
@@ -1597,7 +1658,7 @@ This is always an 8-bit operation.
 
 ---
 
-### PHD
+#### PHD
 
 **Push Direct Page**
 
@@ -1615,7 +1676,7 @@ preserving the location of .D before relocating Direct Page for another use
 
 ---
 
-### PHK
+#### PHK
 
 **Push Program Bank**
 
@@ -1632,7 +1693,7 @@ bits of the 24-bit Program Counter address.
 
 ---
 
-### PHP
+#### PHP
 
 **Push Program Status (Flags)**
 
@@ -1655,7 +1716,7 @@ bits, when dispatching a IRQ/BRK interrupt.
 
 ---
 
-### PHX
+#### PHX
 
 **Push X Register**
 
@@ -1675,7 +1736,7 @@ by 1 byte. A 16-bit stack push moves the stack pointer down 2 bytes.
 
 ---
 
-### PHY
+#### PHY
 
 **Push Y Register**
 
@@ -1695,7 +1756,7 @@ by 1 byte. A 16-bit stack push moves the stack pointer down 2 bytes.
 
 ---
 
-### PLA
+#### PLA
 
 **Pull Accumulator**
 
@@ -1716,7 +1777,7 @@ The number of bytes read is based on the value of the **m** flag.
 
 ---
 
-### PLB
+#### PLB
 
 **Pull Data Bank Register**
 
@@ -1735,7 +1796,7 @@ stack and _increments_ the stack pointer by 1 byte.
 
 ---
 
-### PLD
+#### PLD
 
 **Pull Direct Page Register**
 
@@ -1753,7 +1814,7 @@ That value can be placed on the stack in several ways, such as PHA, PHX, or PEA.
 
 ---
 
-### PLP
+#### PLP
 
 **Pull Prgram Status Byte (flags)**
 
@@ -1771,7 +1832,7 @@ PLA, PLX, or PLY operation.
 
 ---
 
-### PLX
+#### PLX
 
 **Pull X Register**
 
@@ -1792,7 +1853,7 @@ The number of bytes read is based on the value of the **x** flag.
 
 ---
 
-### PLY
+#### PLY
 
 **Pull Y Register**
 
@@ -1813,7 +1874,7 @@ The number of bytes read is based on the value of the **x** flag.
 
 ---
 
-### REP
+#### REP
 
 **Reset Program Status Bit**
 
@@ -1830,7 +1891,7 @@ cleared in the flags, so REP #$30 will set the **a** and **x** bits low.
 
 ---
 
-### ROL
+#### ROL
 
 **Rotate Left**
 
@@ -1851,7 +1912,7 @@ shifted into bit 0. The high bit (7 or 15) is shifted into **c**.
 
 ---
 
-### ROR
+#### ROR
 
 **Rotate Right**
 
@@ -1872,7 +1933,7 @@ shifted into the high bit (15 or 7). The low bit (0) is shifted into **c**.
 
 ---
 
-### RTI
+#### RTI
 
 **Return From Interrupt**
 
@@ -1894,7 +1955,7 @@ switch to 8/16 bit mode, as appropriate.
 
 ---
 
-### RTL
+#### RTL
 
 **Return From Subroutine Long**
 
@@ -1915,7 +1976,7 @@ instruction after the JSL that jumped to the subroutine.
 
 ---
 
-### RTS
+#### RTS
 
 **Return From Subroutine**
 
@@ -1935,7 +1996,7 @@ instruction after the JSR that jumped to the subroutine.
 
 ---
 
-### SBC
+#### SBC
 
 **Subtract With Carry**
 
@@ -1979,7 +2040,7 @@ subtraction.
 
 ---
 
-### SEC
+#### SEC
 
 **Set Carry**
 
@@ -1995,7 +2056,7 @@ Sets the Carry bit to 1
 
 ---
 
-### SED
+#### SED
 
 **Set Decimal**
 
@@ -2006,6 +2067,10 @@ SED              imp        F8  1   2           ....d... .
 
 Sets the Decimal bit to 1, setting the CPU to BCD mode.
 
+When Decimal is set, the CPU will store numbers in Binary Coded Decimal format.
+Clearing this flag restores the CPU to binary operation. See
+[Decimal Mode](#decimal-mode) for more information.
+
 In binary mode, adding 1 to $09 will set the Accumulator to $0A. In BCD mode,
 adding 1 to $09 will set the Accumulator to $10.
 
@@ -2013,16 +2078,16 @@ Using BCD allows for easier conversion of binary numbers to decimal. BCD also
 allows for storing decimal numbers without loss of precision due to power-of-2
 rounding.
 
-Also, a math operation (ADC or SBC) is required to actually trigger BCD
-conversion. So if you have a number like $1A on the accumulator and you SED, you
-will need to ADC #$00 to actually convert .A to $20.
+An add or subtract (ADC or SBC) is required to actually trigger BCD conversion.
+So if you have a number like $1A on the accumulator and you SED, you can convert
+.A to $20 with the instruction `ADC #$00`.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
 
 ---
 
-### SEI
+#### SEI
 
 **Set IRQ Disable**
 
@@ -2046,7 +2111,7 @@ See [BRK](#brk) for a brief description of interrupts.
 
 ---
 
-### SEP
+#### SEP
 
 **Set Processor Status Bit**
 
@@ -2065,7 +2130,7 @@ loaded into the flags, so SEP #$30 will set the **a** and **x** bits high.
 
 ---
 
-### STA
+#### STA
 
 **Store Accumulator to Memory**
 
@@ -2098,7 +2163,7 @@ RAM.
 
 ---
 
-### STP
+#### STP
 
 **Stop the Clock**
 
@@ -2115,7 +2180,7 @@ is asserted.
 
 ---
 
-### STX
+#### STX
 
 **Store Index X to Memory**
 
@@ -2137,7 +2202,7 @@ byte of RAM.
 
 ---
 
-### STY
+#### STY
 
 **Store Index Y to Memory**
 
@@ -2159,7 +2224,7 @@ byte of RAM.
 
 ---
 
-### STZ
+#### STZ
 
 **Store Sero to Memory**
 
@@ -2182,7 +2247,7 @@ RAM.
 
 ---
 
-### TAX
+#### TAX
 
 **Transfer Accumulator to Index X**
 
@@ -2198,7 +2263,7 @@ Copies the contents of .A to .X.
 
 ---
 
-### TAY
+#### TAY
 
 **Transfer Accumulator to Index Y**
 
@@ -2214,7 +2279,7 @@ Copies the contents of .A to .Y.
 
 ---
 
-### TCD
+#### TCD
 
 **Transfer C Accumulator to Direct Register**
 
@@ -2234,7 +2299,7 @@ operates on a 16-bit value, regardless of the state of the **m** flag.
 
 ---
 
-### TCS
+#### TCS
 
 **Transfer C Accumulator to Stack Pointer**
 
@@ -2254,7 +2319,7 @@ operates on a 16-bit value, regardless of the state of the **m** flag.
 
 ---
 
-### TDC
+#### TDC
 
 **Transfer Direct Register to C Accumulator**
 
@@ -2273,7 +2338,7 @@ operates on a 16-bit value, regardless of the state of the **m** flag.
 
 ---
 
-### TRB
+#### TRB
 
 **Test and Reset Bit**
 
@@ -2312,7 +2377,7 @@ TRB $1234
 
 ---
 
-### TSB
+#### TSB
 
 **Test and Set Bit**
 
@@ -2336,7 +2401,7 @@ operation.
 
 ---
 
-### TSC
+#### TSC
 
 **Transfer Stack Pointer to C accumulator**
 
@@ -2355,7 +2420,7 @@ operates on a 16-bit value, regardless of the state of the **m** flag.
 
 ---
 
-### TSX
+#### TSX
 
 **Transfer Stack Pointer X Register**
 
@@ -2371,7 +2436,7 @@ Copies the Stack Pointer to the X register.
 
 ---
 
-### TXA
+#### TXA
 
 **Transfer X Register to Accumulator**
 
@@ -2387,7 +2452,7 @@ Copies the value in .X to .A
 
 ---
 
-### TXS
+#### TXS
 
 **Transfer X Register to Stack Pointer**
 
@@ -2404,7 +2469,7 @@ known location, usually at boot or when context-switching.
 
 ---
 
-### TXY
+#### TXY
 
 **Transfer X Register to Accumulator**
 
@@ -2420,7 +2485,7 @@ Copies the value in .X to .Y
 
 ---
 
-### TYA
+#### TYA
 
 **Transfer Y Register to Accumulator**
 
@@ -2436,7 +2501,7 @@ Copies the value in .Y to .A
 
 ---
 
-### TYX
+#### TYX
 
 **Transfer Y Register to X Register**
 
@@ -2452,7 +2517,7 @@ Copies the value in .Y to .X
 
 ---
 
-### WAI
+#### WAI
 
 **Wait For Interrupt**
 
@@ -2470,7 +2535,7 @@ complete.
 
 ---
 
-### WDM
+#### WDM
 
 **WDM**
 
@@ -2490,7 +2555,7 @@ programs.
 
 ---
 
-### XBA
+#### XBA
 
 **Exchange B and A Accumulator**
 
@@ -2507,7 +2572,7 @@ Accumulator. XBA functions the same in both 8 and 16 bit modes.
 
 ---
 
-### XCE
+#### XCE
 
 **Exchange Carry and Emulation Flags**
 
