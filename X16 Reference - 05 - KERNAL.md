@@ -1984,7 +1984,7 @@ If .X == 4
 
 1) Call `mouse_config` with a non-zero value to enable the mouse.
 2) If you're overriding the default ISR entirely, call `ps2data_fetch`. If not, this will be called for you.
-3) Call `ps2data_mouse_raw`. If .X is nonzero, memory starting at r0L will contain the raw mouse packet.
+3) Call `ps2data_raw`. If .X is nonzero, memory starting at r0L will contain the raw mouse packet.
 
 **EXAMPLE:**
 
@@ -2005,7 +2005,7 @@ start:
         jsr MOUSE_CONFIG
 loop:
         wai ; wait for interrupt
-        lda #9 ; ps2data_mouse_raw
+        lda #9 ; ps2data_raw
         jsr EXTAPI
         beq aftermouse
         stx TMP1
