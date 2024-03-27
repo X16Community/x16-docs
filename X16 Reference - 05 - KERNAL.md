@@ -1613,7 +1613,7 @@ Registers affected: Varies
 | `$06` | [`ps2kbd_typematic`](#extapi-function-name-ps2kbd_typematic) | set the keyboard repeat delay and rate | .X | - | - |
 | `$07` | [`pfkey`](#extapi-function-name-pfkey) | program macros for F1-F8 and the RUN key | .X | - | - |
 | `$08` | [`ps2data_fetch`](#extapi-function-name-ps2data_fetch) | Polls the SMC for PS/2 keyboard and mouse data | - | - | - |
-| `$09` | [`ps2data_mouse_raw`](#extapi-function-name-ps2data_mouse_raw) | If the most recent `ps2data_fetch` received a mouse packet, returns its raw value | - | .X r0L-r1H | - |
+| `$09` | [`ps2data_raw`](#extapi-function-name-ps2data_raw) | If the most recent `ps2data_fetch` received a mouse packet or keycode, returns its raw value | - | .A .Y .X .P r0L-r1H | - |
 | `$0A` | [`cursor_blink`](#extapi-function-name-cursor_blink) | Blinks or un-blinks the KERNAL editor cursor if appropriate | - | - | - |
 | `$0B` | [`led_update`](#extapi-function-name-led_update) | Illuminates or clears the SMC activity LED based on disk activity or error status | - | - | - |
 | `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
@@ -1933,7 +1933,7 @@ Preparatory routines: None
 Error returns: None  
 Registers affected: .A .X .Y .P  
 
-**Description:** This routine is called from the default KERNAL interrupt service handler to fetch a queued keycode, and if the mouse is enabled, a mouse packet. The values are stored inside internal KERNAL state used by subsequent calls to `mouse_scan`, `kbd_scan`, or `ps2data_mouse_raw`.
+**Description:** This routine is called from the default KERNAL interrupt service handler to fetch a queued keycode, and if the mouse is enabled, a mouse packet. The values are stored inside internal KERNAL state used by subsequent calls to `mouse_scan`, `kbd_scan`, or `ps2data_raw`.
 
 If the mouse has not been enabled via `mouse_config`, no mouse data is polled.
 
@@ -1941,26 +1941,36 @@ This call is mainly useful when overriding the default KERNAL ISR.
 
 ---
 
-#### extapi Function Name: ps2data_mouse_raw
+#### extapi Function Name: ps2data_raw
 
-Purpose: Return the most recently-fetched PS/2 mouse packet  
+Purpose: Return the most recently-fetched PS/2 mouse packet and keycode  
 Minimum ROM version: R47  
 Call address: $FEAB, .A=9  
-Communication registers: .X r0L-r1H  
+Communication registers: .A .Y .X .P r0L-r1H  
 Preparatory routines: `mouse_config`, `ps2data_fetch`  
 Error returns: None  
 Registers affected: .A .X .Y .P r0L-r1H  
 
-**Description:** This routine returns the most-recently fetched mouse data packet. If a mouse packet exists, it sets .X to the length of the packet, either 3 or 4 depending on mouse type, and stores the values into r0L-r1H. If there's no mouse packet to return, .X is set to zero, the zero flag is set, and r0L-r1H memory is unchanged.
+**Description:** This routine returns the most-recently fetched mouse data packet and keycode. If a mouse packet exists, it sets .X to the length of the packet, either 3 or 4 depending on mouse type, and stores the values into r0L-r1H. If there's no mouse packet to return, .X is set to zero. If there's a keycode to return, .A is set to the keycode, otherwise .A is set to zero. If there's an extended keycode, .A will equal $7F for key down or $FF for key up, and .Y will contain the extended code.
 
-This call is mainly useful when overriding the default KERNAL ISR and implementing a fully custom mouse routine.  It is also available when using the default ISR as these values are kept even after processing, until the next `ps2data_fetch` call.
+If .X = 0, no mouse packet was received, and r0L-r1H memory is unchanged.
+
+If the zero flag is set, neither the keyboard nor mouse have events.
+
+This call is mainly useful when overriding the default KERNAL ISR and implementing a fully custom mouse and keyboard routine.  It is also available when using the default ISR as these values are kept even after processing, until the next `ps2data_fetch` call.
 
 Return values:
+* .A = keycode
+
+If .A == $7F or .A == $FF
+
+* .Y = extended keycode
+
 * .X = number of mouse bytes
 
 If .X == 0, memory is left unchanged.
 
-If .X == 3
+If .X >= 3
 
 * r0L = mouse byte 1
 * r0H = mouse byte 2
@@ -1999,6 +2009,14 @@ loop:
         jsr EXTAPI
         beq aftermouse
         stx TMP1
+        ora #0
+        beq afterkbd
+        jsr print_hex_byte
+        lda #13
+        jsr CHROUT
+afterkbd:
+        ldx TMP1
+        beq aftermouse
         ldx #0
 printloop:
         lda r0,x
