@@ -107,11 +107,9 @@ N is set when result is negative (bit 7=1)<br/>
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 ### AND
 
 Logical And
@@ -153,10 +151,9 @@ in A.<br/>
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### ASL
 
@@ -183,10 +180,9 @@ Bit 7 is shifted into Carry.<br/>
 +p Adds a cycle if ,X crosses a page boundary.<br/>
 +c New for the 65C02<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### BBRx
 
@@ -226,10 +222,9 @@ The above BBR3 looks at value in zeropage_flag (here it's a label to an actual
 zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_not_set`.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### BBSx
 
@@ -246,7 +241,6 @@ BBS5 $20,$8080 ZP Relative    $DF   3     5     -------
 BBS6 $20,$8080 ZP Relative    $EF   3     5     ------- 
 BBS7 $20,$8080 ZP Relative    $FF   3     5     ------- 
 ```
-
 
 Branch to LABEL if bit x of zero page address is 1 where x is the number
 of the specific bit (0-7).
@@ -270,10 +264,9 @@ The above BBR3 looks at value in zeropage_flag (here it's a label to an actual
 zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_set`.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### BIT
 
@@ -292,10 +285,9 @@ BIT $8080,X  Absolute,X     $3C   3     4     -Z---VN
 - Sets N (Negative) flag to the value of bit 7 at the provided address.
 - Sets V (Overflow) flag to the value of bit 6 at the provided addres.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### BRA
 
@@ -334,10 +326,9 @@ For example, if the PC is $1000, the statement `BCS $1023` will be `$B0 $21`.
 
 +p: Execution takes one additional cycle when moving across a page boundary.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### BRK
 
@@ -363,10 +354,9 @@ The B flag is used to distinguish a BRK from an NMI. An interrupt triggered by
 asserting the NMI pin does not set the B flag, and so the X16 does a warm boot
 of BASIC, rather than jumping to MONitor.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CLC
 
@@ -381,10 +371,9 @@ Clears the Carry flag. This is useful before ADC to prevent an extra 1 during
 addition. C is also often used in KERNAL routines to alter the operation of the
 routine or return certain information.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CLD
 
@@ -398,10 +387,9 @@ CLD          Implied        $D8   1     2     ---D---
 Clears the Decimal flag. This switches the CPU back to binary operation if it
 was previously in BCD mode.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CLI
 
@@ -417,10 +405,9 @@ and RST are always enabled.
 
 Use SEI to disable interrupts
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CLV
 
@@ -433,10 +420,9 @@ CLV          Implied        $B8   1     2     -----V-
 
 Clear the Overflow (V) flag after an arithmetic operation, such as ADC or SBC.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CMP
 
@@ -464,10 +450,9 @@ based on subtracting A - _Value_.
 - Clears Z (Zero) flag if the values are not equal
 - Sets N (Negative) flag if value in A is < given value
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CPX
 
@@ -491,10 +476,9 @@ based on subtracting X - _Value_.
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### CPY
 
@@ -516,10 +500,9 @@ based on subtracting Y - _Value_.
 - Clears Z (Zero) flag if the values are not equal
 - Sets N (Negative) flag if value in Y is < given value
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### DEC
 
@@ -561,10 +544,9 @@ byte before decrementing the high byte:
 LABEL DEC Num_Low
 ```
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### EOR
 
@@ -582,7 +564,6 @@ EOR ($20,X)  Indirect,X     $41   2     6     -Z----N
 EOR ($20),Y  Indirect,Y     $51   2     5     -Z----N 
 EOR ($20)    ZP Indirect    $52   2     5     -Z----N +c
 ```
-
 
 Perform an exclusive OR of the given value in A
 (the accumulator), storing the result in A.
@@ -611,10 +592,9 @@ tested. It returns a 0 for each bit that is the same.
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### INC
 
@@ -655,10 +635,9 @@ byte after incrementing it.
 Inc16_1: ...
 ```
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### JMP
 
@@ -699,10 +678,9 @@ The above would jump to the address of `routine2`, and is much faster than
 the old 6502 method of pushing the two bytes onto the stack and performing an
 RTS.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### JSR
 
@@ -723,10 +701,9 @@ immediately after the JSR.
 Be careful to always match JSR and RTS, as imbalanced JSR/RTS operations will
 either overflow or underflow the stack.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### LDA
 
@@ -753,10 +730,9 @@ Place the given value from memory into the accumulator (A).
 +c New for the 65C02<br/>
 +p add 1 cycle if addr+offset spans a page boundary<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### LDX
 
@@ -779,10 +755,9 @@ Place the given value from memory into the X register.
 +c New for the 65C02<br/>
 +p add 1 cycle if addr+offset spans a page boundary<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### LDY
 
@@ -805,10 +780,9 @@ Place the given value from memory into the Y register.
 +c New for the 65C02<br/>
 +p add 1 cycle if addr+offset spans a page boundary<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### LSR
 
@@ -835,10 +809,9 @@ The Carry bit is shifted into bit 7.<br/>
 +p Adds a cycle if ,X crosses a page boundary.<br/>
 +c New for the 65C02<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### NOP
 
@@ -860,10 +833,9 @@ It is also useful for adding small delays to your code. For instance, to add a
 bit of delay when writing to the YM2151 chip (see
 [Chapter 11 - YM Write Procedure](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#vera-psg-and-pcm-programming)).
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### ORA
 
@@ -904,10 +876,9 @@ Perform a logical OR of the given value in A
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### PHA
 
@@ -934,10 +905,9 @@ PHP pushes the Flags, also called P for Program Status Register.
 The corresponding "Pull" instructions are [PLA](#pla), [PHP](#pla), [PHX](#pla),
 and [PHY](#pla).
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### PLA
 
@@ -966,10 +936,9 @@ Use TXS or TSX to directly manage the stack pointer.
 The corresponding "Push" instructions are [PHA](#pha), [PHP](#pha), [PHX](#pha),
 and [PHY](#pha).
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### RMBx
 
@@ -995,10 +964,9 @@ Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 +c new to the 65C02<br/>
 -816 _not available_ on the 65C816<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### ROL
 
@@ -1021,10 +989,9 @@ shifted into bit 0 and the original bit 7 is shifted into the carry (C).
 
 +p add one cycle when addr + x crosses a page boundary.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### ROR
 
@@ -1046,10 +1013,9 @@ bit 0 is shifted into the carry (C).
 [LSR](#lsr) rotates _through_ the Carry flag, effectively making a 9 bit shift.<br/>
 [ROL](#rol) rotates to the left.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### RTI
 
@@ -1067,10 +1033,9 @@ program counter.
 Note that unlike [RTS](#rts), the popped address is the actual
 return address (rather than address-1).
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### RTS
 
@@ -1086,10 +1051,9 @@ back to the address after the [JSR](#jsr) that called it
 by popping the top 2 bytes off the stack and transferring
 control to that address +1.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### SBC
 
@@ -1124,10 +1088,9 @@ N is set when result is negative (bit 7=1)<br/>
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### SEC
 
@@ -1142,10 +1105,9 @@ Sets the Carry flag. This is used before SBC to prevent an extra subtract. C
 is also often used in KERNAL routines to alter the operation of the routine
 or return certain information.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### SED
 
@@ -1166,10 +1128,9 @@ Using BCD allows for easier conversion of binary numbers to decimal. BCD also
 allows for storing decimal numbers without loss of precision due to power-of-2
 rounding.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### SEI
 
@@ -1184,10 +1145,9 @@ Sets or clears the Interrupt Disable flag. When I is set, the CPU will not
 execute IRQ interrupts, even if the line is asserted. Use CLI to re-enable
 interrupts.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### SMBx
 
@@ -1215,10 +1175,9 @@ Specific to the 65C02 (*unavailable on the 65C816*)
 +c new to the 65C02<br/>
 -816 _not available_ on the 65C816<br/>
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### STA
 
@@ -1240,10 +1199,9 @@ Place the given value from the accumulator (A) into memory.
 
 +c new for 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### STP
 
@@ -1264,10 +1222,9 @@ emulator or reset the emulation.
 
 +c New for the 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### STX
 
@@ -1280,11 +1237,11 @@ STX $20,Y    Zero Page,Y    $96   2     4     -------
 STX $8080    Absolute       $8E   3     4     ------- 
 ```
 
-
+Places the value in the Y index register in memory at the specified address.
 
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### STY
 
@@ -1297,11 +1254,11 @@ STY $20,X    Zero Page,X    $94   2     4     -------
 STY $8080    Absolute       $8C   3     4     ------- 
 ```
 
-
+Places the value in the Y index register in memory at the specified address.
 
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### STZ
 
@@ -1315,11 +1272,12 @@ STZ $8080    Absolute       $9C   3     4     -------
 STZ $8080,X  Absolute,X     $9E   3     5     ------- 
 ```
 
-
+Stores 0 at the specified address. Useful for quickly clearing out sections of
+memory.
 
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### TRB
 
@@ -1354,10 +1312,9 @@ AND $20  ; AND with memory, saving the result in .A
 STA $20  ; Store it back to memory.
 ```
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### TSB
 
@@ -1376,10 +1333,9 @@ an ORA operation, execpt that the result is stored in memory, not in A.
 The Z flag is set based on the final result of the operation, ie: the memory
 data is 0.
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### Txx
 
@@ -1406,10 +1362,9 @@ LDX #$FF
 TXS
 ```
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ### WAI
 
@@ -1419,7 +1374,6 @@ Wait
 SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS    
 WAI          Implied        $CB   1     3     ------- +c
 ```
-
 
 Effectively stops the processor until a hardware interrupt occurs. The intterupt
 is processed immediately, and execution resumes in the Interrupt handler.
@@ -1432,10 +1386,9 @@ interrupt, and so the interrupt can be handled immediately.
 
 +c New for the 65C02
 
-
 ---
-[top](#)
-
+[Opcodes](#instructions-by-number) | [Names](#instructions-by-name) |
+[Categories](#instructions-by-category)
 
 ## Status Flags
 
