@@ -5,15 +5,15 @@ jobs:
   build-pdf:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y build-essential make fonts-dejavu
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - name: Install md-to-pdf (npm)
         run: |
           npm i md-to-pdf
@@ -26,13 +26,13 @@ jobs:
           cat .gh/header_footer.md \
           "Commander X16 Programmer's Reference Guide.md" \
           "X16 Reference - 01 - Overview.md" \
-          "X16 Reference - 02 - Editor.md" \
-          "X16 Reference - 03 - BASIC.md" \
-          "X16 Reference - 04 - KERNAL.md" \
-          "X16 Reference - 05 - Math Library.md" \
-          "X16 Reference - 06 - Machine Language Monitor.md" \
-          "X16 Reference - 07 - Memory Map.md" \
-          "X16 Reference - 08 - Video Programming.md" \
+          "X16 Reference - 02 - Getting Started.md" \
+          "X16 Reference - 03 - Editor.md" \
+          "X16 Reference - 04 - BASIC.md" \
+          "X16 Reference - 05 - KERNAL.md" \
+          "X16 Reference - 06 - Math Library.md" \
+          "X16 Reference - 07 - Machine Language Monitor.md" \
+          "X16 Reference - 08 - Memory Map.md" \
           "X16 Reference - 09 - VERA Programmer's Reference.md" \
           "X16 Reference - 10 - VERA FX Reference.md" \
           "X16 Reference - 11 - Sound Programming.md" \
@@ -45,7 +45,7 @@ jobs:
           "X16 Reference - Appendix C - 65C02 Processor.md" \
           "X16 Reference - Appendix D - Official Expansion Cards.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: x16-docs-pdf
           path: artifacts/*

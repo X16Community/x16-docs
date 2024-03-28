@@ -1,11 +1,12 @@
 
-# Chapter 6: Machine Language Monitor
+# Chapter 7: Machine Language Monitor
 
 The built-in machine language monitor can be started with the `MON` BASIC command. It is based on the monitor of the Final Cartridge III and supports most of its features.
 
 If you invoke the monitor by mistake, you can exit with by typing `X`, followed by the `RETURN` key.
 
 Some features specific to this monitor are:
+
 * The `I` command prints a PETSCII/ISO-encoded memory dump.
 * The `EC` command prints a binary memory dump. This is also useful for character sets.
 * Scrolling the screen with the cursor keys or F3/F5 will continue memory dumps and disassemblies, and even disassemble backwards.
@@ -29,35 +30,35 @@ These are the remaining commands:
 
 | Command | Syntax                          | Description            |
 |---------|---------------------------------|------------------------|
-| `F`     | *start* *end* *byte*            | fill                   |
-| `H`     | *start* *end* *byte* [*byte*...]| hunt                   |
-| `C`     | *start* *end* *start*           | compare                |
-| `T`     | *start* *end* *start*           | transfer               |
-| `A`     | *address* *instruction*         | assemble               |
-| `G`     | [*address*]                     | run code               |
-| `J`     | [*address*]                     | run subroutine         |
-| `$`     | *value*                         | convert hex to decimal |
-| `#`     | *value*                         | convert decimal to hex |
+| `F`     | _start_ _end_ _byte_            | fill                   |
+| `H`     | _start_ _end_ _byte_ [_byte_...]| hunt                   |
+| `C`     | _start_ _end_ _start_           | compare                |
+| `T`     | _start_ _end_ _start_           | transfer               |
+| `A`     | _address_ _instruction_         | assemble               |
+| `G`     | [_address_]                     | run code               |
+| `J`     | [_address_]                     | run subroutine         |
+| `$`     | _value_                         | convert hex to decimal |
+| `#`     | _value_                         | convert decimal to hex |
 | `X`     |                                 | exit monitor           |
-| `O`     | *bank*                          | set ROM bank           |
-| `K`     | *bank*                          | set RAM/VRAM bank/I2C  |
-| `L`     | ["*filename*"[,*dev*[,*start*]]]| load file              |
-| `S`     | "*filename*",*dev*,*start*,*end*| save file              |
-| `@`     | *command*                       | send drive command     |
+| `O`     | _bank_                          | set ROM bank           |
+| `K`     | _bank_                          | set RAM/VRAM bank/I2C  |
+| `L`     | ["_filename_"[,_dev_[,_start_]]]| load file              |
+| `S`     | "_filename_",_dev_,_start_,_end_| save file              |
+| `@`     | _command_                       | send drive command     |
 
 * All addresses have to be 4 digits.
 * All bytes have to be 2 digits (including device numbers).
 * The end address of `S` is exclusive.
 * The bank argument for `K` is
-	* `00`-`FF`: switch to main RAM, set RAM bank
-	* `V0`-`V1`: switch to Video RAM, set VRAM bank
-	* `I`: switch to the I2C address space
+  * `00`-`FF`: switch to main RAM, set RAM bank
+  * `V0`-`V1`: switch to Video RAM, set VRAM bank
+  * `I`: switch to the I2C address space
 * The bank argument for `O` is
-	* `00`-`FF`: set ROM bank
+  * `00`-`FF`: set ROM bank
 * `@` takes:
-	* `8`, `9` to change the default drive (also for `L`)
-	* `$` to display the disk directory
-	* anything else as a disk command 
+  * `8`, `9` to change the default drive (also for `L`)
+  * `$` to display the disk directory
+  * anything else as a disk command
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

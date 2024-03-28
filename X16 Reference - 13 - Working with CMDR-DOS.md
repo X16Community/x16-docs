@@ -1,29 +1,29 @@
 
 # Chapter 13: Working With CMDR-DOS
 
-This manual describes Commodore DOS on FAT32, aka CMDR-DOS. 
+This manual describes Commodore DOS on FAT32, aka CMDR-DOS.
 
 ## CMDR-DOS
 
-Commander X16 duplicates and extends the programming interface used by Commodore's line of disk drives, including the 
-famous (or infamous) VIC-1541. CMDR-DOS uses the industry-standard FAT-32 format. Partitions can be 32MB up to 
-(in theory) 2TB and supports CMD-style partitions, subdirectories, timestamps and filenames up to 255 characters. 
+Commander X16 duplicates and extends the programming interface used by Commodore's line of disk drives, including the
+famous (or infamous) VIC-1541. CMDR-DOS uses the industry-standard FAT-32 format. Partitions can be 32MB up to
+(in theory) 2TB and supports CMD-style partitions, subdirectories, timestamps and filenames up to 255 characters.
 It is the DOS built into the [Commander X16](https://www.commanderx16.com).
 
-There are three basic interfaces for CMDR-DOS: the binary interface (LOAD, SAVE, etc.), the data file interface (OPEN, 
+There are three basic interfaces for CMDR-DOS: the binary interface (LOAD, SAVE, etc.), the data file interface (OPEN,
 PRINT#, INPUT#, GET#), and the command interface. We will give a brief summary of BASIC commands here, but please refer
-to the [BASIC chapter](X16%20Reference%20-%2003%20-%20BASIC.md#chapter-3-basic-programming) for full syntax of each command. 
+to  [Chapter 4: BASIC Programming](X16%20Reference%20-%2004%20-%20BASIC.md#chapter-4-basic-programming) for full syntax of each command.
 
 If you are familiar with the SD2IEC or the CMD hard drive, navigating partitions and subdirectories is similar, with "CD", "MD", and "RD" commands
 to navigate directories.
 
 ## Binary Load/Save
 
-The primary use of the binary interface is loading and saving program files and loading binary files into RAM. 
+The primary use of the binary interface is loading and saving program files and loading binary files into RAM.
 
-Your binary commands are LOAD, SAVE, BLOAD, VLOAD, BVLOAD, VERIFY, and BVERIFY. 
+Your binary commands are LOAD, SAVE, BLOAD, VLOAD, BVLOAD, VERIFY, and BVERIFY.
 
-This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to [Chapter 3: BASIC Programming](X16%20Reference%20-%2003%20-%20BASIC.md#chapter-3-basic-programming).
+This is a brief summary of the LOAD and SAVE commands. For full documentation, refer to [Chapter 4: BASIC Programming](X16%20Reference%20-%2004%20-%20BASIC.md#chapter-4-basic-programming).
 
 ### LOAD
 
@@ -32,12 +32,12 @@ This is a brief summary of the LOAD and SAVE commands. For full documentation, r
 
 This reads a program file from disk. The first two bytes of the file are the memory location to which the file will be
 loaded, with the low byte first. BASIC programs will start with $01 $08, which translates to $0801, the start of BASIC
-memory. 
-The device number should be 8 for reading from the SD card. 
+memory.
+The device number should be 8 for reading from the SD card.
 
-If using the first form, secondary_address has multiple meanings: 
+If using the first form, secondary_address has multiple meanings:
 
-* 0 or not present: load the data to address $0801, regardless of the address header. 
+* 0 or not present: load the data to address $0801, regardless of the address header.
 
 * 1: load to the address specified in the file's header
 
@@ -49,24 +49,24 @@ The value of the ram_bank argument only affects the load when the start_address 
 
 Examples:
 
-`LOAD "ROBOTS.PRG",8,1` loads the program "ROBOTS.PRG" into memory at the address encoded in the file. 
+`LOAD "ROBOTS.PRG",8,1` loads the program "ROBOTS.PRG" into memory at the address encoded in the file.
 
 `LOAD "HELLO",8` loads a program to the start of BASIC at $0801.
 
-`LOAD "*",8,1` loads the first program in the current directory. See the section below on wildcards for more 
-information about using * and ? to access files of a certain type or with unprintable characters. 
+`LOAD "*",8,1` loads the first program in the current directory. See the section below on wildcards for more
+information about using * and ? to access files of a certain type or with unprintable characters.
 
 `LOAD "DATA.BIN",8,1,$A000` loads a file into banked RAM, RAM bank 1, starting at $A000. The first two bytes of the file are skipped. To avoid skipping the first two bytes, use the `BLOAD` command instead.
 
-### SAVE 
+### SAVE
 
 `SAVE <filename>[,device]`
 
 Saves a file from the computer to the SD card. SAVE always reads from the beginning of BASIC memory at $0801, up to the
-end of the BASIC program. Device is optional and defaults to 8 (the SD card, or an IEC disk drive, if one is plugged in.) 
+end of the BASIC program. Device is optional and defaults to 8 (the SD card, or an IEC disk drive, if one is plugged in.)
 
 One word of caution: CMDR-DOS will not let you overwrite a file by default. To overwrite a file, you need to prefix
-the filename with @:, like this: 
+the filename with @:, like this:
 
 `SAVE "@:DEMO.PRG"`
 
@@ -76,15 +76,15 @@ the filename with @:, like this:
 
 Saves an arbitrary region of memory to a file without a two-byte header. To allow concatenating multiple regions of RAM into a single file with multiple successive calls to BSAVE, BSAVE allows the use of append mode in the filename string. To make use of this option, the first call to BSAVE can be called normally, which creates the file anew, while subsequent calls should be in append mode to the same file.
 
-Another way to save arbitrary binary data from arbitrary locations is to use the S command in the MONITOR: [Chapter 6: Machine Language Monitor](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor).
+Another way to save arbitrary binary data from arbitrary locations is to use the S command in the MONITOR: [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor).
 
 `S "filename",8,<start_address>,<end_address>`
 
-Where <start_address> and <end_address> are a 16-bit hexadecimal address. 
+Where <start_address> and <end_address> are a 16-bit hexadecimal address.
 
 After a SAVE or BSAVE, the DOS command is implicitly run to show the drive status. The Commodore file I/O model does not report certain failures back to BASIC, so you should double-check the result after a write operation.
 
-```
+```BASIC
 00, OK,00,00
 
 READY.
@@ -92,31 +92,30 @@ READY.
 
 An OK reply means the file saved correctly. Any other result is an error that should be addressed:
 
-```
+```BASIC
 63,FILE EXISTS,00,00
 ```
 
-CMDR-DOS does not allow files to be overwritten without special handling. If you get FILE EXISTS, either change your file's name or save it with the @: prefix, like this: 
+CMDR-DOS does not allow files to be overwritten without special handling. If you get FILE EXISTS, either change your file's name or save it with the @: prefix, like this:
 
 `SAVE "@:HELLO"`
- 
 
 ### BLOAD
 
-BLOAD loads a file *without an address header* to an arbitrary location in memory. Usage is similar to LOAD. However, BLOAD does not require
+BLOAD loads a file _without an address header_ to an arbitrary location in memory. Usage is similar to LOAD. However, BLOAD does not require
 or use the 2-byte header. The first byte in the file is the first byte loaded into memory.
   
 `BLOAD "filename",8,<ram_bank>,<start_address>`
 
-### VLOAD 
+### VLOAD
 
-Read binary data into VERA. VLOAD skips the 2-byte address header and starts reading at the third byte of the file. 
+Read binary data into VERA. VLOAD skips the 2-byte address header and starts reading at the third byte of the file.
 
 `VLOAD "filename",8,<vram_bank>,<start_address>`
 
-### BVLOAD 
+### BVLOAD
 
-Read binary data into VERA without a header. This works like BLOAD, but into VERA RAM. 
+Read binary data into VERA without a header. This works like BLOAD, but into VERA RAM.
 
 `BVLOAD "filename",8,<vram_bank>,<start_address>`
 
@@ -147,24 +146,24 @@ todo: examples
 
 The command channel allows you to send commands to the CMDR-DOS interface. You can open and write to the command channel using the OPEN command, or you can use the DOS command to issue commands and read the status. While DOS can be used in immediate mode or in a program, only the combination of OPEN/INPUT# can read the command response back into a variable for later processing.
 
-In either case, the ST psuedo-variable will allow you to quickly check the status. A status of 64 is "okay", and any 
-other value should be checked by reading the error channel (shown below.) 
+In either case, the ST psuedo-variable will allow you to quickly check the status. A status of 64 is "okay", and any
+other value should be checked by reading the error channel (shown below.)
 
 To open the command channel, you can use the OPEN command with secondary address 15.
 
 `10 OPEN 15,8,15`
 
-If you want to issue a command immediately, add your command string at the end of the OPEN statement: 
+If you want to issue a command immediately, add your command string at the end of the OPEN statement:
 
 `10 OPEN 15,8,15, "CD:/"`
 
-This example changes to the root directory of your SD card. 
+This example changes to the root directory of your SD card.
 
 To know whether the OPEN command succeeded, you must open the command channel and read the result. To read the command channel (and clear the error status if an error occurred), you need to read four values:
 
 `20 INPUT#15,A,B$,C,D`
 
-A is the error number. B$ is the error message. C and D are unused in CMDR-DOS for most responses, but will return the track and sector when used with a disk drive on the IEC connector. 
+A is the error number. B$ is the error message. C and D are unused in CMDR-DOS for most responses, but will return the track and sector when used with a disk drive on the IEC connector.
 
 ```BASIC
 30 PRINT A;B$;C;D
@@ -179,9 +178,10 @@ So the entire program looks like:
 30 PRINT A;B$;C;D
 40 CLOSE 15
 ```
+
 If the error number (`A`) is less than 20, no error occurred. Usually this result is 0 (or 00) for OK.
 
-You can also use the DOS command to send a command to CMDR-DOS. Entering DOS by itself will print the drive's status on the screen. Entering a command in quotes or a string variable will execute the command. We will talk more about the status variable and DOS status message in the next section. 
+You can also use the DOS command to send a command to CMDR-DOS. Entering DOS by itself will print the drive's status on the screen. Entering a command in quotes or a string variable will execute the command. We will talk more about the status variable and DOS status message in the next section.
 
 ```BASIC
 DOS
@@ -202,7 +202,7 @@ You can also read the name of the current directory with DOS"$=C"
 
 This is the base features set compared to other Commodore DOS devices:
 
-| Feature          | 1541 | 1571/1581 | CMD HD/FD | SD2IEC   | *CMDR-DOS*      |
+| Feature          | 1541 | 1571/1581 | CMD HD/FD | SD2IEC   | _CMDR-DOS_      |
 |------------------|------|-----------|-----------|----------|-----------------|
 | Sequential files | yes  | yes       | yes       | yes      | yes             |
 | Relative files   | yes  | yes       | yes       | yes      | not yet         |
@@ -217,16 +217,16 @@ This is the base features set compared to other Commodore DOS devices:
 It consists of the following components:
 
 * Commodore DOS interface
-	* `dos/main.s`: TALK/LISTEN dispatching
-	* `dos/parser.s`: filename/path parsing
-	* `dos/cmdch.s`: command channel parsing, status messages
-	* `dos/file.s`: file read/write
+  * `dos/main.s`: TALK/LISTEN dispatching
+  * `dos/parser.s`: filename/path parsing
+  * `dos/cmdch.s`: command channel parsing, status messages
+  * `dos/file.s`: file read/write
 * FAT32 interface
-	* `dos/match.s`: FAT32 character set conversion, wildcard matching
-	* `dos/dir.s`: FAT32 directory listing
-	* `dos/function.s`: command implementations for FAT32
+  * `dos/match.s`: FAT32 character set conversion, wildcard matching
+  * `dos/dir.s`: FAT32 directory listing
+  * `dos/function.s`: command implementations for FAT32
 * FAT32 implementation
-	* `fat32/*`: [FAT32 for 65c02 library](https://github.com/X16Community/x16-rom/tree/master/fat32)
+  * `fat32/*`: [FAT32 for 65c02 library](https://github.com/X16Community/x16-rom/tree/master/fat32)
 
 All currently unsupported commands are decoded in `cmdch.s` anyway, but hooked into `31,SYNTAX ERROR,00,00`, so adding features should be as easy as adding the implementation.
 
@@ -313,7 +313,7 @@ And this table shows which of the standard commands are supported:
 | U9/UI            | `UI`                                                  | Soft RESET                      | yes       |
 | U:/UJ            | `UJ`                                                  | Hard RESET                      | yes       |
 | USER             | `U0>` _pa_                                            | Set unit primary address        | yes       |
-| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | no        |
+| USER             | `U0>B` _flag_                                         | Enable/disable Fast Serial      | yes<sup>6</sup>|
 | USER             | `U0>D`_val_                                           | Set directory sector interleave | no<sup>1</sup>|
 | USER             | `U0>H` _number_                                       | Select head 0/1                 | no<sup>1</sup>|
 | USER             | `U0>L`_flag_                                          | Large REL file support on/off   | no        |
@@ -330,9 +330,10 @@ And this table shows which of the standard commands are supported:
 
 * <sup>1</sup>: outdated API, not useful, or can't be supported on FAT32
 * <sup>2</sup>: is a no-op, returns `00, OK,00,00`
-* <sup>3</sup>: third argument `FAT32` *has* to be passed
+* <sup>3</sup>: third argument `FAT32` _has_ to be passed
 * <sup>4</sup>: CMDR-DOS was architected to run on the main computer, so it shouldn't be DOS that keeps track of the time
 * <sup>5</sup>: Instead of testing the ROM, this command currently verifies that no buffers are allocated, otherwise it halts. This is used by unit tests to detect leaks.
+* <sup>6</sup>: Repurposed for SD card read and write mode. _flag_ selects whether fast read (auto_tx) and fast writes are enabled. 0=none, 1=auto_tx, 2=fast writes, 3=both
 
 The following special file syntax and `OPEN` options are specific to CMDR-DOS:
 
@@ -349,7 +350,7 @@ The following added command channel features are specific to CMDR-DOS:
 |-----------------------|-------------|--------------------------------------------------------------------------------|
 | POSITION              | `P` _channel_ _p0_ _p1_ _p2_ _p3_  | Set position within file (like sd2iec); all args binary |
 
-To use the POSITION command, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel. 
+To use the POSITION command, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
 
 ### Example
 
@@ -358,7 +359,7 @@ OPEN 1,8,2,"LEVEL.DAT,S,R"
 OPEN 15,8,15,"P"+CHR$(2)+CHR$(0)+CHR$(1)+CHR$(0)+CHR$(0)
 ```
 
-This opens LEVEL.DAT for reading and positions the read/write pointer at byte 256. 
+This opens LEVEL.DAT for reading and positions the read/write pointer at byte 256.
 
 ```BASIC
 OPEN 2,8,5,"LEVEL.DAT,S,R"
@@ -392,7 +393,6 @@ Redistribution and use in source and binary forms, with or without modification,
 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>

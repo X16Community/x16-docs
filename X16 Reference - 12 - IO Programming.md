@@ -7,7 +7,6 @@ The-following tables describe the connections of the I/O pins:
 
 **VIA#1**
 
-
 |Pin  |Name      | Description                     |
 |-----|----------|---------------------------------|
 | PA0 | I2CDATA  | I2C Data                        |
@@ -37,13 +36,13 @@ The KERNAL uses Timer 2 for timing transmissions on the Serial Bus.
 
 The second VIA is completely unused by the system. All its 16 GPIOs and 4 handshake I/Os can be freely used.
 
-### I2C Bus
+## I2C Bus
 
 The Commander X16 contains an I2C bus, which is implemented through two pins of VIA#1. The system management controller (SMC) and the real-time clock (RTC) are connected through this bus. The KERNAL APIs `i2c_read_byte` and `i2c_write_byte` allow talking to these devices.
 
-#### System Management Controller
+### System Management Controller
 
-The system management controller (SMC) is device $42 on the I2C bus. It controls the power and activity LEDs, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
+The system management controller (SMC) is device $42 on the I2C bus. It controls the activity LED, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
 the PS/2 keyboard and mouse.
 
 | Register | Value           | Description               |
@@ -52,8 +51,7 @@ the PS/2 keyboard and mouse.
 | $01      | $01           | Hard reboot               |
 | $02      | $00           | Inject RESET              |
 | $03      | $00           | Inject NMI                |
-| $04      | $00..$FF     | Power LED brightness      |
-| $05      | $00..$FF     | Activity LED brightness   |
+| $05      | $00/$FF     | Activity LED off/on   |
 | $07      | -              | Read from keyboard buffer |
 | $08      | $00..$FF     | Echo                      |
 | $18      | -              | Read ps2 status           |
@@ -69,8 +67,7 @@ the PS/2 keyboard and mouse.
 | $32      | -              | Get SMC firmare version, patch |
 | $8F      | $31           | Start bootloader, if present |  
 
-
-#### Real-Time-Clock
+### Real-Time-Clock
 
 The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (RTC) chip as device $6F. It provide a real-time clock/calendar, two alarms and 64 bytes of RAM.
 
@@ -85,21 +82,21 @@ The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (
 | $06      | Clock year         |
 | $07      | Control            |
 | $08      | Oscillator trim    |
-| $09      | *reserved*         |
+| $09      | _reserved_         |
 | $0A      | Alarm 0 seconds    |
 | $0B      | Alarm 0 minutes    |
 | $0C      | Alarm 0 hours      |
 | $0D      | Alarm 0 weekday    |
 | $0E      | Alarm 0 day        |
 | $0F      | Alarm 0 month      |
-| $10      | *reserved*         |
+| $10      | _reserved_         |
 | $11      | Alarm 1 seconds    |
 | $12      | Alarm 1 minutes    |
 | $13      | Alarm 1 hours      |
 | $14      | Alarm 1 weekday    |
 | $15      | Alarm 1 day        |
 | $16      | Alarm 1 month      |
-| $17      | *reserved*         |
+| $17      | _reserved_         |
 | $18      | Power-fail minutes |
 | $19      | Power-fail hours   |
 | $1A      | Power-fail day     |

@@ -1,5 +1,5 @@
 
-# Chapter 3: BASIC Programming
+# Chapter 4: BASIC Programming
 
 <!--
 ********************************************************************************
@@ -77,7 +77,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`LINE`](#line) | command | Draws a line in graphics mode | X16 |
 | [`LINPUT`](#linput) | command | Reads a line from the keyboard | X16 |
 | [`LINPUT#`](#linput-1) | command | Reads a line or other delimited data from an open file | X16 |
-| `LIST` | command | Outputs the program listing to the screen | C64 |
+| [`LIST`](#list) | command | Outputs the program listing to the screen | C64 |
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
 | `LOG` | function | Returns the natural logarithm of a number | C64 |
@@ -141,6 +141,8 @@ for GitHub's Markdown flavor. Do not remove!
 | [`SYS`](#sys) | command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | function | Returns a string with spaces used for column alignment | C64 |
 | `TAN` | function | Return the tangent for an angle in radians | C64 |
+| [`TATTR`](#tattr) | function | Returns a tile attribute from the tile/text layer | X16 |
+| [`TDATA`](#tdata) | function | Returns a tile from the tile/text layer | X16 |
 | `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
 | `TI` | variable | Returns the jiffy timer value | C64 |
 | `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
@@ -298,7 +300,6 @@ Note: If the file is loaded to high RAM (starting in the range `$A000-$BFFF`), a
 
 After a successful load, `$030D` and `$030E` will contain the address of the final byte loaded + 1.  If relevant, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
-
 **EXAMPLES of BLOAD:**
 
 ```BASIC
@@ -377,8 +378,8 @@ The string can contain printable ASCII characters (`CHR$($20)` to `CHR$($7E)`), 
 **EXAMPLE of CLOSE Statement:**
 
 ```BASIC
-	CLOSE 0   : REM CLOSE FILE OPENED AS 0
-	CLOSE 4   : REM CLOSE FILE OPENED AS 4
+CLOSE 0   : REM CLOSE FILE OPENED AS 0
+CLOSE 4   : REM CLOSE FILE OPENED AS 4
 ```
 
 ### CLS
@@ -448,7 +449,6 @@ EDIT "README.TXT"
 
 A more elaborate X16-Edit manual can be found [here](https://github.com/X16Community/x16-rom/blob/master/x16-edit/docs/manual.pdf)
 
-
 ### EXEC
 
 **TYPE: Command**  
@@ -466,9 +466,17 @@ A more elaborate X16-Edit manual can be found [here](https://github.com/X16Commu
 BLOAD "MYPROGRAM.BAS",8,1,$A000 : REM "BANK PEEK(0)" NO LONGER NEEDED
 POKE PEEK($30D)+(PEEK($30E)*256),0 : REM NULL TERMINATE IN END BANK
 EXEC $A000,1
-
 ```
 
+This program will load a plain ASCII or PETSCII FILE.BAS from disk and tokenize
+it for you:
+
+```BASIC
+10 BLOAD "FILE.BAS", 8, 1, $A000
+20 POKE PEEK(781) + 256 * PEEK(782), 0
+30 EXEC $A000, 1
+40 NEW
+```
 
 ### FMCHORD
 
@@ -501,7 +509,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 150 FMCHORD 1,"RRR" : REM RELEASE THE CHANNELS THAT ARE PLAYING THE CHORD
 ```
 
-This will play the first few lines of *Silent Night* with a vibraphone lead and organ accompaniment.
+This will play the first few lines of _Silent Night_ with a vibraphone lead and organ accompaniment.
 
 ### FMDRUM
 
@@ -721,7 +729,7 @@ This command sets a byte in NVRAM on the RTC to the value `$80`
 
 **Action:** Return the state of a joystick.
 
-`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](X16%20Reference%20-%2004%20-%20KERNAL.md#function-name-joystick_get) for details.
+`JOY(1)` through `JOY(4)` return the state of SNES controllers connected to the system, and `JOY(0)` returns the state of the "keyboard joystick", a set of keyboard keys that map to the SNES controller layout. See [`joystick_get`](X16%20Reference%20-%2005%20-%20KERNAL.md#function-name-joystick_get) for details.
 
 If no controller is connected to the SNES port (or no keyboard is connected), the function returns -1. Otherwise, the result is a bit field, with pressed buttons `OR`ed together:
 
@@ -819,7 +827,6 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 50 PRINT "YOU TYPED AN EMPTY STRING: ";A$
 ```
 
-
 ### LINPUT&#35;
 
 **TYPE: Command**  
@@ -846,14 +853,44 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 120 IF ST=0 THEN 30
 130 CLOSE 1
 ```
+
 The above example parses and prints out the filenames from a directory listing.
+
+### LIST
+
+**TYPE: Command**
+**FORMAT: LIST [start] [-] [end]**
+
+**Action:** `LIST` Displays the currently loaded BASIC program on the screen.
+The start and ending line numbers are both optional.
+
+The start and/or end may be specified. If both are specified, a hyphen must
+be included. So LIST has 4 modes:
+
+`LIST` by itself will display the entire program.
+
+`LIST 10-20` will display lines 10 to 20, inclusive.
+
+`LIST -100` will display from the start to line 100
+
+`LIST 50-` will display line 50 to the end of the program.
+
+Pressing the `CONTROL` key during a listing will slow the listing down once
+printing reaches the bottom of the screen. Approxmately one line per second will
+be displayed.
+
+Pressing the `SPACE BAR` during the listing will cause the listing to pause.
+Pressing the `SPACE BAR` a second time will unpause the listing. You may also
+use the down arrow key to scroll by one line or use the `PgDn` key to scroll
+approximately one screen full of text.
 
 ### LOCATE
 
 **TYPE: Command**  
 **FORMAT: LOCATE &lt;line&gt;[,&lt;column&gt;]**
 
-**Action:** This command positions the text mode cursor at the given location. The values are 1-based. If no column is given, only the line is changed.
+**Action:** This command positions the text mode cursor at the given location.
+The values are 1-based. If no column is given, only the line is changed.
 
 **EXAMPLE of LOCATE Statement:**
 
@@ -888,7 +925,7 @@ MENU
 **TYPE: Command**  
 **FORMAT: MON (Alternative: MONITOR)**
 
-**Action:** This command enters the machine language monitor. See the [dedicated chapter](X16%20Reference%20-%2006%20-%20Machine%20Language%20Monitor.md#chapter-6-machine-language-monitor) for a  description.
+**Action:** This command enters the machine language monitor. See the [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor) for a  description.
 
 **EXAMPLE of MON Statement:**
 
@@ -940,7 +977,6 @@ MOUSE 0 : REM DISABLE MOUSE
 40 MOVSPR 1,320,200
 ```
 
-
 ### MX/MY/MB
 
 **TYPE: System variable**  
@@ -977,7 +1013,7 @@ REM SIMPLE DRAWING PROGRAM
 ### MWHEEL
 
 **TYPE: System variable**  
-**FORMAT: MWHEEL** 
+**FORMAT: MWHEEL**
 
 **Action:** Return the mouse scroll wheel movement since the value was last read. The value is negative if the scroll wheel is
 moved away from the user, and positive if it is moved towards the user. The range of the returned value is -128 to +127.
@@ -991,7 +1027,7 @@ moved away from the user, and positive if it is moved towards the user. The rang
 
 **EXAMPLE of OLD Statement:**
 
-```
+```BASIC
 OLD
 ```
 
@@ -1010,7 +1046,6 @@ OLD
 RUN
 0823
 ```
-
 
 ### POWEROFF
 
@@ -1220,9 +1255,10 @@ REBOOT
 **Action:** Renumbers a BASIC program while updating the line number arguments of GOSUB, GOTO, RESTORE, RUN, and THEN.
 
 Optional arguments:  
-- The line number of the first line after renumbering, default: **10**  
-- The value of the increment for subsequent lines, default **10**  
-- The earliest old line to start renumbering at, default: **0**  
+
+* The line number of the first line after renumbering, default: **10**  
+* The value of the increment for subsequent lines, default **10**  
+* The earliest old line to start renumbering at, default: **0**  
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
@@ -1343,7 +1379,7 @@ The above example saves your Hello World program to the SD card.
 SAVE "@:HELLO.PRG",9
 ```
 
-The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port. 
+The above example overwrites an existing file on drive 9, which would be a Commodore style disk drive plugged into the IEC port.
 
 ### SCREEN
 
@@ -1352,7 +1388,7 @@ The above example overwrites an existing file on drive 9, which would be a Commo
 
 **Action:** This command switches screen modes.
 
-For a list of supported modes, see [Chapter 2: Editor](X16%20Reference%20-%2002%20-%20Editor.md#chapter-2-editor). The value of -1 toggles between modes $00 and $03.
+For a list of supported modes, see [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor). The value of -1 toggles between modes $00 and $03.
 
 **EXAMPLE of SCREEN Statement:**
 
@@ -1407,7 +1443,6 @@ Note: If VERA's sprite layer is disabled when the `SPRITE` command is called, th
 40 MOVSPR 1,320,200
 ```
 
-
 ### SPRMEM
 
 **TYPE: Command**  
@@ -1430,7 +1465,6 @@ The first three arguments are required, but the last one is optional.
 30 SPRITE 1,3,0,0,3,3
 40 MOVSPR 1,320,200
 ```
-
 
 ### STRPTR
 
@@ -1481,7 +1515,7 @@ When the routine is over, the CPU registers will be loaded back in to these loca
 
 Push a &lt;CR&gt; into the keyboard buffer.
 
-```
+```BASIC
 POKE $30C,13
 SYS $FEC3
 ```
@@ -1514,6 +1548,49 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 60 NEXT:NEXT:NEXT
 ```
 
+### TATTR
+
+**TYPE: Function**  
+**FORMAT: TATTR(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
+
+**Action:** The `TATTR`function retrieves the text/tile attribute at the given x/y coordinate. It works for tiles or text on Layer 1.
+
+In the default text modes, this can be used to retrieve the color attribute (fg/bg) of a specific coordinate without needing to calculate the VRAM address for VPEEK.
+
+**EXAMPLE of TATTR command:**
+
+```BASIC
+10 REM COPY BUTTERFLY LOGO WITH COLORS TO CENTER OF 80X60 SCREEN
+20 XO = 37 : YO = 27
+30 FOR X = 0 TO 6
+40 FOR Y = 0 TO 6
+50 TD = TDATA(X, Y)
+60 TA = TATTR(X, Y)
+70 TILE XO+X, YO+Y, TD, TA
+80 NEXT:NEXT
+```
+
+### TDATA
+
+**TYPE: Function**  
+**FORMAT: TDATA(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
+
+**Action:** The `TDATA`function retrieves the text/tile at the given x/y coordinate. It works for tiles or text on Layer 1.
+
+In the default text modes, this can be used to retrieve the character a specific coordinate without needing to calculate the VRAM address for VPEEK.
+
+**EXAMPLE of TATTR command:**
+
+```BASIC
+10 REM COPY BUTTERFLY LOGO TO CENTER OF 80X60 SCREEN
+20 XO = 37 : YO = 27
+30 FOR X = 0 TO 6
+40 FOR Y = 0 TO 6
+50 TD = TDATA(X, Y)
+60 TILE XO+X, YO+Y, TD
+70 NEXT:NEXT
+```
+
 ### VPEEK
 
 **TYPE: Integer Function**  
@@ -1525,7 +1602,6 @@ In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 
 BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
 BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
-
 
 **EXAMPLE of VPEEK Function:**
 
@@ -1544,7 +1620,6 @@ In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
 BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
 BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
-
 
 **EXAMPLE of VPOKE Statement:**
 
