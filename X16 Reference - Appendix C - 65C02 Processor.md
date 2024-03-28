@@ -23,6 +23,9 @@ so we suggest not using these instructions. Some people are already using the
 65C816 in their X16 systems, and so using these instructions will cause your
 programs to malfunction on these computers.
 
+<!-- For PDF formatting -->
+<div class="page-break"></div>
+
 ## Instruction Tables
 
 ## Instructions By Number
@@ -45,9 +48,6 @@ programs to malfunction on these computers.
 |Dx           |[BNE](#bra) |[CMP](#cmp) |[CMP](#cmp) |            |            |[CMP](#cmp) |[DEC](#dec) |[SMB5](#smbx)|[CLD](#cld) |[CMP](#cmp) |[PHX](#pha) |[STP](#stp) |            |[CMP](#cmp) |[DEC](#dec) |[BBS5](#bbsx)|
 |Ex           |[CPX](#cpx) |[SBC](#sbc) |            |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[SMB6](#smbx)|[INX](#inc) |[SBC](#sbc) |[NOP](#nop) |            |[CPX](#cpx) |[SBC](#sbc) |[INC](#inc) |[BBS6](#bbsx)|
 |Fx           |[BEQ](#bra) |[SBC](#sbc) |[SBC](#sbc) |            |            |[SBC](#sbc) |[INC](#inc) |[SMB7](#smbx)|[SED](#sed) |[SBC](#sbc) |[PLX](#pla) |            |            |[SBC](#sbc) |[INC](#inc) |[BBS7](#bbsx)|
-
-<!-- For PDF formatting -->
-<div class="page-break"></div>
 
 ## Instructions By Name
 
