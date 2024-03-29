@@ -115,7 +115,7 @@ N is set when result is negative (bit 7=1)
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### AND
 
@@ -159,7 +159,7 @@ in A.
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### ASL
 
@@ -187,7 +187,7 @@ Bit 7 is shifted to Carry.
 +c New for the 65C02  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### BBRx
 
@@ -228,7 +228,7 @@ zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_not_set`.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### BBSx
 
@@ -269,7 +269,7 @@ zero page address) and if bit 3 of the value is *zero* the branch would be
 taken to `@flag_set`.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### BIT
 
@@ -289,7 +289,7 @@ BIT $8080,X  Absolute,X     $3C   3     4     NV----Z-
 - Sets V (Overflow) flag to the value of bit 6 at the provided addres.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### BRA
 
@@ -329,7 +329,7 @@ For example, if the PC is $1000, the statement `BCS $1023` will be `$B0 $21`.
 +p: Execution takes one additional cycle when moving across a page boundary.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### BRK
 
@@ -356,7 +356,7 @@ asserting the NMI pin does not set the B flag, and so the X16 does a warm boot
 of BASIC, rather than jumping to MONitor.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CLC
 
@@ -372,7 +372,7 @@ addition. C is also often used in KERNAL routines to alter the operation of the
 routine or return certain information.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CLD
 
@@ -387,7 +387,7 @@ Clears the Decimal flag. This switches the CPU back to binary operation if it
 was previously in BCD mode.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CLI
 
@@ -404,7 +404,7 @@ and RST are always enabled.
 Use SEI to disable interrupts
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CLV
 
@@ -418,7 +418,7 @@ CLV          Implied        $B8   1     2     -V------
 Clear the Overflow (V) flag after an arithmetic operation, such as ADC or SBC.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CMP
 
@@ -447,7 +447,7 @@ based on subtracting A - _Value_.
 - Sets N (Negative) flag if value in A is < given value
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CPX
 
@@ -472,7 +472,7 @@ based on subtracting X - _Value_.
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### CPY
 
@@ -495,7 +495,7 @@ based on subtracting Y - _Value_.
 - Sets N (Negative) flag if value in Y is < given value
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### DEC
 
@@ -538,7 +538,7 @@ LABEL DEC Num_Low
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### EOR
 
@@ -585,7 +585,7 @@ tested. It returns a 0 for each bit that is the same.
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### INC
 
@@ -627,7 +627,7 @@ Inc16_1: ...
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### JMP
 
@@ -669,7 +669,7 @@ the old 6502 method of pushing the two bytes onto the stack and performing an
 RTS.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### JSR
 
@@ -691,7 +691,7 @@ Be careful to always match JSR and RTS, as imbalanced JSR/RTS operations will
 either overflow or underflow the stack.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### LDA
 
@@ -719,7 +719,7 @@ Place the given value from memory into the accumulator (A).
 +p add 1 cycle if addr+offset spans a page boundary  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### LDX
 
@@ -743,7 +743,7 @@ Place the given value from memory into the X register.
 +p add 1 cycle if addr+offset spans a page boundary  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### LDY
 
@@ -767,7 +767,7 @@ Place the given value from memory into the Y register.
 +p add 1 cycle if addr+offset spans a page boundary  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### LSR
 
@@ -795,7 +795,7 @@ Bit 0 is shifted into Carry.
 +c New for the 65C02  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### NOP
 
@@ -818,7 +818,7 @@ bit of delay when writing to the YM2151 chip (see
 [Chapter 11 - YM Write Procedure](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#vera-psg-and-pcm-programming)).
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### ORA
 
@@ -860,7 +860,7 @@ Perform a logical OR of the given value in A
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### PHA
 
@@ -888,7 +888,7 @@ The corresponding "Pull" instructions are [PLA](#pla), [PHP](#pla), [PHX](#pla),
 and [PHY](#pla).
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### PLA
 
@@ -918,7 +918,7 @@ The corresponding "Push" instructions are [PHA](#pha), [PHP](#pha), [PHX](#pha),
 and [PHY](#pha).
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### RMBx
 
@@ -945,7 +945,7 @@ Often used in conjunction with [BBR](#bbrx) and [BBS](#bbsx).
 -816 _not available_ on the 65C816  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### ROL
 
@@ -969,7 +969,7 @@ shifted into bit 0 and the original bit 7 is shifted into the carry (C).
 +p add one cycle when addr + x crosses a page boundary.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### ROR
 
@@ -992,7 +992,7 @@ bit 0 is shifted into the carry (C).
 [ROL](#rol) rotates to the left.  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### RTI
 
@@ -1011,7 +1011,7 @@ Note that unlike [RTS](#rts), the popped address is the actual
 return address (rather than address-1).
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### RTS
 
@@ -1028,7 +1028,7 @@ by popping the top 2 bytes off the stack and transferring
 control to that address +1.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### SBC
 
@@ -1064,7 +1064,7 @@ N is set when result is negative (bit 7=1)
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### SEC
 
@@ -1080,7 +1080,7 @@ is also often used in KERNAL routines to alter the operation of the routine
 or return certain information.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### SED
 
@@ -1102,7 +1102,7 @@ allows for storing decimal numbers without loss of precision due to power-of-2
 rounding.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### SEI
 
@@ -1118,7 +1118,7 @@ execute IRQ interrupts, even if the line is asserted. Use CLI to re-enable
 interrupts.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### SMBx
 
@@ -1147,7 +1147,7 @@ Specific to the 65C02 (*unavailable on the 65C816*)
 -816 _not available_ on the 65C816  
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### STA
 
@@ -1170,7 +1170,7 @@ Place the given value from the accumulator (A) into memory.
 +c new for 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### STP
 
@@ -1192,7 +1192,7 @@ emulator or reset the emulation.
 +c New for the 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### STX
 
@@ -1206,7 +1206,7 @@ STX $8080    Absolute       $8E   3     4     --------
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### STY
 
@@ -1220,7 +1220,7 @@ STY $8080    Absolute       $8C   3     4     --------
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### STZ
 
@@ -1235,7 +1235,7 @@ STZ $8080,X  Absolute,X     $9E   3     5     --------
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### TRB
 
@@ -1271,7 +1271,7 @@ STA $20  ; Store it back to memory.
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### TSB
 
@@ -1291,7 +1291,7 @@ The Z flag is set based on the final result of the operation, ie: the memory
 data is 0.
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### Txx
 
@@ -1319,7 +1319,7 @@ TXS
 ```
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ### WAI
 
@@ -1342,7 +1342,7 @@ interrupt, and so the interrupt can be handled immediately.
 +c New for the 65C02
 
 ---
-[top](#)
+[[Opcodes](#instructions-by-number)] | [[By Name](#instructions-by-name)] | [[By Category](#instructions-by-category)]
 
 ## Status Flags
 
@@ -1366,8 +1366,8 @@ P-Register:
 
 ## Replacement Macros for Bit Instructions
 
-Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used to support a
-possible upgrade path to the 65816, here are some example macros that can be
+Since `BBRx`, `BBSx`, `RMBx`, and `SMBx` should not be used, to maintain
+compatibility with the 65C816, here are some example macros that can be
 used to help convert existing software that may have been using these
 instructions:
 
