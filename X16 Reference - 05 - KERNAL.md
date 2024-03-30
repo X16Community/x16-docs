@@ -1074,7 +1074,6 @@ LDY #$20 ; start of NVRAM inside RTC
 LDA #'X'
 JSR i2c_write_byte ; write first byte of NVRAM
 
-
 LDX #$42 ; System Management Controller
 LDY #$01 ; magic location for system poweroff
 LDA #$00 ; magic value for system poweroff
@@ -1083,8 +1082,8 @@ JSR i2c_write_byte ; power off the system
 ; Reset system at the end of your program
 LDX #$42  ; System Management Controller
 LDY #$02  ; magic location for system reset
-LDA #$00  ; magic value for system poweroff
-JSR $FEC9 ; power off the system
+LDA #$00  ; magic value for system poweroff/reset
+JSR $FEC9 ; reset the computer
 ```
 
 ---
