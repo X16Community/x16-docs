@@ -257,11 +257,11 @@ There is no on-board speaker header. Instead, all audio is routed to the rear pa
 
 | Desc             | Pin |   | Pin | Desc        |
 |-----------------:|----:|---|-----|-------------|
-| SMC MOSI/I2C SDA  |  1  |. .|  2  | 5V STANDBY |
+| SMC MOSI/I2C SDA  |  1  |. .|  2  | +5V        |
 | RTC MFP           |  3  |. .|  4  | SMC TX     |
 | SMC Reset         |  5  |. .|  6  | SMC RX     |
 | SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
-| SMC MISO          |  9  |. .|  10 | GND        |
+| 5VSB              |  9  |. .|  10 | GND        |
 
 ### J10 Audio Option
 
