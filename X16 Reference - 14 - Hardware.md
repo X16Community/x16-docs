@@ -255,13 +255,25 @@ There is no on-board speaker header. Instead, all audio is routed to the rear pa
 
 ### J9 I2C/SMC Header
 
+There are two different layouts for the SMC header. The first layout appears to be the curretnt (PRxxxxx) boards:
+
 | Desc             | Pin |   | Pin | Desc        |
 |-----------------:|----:|---|-----|-------------|
-| SMC MOSI/I2C SDA  |  1  |. .|  2  | 5V STANDBY |
+| SMC MOSI/I2C SDA  |  1  |. .|  2  | +5V        |
 | RTC MFP           |  3  |. .|  4  | SMC TX     |
 | SMC Reset         |  5  |. .|  6  | SMC RX     |
 | SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
-| SMC MISO          |  9  |. .|  10 | GND        |
+| 5VSB              |  9  |. .|  10 | GND        |
+
+This is the layout on the DEVxxxxx boards:
+
+| Desc             | Pin |   | Pin | Desc        |
+|-----------------:|----:|---|-----|-------------|
+| SMC MOSI/I2C SDA  |  1  |. .|  2  | +5VSB      |
+| RTC MFP           |  3  |. .|  4  | SMC TX     |
+| SMC Reset         |  5  |. .|  6  | SMC RX     |
+| SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
+| MISO              |  9  |. .|  10 | GND        |
 
 ### J10 Audio Option
 
