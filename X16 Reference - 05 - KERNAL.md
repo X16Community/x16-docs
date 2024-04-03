@@ -1870,6 +1870,8 @@ Inputs:
 Disable the SHIFT+RUN action, and replace the macro in F1 with "HELP" followed by a carriage return.
 
 ```ASM
+EXTAPI = $FEAB
+
 change_fkeys:
   lda #<string1
   sta $02
@@ -1878,7 +1880,7 @@ change_fkeys:
   lda #$02
   ldx #1
   ldy #<(string1_end-string1)
-  jsr $ff65
+  jsr EXTAPI
   lda #<string9
   sta $02
   lda #>string9
@@ -1886,7 +1888,7 @@ change_fkeys:
   lda #7
   ldx #9
   ldy #<(string9_end-string9)
-  jsr $feab
+  jsr EXTAPI
   rts
 
 string1: .byte "HELP",13
