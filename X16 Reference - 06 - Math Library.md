@@ -9,14 +9,14 @@ The following functions are available from machine language code after setting t
 
 ## Format Conversions
 
-| Address | Symbol   | Description                                                                                 |
-|---------|----------|---------------------------------------------------------------------------------------------|
-| $FE00   | `AYINT`  | convert floating point to integer (signed word)                                             |
-| $FE03   | `GIVAYF` | convert integer (signed word) to floating point                                             |
-| $FE06   | `FOUT`   | convert floating point to ASCII string                                                      |
-| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FAC. _Caveat! Read below!_ |
-| $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                        |
-| $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                           |
+| Address | Symbol   | Description                                                                                  |
+|---------|----------|----------------------------------------------------------------------------------------------|
+| $FE00   | `AYINT`  | convert floating point to integer (signed word)                                              |
+| $FE03   | `GIVAYF` | convert integer (signed word) to floating point                                              |
+| $FE06   | `FOUT`   | convert floating point to ASCII string                                                       |
+| $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FACC. _Caveat! Read below!_ |
+| $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                         |
+| $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                            |
 
 **Important caveat ragarding the `VAL_1` routine in its current implementation:**
 
@@ -31,10 +31,10 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 | Address | Symbol   | Description                                     |
 |---------|----------|-------------------------------------------------|
-| $FE87  | `FLOAT`  | FAC = (s8).A   convert signed byte to float     |
-| $FE8A  | `FLOATS` | FAC = (s16)facho+1:facho                        |
-| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = u32(FAC)        |
-| $FE93  | `FOUTC`  | Convert FAC to ASCIIZ string at fbuffr - 1 + .Y |
+| $FE87  | `FLOAT`  | FACC = (s8).A   convert signed byte to float     |
+| $FE8A  | `FLOATS` | FACC = (s16)facho+1:facho                        |
+| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = u32(FACC)        |
+| $FE93  | `FOUTC`  | Convert FACC to ASCIIZ string at fbuffr - 1 + .Y |
 
 ## Movement
 
@@ -54,7 +54,7 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 | Address | Symbol  | Description                                     |
 |---------|---------|-------------------------------------------------|
-| $FE81  | `MOVEF` | ARG = FAC    (just use MOVAF)                   |
+| $FE81  | `MOVEF` | ARG = FACC    (just use MOVAF)                   |
 
 ## Math Functions
 
@@ -192,7 +192,7 @@ JSR RND_0
 
 * The calls `FADDT`, `FMULTT`, `FDIVT` and `FPWRT` were broken on the C128/C65. They are fixed on the X16.
 * For more information on the additional calls, refer to [Mapping the Commodore 64](http://unusedino.de/ec64/technical/project64/mapping_c64.html) by Sheldon Leemon, ISBN 0-942386-23-X, but note these errata:
-  * `FMULT` adds mem to FAC, not ARG to FAC
+  * `FMULT` adds mem to FACC, not ARG to FACC
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
