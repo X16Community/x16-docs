@@ -38,6 +38,8 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 ## Movement
 
+`PACK` indicates a conversion from a normalized floating-point number in FACC to its packed format in memory; `UNPACK` indicates a conversion from the packed format in memory to the normalized format in the destination.
+
 | Address | Symbol   | Description                          |
 |---------|----------|--------------------------------------|
 | $FE5A  | `CONUPK` | ARG = UNPACK(RAM MEM)                |
