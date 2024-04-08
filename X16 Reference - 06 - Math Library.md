@@ -40,13 +40,13 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 | Address | Symbol   | Description                          |
 |---------|----------|--------------------------------------|
-| $FE5A  | `CONUPK` | move RAM MEM to ARG                  |
-| $FE5D  | `ROMUPK` | move ROM/RAM MEM to ARG (use CONUPK) |
-| $FE60  | `MOVFRM` | move RAM MEM to FACC (use MOVFM)     |
-| $FE63  | `MOVFM`  | move ROM/RAM MEM to FACC             |
-| $FE66  | `MOVMF`  | move FACC to RAM MEM                 |
-| $FE69  | `MOVFA`  | move ARG to FACC                     |
-| $FE6C  | `MOVAF`  | move FACC to ARG                     |
+| $FE5A  | `CONUPK` | ARG = UNPACK(RAM MEM)                |
+| $FE5D  | `ROMUPK` | ARG = UNPACK(ROM MEM) (use `CONUPK`) |
+| $FE60  | `MOVFRM` | FACC = UNPACK(RAM MEM) (use `MOVFM`) |
+| $FE63  | `MOVFM`  | FACC = UNPACK(ROM MEM)               |
+| $FE66  | `MOVMF`  | MEM = PACK(ROUND(FACC))              |
+| $FE69  | `MOVFA`  | FACC = ARG                           |
+| $FE6C  | `MOVAF`  | FACC = ROUND(FACC); ARG = FACC       |
 
 **X16 Additions**
 
@@ -54,7 +54,7 @@ The following calls are new to the X16 and were not part of the C128 math librar
 
 | Address | Symbol  | Description                                     |
 |---------|---------|-------------------------------------------------|
-| $FE81  | `MOVEF` | ARG = FACC    (just use MOVAF)                   |
+| $FE81  | `MOVEF` | ARG = FACC                                      |
 
 ## Math Functions
 
