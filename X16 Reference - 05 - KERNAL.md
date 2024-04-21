@@ -340,13 +340,28 @@ Registers affected: .A .X .Y .P
 
 ---
 
+#### Function Name: `CHKIN`
+
+Purpose: Set file to be used for character input
+Call address: $FFC6
+Communication registers: .X
+Preparatory routines: OPEN  
+Error returns: None  
+Registers affected: .A .X
+
+**Description:** `CHKIN` sets a file to be used as default input allowing for
+subsequent calls to `CHRIN` or other file read functions. The `x` register
+should contain the logical file number. `OPEN` will need to have been called prior to using `CHKIN`.
+
+---
+
 #### Function Name: `LOAD`
 
 Purpose: Load the contents of a file from disk to memory  
 Call address: $FFD5  
 Communication registers: .A .X .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
+Error returns: Carry (Set on Error), .A  
 Registers affected: .A .X .Y .P  
 
 **Description:** Loads a file from disk to memory.
