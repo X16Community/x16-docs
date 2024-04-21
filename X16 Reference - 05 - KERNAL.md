@@ -710,9 +710,9 @@ The behavior of this Kernal routine is the same on the X16 and C64 despite error
 
 ```ASM
 jsr RDTIM
-sta TIME        ; least significant byte
-stx TIME+1
-sty TIME+2      ; most significant byte
+sta STARTTIME    ; least significant byte
+stx STARTTIME+1
+sty STARTTIME+2  ; most significant byte
 ```
 
 ---
