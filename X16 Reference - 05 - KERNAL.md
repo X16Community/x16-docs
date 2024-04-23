@@ -172,7 +172,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`OPEN`](#function-name-open) | `$FFC0` | ChIO | Open a channel/file.  | | A X Y | C64 |
 | `PLOT` | `$FFF0` | Video | Read/write cursor position | A X Y | A X Y | C64 |
 | `PRIMM` | `$FF7D` | Misc | Print string following the caller’s code | | | C128 |
-| `RDTIM` | `$FFDE` | Time | Read system clock | | A X Y| C64 |
+| [`RDTIM`](#function-name-rdtim) | `$FFDE` | Time | Read system clock | | A X Y| C64 |
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
 | [`SAVE`](#function-name-save) | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-kbd_scan) | `$FF9F` | Kbd | Alias for `kbd_scan` | none | A X Y P | C64 |
@@ -690,6 +690,30 @@ Registers affected: .A .X .Y
 **Description:** The routine `clock_get_date_time` returns the state of the system's real-time-clock. The register assignment is identical to `clock_set_date_time`.
 
 On the Commander X16, the _jiffies_ field is unsupported and will always read back as 0.
+
+---
+
+#### Function Name: RDTIM
+
+Purpose: Read system clock  
+Call address: $FFDE  
+Communication registers: .A .X .Y  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A .X .Y  
+
+**Description:** Original C64 function which reads the system clock.  The clock's resolution is a 60th of a second.  Three bytes are returned by the routine.  The accumulator contains the least significant byte, the X index register contains the next most significant byte, and the Y index register contains the the most significant byte.
+
+The behavior of this Kernal routine is the same on the X16 and C64 despite errors in the _Commodore 64 Programmer's Reference Guide_ and some other period books which incorrectly describe the order/significance of the resulting bytes in the registers.
+
+**EXAMPLE**:
+
+```ASM
+jsr RDTIM
+sta STARTTIME    ; least significant byte
+stx STARTTIME+1
+sty STARTTIME+2  ; most significant byte
+```
 
 ---
 
