@@ -176,7 +176,7 @@ The 16 bit ABI generally follows the following conventions:
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
 | [`SAVE`](#function-name-save) | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-kbd_scan) | `$FF9F` | Kbd | Alias for `kbd_scan` | none | A X Y P | C64 |
-| `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
+| [`SCREEN`](#function-name-screen) | `$FFED` | Video | Get the text resolution of the screen | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
@@ -1553,6 +1553,7 @@ $FEAB: `extapi` - extended API
 $FECC: `monitor` - enter machine language monitor  
 $FF5F: `screen_mode` - get/set screen mode  
 $FF62: `screen_set_charset` - activate 8x8 text mode charset  
+$FFED: `SCREEN` - get the text resolution  
 
 #### Function Name: enter_basic
 
@@ -1639,6 +1640,7 @@ Registers affected: Varies
 | `$0A` | [`cursor_blink`](#extapi-function-name-cursor_blink) | Blinks or un-blinks the KERNAL editor cursor if appropriate | - | - | - |
 | `$0B` | [`led_update`](#extapi-function-name-led_update) | Illuminates or clears the SMC activity LED based on disk activity or error status | - | - | - |
 | `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
+| `$0D` | [`scnsiz`](#extapi-function-name-scnsiz) | Directly sets the kernal editor text dimensions | .X .Y | - | - |
 
 
 ---
@@ -2194,6 +2196,71 @@ done:
 ```
 ---
 
+#### extapi Function Name: scnsiz
+
+Purpose: Set the number of text rows and columns for the kernal screen editor  
+Minimum ROM version: R48  
+Call address: $FEAB, .A=13  
+Communication registers: .X .Y  
+Preparatory routines: None  
+Error returns: c=1  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is implicitly called by `screen_mode` to set the bounds of the kernal editor's screen, and can be used directly to change the row and column bounds of the screen editor. `scnsiz` does not change the screen scaling.
+
+This call is mainly useful to set custom row and column counts not available from any built-in screen mode.
+
+Due to limits within the KERNAL's editor and what screen sizes it expects to work with, this routine will error and return with carry set if:
+* .X &lt; 20
+* .X &gt; 80
+* .Y &lt; 4
+* .Y &gt; 60
+
+If the requested size exceeds the allowed bounds (.X = 20-80, .Y = 4-60), the existing text resolution won't be changed.
+
+**How to Use:**
+
+1) Set .X to the number of desired columns and .Y to the desired number of rows.
+2) Call `scnsiz`
+3) The in-bounds area of the screen as defined by these new dimensions will be cleared and the cursor will be placed at the upper-left home position.
+
+**EXAMPLE:**
+
+This example assembly routine sets up an 80x25 region, also adding top and bottom border regions so that the viewable area only shows the 80x25 text region.
+
+```ASM
+
+SCREEN_MODE = $FF5F
+EXTAPI = $FEAB
+E_SCNSIZ = $0D
+VERA_CTRL = $9F25
+VERA_DC_VSTART = $9F2B
+VERA_DC_VSTOP = $9F2C
+
+TOP = 20 ; 20 rows from the top
+BOTTOM = 480-20 ; 20 rows from the bottom
+
+do_80x25:
+        lda #1
+        clc
+        jsr SCREEN_MODE ; set screen mode to 80x30, which also clears the screen
+        ldx #80
+        ldy #25
+        lda #E_SCNSIZ
+        jsr EXTAPI ; reset to 80x25
+        lda #(1 << 1) ; DCSEL = 1
+        sta VERA_CTRL
+        lda #(TOP >> 1) ; each step in DC_VSTART is 2 pixel rows
+        sta VERA_DC_VSTART
+        lda #(BOTTOM >> 1) ; each step in DC_VSTOP is 2 pixel rows
+        sta VERA_DC_VSTOP
+        stz VERA_CTRL
+        rts
+```
+
+---
+
+
 #### Function Name: monitor
 
 Purpose: Enter the machine language monitor  
@@ -2217,6 +2284,34 @@ Registers affected: Does not return
 
 ---
 
+#### Function Name: SCREEN
+
+Purpose: Get the text resolution of the screen  
+Call address: $FFED  
+Communication registers: .X, .Y  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A, .X, .Y, .P
+
+**Description:** This routine returns the KERNAL screen editor's view of the text resolution. The column count is returned in .X and the row count is returned in .Y.
+
+In contrast to calling [`screen_mode`](#function-name-screen_mode) with carry set, this function returns the configured resolution if ever it is updated by [`scnsiz`](#extapi-function-name-scnsiz). `screen_mode` only returns the text dimensions the currently configured mode would have configured, ignoring any changes made by calls to `scnsiz`.
+
+
+**EXAMPLE:**
+
+```ASM
+SCREEN = $FFED
+
+get_res:
+        jsr SCREEN
+        sty my_rows
+        stx my_columns
+        rts
+```
+
+---
+
 #### Function Name: screen_mode
 
 Purpose: Get/Set the screen mode  
@@ -2227,6 +2322,8 @@ Error returns: c = 1 in case of error
 Registers affected: .A, .X, .Y
 
 **Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, c will be set, otherwise cleared.
+
+If you use this function to get the text resolution instead of calling [`SCREEN`](#function-name-screen), this function only returns the text dimensions the currently configured mode would have set, ignoring any changes made by calls to [`scnsiz`](#extapi-function-name-scnsiz). If you want to fetch the KERNAL editor's text resolution, call [`SCREEN`](#function-name-screen) instead.
 
 **EXAMPLE:**
 
