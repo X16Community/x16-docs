@@ -349,24 +349,38 @@ The following added command channel features are specific to CMDR-DOS:
 | Feature               | Syntax      | Description                                                                    |
 |-----------------------|-------------|--------------------------------------------------------------------------------|
 | POSITION              | `P` _channel_ _p0_ _p1_ _p2_ _p3_  | Set position within file (like sd2iec); all args binary |
+| TELL                  | `T` _channel_ | Return the current position within a file and the file's size; channel arg is binary |
 
-To use the POSITION command, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
 
-### Example
+To use the POSITION and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
+
+If POSITION succeeds, `00, OK,00,00` is returned on the command channel.  
+
+If TELL succeeds, `07,pppppppp ssssssss,00,00` is returned on the command channel, where `pppppppp` is a hexadecimal representation of the position, and `ssssssss` is a hexadecimal represenation of the file's size.  
+
+### Examples
 
 ```BASIC
 OPEN 1,8,2,"LEVEL.DAT,S,R"
 OPEN 15,8,15,"P"+CHR$(2)+CHR$(0)+CHR$(1)+CHR$(0)+CHR$(0)
 ```
 
-This opens LEVEL.DAT for reading and positions the read/write pointer at byte 256.
+The above opens LEVEL.DAT for reading and positions the read/write pointer at byte 256.
 
 ```BASIC
-OPEN 2,8,5,"LEVEL.DAT,S,R"
-OPEN 15,8,15,"P"+CHR$(5)+CHR$(128)+CHR$(0)+CHR$(0)+CHR$(0)
+10 OPEN 2,8,5,"LEVEL.DAT,S,R"
+20 OPEN 15,8,15,"T"+CHR$(5)
+30 INPUT#15,A,A$,T,S
+40 CLOSE 15
+50 IF A>=20 THEN 90
+60 SZ=VAL("$"+MID$(A$,9))
+70 PRINT "SIZE=";SZ
+80 GOTO 100
+90 PRINT"ERROR"
+100 CLOSE 2
 ```
 
-This time, the secondary address is 5, and the pointer is at byte 128.
+This time, the secondary address is 5, and we're fetching only the file's size.
 
 ### Current Working Directory
 
@@ -384,7 +398,7 @@ DOS"$=C"
 
 ## License
 
-Copyright 2020, 2023 Michael Steil <<mist64@mac.com>>, et al.
+Copyright 2020-2024 Michael Steil <<mist64@mac.com>>, et al.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
