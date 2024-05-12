@@ -1510,7 +1510,7 @@ Call address: $FEDE
 
 Signature: void console_put_image(word ptr: r0, word width: r1, word height: r2);  
 Purpose: Draw image as if it was a character.  
-Call address: $FEE1
+Call address: $FED8
 
 **Description:** This function draws an image (in GRAPH_draw_image format) at the current cursor position and advances the cursor accordingly. This way, an image can be presented inline. A common example would be an emoji bitmap, but it is also possible to show full-width pictures if you print a newline before and after the image.
 
