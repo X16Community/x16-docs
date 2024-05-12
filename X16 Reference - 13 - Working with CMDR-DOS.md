@@ -339,18 +339,19 @@ The following special file syntax and `OPEN` options are specific to CMDR-DOS:
 
 | Feature               | Syntax      | Description                                                                    |
 |-----------------------|-------------|--------------------------------------------------------------------------------|
-| Open for Read & Write | `,?,M`      | Allows arbitrarily reading, writing and setting the position (`P`)<sup>1</sup> |
+| Open for Read & Write | `,?,M`      | Allows arbitrarily reading, writing and setting the position (`P`)<sup>7</sup> |
 | Get current working directory | `$=C` | Produces a directory listing containing the name of the current working directory followed by all parent directory names all the way up to `/` |
 
-* <sup>1</sup>: once the EOF has been reached while reading, no further reads or writes are possible.
+* <sup>7</sup>: once the EOF has been reached while reading, no further reads or writes are possible.
 
 The following added command channel features are specific to CMDR-DOS:
 
 | Feature               | Syntax      | Description                                                                    |
 |-----------------------|-------------|--------------------------------------------------------------------------------|
 | POSITION              | `P` _channel_ _p0_ _p1_ _p2_ _p3_  | Set position within file (like sd2iec); all args binary |
-| TELL                  | `T` _channel_ | Return the current position within a file and the file's size; channel arg is binary |
+| TELL<sup>8</sup>                  | `T` _channel_ | Return the current position within a file and the file's size; channel arg is binary |
 
+* <sup>8</sup>: available in ROM version R48 and later
 
 To use the POSITION and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
 
