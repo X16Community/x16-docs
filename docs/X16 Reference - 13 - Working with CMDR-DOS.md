@@ -1,5 +1,5 @@
 
-# Chapter 13: Working With CMDR-DOS
+# 13: Working With CMDR-DOS
 
 This manual describes Commodore DOS on FAT32, aka CMDR-DOS.
 
@@ -104,7 +104,7 @@ CMDR-DOS does not allow files to be overwritten without special handling. If you
 
 BLOAD loads a file _without an address header_ to an arbitrary location in memory. Usage is similar to LOAD. However, BLOAD does not require
 or use the 2-byte header. The first byte in the file is the first byte loaded into memory.
-  
+
 `BLOAD "filename",8,<ram_bank>,<start_address>`
 
 ### VLOAD
@@ -355,9 +355,9 @@ The following added command channel features are specific to CMDR-DOS:
 
 To use the POSITION and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
 
-If POSITION succeeds, `00, OK,00,00` is returned on the command channel.  
+If POSITION succeeds, `00, OK,00,00` is returned on the command channel.
 
-If TELL succeeds, `07,pppppppp ssssssss,00,00` is returned on the command channel, where `pppppppp` is a hexadecimal representation of the position, and `ssssssss` is a hexadecimal represenation of the file's size.  
+If TELL succeeds, `07,pppppppp ssssssss,00,00` is returned on the command channel, where `pppppppp` is a hexadecimal representation of the position, and `ssssssss` is a hexadecimal represenation of the file's size.
 
 ### Examples
 
@@ -391,7 +391,7 @@ directory beneath, with / at the bottom.
 ```BASIC
 DOS"$=C"
 
-0 "/TEST            " 
+0 "/TEST            "
 0    "TEST"             DIR
 0    "/"                DIR
 65535 BLOCKS FREE.

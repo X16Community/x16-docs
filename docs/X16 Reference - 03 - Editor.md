@@ -1,5 +1,5 @@
 
-# Chapter 3: Editor
+# 3: Editor
 
 The X16 has a built-in screen editor that is backwards-compatible with the C64, but has many new features.
 

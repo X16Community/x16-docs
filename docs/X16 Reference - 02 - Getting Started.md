@@ -1,5 +1,5 @@
 
-# Chapter 2: Getting Started
+# 2: Getting Started
 
 This is a brief guide to your first few minutes on the Commander X16. For a
 complete New User experience, please refer to the

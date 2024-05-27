@@ -1,5 +1,5 @@
 
-# Chapter 10: VERA FX Reference
+# 10: VERA FX Reference
 
 *Author: MooingLemur, based on documentation written by JeffreyH*
 
@@ -49,7 +49,7 @@ The FX features use DCSEL values 2, 3, 4, 5, and 6. This effectively gives FX 20
 
 ### Addr1 Mode
 
-When DCSEL=2, the main FX configuration register becomes available (FX_CTRL/$9F29), which is both readable and writable. The 2 lower bits are the addr1 mode bits, which will change the behavior of how and when ADDR1 is updated. This puts the FX helpers in a certain "role". 
+When DCSEL=2, the main FX configuration register becomes available (FX_CTRL/$9F29), which is both readable and writable. The 2 lower bits are the addr1 mode bits, which will change the behavior of how and when ADDR1 is updated. This puts the FX helpers in a certain "role".
 
 <table>
 	<tr>
@@ -199,7 +199,7 @@ Assuming a 320 pixel-wide screen
 * Set your left slope into the two "X increment" registers and your right slope into the two "Y increment" registers (DCSEL=3, see below).
 	* Important: They should be set to half the increment (or decrement) per horizontal line! This is because the polygon filler increments in two steps per line.
 * Note that increment registers are 15-bit signed fixed-point numbers:
-* 6 bits for the integer pixel increment 
+* 6 bits for the integer pixel increment
 * 9 bits for the fractional (subpixel) increment
 * 1 additional bit that indicates the actual value should be multiplied by 32
 
@@ -242,7 +242,7 @@ Assuming a 320 pixel-wide screen
 	</tr>
 </table>
 
-* Due to the fact that we are in "polygon fill"-mode, by setting the high bits of the "X increment" ($9F2A, DCSEL=3), the "X position" (the lower 9 bits of the position in DCSEL=4 and DCSEL=5) are automatically set to half a pixel. The same goes for the high bits of the Y/X2 increment ($9F2C, DCSEL=3) and Y/X2 position. 
+* Due to the fact that we are in "polygon fill"-mode, by setting the high bits of the "X increment" ($9F2A, DCSEL=3), the "X position" (the lower 9 bits of the position in DCSEL=4 and DCSEL=5) are automatically set to half a pixel. The same goes for the high bits of the Y/X2 increment ($9F2C, DCSEL=3) and Y/X2 position.
 * Set the "X position" and "Y/X2 position” to the x-pixel-position of the top triangle point.
 
 <table>
@@ -698,9 +698,9 @@ Transparent writes, when enabled, also applies to cache writes. If enabled, zero
 	</tr>
 </table>
 
-When "one-byte cache cycling" is turned on and DATA0 or DATA1 is written to, the byte at the current cache index is written to VRAM. When "Cache write enable" is set as well, the byte is duplicated 4 times when writing to VRAM. 
+When "one-byte cache cycling" is turned on and DATA0 or DATA1 is written to, the byte at the current cache index is written to VRAM. When "Cache write enable" is set as well, the byte is duplicated 4 times when writing to VRAM.
 
-Usually the incrementing of the cache index is only triggered by reading from DATA0 or DATA1 when cache filling is enabled. However it can also be triggered by reading from DATA0 in polygon mode when cache filling is not enabled and "one-byte cache cycling" is enabled. 
+Usually the incrementing of the cache index is only triggered by reading from DATA0 or DATA1 when cache filling is enabled. However it can also be triggered by reading from DATA0 in polygon mode when cache filling is not enabled and "one-byte cache cycling" is enabled.
 
 <table>
 	<tr>
@@ -852,7 +852,7 @@ If the multiplication accumulator has a nonzero value, any multiplications carri
 
 ### 16-bit hop
 
-There is a special address increment mode that can be used to read pairs of bytes via ADDR1. 
+There is a special address increment mode that can be used to read pairs of bytes via ADDR1.
 
 <table>
 	<tr>

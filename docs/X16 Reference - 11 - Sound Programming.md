@@ -1,5 +1,5 @@
 
-# Chapter 11: Sound Programming
+# 11: Sound Programming
 
 ## Audio bank API
 
@@ -9,7 +9,7 @@ In order to gain access to these routines, you must either use `jsrfar` from the
 
 ```ASM
 AUDIO_BANK = $0A
-  
+
 jsr jsrfar  ; $FF6E
 .word ym_init ; $C063
 .byte AUDIO_BANK

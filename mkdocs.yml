@@ -1,0 +1,81 @@
+site_name: Commander X16 Documentation (UNOFFICIAL)
+site_author: Marsh Macy
+site_description: Adventures in turn-based text
+site_url: https://mmacy.github.io/x16-docs
+repo_name: x16-docs
+repo_url: https://github.com/mmacy/x16-docs
+watch:
+  - "."
+
+#nav:
+#   - index.md
+
+
+theme:
+  name: material
+  logo: images/logo_text.png
+  #favicon: assets/logo-osr-apps.png
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: Actor
+    code: Chivo Mono
+    #text: Sora # BIG!
+    #code: Martian Mono # BIG!
+
+  features:
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.prune
+    #- navigation.sections
+    #- navigation.tabs
+    #- navigation.tabs.sticky
+    #- navigation.top
+    - navigation.tracking
+
+    - toc.follow
+
+    - search.suggest
+    - search.share
+
+    - header.autohide
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+#extra_css:
+#  - "main.css"
+
+plugins:
+  - search

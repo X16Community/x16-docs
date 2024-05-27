@@ -1,5 +1,5 @@
 
-# Chapter 4: BASIC Programming
+# 4: BASIC Programming
 
 <!--
 ********************************************************************************
@@ -209,7 +209,7 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 
 ### ASC
 
-**TYPE: Integer Function**  
+**TYPE: Integer Function**
 **FORMAT: ASC(&lt;string&gt;)**
 
 **Action:** Returns an integer value representing the PETSCII code for the first character of `string`. If `string` is the empty string, `ASC()` returns 0.
@@ -226,7 +226,7 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 
 ### BIN$
 
-**TYPE: String Function**  
+**TYPE: String Function**
 **FORMAT: BIN$(n)**
 
 **Action:** Return a string representing the binary value of n. If n <= 255, 8 characters are returned and if 255 < n <= 65535, 16 characters are returned.
@@ -240,7 +240,7 @@ PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 
 ### BANK
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BANK m[,n]**
 
 **Action:** Set the active RAM (m) and ROM bank (n) for the purposes of `PEEK`, `POKE`, and `SYS`.  Specifying the ROM bank is optional. If it is not specified, its previous value is retained.
@@ -261,7 +261,7 @@ Note: Memory address `$00`, which is the hardware RAM bank register, will usuall
 
 ### BINPUT&#35;
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var$&gt;,&lt;len&gt;**
 
 **Action:** `BINPUT#` Reads a block of data from an open file and stores the data into a string variable. If there are fewer than `<len>` bytes available to be read from the file, fewer bytes will be stored.  If the end of the file is reached, `ST AND 64` will be true.
@@ -278,7 +278,7 @@ Note: Memory address `$00`, which is the hardware RAM bank register, will usuall
 
 ### BOOT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BOOT**
 
 **Action:** Load and run a PRG file named `AUTOBOOT.X16` from device 8. If the file is not found, nothing is done and no error is printed.
@@ -291,7 +291,7 @@ BOOT
 
 ### BLOAD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BLOAD &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;address&gt;**
 
 **Action:** Loads a binary file directly into RAM
@@ -309,7 +309,7 @@ BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN B
 
 ### BSAVE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BSAVE &lt;filename&gt;, &lt;device&gt;, &lt;bank&gt;, &lt;start address&gt;, &lt;end address&gt;**
 
 **Action:** Saves a region of memory to a binary file.
@@ -334,7 +334,7 @@ The above example appends a region of memory from $A000 through and including $A
 
 ### BVLOAD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: BVLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
 
 **Action:** Loads a binary file directly into VERA RAM.
@@ -348,7 +348,7 @@ BVLOAD "MYFONT.BIN", 8, 1, $F000  :REM LOAD A FONT INTO THE DEFAULT FONT LOCATIO
 
 ### CHAR
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: CHAR &lt;x&gt;,&lt;y&gt;,&lt;color&gt;,&lt;string&gt;**
 
 **Action:** This command draws a text string on the graphics screen in a given color.
@@ -384,7 +384,7 @@ CLOSE 4   : REM CLOSE FILE OPENED AS 4
 
 ### CLS
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: CLS**
 
 **Action:** Clears the screen. Same effect as `?CHR$(147);`.
@@ -397,7 +397,7 @@ CLS
 
 ### COLOR
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: COLOR &lt;fgcol&gt;[,&lt;bgcol&gt;]**
 
 **Action:** This command works sets the text mode foreground color, and optionally the background color.
@@ -411,7 +411,7 @@ COLOR 2,0 : REM SET FG COLOR TO RED, BG COLOR TO BLACK
 
 ### DOS
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: DOS &lt;string&gt;**
 
 **Action:** This command works with the command/status channel or the directory of a Commodore DOS device and has different functionality depending on the type of argument.
@@ -431,7 +431,7 @@ DOS             : REM PRINTS DOS STATUS, E.G. "01,FILES SCRATCHED,01,00"
 
 ### EDIT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: EDIT \[&lt;filename&gt;\]**
 
 **Action:** Opens the built-in text editor, X16-Edit, a modeless editor with features similar to GNU Nano.
@@ -451,7 +451,7 @@ A more elaborate X16-Edit manual can be found [here](https://github.com/X16Commu
 
 ### EXEC
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: EXEC &lt;memory address&gt;\[,&lt;ram bank&gt;\]**
 
 **Action:** Plays back a null-terminated script from MEMORY into the BASIC editor. Among other uses, this can be used to "type" in a program from a plain text file.
@@ -480,7 +480,7 @@ it for you:
 
 ### FMCHORD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMCHORD &lt;first channel&gt;,&lt;string&gt;**
 
 **Action:** This command uses the same syntax as `FMPLAY`, but instead of playing a series of notes, it will start all of the notes in the string simultaneously on one or more channels. The first parameter to `FMCHORD` is the first channel to use, and will be used for the first note in the string, and subsequent notes in the string will be started on subsequent channels, with the channel after 7 being channel 0.
@@ -513,14 +513,14 @@ This will play the first few lines of _Silent Night_ with a vibraphone lead and 
 
 ### FMDRUM
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMDRUM &lt;channel&gt;,&lt;drum number&gt;**
 
 **Action:** Loads a [drum preset](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#drum-presets "list of drum presets") onto the YM2151 and triggers it. Valid range is from 25 to 87, corresponding to the General MIDI percussion note values. FMDRUM will load a patch preset corresponding to the selected drum into the channel. If you then try to play notes on that same channel without loading an instrument patch, it will use the drum patch that was loaded for the drum sound instead, which may not sound particularly musical.
 
 ### FMFREQ
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMFREQ &lt;channel&gt;,&lt;frequency&gt;**
 
 **Action:** Play a note by frequency on the YM2151. The accepted range is in Hz from 17 to 4434. FMFREQ also accepts a frequency of 0 to release the note.
@@ -540,21 +540,21 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 
 ### FMINIT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMINIT**
 
 **Action:** Initialize YM2151, silence all channels, and load a set of default patches into all 8 channels.
 
 ### FMINST
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMINST &lt;channel&gt;,&lt;patch&gt;**
 
 Load an instrument onto the YM2151 in the form of a [patch preset](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#fm-instrument-patch-presets) into a channel. Valid channels range from 0 to 7. Valid patches range from 0 to 162.
 
 ### FMNOTE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMNOTE &lt;channel&gt;,&lt;note&gt;**
 
 **Action:** Play a note on the YM2151. The note value is constructed as follows. Using hexadecimal notation, the first nybble is the octave, 0-7, and the second nybble is the note within the octave as follows:
@@ -582,7 +582,7 @@ Notes can also be represented by negative numbers to skip retriggering, and will
 
 ### FMPAN
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMPAN &lt;channel&gt;,&lt;panning&gt;**
 
 **Action:** Sets the simple stereo panning on a YM2151 channel. Valid values are as follows:
@@ -593,7 +593,7 @@ Notes can also be represented by negative numbers to skip retriggering, and will
 
 ### FMPLAY
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMPLAY &lt;channel&gt;,&lt;string&gt;**
 
 **Action:** This command is very similar to `PLAY` on other BASICs such as GWBASIC. It takes a string of notes, rests, tempo changes, note lengths, and other macros, and plays all of the notes synchronously.  That is, the FMPLAY command will not return control until all of the notes and rests in the string have been fully played.
@@ -612,7 +612,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 
 ### FMPOKE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMPOKE &lt;register&gt;,&lt;value&gt;**
 
 **Action:** This command uses the AUDIO API to write a value to one of the the YM2151's registers at a low level.
@@ -628,7 +628,7 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 
 ### FMVIB
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMVIB &lt;speed&gt;,&lt;depth&gt;**
 
 **Action:** This command sets the LFO speed and the phase and amplitude modulation depth values on the YM2151. The speed value ranges from 0 to 255, and corresponds to an LFO frequency from 0.008 Hz to 32.6 Hz.  The depth value ranges from 0-127 and affects both AMD and PMD.
@@ -651,14 +651,14 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 
 ### FMVOL
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FMVOL &lt;channel&gt;,&lt;volume&gt;**
 
 **Action:** This command sets the channel's volume. The volume remains at the requested level until another `FMVOL` command for that channel or `FMINIT` is called.  Valid range is from 0 (completely silent) to 63 (full volume)
 
 ### FRAME
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: FRAME &lt;x1&gt;,&lt;y1&gt;,&lt;x2&gt;,&lt;y2&gt;,&lt;color&gt;**
 
 **Action:** This command draws a rectangle frame on the graphics screen in a given color.
@@ -673,7 +673,7 @@ The above BASIC program plays a C major scale with a vibraphone patch, first wit
 
 ### HEX$
 
-**TYPE: String Function**  
+**TYPE: String Function**
 **FORMAT: HEX$(n)**
 
 **Action:** Return a string representing the hexadecimal value of n. If n <= 255, 2 characters are returned and if 255 < n <= 65535, 4 characters are returned.
@@ -687,14 +687,14 @@ PRINT HEX$(45231) : REM PRINTS B0AF TO REPRESENT 16 BIT VALUE
 
 ### HELP
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: HELP**
 
 **Action:** The `HELP` command displays a brief summary of the ROM build, and points users to this guide at its home on GitHub, and to the community forums website.
 
 ### I2CPEEK
 
-**TYPE: Integer Function**  
+**TYPE: Integer Function**
 **FORMAT: I2CPEEK(&lt;device&gt;,&lt;register&gt;)**
 
 **Action:** Returns the value from a register on an I²C device.
@@ -709,7 +709,7 @@ This command reports the seconds counter from the RTC by converting its internal
 
 ### I2CPOKE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: I2CPOKE &lt;device&gt;,&lt;register&gt;,&lt;value&gt;**
 
 **Action:** Sets the value to a register on an I²C device.
@@ -724,7 +724,7 @@ This command sets a byte in NVRAM on the RTC to the value `$80`
 
 ### JOY
 
-**TYPE: Integer Function**  
+**TYPE: Integer Function**
 **FORMAT: JOY(n)**
 
 **Action:** Return the state of a joystick.
@@ -769,7 +769,7 @@ Note that this bitfield is different from the `joystick_get` KERNEL API one. Als
 
 ### KEYMAP
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: KEYMAP &lt;string&gt;**
 
 **Action:** This command sets the current keyboard layout. It can be put into an AUTOBOOT file to always set the keyboard layout on boot.
@@ -783,7 +783,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 
 ### LINE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: LINE &lt;x1&gt;,&lt;y1&gt;,&lt;x2&gt;,&lt;y2&gt;,&lt;color&gt;**
 
 **Action:** This command draws a line on the graphics screen in a given color.
@@ -808,7 +808,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 
 ### LINPUT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: LINPUT &lt;var$&gt;
 
 **Action:** `LINPUT` Reads a line of data from the keyboard and stores the data into a string variable. Unlike `INPUT`, no parsing or cooking of the input is done, and therefore quotes, commas, and colons are stored in the string as typed. No prompt is displayed, either.
@@ -829,7 +829,7 @@ Due to how the editor works, an empty line will return `" "`&ndash; a string wit
 
 ### LINPUT&#35;
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: LINPUT&#35; &lt;n&gt;,&lt;var$&gt;\[,&lt;delimiter&gt;\]**
 
 **Action:** `LINPUT#` Reads a line of data from an open file and stores the data into a string variable. The delimiter of a line by default is 13 (carriage return). The delimiter is not part of the stored value. If the end of the file is reached while reading, `ST AND 64` will be true.
@@ -886,7 +886,7 @@ approximately one screen full of text.
 
 ### LOCATE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: LOCATE &lt;line&gt;[,&lt;column&gt;]**
 
 **Action:** This command positions the text mode cursor at the given location.
@@ -909,7 +909,7 @@ The values are 1-based. If no column is given, only the line is changed.
 
 ### MENU
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: MENU**
 
 **Action:** This command currently invokes the Commander X16 Control Panel. In the future, the menu may instead present a menu of ROM-based applications and routines.
@@ -922,7 +922,7 @@ MENU
 
 ### MON
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: MON (Alternative: MONITOR)**
 
 **Action:** This command enters the machine language monitor. See the [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor) for a  description.
@@ -936,7 +936,7 @@ MONITOR
 
 ### MOUSE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: MOUSE &lt;mode&gt;**
 
 **Action:** This command configures the mouse pointer.
@@ -960,7 +960,7 @@ MOUSE 0 : REM DISABLE MOUSE
 
 ### MOVSPR
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: MOVSPR &lt;sprite idx&gt;,&lt;x&gt;,&lt;y&gt;**
 
 **Action:** This command positions a sprite's upper left corner at a specific pixel location.  It does not change its visibility.
@@ -979,9 +979,9 @@ MOUSE 0 : REM DISABLE MOUSE
 
 ### MX/MY/MB
 
-**TYPE: System variable**  
-**FORMAT: MX**  
-**FORMAT: MY**  
+**TYPE: System variable**
+**FORMAT: MX**
+**FORMAT: MY**
 **FORMAT: MB**
 
 **Action:** Return the horizontal (`MX`) or vertical (`MY`) position of the mouse pointer, or the mouse button state (`MB`).
@@ -1012,7 +1012,7 @@ REM SIMPLE DRAWING PROGRAM
 
 ### MWHEEL
 
-**TYPE: System variable**  
+**TYPE: System variable**
 **FORMAT: MWHEEL**
 
 **Action:** Return the mouse scroll wheel movement since the value was last read. The value is negative if the scroll wheel is
@@ -1020,7 +1020,7 @@ moved away from the user, and positive if it is moved towards the user. The rang
 
 ### OLD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: OLD**
 
 **Action:** This command recovers the BASIC program in RAM that has been previously deleted using the `NEW` command or through a RESET.
@@ -1033,7 +1033,7 @@ OLD
 
 ### POINTER
 
-**TYPE: Function**  
+**TYPE: Function**
 **FORMAT: POINTER(&lt;variable&gt;)**
 
 **Action:** Returns the memory address of the internal structure representing a BASIC variable.
@@ -1049,7 +1049,7 @@ RUN
 
 ### POWEROFF
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: POWEROFF**
 
 **Action:** This command instructs the SMC to power down the system. This is equivalent to pressing the physical power switch.
@@ -1062,7 +1062,7 @@ POWEROFF
 
 ### PSET
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSET &lt;x&gt;,&lt;y&gt;,&lt;color&gt;**
 
 **Action:** This command sets a pixel on the graphics screen to a given color.
@@ -1077,7 +1077,7 @@ POWEROFF
 
 ### PSGCHORD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGCHORD &lt;first voice&gt;,&lt;string&gt;**
 
 **Action:** This command uses the same syntax as `PSGPLAY`, but instead of playing a series of notes, it will start all of the notes in the string simultaneously on one or more voices. The first parameter to `PSGCHORD` is the first voice to use, and will be used for the first note in the string, and subsequent notes in the string will be started on subsequent voices, with the voice after 15 being voice 0.
@@ -1095,13 +1095,13 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 40 PSGCHORD 15,"RRR" : REM RELEASES CHORD ON VOICES 15, 0, AND 1
 50 PSGPLAY 14,"O4CAG>C<A" : REM PLAYS A SERIES OF NOTES ON VOICE 14
 60 PSGCHORD 0,"O3A>CF" : REM STARTS PLAYING A CHORD ON VOICES 0, 1, AND 2
-70 PSGPLAY 14,"L16FGAB->CDEF4" : REM PLAYS A SERIES OF NOTES ON VOICE 
+70 PSGPLAY 14,"L16FGAB->CDEF4" : REM PLAYS A SERIES OF NOTES ON VOICE
 80 PSGCHORD 0,"RRR" : REM RELEASES CHORD ON VOICES 0, 1, AND 2
 ```
 
 ### PSGFREQ
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGFREQ &lt;voice&gt;,&lt;frequency&gt;**
 
 **Action:** Play a note by frequency on the VERA PSG. The accepted range is in Hz from 1 to 24319. PSGFREQ also accepts a frequency of 0 to release the note.
@@ -1120,14 +1120,14 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 
 ### PSGINIT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGINIT**
 
 **Action:** Initialize VERA PSG, silence all voices, set volume to 63 on all voices, and set the waveform to pulse and the duty cycle to 63 (50%) for all 16 voices.
 
 ### PSGNOTE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGNOTE &lt;voice&gt;,&lt;note&gt;**
 
 **Action:** Play a note on the VERA PSG. The note value is constructed as follows. Using hexadecimal notation, the first nybble is the octave, 0-7, and the second nybble is the note within the octave as follows:
@@ -1150,7 +1150,7 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 
 ### PSGPAN
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGPAN &lt;voice&gt;,&lt;panning&gt;**
 
 **Action:** Sets the simple stereo panning on a VERA PSG voice. Valid values are as follows:
@@ -1161,7 +1161,7 @@ The above BASIC program plays a sound similar to a North American dial tone for 
 
 ### PSGPLAY
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGPLAY &lt;voice&gt;,&lt;string&gt;**
 
 **Action:** This command is very similar to `PLAY` on other BASICs such as GWBASIC. It takes a string of notes, rests, tempo changes, note lengths, and other macros, and plays all of the notes synchronously.  That is, the PSGPLAY command will not return control until all of the notes and rests in the string have been fully played.
@@ -1180,14 +1180,14 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 
 ### PSGVOL
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGVOL &lt;voice&gt;,&lt;volume&gt;**
 
 **Action:** This command sets the voice's volume. The volume remains at the requested level until another `PSGVOL` command for that voice or `PSGINIT` is called.  Valid range is from 0 (completely silent) to 63 (full volume).
 
 ### PSGWAV
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: PSGWAV &lt;voice&gt;,&lt;w&gt;**
 
 **Action:** Sets the waveform and duty cycle for a PSG voice.
@@ -1221,7 +1221,7 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 
 ### RECT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: RECT &lt;x1&gt;,&lt;y1&gt;,&lt;x2&gt;,&lt;y2&gt;,&lt;color&gt;**
 
 **Action:** This command draws a solid rectangle on the graphics screen in a given color.
@@ -1236,7 +1236,7 @@ This example plays a chromatic scale while applying pulse-width modulation on th
 
 ### REBOOT
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: REBOOT**
 
 **Action:** Performs a software reset of the system by calling the ROM reset vector.
@@ -1249,16 +1249,16 @@ REBOOT
 
 ### REN
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: REN [&lt;new line num&gt;[, &lt;increment&gt;[, &lt;first old line num&gt;]]]**
 
 **Action:** Renumbers a BASIC program while updating the line number arguments of GOSUB, GOTO, RESTORE, RUN, and THEN.
 
-Optional arguments:  
+Optional arguments:
 
-* The line number of the first line after renumbering, default: **10**  
-* The value of the increment for subsequent lines, default **10**  
-* The earliest old line to start renumbering at, default: **0**  
+* The line number of the first line after renumbering, default: **10**
+* The value of the increment for subsequent lines, default **10**
+* The earliest old line to start renumbering at, default: **0**
 
 **THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
 
@@ -1303,7 +1303,7 @@ READY.
 
 ### RESET
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: RESET**
 
 **Action:** This command instructs the SMC to assert the reset line on the system, which performs a hard reset. This is equivalent to pressing the physical reset switch.
@@ -1316,7 +1316,7 @@ RESET
 
 ### RESTORE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: RESTORE \[&lt;linenum&gt;\]**
 
 **Action:** This command resets the pointer for the `READ` command. Without arguments, it will reset the pointer to the first `DATA` constant in the program.  With a parameter `linenum`, the command will reset the pointer to the first `DATA` constant at or after that line number.
@@ -1337,7 +1337,7 @@ This program will output the number 1 followed by the number 4.
 
 ### RPT$
 
-**TYPE: Function**  
+**TYPE: Function**
 **FORMAT: RPT$(&lt;byte&gt;,&lt;count&gt;)**
 
 **Action:** Returns a string of &lt;count&gt; instances of the PETSCII character represented by the numeric value &lt;byte&gt;.  This function is similar in behavior to `CHR$()` but takes a second argument as a repeat count.
@@ -1383,7 +1383,7 @@ The above example overwrites an existing file on drive 9, which would be a Commo
 
 ### SCREEN
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: SCREEN &lt;mode&gt;**
 
 **Action:** This command switches screen modes.
@@ -1400,7 +1400,7 @@ SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 
 ### SLEEP
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: SLEEP \[&lt;jiffies&gt;\]**
 
 **Action:** With the default interrupt source configured and enabled, this command waits for `jiffies`+1 VSYNC events and then resumes program execution. In other words, `SLEEP` with no arguments is equivalent to `SLEEP 0`, which waits until the beginning of the next frame. Another useful example, `SLEEP 60`, pauses for approximately 1 second.
@@ -1418,7 +1418,7 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 
 ### SPRITE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: SPRITE &lt;sprite idx&gt;,&lt;priority&gt;\[,&lt;palette offset&gt;\[,&lt;flip&gt;\[,&lt;x-width&gt;\[,&lt;y-width&gt;\[,&lt;color depth&gt;\]\]\]\]\]**
 
 **Action:** This command configures a sprite's geometry, palette, and visibility.
@@ -1445,7 +1445,7 @@ Note: If VERA's sprite layer is disabled when the `SPRITE` command is called, th
 
 ### SPRMEM
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: SPRMEM &lt;sprite idx&gt;,&lt;VRAM bank&gt;,&lt;VRAM address&gt;\[,&lt;color depth&gt;\]**
 
 **Action:** This command configures the address of where the sprite's pixel data is to be found. It also can change or set the color depth of the sprite.
@@ -1468,7 +1468,7 @@ The first three arguments are required, but the last one is optional.
 
 ### STRPTR
 
-**TYPE: Function**  
+**TYPE: Function**
 **FORMAT: STRPTR(&lt;variable&gt;)**
 
 **Action:** Returns the memory address of the first character of a string contained within a string variable. If the string variable has zero length, this function will likely still return a non-zero value pointing either to the close quotation mark in the literal assignment, or to somewhere undefined in string memory. Programs should check the `LEN()` of string variables before using the pointer returned from `STRPTR`.
@@ -1495,7 +1495,7 @@ In this case, the pointer returned on line 70 pointed to the first character aft
 
 ### SYS
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: SYS &lt;address&gt;**
 
 **Action:** The SYS command executes a machine language subroutine located at &lt;address&gt;.
@@ -1528,7 +1528,7 @@ SYS  $FECC
 
 ### TILE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: TILE &lt;x&gt;,&lt;y&gt;,&lt;tile/screen code&gt;\[,&lt;attribute&gt;\]**
 
 **Action:** The `TILE` command sets the tile or text character at the given x/y tile/character coordinate to the given screen code or tile index, optionally resetting the attribute byte. It works for tiles or text on Layer 1.
@@ -1550,7 +1550,7 @@ However, it can also be used if VERA Layer 1's map base value is changed or the 
 
 ### TATTR
 
-**TYPE: Function**  
+**TYPE: Function**
 **FORMAT: TATTR(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TATTR`function retrieves the text/tile attribute at the given x/y coordinate. It works for tiles or text on Layer 1.
@@ -1572,7 +1572,7 @@ In the default text modes, this can be used to retrieve the color attribute (fg/
 
 ### TDATA
 
-**TYPE: Function**  
+**TYPE: Function**
 **FORMAT: TDATA(&lt;x coordinate&gt;,&lt;y coordinate&gt;)**
 
 **Action:** The `TDATA`function retrieves the text/tile at the given x/y coordinate. It works for tiles or text on Layer 1.
@@ -1593,15 +1593,15 @@ In the default text modes, this can be used to retrieve the character a specific
 
 ### VPEEK
 
-**TYPE: Integer Function**  
+**TYPE: Integer Function**
 **FORMAT: VPEEK (&lt;bank&gt;, &lt;address&gt;)**
 
 **Action:** Return a byte from the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
-BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
+BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)
+BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)
 
 **EXAMPLE of VPEEK Function:**
 
@@ -1611,15 +1611,15 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 
 ### VPOKE
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: VPOKE &lt;bank&gt;, &lt;address&gt;, &lt;value&gt;**
 
 **Action:** Set a byte in the video address space. The video address space has 17 bit addresses, which is exposed as 2 banks of 65536 addresses each.
 
 In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
-BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
+BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)
+BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)
 
 **EXAMPLE of VPOKE Statement:**
 
@@ -1630,7 +1630,7 @@ VPOKE 1,$B000+1,1 * 16 + 2 : REM SETS THE COLORS OF THE CHARACTER
 
 ### VLOAD
 
-**TYPE: Command**  
+**TYPE: Command**
 **FORMAT: VLOAD &lt;filename&gt;, &lt;device&gt;, &lt;VERA_high_address&gt;, &lt;VERA_low_address&gt;**
 
 **Action:** Loads a file directly into VERA RAM, skipping the two-byte header that is presumed to be in the file.

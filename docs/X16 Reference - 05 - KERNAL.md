@@ -1,5 +1,5 @@
 
-# Chapter 5: KERNAL
+# 5: KERNAL
 
 <!--
 ********************************************************************************
@@ -93,7 +93,7 @@ The 16 bit ABI generally follows the following conventions:
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
 | [`BSAVE`](#function-name-bsave) | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
 | `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
-| `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
+| `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
 | `CHKIN` | `$FFC6` | ChIO | Set channel for character input | X | A X | C64 |
@@ -195,8 +195,8 @@ The 16 bit ABI generally follows the following conventions:
 | `UNLSN` | `$FFAE` | CPB | Send UNLISTEN command | | A | C64 |
 | `UNTLK` | `$FFAB` | CPB | Send UNTALK command | | A | C64 |
 
-&#128683; = Currently unimplemented  
-&#8224; = Partially implemented  
+&#128683; = Currently unimplemented
+&#8224; = Partially implemented
 
 Some notes:
 
@@ -207,31 +207,31 @@ Some notes:
 
 The KERNAL indirect vectors ($0314-$0333) are fully compatible with the C64:
 
-$0314-$0315: `CINV` – IRQ Interrupt Routine  
-$0316-$0317: `CBINV` – BRK Instruction Interrupt  
-$0318-$0319: `NMINV` – Non-Maskable Interrupt  
-$031A-$031B: `IOPEN` – Kernal OPEN Routine  
-$031C-$031D: `ICLOSE` – Kernal CLOSE Routine  
-$031E-$031F: `ICHKIN` – Kernal CHKIN Routine  
-$0320-$0321: `ICKOUT` – Kernal CKOUT Routine  
-$0322-$0323: `ICLRCH` – Kernal CLRCHN Routine  
-$0324-$0325: `IBASIN` – Kernal CHRIN Routine  
-$0326-$0327: `IBSOUT` – Kernal CHROUT Routine  
-$0328-$0329: `ISTOP` – Kernal STOP Routine  
-$032A-$032B: `IGETIN` – Kernal GETIN Routine  
-$032C-$032D: `ICLALL` – Kernal CLALL Routine  
-$0330-$0331: `ILOAD` – Kernal LOAD Routine  
-$0332-$0333: `ISAVE` – Kernal SAVE Routine  
+$0314-$0315: `CINV` – IRQ Interrupt Routine
+$0316-$0317: `CBINV` – BRK Instruction Interrupt
+$0318-$0319: `NMINV` – Non-Maskable Interrupt
+$031A-$031B: `IOPEN` – Kernal OPEN Routine
+$031C-$031D: `ICLOSE` – Kernal CLOSE Routine
+$031E-$031F: `ICHKIN` – Kernal CHKIN Routine
+$0320-$0321: `ICKOUT` – Kernal CKOUT Routine
+$0322-$0323: `ICLRCH` – Kernal CLRCHN Routine
+$0324-$0325: `IBASIN` – Kernal CHRIN Routine
+$0326-$0327: `IBSOUT` – Kernal CHROUT Routine
+$0328-$0329: `ISTOP` – Kernal STOP Routine
+$032A-$032B: `IGETIN` – Kernal GETIN Routine
+$032C-$032D: `ICLALL` – Kernal CLALL Routine
+$0330-$0331: `ILOAD` – Kernal LOAD Routine
+$0332-$0333: `ISAVE` – Kernal SAVE Routine
 
 Additional KERNAL indirect vectors have been added as part of the KERNAL's 65C816 support
 
-$0334-$0335: `IECOP` - COP Instruction Interrupt Routine (emulation mode)  
-$0336-$0337: `IEABORT` - ABORT Routine (emulation mode)  
-$0338-$0339: `INIRQ` - IRQ Interrupt Routine (native mode)  
-$033A-$033B: `INBRK` - BRK Instruction Interrupt Routine (native mode)  
-$033C-$033D: `INNMI` - Non-Maskable Interrupt Routine (native mode)  
-$033E-$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)  
-$0340-$0341: `INABORT` - ABORT Routine (native mode)  
+$0334-$0335: `IECOP` - COP Instruction Interrupt Routine (emulation mode)
+$0336-$0337: `IEABORT` - ABORT Routine (emulation mode)
+$0338-$0339: `INIRQ` - IRQ Interrupt Routine (native mode)
+$033A-$033B: `INBRK` - BRK Instruction Interrupt Routine (native mode)
+$033C-$033D: `INNMI` - Non-Maskable Interrupt Routine (native mode)
+$033E-$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)
+$0340-$0341: `INABORT` - ABORT Routine (native mode)
 
 ---
 
@@ -246,12 +246,12 @@ $FF44: `MACPTR` - read multiple bytes from peripheral bus
 
 #### Function Name: ACPTR
 
-Purpose: Read a byte from the peripheral bus  
-Call address: $FFA5  
-Communication registers: .A  
-Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Read a byte from the peripheral bus
+Call address: $FFA5
+Communication registers: .A
+Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** This routine gets a byte of data off the peripheral bus. The data is returned in the accumulator.  Errors are returned in the status word which can be read via the `READST` API call.
 
@@ -259,12 +259,12 @@ Registers affected: .A .X .Y .P
 
 #### Function Name: MACPTR
 
-Purpose: Read multiple bytes from the peripheral bus  
-Call address: $FF44  
-Communication registers: .A .X .Y c  
-Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Read multiple bytes from the peripheral bus
+Call address: $FF44
+Communication registers: .A .X .Y c
+Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKIN`
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `MACPTR` is the multi-byte variant of the `ACPTR` KERNAL routine. Instead of returning a single byte in .A, it can read multiple bytes in one call and write them directly to memory.
 
@@ -283,12 +283,12 @@ Like with `ACPTR`, the status of the operation can be retrieved using the `READS
 
 #### Function Name: MCIOUT
 
-Purpose: Write multiple bytes to the peripheral bus  
-Call address: $FEB1  
-Communication registers: .A .X .Y c  
-Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Write multiple bytes to the peripheral bus
+Call address: $FEB1
+Communication registers: .A .X .Y c
+Preparatory routines: `SETNAM`, `SETLFS`, `OPEN`, `CHKOUT`
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `MCIOUT` is the multi-byte variant of the `CIOUT` KERNAL routine. Instead of writing a single byte, it can write multiple bytes from memory in one call.
 
@@ -311,43 +311,43 @@ Like with `CIOUT`, the status of the operation can be retrieved using the `READS
 
 #### Function Name: `BSAVE`
 
-Purpose: Save an area of memory to a file without writing an address header.  
-Call Address: $FEBA  
-Communication Registers: .A .X .Y  
-Preparatory routines: SETNAM, SETLFS  
-Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code  
-Registers affected: .A .X .Y .P  
+Purpose: Save an area of memory to a file without writing an address header.
+Call Address: $FEBA
+Communication Registers: .A .X .Y
+Preparatory routines: SETNAM, SETLFS
+Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code
+Registers affected: .A .X .Y .P
 
 **Description:** Save the contents of a memory range to a file.  Unlike `SAVE`, this call does not write the start address to the beginning of the output file.
 
-`SETLFS` and `SETNAM` must be called beforehand.  
-A is address of zero page pointer to the start address.  
-X and Y contain the _exclusive_ end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
-Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
+`SETLFS` and `SETNAM` must be called beforehand.
+A is address of zero page pointer to the start address.
+X and Y contain the _exclusive_ end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.
+Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.
 
 ---
 
 #### Function Name: `CLOSE`
 
-Purpose: Close a logical file  
-Call address: $FFC3  
-Communication registers: .A  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Close a logical file
+Call address: $FFC3
+Communication registers: .A
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y .P
 
-**Description:** `CLOSE` releases resources associated with a logical file number.  If the associated device is a serial device on the IEC bus or is a simulated serial device such as CMDR-DOS backed by the X16 SD card, and the file was opened with a secondary address, a close command is sent to the device or to CMDR-DOS.  
+**Description:** `CLOSE` releases resources associated with a logical file number.  If the associated device is a serial device on the IEC bus or is a simulated serial device such as CMDR-DOS backed by the X16 SD card, and the file was opened with a secondary address, a close command is sent to the device or to CMDR-DOS.
 
 ---
 
 #### Function Name: `LOAD`
 
-Purpose: Load the contents of a file from disk to memory  
-Call address: $FFD5  
-Communication registers: .A .X .Y  
-Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Load the contents of a file from disk to memory
+Call address: $FFD5
+Communication registers: .A .X .Y
+Preparatory routines: SETNAM, SETLFS
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** Loads a file from disk to memory.
 
@@ -378,14 +378,14 @@ Note: One does not need to call `CLOSE` after `LOAD`.
 
 #### Function Name: `OPEN`
 
-Purpose: Opens a channel/file  
-Call address: $FFC0  
-Communication registers: None  
-Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Opens a channel/file
+Call address: $FFC0
+Communication registers: None
+Preparatory routines: SETNAM, SETLFS
+Error returns: None
+Registers affected: .A .X .Y
 
-**Description:** Opens a file or channel.  
+**Description:** Opens a file or channel.
 The most common pattern is to then redirect the standard input or output to the file using `CHKIN` or `CHKOUT` respectively. Afterwards, I/O from or to the file or channel is done using `BASIN` (`CHRIN`) and `BSOUT` (`CHROUT`) respectively.
 
 For file I/O, the lower level calls `ACPTR` and `MACPTR` can be used in place of `CHRIN`, since `CHKIN` does the low-level setup for this.  Likewise `CIOUT` and `MCIOUT` can be used after `CHKOUT` for the same reason.
@@ -394,30 +394,30 @@ For file I/O, the lower level calls `ACPTR` and `MACPTR` can be used in place of
 
 #### Function Name: `SAVE`
 
-Purpose: Save an area of memory to a file.  
-Call Address: $FFD8  
-Communication Registers: .A .X .Y  
-Preparatory routines: SETNAM, SETLFS  
-Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code  
-Registers affected: .A .X .Y .P  
+Purpose: Save an area of memory to a file.
+Call Address: $FFD8
+Communication Registers: .A .X .Y
+Preparatory routines: SETNAM, SETLFS
+Error returns: c = 0 if no error, c = 1 in case of error and A will contain kernel error code
+Registers affected: .A .X .Y .P
 
 **Description:** Save the contents of a memory range to a file. The (little-endian) start address is written to the file as the first two bytes of output, followed by the requested data.
 
-`SETLFS` and `SETNAM` must be called beforehand.  
-A is address of zero page pointer to start address.  
-X = low byte of end address + 1, Y = high byte of end address.  
-If C is zero there were no errors; 1 is an error in which case A will have the error  
+`SETLFS` and `SETNAM` must be called beforehand.
+A is address of zero page pointer to start address.
+X = low byte of end address + 1, Y = high byte of end address.
+If C is zero there were no errors; 1 is an error in which case A will have the error
 
 ---
 
 #### Function Name: `SETLFS`
 
-Purpose: Set file parameters  
-Call Address: $FFBA  
-Communication Registers: .A .X .Y  
-Preparatory routines: SETNAM  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Set file parameters
+Call Address: $FFBA
+Communication Registers: .A .X .Y
+Preparatory routines: SETNAM
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** Set file parameters typically after calling SETNAM
 
@@ -429,9 +429,9 @@ number. If only one file is being opened at a time, $01 can be used.
 The device number corresponds to the hardware device where the file lives. On the X16,
 $08 would be the SD card.
 
-The secondary address has some special meanings:  
+The secondary address has some special meanings:
 
-When used with `OPEN` on disk type devices, the following applies:  
+When used with `OPEN` on disk type devices, the following applies:
 
 * 0 = Load (open for read)
 * 1 = Save (open for write)
@@ -450,12 +450,12 @@ For more information see [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-
 
 #### Function Name: `SETNAM`
 
-Purpose: Set file name  
-Call Address: $FFBD  
-Communication Registers: .A .X .Y  
-Preparatory routines: SETLFS  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Set file name
+Call Address: $FFBD
+Communication Registers: .A .X .Y
+Preparatory routines: SETLFS
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** Inform the kernal the name of the file that is to later be opened.
  A is filename length, X is low byte of filename pointer, Y is high byte of filename pointer.
@@ -476,11 +476,11 @@ For example:
 
 ### Memory
 
-$FEE4: `memory_fill` - fill memory region with a byte value  
-$FEE7: `memory_copy` - copy memory region  
-$FEEA: `memory_crc` - calculate CRC16 of memory region  
-$FEED: `memory_decompress` - decompress LZSA2 block  
-$FF74: `fetch` - read a byte from any RAM or ROM bank  
+$FEE4: `memory_fill` - fill memory region with a byte value
+$FEE7: `memory_copy` - copy memory region
+$FEEA: `memory_crc` - calculate CRC16 of memory region
+$FEED: `memory_decompress` - decompress LZSA2 block
+$FF74: `fetch` - read a byte from any RAM or ROM bank
 $FF77: `stash` - write a byte to any RAM bank
 $FF99: `MEMTOP` - get number of banks and address of end of usable RAM
 
@@ -492,8 +492,8 @@ $FF7A: `cmpare` - compare a byte on any RAM or ROM bank
 
 #### Function Name: memory_fill
 
-Signature: void memory_fill(word address: r0, word num_bytes: r1, byte value: .A);  
-Purpose: Fill a memory region with a byte value.  
+Signature: void memory_fill(word address: r0, word num_bytes: r1, byte value: .A);
+Purpose: Fill a memory region with a byte value.
 Call address: $FEE4
 
 **Description:** This function fills the memory region specified by an address (r0) and a size in bytes (r1) with the constant byte value passed in .A. r0 and .A are preserved, r1 is destroyed.
@@ -504,8 +504,8 @@ If the target address is in the $9F00-$9FFF range, all bytes will be written to 
 
 #### Function Name: memory_copy
 
-Signature: void memory_copy(word source: r0, word target: r1, word num_bytes: r2);  
-Purpose: Copy a memory region to a different region.  
+Signature: void memory_copy(word source: r0, word target: r1, word num_bytes: r2);
+Purpose: Copy a memory region to a different region.
 Call address: $FEE7
 
 **Description:** This function copies one memory region specified by an address (r0) and a size in bytes (r2) to a different region specified by its start address (r1). The two regions may overlap. r0 and r1 are preserved, r2 is destroyed.
@@ -516,8 +516,8 @@ Like with `memory_fill`, source and destination addresses in the $9F00-$9FFF ran
 
 #### Function Name: memory_crc
 
-Signature: (word result: r2) memory_crc(word address: r0, word num_bytes: r1);  
-Purpose: Calculate the CRC16 of a memory region.  
+Signature: (word result: r2) memory_crc(word address: r0, word num_bytes: r1);
+Purpose: Calculate the CRC16 of a memory region.
 Call address: $FEEA
 
 **Description:** This function calculates the CRC16 checksum of the memory region specified by an address (r0) and a size in bytes (r1). The result is returned in r2. r0 is preserved, r1 is destroyed.
@@ -528,8 +528,8 @@ Like `memory_fill`, this function does not increment the address if it is in the
 
 #### Function Name: memory_decompress
 
-Signature: void memory_decompress(word input: r0, inout word output: r1);  
-Purpose: Decompress an LZSA2 block  
+Signature: void memory_decompress(word input: r0, inout word output: r1);
+Purpose: Decompress an LZSA2 block
 Call address: $FEED
 
 **Description:** This function decompresses an LZSA2-compressed data block from the location passed in r0 and outputs the decompressed data at the location passed in r1. After the call, r1 will be updated with the location of the last output byte plus one.
@@ -548,9 +548,9 @@ If the target address is in the $9F00-$9FFF range, all bytes will be written to 
 
 #### Function Name: fetch
 
-Purpose: Read a byte from any RAM or ROM bank  
-Call address: $FF74  
-Communication registers: .A .X .Y .P  
+Purpose: Read a byte from any RAM or ROM bank
+Call address: $FF74
+Communication registers: .A .X .Y .P
 
 **Description:** This function performs an `LDA (ZP),Y` from any RAM or ROM bank. The the zero page address containing the base address is passed in .A, the bank in .X and the offset from the vector in .Y. The data byte is returned in .A. The flags are set according to .A, .X is destroyed, but .Y is preserved.
 
@@ -558,9 +558,9 @@ Communication registers: .A .X .Y .P
 
 #### Function Name: stash
 
-Purpose: Write a byte to any RAM bank  
-Call address: $FF77  
-Communication registers: .A .X .Y  
+Purpose: Write a byte to any RAM bank
+Call address: $FF77
+Communication registers: .A .X .Y
 
 **Description:** This function performs an `STA (ZP),Y` to any RAM bank. The the zero page address containing the base address is passed in `stavec` ($03B2), the bank in .X and the offset from the vector in .Y. After the call, .X is destroyed, but .A and .Y are preserved.
 
@@ -568,10 +568,10 @@ Communication registers: .A .X .Y
 
 #### Function Name: MEMTOP
 
-Purpose: Get/Set top of RAM, number of usable RAM banks.  
-Call address: $FF99  
-Communication registers: .A .X .Y .P (Carry)  
-Registers affected: .A .X .Y  
+Purpose: Get/Set top of RAM, number of usable RAM banks.
+Call address: $FF99
+Communication registers: .A .X .Y .P (Carry)
+Registers affected: .A .X .Y
 
 **Description:** Original C64 function which gets or
 sets the top of the usable address in RAM. On the X16,
@@ -619,18 +619,18 @@ language routine at the top of BASIC RAM, just below the I/O space:
 40 CLR
 ```
 
-Analysis: 
+Analysis:
 
 The SYS command uses memory locations $30C-$30F to pre-load the CPU registers,
 it then dumps the registers back to these locations after the SYS call is
 complete. $30D is the X register, $30E is .Y, and $30F is the flags. The Carry
 flag is bit 0, so setting $30F to 1 before calling MEMTOP indicates that this is
-a _read_ of the values. 
+a _read_ of the values.
 
 1. Line 10 reads the current values. Do this to preserve the extended RAM bank
    count.
 2. Line 20 uses the X and Y variables to make the code easier to read. Set Y to
-   the high byte of the address and X to the low byte. 
+   the high byte of the address and X to the low byte.
 3. Line 30 POKEs those values in, clears the Carry bit ($30F is now 0), and
    calls MEMTOP again.
 4. Finally, use CLR to lock in the new values. Since this clears all the
@@ -647,19 +647,19 @@ the default values, set Y=$9F and X=0.
 
 ### Clock
 
-$FF4D: `clock_set_date_time` - set date and time  
-$FF50: `clock_get_date_time` - get date and time  
+$FF4D: `clock_set_date_time` - set date and time
+$FF50: `clock_get_date_time` - get date and time
 
 ---
 
 #### Function Name: clock_set_date_time
 
-Purpose: Set the date and time  
-Call address: $FF4D  
-Communication registers: r0 r1 r2 r3  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Set the date and time
+Call address: $FF4D
+Communication registers: r0 r1 r2 r3
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `clock_set_date_time` sets the system's real-time-clock.
 
@@ -680,12 +680,12 @@ Jiffies are 1/60th seconds.
 
 #### Function Name: clock_get_date_time
 
-Purpose: Get the date and time  
-Call address: $FF50  
-Communication registers: r0 r1 r2 r3  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Get the date and time
+Call address: $FF50
+Communication registers: r0 r1 r2 r3
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `clock_get_date_time` returns the state of the system's real-time-clock. The register assignment is identical to `clock_set_date_time`.
 
@@ -695,12 +695,12 @@ On the Commander X16, the _jiffies_ field is unsupported and will always read ba
 
 #### Function Name: RDTIM
 
-Purpose: Read system clock  
-Call address: $FFDE  
-Communication registers: .A .X .Y  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Read system clock
+Call address: $FFDE
+Communication registers: .A .X .Y
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** Original C64 function which reads the system clock.  The clock's resolution is a 60th of a second.  Three bytes are returned by the routine.  The accumulator contains the least significant byte, the X index register contains the next most significant byte, and the Y index register contains the the most significant byte.
 
@@ -719,21 +719,21 @@ sty STARTTIME+2  ; most significant byte
 
 ### Keyboard
 
-$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
-$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
-$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
+$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length
+$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers
+$FEC3: `kbdbuf_put` - append a char to the keyboard queue
 $FED2: `keymap` - set or get the current keyboard layout
 
 ---
 
 #### Function Name: kbdbuf_peek
 
-Purpose: Get next char and keyboard queue length  
-Call address: $FEBD  
-Communication registers: .A .X  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: -  
+Purpose: Get next char and keyboard queue length
+Call address: $FEBD
+Communication registers: .A .X
+Preparatory routines: None
+Error returns: None
+Registers affected: -
 
 **Description:** The routine `kbdbuf_peek` returns the next character in the keyboard queue in .A, without removing it from the queue, and the current length of the queue in .X. If .X is 0, the Z flag will be set, and the value of .A is undefined.
 
@@ -741,12 +741,12 @@ Registers affected: -
 
 #### Function Name: kbdbuf_get_modifiers
 
-Purpose: Get currently pressed modifiers  
-Call address: $FEC0  
-Communication registers: .A  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: -  
+Purpose: Get currently pressed modifiers
+Call address: $FEC0
+Communication registers: .A
+Preparatory routines: None
+Error returns: None
+Registers affected: -
 
 **Description:** The routine `kbdbuf_get_modifiers` returns a bitmask that represents the currently pressed modifier keys in .A:
 
@@ -764,12 +764,12 @@ This allows detecting combinations of a regular key and a modifier key in cases 
 
 #### Function Name: kbdbuf_put
 
-Purpose: Append a char to the keyboard queue  
-Call address: $FEC3  
-Communication registers: .A  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .X  
+Purpose: Append a char to the keyboard queue
+Call address: $FEC3
+Communication registers: .A
+Preparatory routines: None
+Error returns: None
+Registers affected: .X
 
 **Description:** The routine `kbdbuf_put` appends the char in .A to the keyboard queue.
 
@@ -778,11 +778,11 @@ Registers affected: .X
 #### Function Name: keymap
 
 Purpose: Set or get the current keyboard layout
-Call address: $FED2  
-Communication registers: .X .Y  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
-Registers affected: -  
+Call address: $FED2
+Communication registers: .X .Y
+Preparatory routines: None
+Error returns: c = 1 in case of error
+Registers affected: -
 
 **Description:** If c is set, the routine `keymap` returns a pointer to a zero-terminated string with the current keyboard layout identifier in .X/.Y. If c is clear, it sets the keyboard layout to the zero-terminated identifier pointed to by .X/.Y. On return, c is set in case the keyboard layout is unsupported.
 
@@ -792,38 +792,38 @@ Keyboard layout identifiers are in the form "DE", "DE-CH" etc.
 
 #### Function Name: kbd_scan
 
-Also Known As: SCNKEY  
-Purpose: Read a keycode previously fetched from the SMC, apply keymap localization, and add it to the X16's buffer.  
-Call address: $FF9F  
-Communication registers: None  
-Preparatory routines: `ps2data_fetch`  
-Error returns: None  
-Registers affected: .A .X .Y  
+Also Known As: SCNKEY
+Purpose: Read a keycode previously fetched from the SMC, apply keymap localization, and add it to the X16's buffer.
+Call address: $FF9F
+Communication registers: None
+Preparatory routines: `ps2data_fetch`
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:**
 
 This routine is called by the default KERNAL IRQ hancler in order to process a keystroke previously fetched by `ps2data_fetch`, translate it to the appropriate localized PETSCII or ISO code based on the configured layout, and place it in the KERNAL's keyboard buffer.
 
-Unless the KERNAL IRQ handler is being bypassed or supplemented, it is not normally necessary to call this routine from user code, as both `ps2data_fetch` and `kbd_scan` are both run inside the default IRQ handler.  
+Unless the KERNAL IRQ handler is being bypassed or supplemented, it is not normally necessary to call this routine from user code, as both `ps2data_fetch` and `kbd_scan` are both run inside the default IRQ handler.
 
 ---
 
 ### Mouse
 
-$FF68: `mouse_config` - configure mouse pointer  
-$FF71: `mouse_scan` - query mouse  
+$FF68: `mouse_config` - configure mouse pointer
+$FF71: `mouse_scan` - query mouse
 $FF6B: `mouse_get` - get state of mouse
 
 ---
 
 #### Function Name: mouse_config
 
-Purpose: Configure the mouse pointer  
-Call address: $FF68  
-Communication registers: .A .X .Y  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Configure the mouse pointer
+Call address: $FF68
+Communication registers: .A .X .Y
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `mouse_config` configures the mouse pointer.
 
@@ -842,12 +842,12 @@ The arguments in .X and .Y specify the screen resolution in 8 pixel increments. 
 
 #### Function Name: mouse_scan
 
-Purpose: Query the mouse and save its state  
-Call address: $FF71  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Query the mouse and save its state
+Call address: $FF71
+Communication registers: None
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `mouse_scan` retrieves all state from the mouse and saves it. It can then be retrieved using `mouse_get`. The default interrupt handler already takes care of this, so this routine should only be called if the interrupt handler has been completely replaced.
 
@@ -855,12 +855,12 @@ Registers affected: .A .X .Y
 
 #### Function Name: mouse_get
 
-Purpose: Get the mouse state  
-Call address: $FF6B  
-Communication registers: .X  
-Preparatory routines: `mouse_config`  
-Error returns: None  
-Registers affected: .A .X  
+Purpose: Get the mouse state
+Call address: $FF6B
+Communication registers: .X
+Preparatory routines: `mouse_config`
+Error returns: None
+Registers affected: .A .X
 
 **Description:** The routine `mouse_get` returns the state of the mouse. The caller passes the offset of a zero-page location in .X, which the routine will populate with the mouse position in 4 consecutive bytes:
 
@@ -898,19 +898,19 @@ BNE BUTTON_PRESSED
 
 ### Joystick
 
-$FF53: `joystick_scan` - query joysticks  
+$FF53: `joystick_scan` - query joysticks
 $FF56: `joystick_get` - get state of one joystick
 
 ---
 
 #### Function Name: joystick_scan
 
-Purpose: Query the joysticks and save their state  
-Call address: $FF53  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Query the joysticks and save their state
+Call address: $FF53
+Communication registers: None
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `joystick_scan` retrieves all state from the four joysticks and saves it. It can then be retrieved using `joystick_get`. The default interrupt handler already takes care of this, so this routine should only be called if the interrupt handler has been completely replaced.
 
@@ -918,12 +918,12 @@ Registers affected: .A .X .Y
 
 #### Function Name: joystick_get
 
-Purpose: Get the state of one of the joysticks  
-Call address: $FF56  
-Communication registers: .A  
-Preparatory routines: `joystick_scan`  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Get the state of one of the joysticks
+Call address: $FF56
+Communication registers: .A
+Preparatory routines: `joystick_scan`
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** The routine `joystick_get` retrieves all state from one of the joysticks. The number of the joystick is passed in .A (0 for the keyboard joystick and 1 through 4 for SNES controllers), and the state is returned in .A, .X and .Y.
 
@@ -984,21 +984,21 @@ If the default interrupt handler is disabled or replaced:
 
 ### I2C
 
-$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
-$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
-$FEC6: `i2c_read_byte` - read a byte from an I2C device  
+$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device
+$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device
+$FEC6: `i2c_read_byte` - read a byte from an I2C device
 $FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 ---
 
 #### Function Name: i2c_batch_read
 
-Purpose: Read bytes from a given I2C device into a RAM location  
-Call address: $FEB4  
-Communication registers: .X r0 r1 c  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
-Registers affected: .A .Y .P  
+Purpose: Read bytes from a given I2C device into a RAM location
+Call address: $FEB4
+Communication registers: .X r0 r1 c
+Preparatory routines: None
+Error returns: c = 1 in case of error
+Registers affected: .A .Y .P
 
 **Description:** The routine `i2c_batch_read` reads a fixed number of bytes from an I2C device into RAM.  To call, put I2C device (address) in .X, the pointer to the RAM location to which to place the data into r0, and the number of bytes to read into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I2C device and writing directly into VRAM.
 
@@ -1024,12 +1024,12 @@ jsr i2c_batch_read ; read 500 bytes from I2C device $50 into RAM starting at $04
 
 #### Function Name: i2c_batch_write
 
-Purpose: Write bytes to a given I2C device with data in RAM  
-Call address: $FEB7  
-Communication registers: .X r0 r1 r2 c  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
-Registers affected: .A .Y .P r2  
+Purpose: Write bytes to a given I2C device with data in RAM
+Call address: $FEB7
+Communication registers: .X r0 r1 r2 c
+Preparatory routines: None
+Error returns: c = 1 in case of error
+Registers affected: .A .Y .P r2
 
 **Description:** The routine `i2c_batch_write` writes a fixed number of bytes from RAM to an I2C device.  To call, put I2C device (address) in .X, the pointer to the RAM location from which to read into r0, and the number of bytes to write into r1.  If carry is set, the RAM location isn't advanced.  This might be useful if you're reading from an I/O device and writing that data to an I2C device.
 
@@ -1049,7 +1049,7 @@ lda #>500
 sta r1+1
 clc
 jsr i2c_batch_write ; write 500 bytes to I2C device $50 from RAM
-                    ; starting at $0400 
+                    ; starting at $0400
                     ; for this example, the first two bytes in
                     ; the $0400 buffer would be the target address
                     ; in the I2C flash. This, of course, varies
@@ -1060,12 +1060,12 @@ jsr i2c_batch_write ; write 500 bytes to I2C device $50 from RAM
 
 #### Function Name: i2c_read_byte
 
-Purpose: Read a byte at a given offset from a given I2C device  
-Call address: $FEC6  
-Communication registers: .A .X .Y  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
-Registers affected: .A  
+Purpose: Read a byte at a given offset from a given I2C device
+Call address: $FEC6
+Communication registers: .A .X .Y
+Preparatory routines: None
+Error returns: c = 1 in case of error
+Registers affected: .A
 
 **Description:** The routine `i2c_read_byte` reads a single byte at offset .Y from I2C device .X and returns the result in .A. c is 0 if the read was successful, and 1 if no such device exists.
 
@@ -1081,12 +1081,12 @@ JSR i2c_read_byte ; read first byte of NVRAM
 
 #### Function Name: i2c_write_byte
 
-Purpose: Write a byte at a given offset to a given I2C device  
-Call address: $FEC9  
-Communication registers: .A .X .Y  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
-Registers affected: .A .P  
+Purpose: Write a byte at a given offset to a given I2C device
+Call address: $FEC9
+Communication registers: .A .X .Y
+Preparatory routines: None
+Error returns: c = 1 in case of error
+Registers affected: .A .P
 
 **Description:** The routine `i2c_write_byte` writes the byte in .A at offset .Y of I2C device .X. c is 0 if the write was successful, and 1 if no such device exists.
 
@@ -1114,16 +1114,16 @@ JSR $FEC9 ; reset the computer
 
 ### Sprites
 
-$FEF0: `sprite_set_image` - set the image of a sprite  
+$FEF0: `sprite_set_image` - set the image of a sprite
 $FEF3: `sprite_set_position` - set the position of a sprite
 
 ---
 
 #### Function Name: sprite_set_image
 
-Purpose: Set the image of a sprite  
-Call address: $FEF0  
-Signature: bool sprite_set_image(byte number: .A, width: .X, height: .Y, apply_mask: c, word pixels: r0, word mask: r1, byte bpp: r2L);  
+Purpose: Set the image of a sprite
+Call address: $FEF0
+Signature: bool sprite_set_image(byte number: .A, width: .X, height: .Y, apply_mask: c, word pixels: r0, word mask: r1, byte bpp: r2L);
 Error returns: c = 1 in case of error
 
 **Description:** This function sets the image of a sprite. The number of the sprite is given in .A, The bits per pixel (bpp) in r2L, and the width and height in .X and .Y. The pixel data at r0 is interpreted accordingly and converted into the graphics hardware's native format. If the c flag is set, the transparency mask pointed to by r1 is applied during the conversion. The function returns c = 0 if converting the data was successful, and c = 1 otherwise. Note that this does not change the visibility of the sprite.
@@ -1138,9 +1138,9 @@ Error returns: c = 1 in case of error
 
 #### Function Name: sprite_set_position
 
-Purpose: Set the position of a sprite or hide it.  
-Call address: $FEF3  
-Signature: void sprite_set_position(byte number: .A, word x: r0, word y: r1);  
+Purpose: Set the position of a sprite or hide it.
+Call address: $FEF3
+Signature: void sprite_set_position(byte number: .A, word x: r0, word y: r1);
 Error returns: None
 
 **Description:** This function shows a given sprite (.A) at a certain position or hides it. The position is passed in r0 and r1. If the x position is negative (&gt;$8000), the sprite will be hidden.
@@ -1154,38 +1154,38 @@ Error returns: None
 The framebuffer API is a low-level graphics API that completely abstracts the framebuffer by exposing a minimal set of high-performance functions. It is useful as an abstraction and as a convenience library for applications that need high performance framebuffer access.
 
 ```asm
-$FEF6: `FB_init` - enable graphics mode  
-$FEF9: `FB_get_info` - get screen size and color depth  
-$FEFC: `FB_set_palette` - set (parts of) the palette  
-$FEFF: `FB_cursor_position` - position the direct-access cursor  
-$FF02: `FB_cursor_next_line` - move direct-access cursor to next line  
-$FF05: `FB_get_pixel` - read one pixel, update cursor  
-$FF08: `FB_get_pixels` - copy pixels into RAM, update cursor  
-$FF0B: `FB_set_pixel` - set one pixel, update cursor  
-$FF0E: `FB_set_pixels` - copy pixels from RAM, update cursor  
-$FF11: `FB_set_8_pixels` - set 8 pixels from bit mask (transparent), update cursor  
-$FF14: `FB_set_8_pixels_opaque` - set 8 pixels from bit mask (opaque), update cursor  
-$FF17: `FB_fill_pixels` - fill pixels with constant color, update cursor  
-$FF1A: `FB_filter_pixels` - apply transform to pixels, update cursor  
+$FEF6: `FB_init` - enable graphics mode
+$FEF9: `FB_get_info` - get screen size and color depth
+$FEFC: `FB_set_palette` - set (parts of) the palette
+$FEFF: `FB_cursor_position` - position the direct-access cursor
+$FF02: `FB_cursor_next_line` - move direct-access cursor to next line
+$FF05: `FB_get_pixel` - read one pixel, update cursor
+$FF08: `FB_get_pixels` - copy pixels into RAM, update cursor
+$FF0B: `FB_set_pixel` - set one pixel, update cursor
+$FF0E: `FB_set_pixels` - copy pixels from RAM, update cursor
+$FF11: `FB_set_8_pixels` - set 8 pixels from bit mask (transparent), update cursor
+$FF14: `FB_set_8_pixels_opaque` - set 8 pixels from bit mask (opaque), update cursor
+$FF17: `FB_fill_pixels` - fill pixels with constant color, update cursor
+$FF1A: `FB_filter_pixels` - apply transform to pixels, update cursor
 $FF1D: `FB_move_pixels` - copy horizontally consecutive pixels to a different position
 ```
 
 All calls are vectored, which allows installing a replacement framebuffer driver.
 
 ```asm
-$02E4: I_FB_init  
-$02E6: I_FB_get_info  
-$02E8: I_FB_set_palette  
-$02EA: I_FB_cursor_position  
-$02EC: I_FB_cursor_next_line  
-$02EE: I_FB_get_pixel  
-$02F0: I_FB_get_pixels  
-$02F2: I_FB_set_pixel  
-$02F4: I_FB_set_pixels  
-$02F6: I_FB_set_8_pixels  
-$02F8: I_FB_set_8_pixels_opaque  
-$02FA: I_FB_fill_pixels  
-$02FC: I_FB_filter_pixels  
+$02E4: I_FB_init
+$02E6: I_FB_get_info
+$02E8: I_FB_set_palette
+$02EA: I_FB_cursor_position
+$02EC: I_FB_cursor_next_line
+$02EE: I_FB_get_pixel
+$02F0: I_FB_get_pixels
+$02F2: I_FB_set_pixel
+$02F4: I_FB_set_pixels
+$02F6: I_FB_set_8_pixels
+$02F8: I_FB_set_8_pixels_opaque
+$02FA: I_FB_fill_pixels
+$02FC: I_FB_filter_pixels
 $02FE: I_FB_move_pixels
 ```
 
@@ -1197,21 +1197,21 @@ The default driver supports the VERA framebuffer at a resolution of 320x200 pixe
 
 #### Function Name: FB_init
 
-Signature: void FB_init();  
+Signature: void FB_init();
 Purpose: Enter graphics mode.
 
 ---
 
 #### Function Name: FB_get_info
 
-Signature: void FB_get_info(out word width: r0, out word height: r1, out byte color_depth: .A);  
+Signature: void FB_get_info(out word width: r0, out word height: r1, out byte color_depth: .A);
 Purpose: Return the resolution and color depth
 
 ---
 
 #### Function Name: FB_set_palette
 
-Signature: void FB_set_palette(word pointer: r0, index: .A, color count: .X);  
+Signature: void FB_set_palette(word pointer: r0, index: .A, color count: .X);
 Purpose: Set (parts of) the palette
 
 **Description:** `FB_set_palette` copies color data from the address pointed to by r0, updates the color in VERA palette RAM starting at the index A, with the length of the update (in words) in X.  If X is 0, all 256 colors are copied (512 bytes)
@@ -1220,7 +1220,7 @@ Purpose: Set (parts of) the palette
 
 #### Function Name: FB_cursor_position
 
-Signature: void FB_cursor_position(word x: r0, word y: r1);  
+Signature: void FB_cursor_position(word x: r0, word y: r1);
 Purpose: Position the direct-access cursor
 
 **Description:** `FB_cursor_position` sets the direct-access cursor to the given screen coordinate. Future operations will access pixels at the cursor location and update the cursor.
@@ -1229,7 +1229,7 @@ Purpose: Position the direct-access cursor
 
 #### Function Name: FB_cursor_next_line
 
-Signature: void FB_cursor_next_line(word x: r0);  
+Signature: void FB_cursor_next_line(word x: r0);
 Purpose: Move the direct-access cursor to next line
 
 **Description:** `FB_cursor_next_line` increments the y position of the direct-access cursor, and sets the x position to the same one that was passed to the previous `FB_cursor_position` call. This is useful for drawing rectangular shapes, and faster than explicitly positioning the cursor.
@@ -1238,14 +1238,14 @@ Purpose: Move the direct-access cursor to next line
 
 #### Function Name: FB_get_pixel
 
-Signature: byte FB_get_pixel();  
+Signature: byte FB_get_pixel();
 Purpose: Read one pixel, update cursor
 
 ---
 
 #### Function Name: FB_get_pixels
 
-Signature: void FB_get_pixels(word ptr: r0, word count: r1);  
+Signature: void FB_get_pixels(word ptr: r0, word count: r1);
 Purpose: Copy pixels into RAM, update cursor
 
 **Description:** This function copies pixels into an array in RAM. The array consists of one byte per pixel.
@@ -1254,14 +1254,14 @@ Purpose: Copy pixels into RAM, update cursor
 
 #### Function Name: FB_set_pixel
 
-Signature: void FB_set_pixel(byte color: .A);  
+Signature: void FB_set_pixel(byte color: .A);
 Purpose: Set one pixel, update cursor
 
 ---
 
 #### Function Name: FB_set_pixels
 
-Signature: void FB_set_pixels(word ptr: r0, word count: r1);  
+Signature: void FB_set_pixels(word ptr: r0, word count: r1);
 Purpose: Copy pixels from RAM, update cursor
 
 **Description:** This function sets pixels from an array of pixels in RAM. The array consists of one byte per pixel.
@@ -1270,7 +1270,7 @@ Purpose: Copy pixels from RAM, update cursor
 
 #### Function Name: FB_set_8_pixels
 
-Signature: void FB_set_8_pixels(byte pattern: .A, byte color: .X);  
+Signature: void FB_set_8_pixels(byte pattern: .A, byte color: .X);
 Purpose: Set 8 pixels from bit mask (transparent), update cursor
 
 **Description:** This function sets all 1-bits of the pattern to a given color and skips a pixel for every 0 bit. The order is MSB to LSB. The cursor will be moved by 8 pixels.
@@ -1279,7 +1279,7 @@ Purpose: Set 8 pixels from bit mask (transparent), update cursor
 
 #### Function Name: FB_set_8_pixels_opaque
 
-Signature: void FB_set_8_pixels_opaque(byte pattern: .A, byte mask: r0L, byte color1: .X, byte color2: .Y);  
+Signature: void FB_set_8_pixels_opaque(byte pattern: .A, byte mask: r0L, byte color1: .X, byte color2: .Y);
 Purpose: Set 8 pixels from bit mask (opaque), update cursor
 
 **Description:** For every 1-bit in the mask, this function sets the pixel to color1 if the corresponding bit in the pattern is 1, and to color2 otherwise. For every 0-bit in the mask, it skips a pixel. The order is MSB to LSB. The cursor will be moved by 8 pixels.
@@ -1288,7 +1288,7 @@ Purpose: Set 8 pixels from bit mask (opaque), update cursor
 
 #### Function Name: FB_fill_pixels
 
-Signature: void FB_fill_pixels(word count: r0, word step: r1, byte color: .A);  
+Signature: void FB_fill_pixels(word count: r0, word step: r1, byte color: .A);
 Purpose: Fill pixels with constant color, update cursor
 
 **Description:** `FB_fill_pixels` sets pixels with a constant color. The argument `step` specifies the increment between pixels. A value of 0 or 1 will cause consecutive pixels to be set. Passing a `step` value of the screen width will set vertically adjacent pixels going top down. Smaller values allow drawing dotted horizontal lines, and multiples of the screen width allow drawing dotted vertical lines.
@@ -1297,7 +1297,7 @@ Purpose: Fill pixels with constant color, update cursor
 
 #### Function Name: FB_filter_pixels
 
-Signature: void FB_filter_pixels(word ptr: r0, word count: r1);  
+Signature: void FB_filter_pixels(word ptr: r0, word count: r1);
 Purpose: Apply transform to pixels, update cursor
 
 **Description:** This function allows modifying consecutive pixels. The function pointer will be called for every pixel, with the color in .A, and it needs to return the new color in .A.
@@ -1306,7 +1306,7 @@ Purpose: Apply transform to pixels, update cursor
 
 #### Function Name: FB_move_pixels
 
-Signature: void FB_move_pixels(word sx: r0, word sy: r1, word tx: r2, word ty: r3, word count: r4);  
+Signature: void FB_move_pixels(word sx: r0, word sy: r1, word tx: r2, word ty: r3, word count: r4);
 Purpose: Copy horizontally consecutive pixels to a different position
 
 *[Note: Overlapping regions are not yet supported.]*
@@ -1317,24 +1317,24 @@ Purpose: Copy horizontally consecutive pixels to a different position
 
 The high-level graphics API exposes a set of standard functions. It allows applications to easily perform some common high-level actions like drawing lines, rectangles and images, as well as moving parts of the screen. All commands are completely implemented on top of the framebuffer API, that is, they will continue working after replacing the framebuffer driver with one that supports a different resolution, color depth or even graphics device.
 
-$FF20: `GRAPH_init` - initialize graphics  
-$FF23: `GRAPH_clear` - clear screen  
-$FF26: `GRAPH_set_window` - set clipping region  
-$FF29: `GRAPH_set_colors` - set stroke, fill and background colors  
-$FF2C: `GRAPH_draw_line` - draw a line  
-$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)  
-$FF32: `GRAPH_move_rect` - move pixels  
-$FF35: `GRAPH_draw_oval` - draw an oval or circle  
-$FF38: `GRAPH_draw_image` - draw a rectangular image  
-$FF3B: `GRAPH_set_font` - set the current font  
-$FF3E: `GRAPH_get_char_size` - get size and baseline of a character  
+$FF20: `GRAPH_init` - initialize graphics
+$FF23: `GRAPH_clear` - clear screen
+$FF26: `GRAPH_set_window` - set clipping region
+$FF29: `GRAPH_set_colors` - set stroke, fill and background colors
+$FF2C: `GRAPH_draw_line` - draw a line
+$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)
+$FF32: `GRAPH_move_rect` - move pixels
+$FF35: `GRAPH_draw_oval` - draw an oval or circle
+$FF38: `GRAPH_draw_image` - draw a rectangular image
+$FF3B: `GRAPH_set_font` - set the current font
+$FF3E: `GRAPH_get_char_size` - get size and baseline of a character
 $FF41: `GRAPH_put_char` - print a character
 
 ---
 
 #### Function Name: GRAPH_init
 
-Signature: void GRAPH_init(word vectors: r0);  
+Signature: void GRAPH_init(word vectors: r0);
 Purpose: Activate framebuffer driver, enter and initialize graphics mode
 
 **Description**: This call activates the framebuffer driver whose vector table is passed in r0. If r0 is 0, the default driver is activated. It then switches the video hardware into graphics mode, sets the window to full screen, initializes the colors and activates the system font.
@@ -1343,14 +1343,14 @@ Purpose: Activate framebuffer driver, enter and initialize graphics mode
 
 #### Function Name: GRAPH_clear
 
-Signature: void GRAPH_clear();  
+Signature: void GRAPH_clear();
 Purpose: Clear the current window with the current background color.
 
 ---
 
 #### Function Name: GRAPH_set_window
 
-Signature: void GRAPH_set_window(word x: r0, word y: r1, word width: r2, word height: r3);  
+Signature: void GRAPH_set_window(word x: r0, word y: r1, word width: r2, word height: r3);
 Purpose: Set the clipping region
 
 **Description:** All graphics commands are clipped to the window. This function configures the origin and size of the window. All 0 arguments set the window to full screen.
@@ -1361,7 +1361,7 @@ Purpose: Set the clipping region
 
 #### Function Name: GRAPH_set_colors
 
-Signature: void GRAPH_set_colors(byte stroke: .A, byte fill: .X, byte background: .Y);  
+Signature: void GRAPH_set_colors(byte stroke: .A, byte fill: .X, byte background: .Y);
 Purpose: Set the three colors
 
 **Description:** This function sets the three colors: The stroke color, the fill color and the background color.
@@ -1370,14 +1370,14 @@ Purpose: Set the three colors
 
 #### Function Name: GRAPH_draw_line
 
-Signature: void GRAPH_draw_line(word x1: r0, word y1: r1, word x2: r2, word y2: r3);  
+Signature: void GRAPH_draw_line(word x1: r0, word y1: r1, word x2: r2, word y2: r3);
 Purpose: Draw a line using the stroke color
 
 ---
 
 #### Function Name: GRAPH_draw_rect
 
-Signature: void GRAPH_draw_rect(word x: r0, word y: r1, word width: r2, word height: r3, word corner_radius: r4, bool fill: c);  
+Signature: void GRAPH_draw_rect(word x: r0, word y: r1, word width: r2, word height: r3, word corner_radius: r4, bool fill: c);
 Purpose: Draw a rectangle.
 
 **Description:** This function will draw the frame of a rectangle using the stroke color. If `fill` is `true`, it will also fill the area using the fill color. To only fill a rectangle, set the stroke color to the same value as the fill color.
@@ -1388,7 +1388,7 @@ Purpose: Draw a rectangle.
 
 #### Function Name: GRAPH_move_rect
 
-Signature: void GRAPH_move_rect(word sx: r0, word sy: r1, word tx: r2, word ty: r3, word width: r4, word height: r5);  
+Signature: void GRAPH_move_rect(word sx: r0, word sy: r1, word tx: r2, word ty: r3, word width: r4, word height: r5);
 Purpose: Copy a rectangular screen area to a different location
 
 **Description:** `GRAPH_move_rect` coll copy a rectangular area of the screen to a different location. The two areas may overlap.
@@ -1399,7 +1399,7 @@ Purpose: Copy a rectangular screen area to a different location
 
 #### Function Name: GRAPH_draw_oval
 
-Signature: void GRAPH_draw_oval(word x: r0, word y: r1, word width: r2, word height: r3, bool fill: c);  
+Signature: void GRAPH_draw_oval(word x: r0, word y: r1, word width: r2, word height: r3, bool fill: c);
 Purpose: Draw an oval or a circle
 
 **Description:** This function draws an oval filling the given bounding box. If width equals height, the resulting shape is a circle. The oval will be outlined by the stroke color. If `fill` is `true`, it will be filled using the fill color. To only fill an oval, set the stroke color to the same value as the fill color.
@@ -1408,7 +1408,7 @@ Purpose: Draw an oval or a circle
 
 #### Function Name: GRAPH_draw_image
 
-Signature: void GRAPH_draw_image(word x: r0, word y: r1, word ptr: r2, word width: r3, word height: r4);  
+Signature: void GRAPH_draw_image(word x: r0, word y: r1, word ptr: r2, word width: r3, word height: r4);
 Purpose: Draw a rectangular image from data in memory
 
 **Description:** This function copies pixel data from memory onto the screen. The representation of the data in memory has to have one byte per pixel, with the pixels organized line by line top to bottom, and within the line left to right.
@@ -1417,7 +1417,7 @@ Purpose: Draw a rectangular image from data in memory
 
 #### Function Name: GRAPH_set_font
 
-Signature: void GRAPH_set_font(void ptr: r0);  
+Signature: void GRAPH_set_font(void ptr: r0);
 Purpose: Set the current font
 
 **Description:** This function sets the current font to be used for the remaining font-related functions. The argument is a pointer to the font data structure in memory, which must be in the format of a single point size GEOS font (i.e. one GEOS font file VLIR chunk). An argument of 0 will activate the built-in system font.
@@ -1426,7 +1426,7 @@ Purpose: Set the current font
 
 #### Function Name: GRAPH_get_char_size
 
-Signature: (byte baseline: .A, byte width: .X, byte height_or_style: .Y, bool is_control: c) GRAPH_get_char_size(byte c: .A, byte format: .X);  
+Signature: (byte baseline: .A, byte width: .X, byte height_or_style: .Y, bool is_control: c) GRAPH_get_char_size(byte c: .A, byte format: .X);
 Purpose: Get the size and baseline of a character, or interpret a control code
 
 **Description:** This functionality of `GRAPH_get_char_size` depends on the type of code that is passed in: For a printable character, this function returns the metrics of the character in a given format. For a control code, it returns the resulting format. In either case, the current format is passed in .X, and the character in .A.
@@ -1439,7 +1439,7 @@ Purpose: Get the size and baseline of a character, or interpret a control code
 
 #### Function Name: GRAPH_put_char
 
-Signature: void GRAPH_put_char(inout word x: r0, inout word y: r1, byte c: .A);  
+Signature: void GRAPH_put_char(inout word x: r0, inout word y: r1, byte c: .A);
 Purpose: Print a character onto the graphics screen
 
 **Description:** This function prints a single character at a given location on the graphics screen. The location is then updated. The following control codes are supported:
@@ -1474,10 +1474,10 @@ Notes:
 
 ### Console
 
-$FEDB: `console_init` - initialize console mode  
-$FEDE: `console_put_char` - print character to console  
-$FED8: `console_put_image` - draw image as if it was a character  
-$FEE1: `console_get_char` - get character from console  
+$FEDB: `console_init` - initialize console mode
+$FEDE: `console_put_char` - print character to console
+$FED8: `console_put_image` - draw image as if it was a character
+$FEE1: `console_get_char` - get character from console
 $FED5: `console_set_paging_message` - set paging message or disable paging
 
 The console is a screen mode that allows text output and input in proportional fonts that support the usual styles. It is useful for rich text-based interfaces.
@@ -1486,8 +1486,8 @@ The console is a screen mode that allows text output and input in proportional f
 
 #### Function Name: console_init
 
-Signature: void console_init(word x: r0, word y: r1, word width: r2, word height: r3);  
-Purpose: Initialize console mode.  
+Signature: void console_init(word x: r0, word y: r1, word width: r2, word height: r3);
+Purpose: Initialize console mode.
 Call address: $FEDB
 
 **Description:** This function initializes console mode. It sets up the window (text clipping area) passed into it, clears the window and positions the cursor at the top left. All 0 arguments create a full screen console. You have to switch to graphics mode using `screen_mode` beforehand.
@@ -1496,8 +1496,8 @@ Call address: $FEDB
 
 #### Function Name: console_put_char
 
-Signature: void console_put_char(byte char: .A, bool wrapping: c);  
-Purpose: Print a character to the console.  
+Signature: void console_put_char(byte char: .A, bool wrapping: c);
+Purpose: Print a character to the console.
 Call address: $FEDE
 
 **Description:** This function prints a character to the console. The c flag specifies whether text should be wrapped at character (c=0) or word (c=1) boundaries. In the latter case, characters will be buffered until a SPACE, CR or LF character is sent, so make sure the text that is printed always ends in one of these characters.
@@ -1508,8 +1508,8 @@ Call address: $FEDE
 
 #### Function Name: console_put_image
 
-Signature: void console_put_image(word ptr: r0, word width: r1, word height: r2);  
-Purpose: Draw image as if it was a character.  
+Signature: void console_put_image(word ptr: r0, word width: r1, word height: r2);
+Purpose: Draw image as if it was a character.
 Call address: $FEE1
 
 **Description:** This function draws an image (in GRAPH_draw_image format) at the current cursor position and advances the cursor accordingly. This way, an image can be presented inline. A common example would be an emoji bitmap, but it is also possible to show full-width pictures if you print a newline before and after the image.
@@ -1523,8 +1523,8 @@ Call address: $FEE1
 
 #### Function Name: console_get_char
 
-Signature: (byte char: .A) console_get_char();  
-Purpose: Get a character from the console.  
+Signature: (byte char: .A) console_get_char();
+Purpose: Get a character from the console.
 Call address: $FEE1
 
 **Description:** This function gets a character to the console. It does this by collecting a whole line of character, i.e. until the user presses RETURN. Then, the line will be sent character by character.
@@ -1535,8 +1535,8 @@ This function allows editing the line using BACKSPACE/DEL, but does not allow mo
 
 #### Function Name: console_set_paging_message
 
-Signature: void console_set_paging_message(word message: r0);  
-Purpose: Set the paging message or disable paging.  
+Signature: void console_set_paging_message(word message: r0);
+Purpose: Set the paging message or disable paging.
 Call address: $FED5
 
 **Description:** The console can halt printing after a full screen height worth of text has been printed. It will then show a message, wait for any key, and continue printing. This function sets this message. A zero-terminated text is passed in r0. To turn off paging, call this function with r0 = 0 - this is the default.
@@ -1547,21 +1547,21 @@ Call address: $FED5
 
 ### Other
 
-$FF47: `enter_basic` - enter BASIC  
-$FECF: `entropy_get` - get 24 random bits  
-$FEAB: `extapi` - extended API  
-$FECC: `monitor` - enter machine language monitor  
-$FF5F: `screen_mode` - get/set screen mode  
-$FF62: `screen_set_charset` - activate 8x8 text mode charset  
-$FFED: `SCREEN` - get the text resolution  
+$FF47: `enter_basic` - enter BASIC
+$FECF: `entropy_get` - get 24 random bits
+$FEAB: `extapi` - extended API
+$FECC: `monitor` - enter machine language monitor
+$FF5F: `screen_mode` - get/set screen mode
+$FF62: `screen_set_charset` - activate 8x8 text mode charset
+$FFED: `SCREEN` - get the text resolution
 
 #### Function Name: enter_basic
 
-Purpose: Enter BASIC  
-Call address: $FF47  
-Communication registers: .P  
-Preparatory routines: None  
-Error returns: Does not return  
+Purpose: Enter BASIC
+Call address: $FF47
+Communication registers: .P
+Preparatory routines: None
+Error returns: Does not return
 
 **Description:** Call this to enter BASIC mode, either through a cold start (c=1) or a warm start (c=0).
 
@@ -1576,12 +1576,12 @@ JMP enter_basic ; returns to the "READY." prompt
 
 #### Function Name: entropy_get
 
-Purpose: Get 24 random bits  
-Call address: $FECF  
-Communication registers: .A .X .Y  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y  
+Purpose: Get 24 random bits
+Call address: $FECF
+Communication registers: .A .X .Y
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y
 
 **Description:** This routine returns 24 somewhat random bits in registers .A, .X, and .Y. In order to get higher-quality random numbers, this data should be used to seed a pseudo-random number generator, as this is not a proper high quality pseudo-random number generator in and of itself.
 
@@ -1616,13 +1616,13 @@ Registers affected: .A .X .Y
 
 ---
 #### Function Name: extapi
-Purpose: Additional API functions  
-Minimum ROM version: R47  
-Call address: $FEAB  
-Communication registers: .A .X .Y .P  
-Preparatory routines: None  
-Error returns: Varies, but usually c=1  
-Registers affected: Varies  
+Purpose: Additional API functions
+Minimum ROM version: R47
+Call address: $FEAB
+Communication registers: .A .X .Y .P
+Preparatory routines: None
+Error returns: Varies, but usually c=1
+Registers affected: Varies
 
 **Description:** This API slot provides access to various extended calls. The call is selected by the .A register, and each call has its own register use and return behavior.
 
@@ -1647,13 +1647,13 @@ Registers affected: Varies
 
 ####  extapi Function Name: clear_status
 
-Purpose: Reset the IEC status byte to 0   
-Minimum ROM version: R47  
-Call address: $FEAB, .A=1  
-Communication registers: none  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .A  
+Purpose: Reset the IEC status byte to 0
+Minimum ROM version: R47
+Call address: $FEAB, .A=1
+Communication registers: none
+Preparatory routines: none
+Error returns: none
+Registers affected: .A
 
 **Description:** This function explicitly clears the IEC status byte. This is the value which is returned by calling `readst`.
 
@@ -1661,13 +1661,13 @@ Registers affected: .A
 
 ####  extapi Function Name: getlfs
 
-Purpose: Return the values from the last call to `setlfs`   
-Minimum ROM version: R47  
-Call address: $FEAB, .A=2  
-Communication registers: .A .X .Y  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .A .X .Y  
+Purpose: Return the values from the last call to `setlfs`
+Minimum ROM version: R47
+Call address: $FEAB, .A=2
+Communication registers: .A .X .Y
+Preparatory routines: none
+Error returns: none
+Registers affected: .A .X .Y
 
 **Description:** This function returns the values from the most recent call to `setlfs`. This is most useful for fetching the most recently-used disk device.
 
@@ -1702,12 +1702,12 @@ FNEND = *
 
 #### extapi Function Name: mouse_sprite_offset
 
-Purpose: Set the mouse sprite x/y offset  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=3  
-Communication registers: r0 r1  
-Preparatory routines: `mouse_config`  
-Error returns: none  
+Purpose: Set the mouse sprite x/y offset
+Minimum ROM version: R47
+Call address: $FEAB, .A=3
+Communication registers: r0 r1
+Preparatory routines: `mouse_config`
+Error returns: none
 Registers affected: .A .X .Y .P r0 r1
 
 **Description:** This function allows you to set or retrieve the display offset of the mouse sprite, relative to the calculated mouse position. Setting it negative can be useful for mouse sprites in which the locus is not the upper left corner. Combined with configuring a smaller X/Y with mouse_config, it can be set positive to confine the mouse pointer to a limited region of the screen.
@@ -1747,12 +1747,12 @@ Registers affected: .A .X .Y .P r0 r1
 
 #### extapi Function Name: joystick_ps2_keycodes
 
-Purpose: Set or get the keyboard mapping for joystick 0  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=4  
-Communication registers: .P r0L-r6H  
-Preparatory routines: none  
-Error returns: none  
+Purpose: Set or get the keyboard mapping for joystick 0
+Minimum ROM version: R47
+Call address: $FEAB, .A=4
+Communication registers: .P r0L-r6H
+Preparatory routines: none
+Error returns: none
 Registers affected: .A .X .Y .P r0L-r6H
 
 **Description:** This function allows you to set or retrieve the list of keycodes that are mapped to joystick 0
@@ -1806,13 +1806,13 @@ Registers affected: .A .X .Y .P r0L-r6H
 
 #### extapi Function Name: iso_cursor_char
 
-Purpose: get or set the ISO mode cursor character  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=5  
-Communication registers: .X .P  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .A .X .Y .P  
+Purpose: get or set the ISO mode cursor character
+Minimum ROM version: R47
+Call address: $FEAB, .A=5
+Communication registers: .X .P
+Preparatory routines: none
+Error returns: none
+Registers affected: .A .X .Y .P
 
 **Description:** This function allows you to set or retrieve the cursor screen code which is used in ISO mode.
 
@@ -1825,13 +1825,13 @@ When entering ISO mode, such as by sending a `$0F` to the screen via `BSOUT` or 
 
 #### extapi Function Name: ps2kbd_typematic
 
-Purpose: set the PS/2 typematic delay and repeat rate  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=6  
-Communication registers: .X  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .A .X .Y .P  
+Purpose: set the PS/2 typematic delay and repeat rate
+Minimum ROM version: R47
+Call address: $FEAB, .A=6
+Communication registers: .X
+Preparatory routines: none
+Error returns: none
+Registers affected: .A .X .Y .P
 
 **Description:** This function allows you to set the delay and repeat rate of the PS/2 keyboard. Since the keyboard doesn't allow you to query the current value, there is no getter counterpart to this routine.
 
@@ -1867,13 +1867,13 @@ and rrrrr is the repeat rate, given this conversion to Hz.
 
 #### extapi Function Name: pfkey
 
-Purpose: Reprogram a function key macro  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=7  
-Communication registers: .X .Y r0  
-Preparatory routines: None  
-Error returns: c=1  
-Registers affected: .A .X .Y .P r0  
+Purpose: Reprogram a function key macro
+Minimum ROM version: R47
+Call address: $FEAB, .A=7
+Communication registers: .X .Y r0
+Preparatory routines: None
+Error returns: c=1
+Registers affected: .A .X .Y .P r0
 
 **Description:** This routine can be called to replace an F-key macro in the KERNAL editor with a user-defined string. The maximum length of each macro is 10 bytes, matching the size of the X16 KERNAL's keyboard buffer. It can also replace the action of SHIFT+RUN with a user-defined action.
 
@@ -1948,13 +1948,13 @@ BASIC equivalent:
 
 #### extapi Function Name: ps2data_fetch
 
-Purpose: Poll the SMC for PS/2 events  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=8  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Poll the SMC for PS/2 events
+Minimum ROM version: R47
+Call address: $FEAB, .A=8
+Communication registers: None
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** This routine is called from the default KERNAL interrupt service handler to fetch a queued keycode, and if the mouse is enabled, a mouse packet. The values are stored inside internal KERNAL state used by subsequent calls to `mouse_scan`, `kbd_scan`, or `ps2data_raw`.
 
@@ -1966,13 +1966,13 @@ This call is mainly useful when overriding the default KERNAL IRQ handler, and s
 
 #### extapi Function Name: ps2data_raw
 
-Purpose: Return the most recently-fetched PS/2 mouse packet and keycode  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=9  
-Communication registers: .A .Y .X .P r0L-r1H  
-Preparatory routines: `mouse_config`, `ps2data_fetch`  
-Error returns: None  
-Registers affected: .A .X .Y .P r0L-r1H  
+Purpose: Return the most recently-fetched PS/2 mouse packet and keycode
+Minimum ROM version: R47
+Call address: $FEAB, .A=9
+Communication registers: .A .Y .X .P r0L-r1H
+Preparatory routines: `mouse_config`, `ps2data_fetch`
+Error returns: None
+Registers affected: .A .X .Y .P r0L-r1H
 
 **Description:** This routine returns the most-recently fetched mouse data packet and keycode. If a mouse packet exists, it sets .X to the length of the packet, either 3 or 4 depending on mouse type, and stores the values into r0L-r1H. If there's no mouse packet to return, .X is set to zero. If there's a keycode to return, .A is set to the keycode, otherwise .A is set to zero. If there's an extended keycode, .A will equal $7F for key down or $FF for key up, and .Y will contain the extended code.
 
@@ -2096,13 +2096,13 @@ byte_to_hex:
 ---
 #### extapi Function Name: cursor_blink
 
-Purpose: Blink or un-blink the cursor in the KERNAL editor  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=10  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Blink or un-blink the cursor in the KERNAL editor
+Minimum ROM version: R47
+Call address: $FEAB, .A=10
+Communication registers: None
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** This routine is called from the default KERNAL interrupt service handler to cause the text mode cursor to blink on or off as appropriate, depending on the number of times this function has been called since the last blink event. If the editor is not waiting for input, this function has no effect.
 
@@ -2112,13 +2112,13 @@ This call is mainly useful when overriding the default KERNAL IRQ handler.
 
 #### extapi Function Name: led_update
 
-Purpose: Set the illumination status of the SMC's activity LED based on disk status  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=11  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Set the illumination status of the SMC's activity LED based on disk status
+Minimum ROM version: R47
+Call address: $FEAB, .A=11
+Communication registers: None
+Preparatory routines: None
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** This routine is called from the default KERNAL IRQ handler to update the status of the SMC's activity LED based on CMDR-DOS's status flags. It is illuminated solid during DOS disk activity, and flashes when there was a disk error.
 
@@ -2128,13 +2128,13 @@ This call is mainly useful when overriding the default KERNAL IRQ handler.
 
 #### extapi Function Name: mouse_set_position
 
-Purpose: Move the mouse pointer to an absolute X/Y position  
-Minimum ROM version: R47  
-Call address: $FEAB, .A=12  
-Communication registers: .X (.X)-(.X+3)  
-Preparatory routines: `mouse_config`  
-Error returns: None  
-Registers affected: .A .X .Y .P  
+Purpose: Move the mouse pointer to an absolute X/Y position
+Minimum ROM version: R47
+Call address: $FEAB, .A=12
+Communication registers: .X (.X)-(.X+3)
+Preparatory routines: `mouse_config`
+Error returns: None
+Registers affected: .A .X .Y .P
 
 **Description:** This routine set the absolute position of the mouse pointer and updates the pointer sprite.
 
@@ -2198,13 +2198,13 @@ done:
 
 #### extapi Function Name: scnsiz
 
-Purpose: Set the number of text rows and columns for the kernal screen editor  
-Minimum ROM version: R48  
-Call address: $FEAB, .A=13  
-Communication registers: .X .Y  
-Preparatory routines: None  
-Error returns: c=1  
-Registers affected: .A .X .Y .P  
+Purpose: Set the number of text rows and columns for the kernal screen editor
+Minimum ROM version: R48
+Call address: $FEAB, .A=13
+Communication registers: .X .Y
+Preparatory routines: None
+Error returns: c=1
+Registers affected: .A .X .Y .P
 
 **Description:** This routine is implicitly called by `screen_mode` to set the bounds of the kernal editor's screen, and can be used directly to change the row and column bounds of the screen editor. `scnsiz` does not change the screen scaling.
 
@@ -2263,11 +2263,11 @@ do_80x25:
 
 #### Function Name: monitor
 
-Purpose: Enter the machine language monitor  
-Call address: $FECC  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: Does not return  
+Purpose: Enter the machine language monitor
+Call address: $FECC
+Communication registers: None
+Preparatory routines: None
+Error returns: Does not return
 Registers affected: Does not return
 
 **Description:** This routine switches from BASIC to machine language monitor mode. It does not return to the caller. When the user quits the monitor, it will restart BASIC.
@@ -2286,11 +2286,11 @@ Registers affected: Does not return
 
 #### Function Name: SCREEN
 
-Purpose: Get the text resolution of the screen  
-Call address: $FFED  
-Communication registers: .X, .Y  
-Preparatory routines: None  
-Error returns: None  
+Purpose: Get the text resolution of the screen
+Call address: $FFED
+Communication registers: .X, .Y
+Preparatory routines: None
+Error returns: None
 Registers affected: .A, .X, .Y, .P
 
 **Description:** This routine returns the KERNAL screen editor's view of the text resolution. The column count is returned in .X and the row count is returned in .Y.
@@ -2314,11 +2314,11 @@ get_res:
 
 #### Function Name: screen_mode
 
-Purpose: Get/Set the screen mode  
-Call address: $FF5F  
-Communication registers: .A, .X, .Y, .P  
-Preparatory routines: None  
-Error returns: c = 1 in case of error  
+Purpose: Get/Set the screen mode
+Call address: $FF5F
+Communication registers: .A, .X, .Y, .P
+Preparatory routines: None
+Error returns: c = 1 in case of error
 Registers affected: .A, .X, .Y
 
 **Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, c will be set, otherwise cleared.
@@ -2338,11 +2338,11 @@ BCS FAILURE
 
 #### Function Name: screen_set_charset
 
-Purpose: Activate a 8x8 text mode charset  
+Purpose: Activate a 8x8 text mode charset
 Call address: $FF62
 
-Communication registers: .A, .X, .Y  
-Preparatory routines: None  
+Communication registers: .A, .X, .Y
+Preparatory routines: None
 Registers affected: .A, .X, .Y
 
 **Description:** A call to this routine uploads a character set to the video hardware and activates it. The value of .A decides what charset to upload:
@@ -2377,11 +2377,11 @@ JSR screen_set_charset ; UPLOAD CUSTOM CHARSET "MY_CHARSET"
 
 #### Function Name: JSRFAR
 
-Purpose: Execute a routine on another RAM or ROM bank  
-Call address: $FF6E  
-Communication registers: None  
-Preparatory routines: None  
-Error returns: None  
+Purpose: Execute a routine on another RAM or ROM bank
+Call address: $FF6E
+Communication registers: None
+Preparatory routines: None
+Error returns: None
 Registers affected: None
 
 **Description:** The routine `JSRFAR` enables code to execute some other code located on a specific RAM or ROM bank. This works independently of which RAM or ROM bank the currently executing code is residing in.
@@ -2405,26 +2405,26 @@ The 16 bit address and the 8 bit bank number have to follow the instruction stre
 When writing native 65C816 code for the Commander X16, extra care must be given when using the KERNAL API. With the exception of `extapi16`, documented below, the entire kernal API must be called:
 
 * With m=1, x=1 (accumulator and index are 8 bits)
-* SP set to the KERNAL stack ($01xx). see 
+* SP set to the KERNAL stack ($01xx). see
 * DP=$0000 (must be set so that zeropage is the direct page)
 
-$FEA8: `extapi16` - 16-bit extended API for 65C816 native mode  
+$FEA8: `extapi16` - 16-bit extended API for 65C816 native mode
 
 ---
 
 #### Function Name: extapi16
 
-Purpose: API functions for 65C816  
-Minimum ROM version: R47  
-Call address: $FEA8  
-Communication registers: .C, .X, .Y, .P  
-Preparatory routines: None  
-Error returns: Varies, but usually c=1  
+Purpose: API functions for 65C816
+Minimum ROM version: R47
+Call address: $FEA8
+Communication registers: .C, .X, .Y, .P
+Preparatory routines: None
+Error returns: Varies, but usually c=1
 Registers affected: Varies
 
 **Description:** This API slot provides access to various native mode 65C816 calls. The call is selected by the .C register (accumulator), and each call has its own register use and return behavior.
 
-**IMPORTANT**  
+**IMPORTANT**
 * All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.
 * In addition, some of these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
 
@@ -2440,13 +2440,13 @@ Registers affected: Varies
 
 #### 65C816 extapi16 Function Name: test
 
-Purpose: Used by unit tests for jsrfar  
-Minimum ROM version: R47  
-Call address: $FEA8, .C=0  
-Communication registers: .C .X .Y  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .C  
+Purpose: Used by unit tests for jsrfar
+Minimum ROM version: R47
+Call address: $FEA8, .C=0
+Communication registers: .C .X .Y
+Preparatory routines: none
+Error returns: none
+Registers affected: .C
 
 **Description:** This API is used by unit tests and is not useful for applications.
 
@@ -2454,13 +2454,13 @@ Registers affected: .C
 
 #### 65C816 extapi16 Function Name: stack_push
 
-Purpose: Point the SP to a new stack  
-Minimum ROM version: R47  
-Call address: $FEA8, .C=1  
-Communication registers: .X  
-Preparatory routines: none  
-Error returns: none  
-Registers affected: .A .X .Y .P .SP  
+Purpose: Point the SP to a new stack
+Minimum ROM version: R47
+Call address: $FEA8, .C=1
+Communication registers: .X
+Preparatory routines: none
+Error returns: none
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're moving the stack pointer to a new location so that it can preserve the previous SP, and then brings the new SP into effect. The main purpose of this call is to preserve the position of the $01xx stack pointer (AKA KERNAL stack), and to track the length of the chain of stacks in the case of multiple pushes. In order for the 65C02 code in the emulated mode IRQ handler to run properly, it must be able to temporarily switch to using the KERNAL stack, regardless of the SP in main code.
 
@@ -2478,13 +2478,13 @@ Registers affected: .A .X .Y .P .SP
 
 #### 65C816 extapi16 Function Name: stack_pop
 
-Purpose: Point the SP to the previously-saved stack  
-Minimum ROM version: R47  
-Call address: $FEA8, .C=2  
-Communication registers: none  
-Preparatory routines: `stack_push`  
-Error returns: none  
-Registers affected: .A .X .Y .P .SP  
+Purpose: Point the SP to the previously-saved stack
+Minimum ROM version: R47
+Call address: $FEA8, .C=2
+Communication registers: none
+Preparatory routines: `stack_push`
+Error returns: none
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function informs the KERNAL that you're finished using the stack set previously by `stack_push`. It brings the previous SP into effect.
 
@@ -2498,13 +2498,13 @@ Registers affected: .A .X .Y .P .SP
 
 #### 65C816 extapi16 Function Name: stack_enter_kernal_stack
 
-Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one  
-Minimum ROM version: R47  
-Call address: $FEA8, .C=3  
-Communication registers: none  
-Preparatory routines: `stack_push`  
-Error returns: none  
-Registers affected: .A .X .Y .P .SP  
+Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one
+Minimum ROM version: R47
+Call address: $FEA8, .C=3
+Communication registers: none
+Preparatory routines: `stack_push`
+Error returns: none
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function requests that the KERNAL temporarily bring the $01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from $01xx but need to call the KERNAL API or legacy code.
 
@@ -2518,13 +2518,13 @@ Registers affected: .A .X .Y .P .SP
 
 #### 65C816 extapi16 Function Name: stack_leave_kernal_stack
 
-Purpose: Point the SP to the previously-preserved stack  
-Minimum ROM version: R47  
-Call address: $FEA8, .C=4  
-Communication registers: none  
-Preparatory routines: `stack_enter_kernal_stack`  
-Error returns: none  
-Registers affected: .A .X .Y .P .SP  
+Purpose: Point the SP to the previously-preserved stack
+Minimum ROM version: R47
+Call address: $FEA8, .C=4
+Communication registers: none
+Preparatory routines: `stack_enter_kernal_stack`
+Error returns: none
+Registers affected: .A .X .Y .P .SP
 
 **Description:** This function is the counterpart to `stack_enter_kernal_stack`, and restores the previously preserved stack.
 
@@ -2538,6 +2538,6 @@ Registers affected: .A .X .Y .P .SP
 ---
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
-  
+
 <!-- For PDF formatting -->
 <div class="page-break"></div>

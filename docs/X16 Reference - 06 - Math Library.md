@@ -1,5 +1,5 @@
 
-# Chapter 6: Math Library
+# 6: Math Library
 
 The Commander X16 contains a floating point Math library with a precision of 40 bits, which corresponds to 9 decimal digits. It is a stand-alone derivative of the library contained in Microsoft BASIC. Except for the different base address, it is compatible with the C128 and C65 libraries.
 

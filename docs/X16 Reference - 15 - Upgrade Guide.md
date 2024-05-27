@@ -1,5 +1,5 @@
 
-# Chapter 15: Upgrade Guide
+# 15: Upgrade Guide
 
 This chapter provides tips for running upgrades on the various programmable chips.
 
@@ -37,7 +37,7 @@ TODO: link to instructions for each solution in the matrix
 | XGecu TL866II+ | Xgpro | - | - | - |
 | XGecu TL866-3G / T48 | Xgpro | - | - | - |
 
-## VERA 
+## VERA
 
 TODO: link to instructions for each solution in the matrix
 
