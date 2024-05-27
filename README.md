@@ -17,7 +17,7 @@ examples)
 
 # Commander X16 Reference Manual
 
-This is the official Commander X16 reference manual.
+This is an unofficial MkDocs-based rendering of the official Commander X16 reference manual.
 
 Being a reference manual it is light on some details with some expected fundamental
 knowledge. If you are brand new to the X16, consider consulting the
@@ -30,16 +30,16 @@ first.
 * [Chapter 2: Getting Started](X16%20Reference%20-%2002%20-%20Getting%20Started.md#chapter-2-getting-started)
 * [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor)
 * [Chapter 4: BASIC](X16%20Reference%20-%2004%20-%20BASIC.md#chapter-4-basic-programming)
-* [Chapter 5: KERNAL](X16%20Reference%20-%2005%20-%20KERNAL.md#chapter-5-kernal)  
-* [Chapter 6: Math Library](X16%20Reference%20-%2006%20-%20Math%20Library.md#chapter-6-math-library)  
-* [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor)  
-* [Chapter 8: Memory Map](X16%20Reference%20-%2008%20-%20Memory%20Map.md#chapter-8-memory-map)  
+* [Chapter 5: KERNAL](X16%20Reference%20-%2005%20-%20KERNAL.md#chapter-5-kernal)
+* [Chapter 6: Math Library](X16%20Reference%20-%2006%20-%20Math%20Library.md#chapter-6-math-library)
+* [Chapter 7: Machine Language Monitor](X16%20Reference%20-%2007%20-%20Machine%20Language%20Monitor.md#chapter-7-machine-language-monitor)
+* [Chapter 8: Memory Map](X16%20Reference%20-%2008%20-%20Memory%20Map.md#chapter-8-memory-map)
 * [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#chapter-9-vera-programmers-reference)
 * [Chapter 10: VERA FX Reference](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference)
 * [Chapter 11: Sound Programming](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#chapter-11-sound-programming)
 * [Chapter 12: I/O Programming](X16%20Reference%20-%2012%20-%20IO%20Programming.md#chapter-12-io-programming)
 * [Chapter 13: Working with CMDR-DOS](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#chapter-13-working-with-cmdr-dos)
-* [Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md#chapter-14-hardware-pinouts)  
+* [Chapter 14: Hardware Pinouts](X16%20Reference%20-%2014%20-%20Hardware.md#chapter-14-hardware-pinouts)
 * [Chapter 15: Upgrade Guide](X16%20Reference%20-%2015%20-%20Upgrade%20Guide.md#chapter-15-upgrade-guide)
 * [Appendix A: Sound](X16%20Reference%20-%20Appendix%20A%20-%20Sound.md#appendix-a-sound)
 * [Appendix B: VERA Firmware Recovery](X16%20Reference%20-%20Appendix%20B%20-%20VERA%20Recovery.md#appendix-b-vera-firmware-recovery)
