@@ -569,7 +569,7 @@ Setting **'Layer0 Enable'** / **'Layer1 Enable'** / **'Sprites Enable'** will re
 **'Tile Base Address'** specifies the base address of the tile data. *Note that the register only specifies bits 16:11 of the address, so the address is always aligned to a multiple of 2048 bytes.*
 
 **'H-Scroll'** specifies the horizontal scroll offset. A value between 0 and 4095 can be used. Increasing the value will cause the picture to move left, decreasing will cause the picture to move right.
-Hardware scrolling is only possible in tile mode; in bitmap mode, this register is not functional.
+Hardware scrolling is only possible in tile mode; in bitmap mode, this register is not functional for scrolling. Also half of it is repurposed: the **'H-Scroll (11:8)'** register is instead used to specify the palette offset for the bitmap.
 
 **'V-Scroll'** specifies the vertical scroll offset. A value between 0 and 4095 can be used. Increasing the value will cause the picture to move up, decreasing will cause the picture to move down.
 Hardware scrolling is only possible in tile mode; in bitmap mode, this register is not functional.
@@ -589,8 +589,6 @@ Hardware scrolling is only possible in tile mode; in bitmap mode, this register 
 | ----: | ------------------- |
 | 0     | 8 pixels            |
 | 1     | 16 pixels           |
-
-In bitmap modes, the **'H-Scroll (11:8)'** register is used to specify the palette offset for the bitmap.
 
 
 ### Layer display modes
