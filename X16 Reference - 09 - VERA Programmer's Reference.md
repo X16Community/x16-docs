@@ -569,8 +569,10 @@ Setting **'Layer0 Enable'** / **'Layer1 Enable'** / **'Sprites Enable'** will re
 **'Tile Base Address'** specifies the base address of the tile data. *Note that the register only specifies bits 16:11 of the address, so the address is always aligned to a multiple of 2048 bytes.*
 
 **'H-Scroll'** specifies the horizontal scroll offset. A value between 0 and 4095 can be used. Increasing the value will cause the picture to move left, decreasing will cause the picture to move right.
+Hardware scrolling is only possible in tile mode; in bitmap mode, this register is not functional for scrolling. Also half of it is repurposed: the **'H-Scroll (11:8)'** register is instead used to specify the palette offset for the bitmap.
 
 **'V-Scroll'** specifies the vertical scroll offset. A value between 0 and 4095 can be used. Increasing the value will cause the picture to move up, decreasing will cause the picture to move down.
+Hardware scrolling is only possible in tile mode; in bitmap mode, this register is not functional.
 
 **'Map Width'**, **'Map Height'** specify the dimensions of the tile map:
 
@@ -587,8 +589,6 @@ Setting **'Layer0 Enable'** / **'Layer1 Enable'** / **'Sprites Enable'** will re
 | ----: | ------------------- |
 | 0     | 8 pixels            |
 | 1     | 16 pixels           |
-
-In bitmap modes, the **'H-Scroll (11:8)'** register is used to specify the palette offset for the bitmap.
 
 
 ### Layer display modes
@@ -717,6 +717,9 @@ Note that 2bpp mode packs 4 pixels per byte and 4bpp mode packs 2 pixels per byt
 **MAP_BASE** isn’t used in these modes. **TILE_BASE** points to the bitmap data.
 
 **TILEW** specifies the bitmap width. TILEW=0 results in 320 pixels width and TILEW=1 results in 640 pixels width.
+
+When a layer is in bitmap mode, it can no longer be hardware scrolled using the HSCROLL and VSCROLL registers.
+**'H-Scroll (7:0)'** and both **'V-Scroll (7:0)'** and **'V-Scroll (11:8)'** are not functional in this mode.
 
 The palette offset (in **'H-Scroll (11:8)'**), as well as T256C in non-1bpp mode modifies the color indexes of the bitmap in the same way as in the tile modes.
 
