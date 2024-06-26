@@ -32,7 +32,7 @@ TODO: link to instructions for each solution in the matrix
 
 | ↓ Hardware / OS → | Windows | Linux | Mac OS | Commander X16 |
 |-|-|-|-|-|
-| Commander X16 | - | - | - | - |
+| Commander X16 | - | - | [TL866-3G/T48](X16%20Reference%20-%20Appendix%20G%20-%20SMC%20recovery%20Mac%20OS.md) | - |
 | USBtinyISP | arduino | arduino | arduino | - |
 | XGecu TL866II+ | Xgpro | - | - | - |
 | XGecu TL866-3G / T48 | Xgpro | - | - | - |
