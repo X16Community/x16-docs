@@ -35,7 +35,7 @@ TODO: link to instructions for each solution in the matrix
 | Commander X16 | - | - | - | - |
 | USBtinyISP | arduino | arduino | arduino | - |
 | XGecu TL866II+ | Xgpro | - | - | - |
-| XGecu TL866-3G / T48 | Xgpro | - | [minipro](X16%20Reference%20-%20Appendix%20G%20-%20SMC%20recovery%20Mac%20OS.md) | - |
+| XGecu TL866-3G / T48 | Xgpro | - | [minipro](X16%20Reference%20-%20Appendix%20G%20-%20SMC%20Update%20and%20Recovery.md) | - |
 
 ## VERA 
 
