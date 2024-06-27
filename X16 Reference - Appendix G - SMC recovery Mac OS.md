@@ -8,12 +8,12 @@
 **Host OS:** Mac OS  
 
 ### Installing the minipro Utility
-To install the minipro utility, follow these steps. For a complete list of installation alternatives, visit the [minipro GitLab page](https://gitlab.com/DavidGriffith/minipro).
-
-To install using Homebrew, run the following command:
+To install minipro using Homebrew, run the following command:
 ```
 brew install minipro
 ```
+
+For a complete list of installation alternatives, visit the [minipro GitLab page](https://gitlab.com/DavidGriffith/minipro).
 
 ### Downloading Firmware
 
