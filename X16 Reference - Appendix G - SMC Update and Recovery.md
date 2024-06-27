@@ -1,21 +1,17 @@
-# Appendix G: SMC Firmware Recovery
-
-## Using a Mac to Upgrade or Recover the SMC
+# Appendix G: SMC Update and Recovery
 
 **Target Component:** SMC (ATtiny861A)  
-**Programmer:** TL866-3G/T48  
-**Software:** minipro ver. 0.7  
-**Host OS:** Mac OS  
+**Programmer:** TL866 series (including TL866-3G/T48)  
+**Software:** minipro ver 0.7  
 
-### Installing the minipro Utility
-To install minipro using Homebrew, run the following command:
-```
-brew install minipro
-```
+### Installing the minipro Command Line Utility
 
-For a complete list of installation alternatives, visit the [minipro GitLab page](https://gitlab.com/DavidGriffith/minipro).
+This update procedure was tested with minipro ver 0.7.
 
-### Downloading Firmware
+For a complete list of minipro installation alternatives, visit the [minipro GitLab page](https://gitlab.com/DavidGriffith/minipro).
+
+
+### Downloading SMC Firmware
 
 Use only the official releases of the SMC firmware, which can be found on the [X16 Community GitHub page](https://github.com/X16Community/x16-smc/releases).
 
@@ -45,7 +41,7 @@ It is recommended to use an anti-static wristband during the removal and reinsta
 
 3. Program the SMC: 
 
-* Place the SMC in the TL866-3G/T48 programmer.
+* Place the SMC in the TL866 series programmer.
 
 * Connect the programmer's USB cable to your computer.
 
@@ -58,4 +54,3 @@ minipro -p ATTINY861@DIP20 -c config -w fuses.cfg -c code -w firmware_with_bootl
 
 5. Test the SMC: Reconnect mains power to the board. Press the Power button to verify if the board works correctly.
 
-These instructions should guide you through the process of upgrading or recovering the SMC firmware effectively.
