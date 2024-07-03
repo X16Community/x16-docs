@@ -672,7 +672,7 @@ Registers affected: .A .X .Y
 | r2L      | minutes (0-59)    |
 | r2H      | seconds (0-59)    |
 | r3L      | jiffies (0-59)    |
-| r3H      | weekday (0-6)     |
+| r3H      | weekday (1-7)     |
 
 Jiffies are 1/60th seconds.
 
