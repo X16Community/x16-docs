@@ -92,7 +92,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
 | [`BSAVE`](#function-name-bsave) | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
-| `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
+| [`BSOUT`](#function-name-bsout) | `$FFD2` | ChIO | Write byte in A to default output. | A | P | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
@@ -100,7 +100,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3 A X Y P | X16
 | [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3 | A X Y P | X16
 | `CHRIN` | `$FFCF` | ChIO | Alias for `BASIN` | | A X | C64 |
-| `CHROUT` | `$FFD2` | ChIO | Alias for `BSOUT` | A | C | C64 |
+| [`CHROUT`](#function-name-bsout) | `$FFD2` | ChIO | Alias for `BSOUT` | A | P | C64 |
 | `CLOSE_ALL` | `$FF4A` | ChIO | Close all files on a device  | | | C128 |
 | `CLRCHN` | `$FFCC` | ChIO | Restore character I/O to screen/keyboard | | A X | C64 |
 | [`console_init`](#function-name-console_init) | `$FEDB` | Video | Initialize console mode | none | r0 A P | X16
@@ -324,6 +324,25 @@ Registers affected: .A .X .Y .P
 A is address of zero page pointer to the start address.  
 X and Y contain the _exclusive_ end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
 Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
+
+---
+
+#### Function Name: `BSOUT`
+
+(This routine is also referred to as `CHROUT`)  
+
+Purpose: Write a character to the default output device.  
+Call Address: $FFD2  
+Communication Register: .A  
+Preparatory routines: OPEN, CHKOUT (Both are only needed when sending to files/other non-screen devices)  
+Error returns: c = 0 if no error, c = 1 in case of error  
+Registers affected: .P  
+
+**Description:** Writes the character in A to the currently-selected output device. By default, this is the user's screen. By calling `CHKOUT`, however, the default device can be changed and characters can be sent to other devices - a file on an SD card, for example. In order to send output to a file, call `OPEN` first to open the file, then `CHKOUT` to set it as the default output device, then finally `BSOUT` to write the data.  
+
+Upon return, if C is clear, there were no errors. Otherwise, C will be set.  
+
+**Note:** Before returning, this routine uses a `CLI` processor instruction, which will allow IRQ interrupts to be triggered. This makes the `BSOUT` routine inappropriate for use within interrupt handler functions. One possible workaround could be to output text information directly, by writing to the appropriate VERA registers. Care must be taken to save and restore the VERA's state, however, in order to prevent affecting other software running on the system (to include BASIC or the KERNAL itself).  
 
 ---
 
