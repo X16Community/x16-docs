@@ -243,9 +243,16 @@ NMI function is called, the KERNAL pushes `a` and the rom bank onto the stack. T
 values will need to be popped before returning from the NMI:
 
 ```
+.proc my_awesome_nmi
+        ; Do some fancifull things with your NMI
+
+@cleanup:
+        ; Restore ROM bank
 	pla
 	sta $01
+        ; Pop a
 	pla
+        
 	rti
 ```
 
