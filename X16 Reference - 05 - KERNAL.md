@@ -245,15 +245,11 @@ using ca65:
 
 ```
 .proc my_awesome_nmi
-        ; Do some fancifull things with your NMI
         ...
 
-        ; Restore ROM bank
 	pla
 	sta $01
-        ; Pop a
 	pla
-
 	rti
 .endproc
 ```
