@@ -92,7 +92,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
 | `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
 | [`BSAVE`](#function-name-bsave) | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
-| `BSOUT` | `$FFD2` | ChIO | Write byte in A to default output. For writing to a file must call `OPEN` and `CHKOUT` beforehand. | A | C | C64 |
+| [`BSOUT`](#function-name-bsout) | `$FFD2` | ChIO | Write byte in A to default output. | A | P | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
@@ -100,7 +100,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3 A X Y P | X16
 | [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3 | A X Y P | X16
 | `CHRIN` | `$FFCF` | ChIO | Alias for `BASIN` | | A X | C64 |
-| `CHROUT` | `$FFD2` | ChIO | Alias for `BSOUT` | A | C | C64 |
+| [`CHROUT`](#function-name-bsout) | `$FFD2` | ChIO | Alias for `BSOUT` | A | P | C64 |
 | `CLOSE_ALL` | `$FF4A` | ChIO | Close all files on a device  | | | C128 |
 | `CLRCHN` | `$FFCC` | ChIO | Restore character I/O to screen/keyboard | | A X | C64 |
 | [`console_init`](#function-name-console_init) | `$FEDB` | Video | Initialize console mode | none | r0 A P | X16
@@ -176,7 +176,7 @@ The 16 bit ABI generally follows the following conventions:
 | `READST` | `$FFB7` | ChIO | Return status byte | | A | C64 |
 | [`SAVE`](#function-name-save) | `$FFD8` | ChIO | Save a file from memory | A X Y | A X Y C | C64 |
 | [`SCNKEY`](#function-name-kbd_scan) | `$FF9F` | Kbd | Alias for `kbd_scan` | none | A X Y P | C64 |
-| `SCREEN` | `$FFED` | Video | Get the screen resolution  | | X Y | C64 |
+| [`SCREEN`](#function-name-screen) | `$FFED` | Video | Get the text resolution of the screen | | X Y | C64 |
 | [`screen_mode`](#function-name-screen_mode) | `$FF5F` | Video | Get/set screen mode | A C | A X Y P | X16
 | [`screen_set_charset`](#function-name-screen_set_charset) | `$FF62` | Video | Activate 8x8 text mode charset | A X Y | A X Y P | X16
 | `SECOND` | `$FF93` | CPB | Send LISTEN secondary address | A | A | C64 |
@@ -324,6 +324,25 @@ Registers affected: .A .X .Y .P
 A is address of zero page pointer to the start address.  
 X and Y contain the _exclusive_ end address to save. That is, these should contain the address immediately after the final byte:  X = low byte, Y = high byte.  
 Upon return, if C is clear, there were no errors.  C being set indicates an error in which case A will have the error number.  
+
+---
+
+#### Function Name: `BSOUT`
+
+(This routine is also referred to as `CHROUT`)  
+
+Purpose: Write a character to the default output device.  
+Call Address: $FFD2  
+Communication Register: .A  
+Preparatory routines: OPEN, CHKOUT (Both are only needed when sending to files/other non-screen devices)  
+Error returns: c = 0 if no error, c = 1 in case of error  
+Registers affected: .P  
+
+**Description:** Writes the character in A to the currently-selected output device. By default, this is the user's screen. By calling `CHKOUT`, however, the default device can be changed and characters can be sent to other devices - a file on an SD card, for example. In order to send output to a file, call `OPEN` first to open the file, then `CHKOUT` to set it as the default output device, then finally `BSOUT` to write the data.  
+
+Upon return, if C is clear, there were no errors. Otherwise, C will be set.  
+
+**Note:** Before returning, this routine uses a `CLI` processor instruction, which will allow IRQ interrupts to be triggered. This makes the `BSOUT` routine inappropriate for use within interrupt handler functions. One possible workaround could be to output text information directly, by writing to the appropriate VERA registers. Care must be taken to save and restore the VERA's state, however, in order to prevent affecting other software running on the system (to include BASIC or the KERNAL itself).  
 
 ---
 
@@ -687,7 +706,7 @@ Registers affected: .A .X .Y
 | r2L      | minutes (0-59)    |
 | r2H      | seconds (0-59)    |
 | r3L      | jiffies (0-59)    |
-| r3H      | weekday (0-6)     |
+| r3H      | weekday (1-7)     |
 
 Jiffies are 1/60th seconds.
 
@@ -1525,7 +1544,7 @@ Call address: $FEDE
 
 Signature: void console_put_image(word ptr: r0, word width: r1, word height: r2);  
 Purpose: Draw image as if it was a character.  
-Call address: $FEE1
+Call address: $FED8
 
 **Description:** This function draws an image (in GRAPH_draw_image format) at the current cursor position and advances the cursor accordingly. This way, an image can be presented inline. A common example would be an emoji bitmap, but it is also possible to show full-width pictures if you print a newline before and after the image.
 
@@ -1568,6 +1587,7 @@ $FEAB: `extapi` - extended API
 $FECC: `monitor` - enter machine language monitor  
 $FF5F: `screen_mode` - get/set screen mode  
 $FF62: `screen_set_charset` - activate 8x8 text mode charset  
+$FFED: `SCREEN` - get the text resolution  
 
 #### Function Name: enter_basic
 
@@ -1654,6 +1674,7 @@ Registers affected: Varies
 | `$0A` | [`cursor_blink`](#extapi-function-name-cursor_blink) | Blinks or un-blinks the KERNAL editor cursor if appropriate | - | - | - |
 | `$0B` | [`led_update`](#extapi-function-name-led_update) | Illuminates or clears the SMC activity LED based on disk activity or error status | - | - | - |
 | `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
+| `$0D` | [`scnsiz`](#extapi-function-name-scnsiz) | Directly sets the kernal editor text dimensions | .X .Y | - | - |
 
 
 ---
@@ -2209,6 +2230,71 @@ done:
 ```
 ---
 
+#### extapi Function Name: scnsiz
+
+Purpose: Set the number of text rows and columns for the kernal screen editor  
+Minimum ROM version: R48  
+Call address: $FEAB, .A=13  
+Communication registers: .X .Y  
+Preparatory routines: None  
+Error returns: c=1  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is implicitly called by `screen_mode` to set the bounds of the kernal editor's screen, and can be used directly to change the row and column bounds of the screen editor. `scnsiz` does not change the screen scaling.
+
+This call is mainly useful to set custom row and column counts not available from any built-in screen mode.
+
+Due to limits within the KERNAL's editor and what screen sizes it expects to work with, this routine will error and return with carry set if:
+* .X &lt; 20
+* .X &gt; 80
+* .Y &lt; 4
+* .Y &gt; 60
+
+If the requested size exceeds the allowed bounds (.X = 20-80, .Y = 4-60), the existing text resolution won't be changed.
+
+**How to Use:**
+
+1) Set .X to the number of desired columns and .Y to the desired number of rows.
+2) Call `scnsiz`
+3) The in-bounds area of the screen as defined by these new dimensions will be cleared and the cursor will be placed at the upper-left home position.
+
+**EXAMPLE:**
+
+This example assembly routine sets up an 80x25 region, also adding top and bottom border regions so that the viewable area only shows the 80x25 text region.
+
+```ASM
+
+SCREEN_MODE = $FF5F
+EXTAPI = $FEAB
+E_SCNSIZ = $0D
+VERA_CTRL = $9F25
+VERA_DC_VSTART = $9F2B
+VERA_DC_VSTOP = $9F2C
+
+TOP = 20 ; 20 rows from the top
+BOTTOM = 480-20 ; 20 rows from the bottom
+
+do_80x25:
+        lda #1
+        clc
+        jsr SCREEN_MODE ; set screen mode to 80x30, which also clears the screen
+        ldx #80
+        ldy #25
+        lda #E_SCNSIZ
+        jsr EXTAPI ; reset to 80x25
+        lda #(1 << 1) ; DCSEL = 1
+        sta VERA_CTRL
+        lda #(TOP >> 1) ; each step in DC_VSTART is 2 pixel rows
+        sta VERA_DC_VSTART
+        lda #(BOTTOM >> 1) ; each step in DC_VSTOP is 2 pixel rows
+        sta VERA_DC_VSTOP
+        stz VERA_CTRL
+        rts
+```
+
+---
+
+
 #### Function Name: monitor
 
 Purpose: Enter the machine language monitor  
@@ -2232,6 +2318,34 @@ Registers affected: Does not return
 
 ---
 
+#### Function Name: SCREEN
+
+Purpose: Get the text resolution of the screen  
+Call address: $FFED  
+Communication registers: .X, .Y  
+Preparatory routines: None  
+Error returns: None  
+Registers affected: .A, .X, .Y, .P
+
+**Description:** This routine returns the KERNAL screen editor's view of the text resolution. The column count is returned in .X and the row count is returned in .Y.
+
+In contrast to calling [`screen_mode`](#function-name-screen_mode) with carry set, this function returns the configured resolution if ever it is updated by [`scnsiz`](#extapi-function-name-scnsiz). `screen_mode` only returns the text dimensions the currently configured mode would have configured, ignoring any changes made by calls to `scnsiz`.
+
+
+**EXAMPLE:**
+
+```ASM
+SCREEN = $FFED
+
+get_res:
+        jsr SCREEN
+        sty my_rows
+        stx my_columns
+        rts
+```
+
+---
+
 #### Function Name: screen_mode
 
 Purpose: Get/Set the screen mode  
@@ -2242,6 +2356,8 @@ Error returns: c = 1 in case of error
 Registers affected: .A, .X, .Y
 
 **Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, c will be set, otherwise cleared.
+
+If you use this function to get the text resolution instead of calling [`SCREEN`](#function-name-screen), this function only returns the text dimensions the currently configured mode would have set, ignoring any changes made by calls to [`scnsiz`](#extapi-function-name-scnsiz). If you want to fetch the KERNAL editor's text resolution, call [`SCREEN`](#function-name-screen) instead.
 
 **EXAMPLE:**
 
