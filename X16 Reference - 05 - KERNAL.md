@@ -240,20 +240,22 @@ $0340-$0341: `INABORT` - ABORT Routine (native mode)
 If the NMI vector is replaced with a user function and that function does not call 
 back to the replaced NMI routine, some cleanup will need to be done. Before the user
 NMI function is called, the KERNAL pushes `a` and the rom bank onto the stack. These
-values will need to be popped before returning from the NMI:
+values will need to be popped before returning from the NMI. What follows is an example
+using ca65:
 
 ```
 .proc my_awesome_nmi
         ; Do some fancifull things with your NMI
+        ...
 
-@cleanup:
         ; Restore ROM bank
 	pla
 	sta $01
         ; Pop a
 	pla
-        
+
 	rti
+.endproc
 ```
 
 ---
