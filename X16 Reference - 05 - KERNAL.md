@@ -205,6 +205,8 @@ Some notes:
 * The `SETTMO` call has been a no-op since the Commodore VIC-20, and has no function on the X16 either.
 * The layout of the zero page ($0000-$00FF) and the KERNAL/BASIC variable space ($0200+) are generally **not** compatible with the C64.
 
+### KERNAL Vectors
+
 The KERNAL indirect vectors ($0314-$0333) are fully compatible with the C64:
 
 $0314-$0315: `CINV` – IRQ Interrupt Routine  
@@ -232,6 +234,24 @@ $033A-$033B: `INBRK` - BRK Instruction Interrupt Routine (native mode)
 $033C-$033D: `INNMI` - Non-Maskable Interrupt Routine (native mode)  
 $033E-$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)  
 $0340-$0341: `INABORT` - ABORT Routine (native mode)  
+
+#### Handling NMI
+
+If the NMI vector is replaced with a user function and that function does not call 
+back to the replaced NMI routine, some cleanup will need to be done. Before the user
+NMI function is called, the KERNAL pushes `a` and the rom bank onto the stack. These
+values will need to be popped before returning from the NMI:
+
+```
+.proc my_awesome_nmi
+        ...
+
+	pla
+	sta $01
+	pla
+	rti
+.endproc
+```
 
 ---
 
@@ -359,13 +379,28 @@ Registers affected: .A .X .Y .P
 
 ---
 
+#### Function Name: `CHKIN`
+
+Purpose: Set file to be used for character input
+Call address: $FFC6
+Communication registers: .X
+Preparatory routines: OPEN  
+Error returns: None  
+Registers affected: .A .X
+
+**Description:** `CHKIN` sets a file to be used as default input allowing for
+subsequent calls to `CHRIN` or other file read functions. The `x` register
+should contain the logical file number. `OPEN` will need to have been called prior to using `CHKIN`.
+
+---
+
 #### Function Name: `LOAD`
 
 Purpose: Load the contents of a file from disk to memory  
 Call address: $FFD5  
 Communication registers: .A .X .Y  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
+Error returns: Carry (Set on Error), .A  
 Registers affected: .A .X .Y .P  
 
 **Description:** Loads a file from disk to memory.
