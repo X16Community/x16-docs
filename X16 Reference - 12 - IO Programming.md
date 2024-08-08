@@ -69,7 +69,7 @@ the PS/2 keyboard and mouse.
 
 ### Real-Time-Clock
 
-The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (RTC) chip as device $6F. It provide a real-time clock/calendar, two alarms and 64 bytes of RAM.
+The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (RTC) chip as device $6F. It provide a real-time clock/calendar, two alarms and 64 bytes of battery-backed SRAM (non-volatile RAM).
 
 | Register | Description        |
 |----------|--------------------|
@@ -106,6 +106,31 @@ The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (
 | $1E      | Power-up day       |
 | $1F      | Power-up month     |
 | $20-$5F  | 64 Bytes SRAM      |
+
+####  SRAM (NVRAM)
+| Register | Description        |
+|----------|--------------------|
+| $20-$3F  | User NVRAM         |
+| $40-$5F  | KERNAL NVRAM       |
+| $40      | Active profile     |
+| $41-$4D  | Profile 0 (80x60)  |
+| $4E-$5A  | Profile 1 (40x30)  |
+| $41/$4E  | Screen mode        |
+| $42/$4F  | VERA_DC_VIDEO      |
+| $43/$50  | VERA_DC_HSCALE     |
+| $44/$51  | VERA_DC_VSCALE     |
+| $45/$52  | VERA_DC_BORDER     |
+| $46/$53  | VERA_DC_HSTART     |
+| $47/$54  | VERA_DC_HSTOP      |
+| $48/$55  | VERA_DC_VSTART     |
+| $49/$56  | VERA_DC_VSTOP      |
+| $4A/$57  | Color (bg/fg)      |
+| $4B/$58  | Keymap             |
+| $4C/$59  | Typematic          |
+| $4D/$5A  | Unused             |
+| $5B-$5E  | Expansion (unused) |
+| $5F      | Checksum           |
+
 
 The second half of the RTC's SRAM (NVRAM) is reserved for use by the KERNAL.  $20-$3F is available for use by user programs.
 
