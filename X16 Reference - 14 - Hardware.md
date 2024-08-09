@@ -203,23 +203,44 @@ Remove J1 to write protect system ROM. With J1 installed, users can program the 
 
 Connect a button here to generate an Non Maskable Interrupt (NMI) on the CPU. This will execute a BASIC warm start, which will stop any existing program, clear the screen, and print the READY prompt.
 
-### J3 (Unknown)
+### J3 Parallel/user port pullup resistors
 
-Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lorin hinted at early on?)
+When connected, activates 4.7k pullup resistors for PB0, PB4, PB6, PB7 and CA1 of the user port.
+
+Printed on PCB: Connect J8 for LPT Compat. (TODO: Is this the Centronics parallel port mode Lorin hinted at early on?)
 
 ### J4 Extra 65C22 Pins
 
-| Desc  | Pin |   | Pin | Desc |
-|------:|----:|---|-----|------|
-| CA1   |  1  |. .|  2  | CA2  |
-| PB0   |  3  |. .|  4  | PB1  |
-| PB2   |  5  |. .|  6  | CB2  |
+PRxxxxx:
+| Pin | Desc |
+|-----|------|
+|  1  | PB0  |
+|  2  | PB1  |
+|  3  | PB2  |
+|  4  | CB2  |
+
+DEVxxxxx:
+| Pin | Desc |
+|-----|------|
+|  1  | CA1  |
+|  2  | CA2  |
+|  3  | PB0  |
+|  4  | PB1  |
+|  5  | PB2  |
+|  6  | CB2  |
 
 These pins are connected to VIA 1 at $9F00-$9F0F.
 
-## J5 Program Microcontroller
+### J5 SMC I2C (DEVxxxxx boards only)
 
-Remove jumpers from J5 to program microcontroller.
+DEVxxxxx boards: Remove jumpers from J5 to disconnect SMC from I2C bus. This allows serial programming of SMC via J9.
+
+PRxxxxx boards: J5 is not present. On-board serial programming of SMC is not possible.
+
+| Desc    | Pin |   | Pin | Desc    |
+|--------:|----:|---|-----|---------|
+| SCL_SMC |  1  |. .|  2  | SDA_SMC |
+| SCL     |  3  |. .|  4  | SDA     |
 
 ### J6 System Speed
 
@@ -255,14 +276,16 @@ There is no on-board speaker header. Instead, all audio is routed to the rear pa
 
 ### J9 I2C/SMC Header
 
-There are two different layouts for the SMC header. The first layout appears to be the curretnt (PRxxxxx) boards:
+There are two different layouts for the SMC header.
+
+This is the layout on the production boards (PRxxxxx):
 
 | Desc             | Pin |   | Pin | Desc        |
 |-----------------:|----:|---|-----|-------------|
-| SMC MOSI/I2C SDA  |  1  |. .|  2  | +5V        |
+| I2C SDA           |  1  |. .|  2  | +5V        |
 | RTC MFP           |  3  |. .|  4  | SMC TX     |
-| SMC Reset         |  5  |. .|  6  | SMC RX     |
-| SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
+| RESB              |  5  |. .|  6  | SMC RX     |
+| I2C SCL           |  7  |. .|  8  | GND        |
 | 5VSB              |  9  |. .|  10 | GND        |
 
 This is the layout on the DEVxxxxx boards:
@@ -274,6 +297,10 @@ This is the layout on the DEVxxxxx boards:
 | SMC Reset         |  5  |. .|  6  | SMC RX     |
 | SMC SCK/I2C SCL   |  7  |. .|  8  | GND        |
 | MISO              |  9  |. .|  10 | GND        |
+
+DEVxxxxx boards supports in-system serial programming using J9 and J5. This is not possible with PRxxxxx boards.
+
+Note that pin 5 is connected to different SMC pins for DEV and PR boards, despite similar names. "SMC reset" (DEV) resets SMC, while "RESB" (PR) resets the rest of the system.
 
 ### J10 Audio Option
 
@@ -318,7 +345,7 @@ In order to avoid ground loop and power supply noise, we recommend installing a 
 
 User port is connected to VIA 2 at address $9F10-$9F1F. This can be used for serial or parallel port I/O. Commander X16 does not have support for a serial port device in the KERNAL.
 
-## VERA Video Header
+## VERA Video Header (J11)
 
 | Desc    | Pin |   | Pin | Desc    |
 |--------:|----:|---|-----|---------|
