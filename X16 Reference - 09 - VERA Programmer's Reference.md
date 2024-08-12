@@ -946,6 +946,9 @@ It can be used to provide an NES-like fuzzy triangle as well as an overdriven sa
 When used with the saw, the result is more substle. It adds some overtones to 
 the saw.
 
+Setting the PW/XOR to 00 for Tri/Saw inverts the waveform from what it was prior
+to the addition of the XOR feature. Be careful of phasing as a result.
+
 **Noise** Just like the other waveform types, the frequency of the noise waveform can be controlled using frequency. In this case a higher frequency will give brighter noise and a lower value will give darker noise. The PWM/XOR values do not influence
 the noise shape.
 
