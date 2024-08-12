@@ -869,11 +869,13 @@ FX features are controlled mainly by registers $9F29-$9F2C with DCSEL set to 2 t
 Preliminary documentation for the feature can be found in [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference), but as this is a brand new
  feature, examples and documentation still need to be written.
 
-## Programmable Sound Generator (PSG)
+## Audio
 
 The audio functionality contains of 2 independent systems. The first is the PSG or Programmable Sound Generator. The second is the PCM (or Pulse-Code Modulation) playback system.
 
-16 entries (channels) of the following format:
+### Programmable Sound Generator (PSG)
+
+The PSG consists of 16 voices, each with their own set of registers:
 
 <table>
 	<tr>
@@ -904,7 +906,7 @@ The audio functionality contains of 2 independent systems. The first is the PSG 
 	<tr>
 		<td>3</td>
 		<td align="center" colspan="2">Waveform</td>
-		<td align="center" colspan="6">Pulse width</td>
+		<td align="center" colspan="6">Pulse Width / XOR</td>
 	</tr>
 </table>
 
@@ -919,8 +921,9 @@ Thus the output frequency can be set in steps of about 0.373 Hz.
 
 *Example: to output a frequency of 440Hz (note A4) the **Frequency word** should be set to  440 / (48828.125 / (2^17)) = 1181*
 
-**Volume** controls the volume of the sound with a logarithmic curve; 0 is silent, 63 is the loudest.
-The **Left** and **Right** bits control to which output channels the sound should be output.
+**Volume** controls the volume of the sound with a logarithmic curve; 0 is silent, 63 ($3F)
+is the loudest. The **Left** and **Right** bits control to which output channels the sound
+should be output.
 
 **Waveform** controls the waveform of the sound:
 
@@ -931,16 +934,26 @@ The **Left** and **Right** bits control to which output channels the sound shoul
 | 2        | Triangle    |
 | 3        | Noise       |
 
-**Pulse width** controls the duty cycle of the pulse waveform. A value of 63 will give a 50% duty cycle or square wave, 0 will give a very narrow pulse.
+**Pulse Width / XOR** controls the duty cycle of the pulse waveform or the XOR 
+permutation when used with the triangle or saw. For pulse, a value of 63 ($3F) will
+give a 50% duty cycle or square wave, 0 will give a very narrow pulse.
 
-Just like the other waveform types, the frequency of the noise waveform can be controlled using frequency. In this case a higher frequency will give brighter noise and a lower value will give darker noise.
+When the triangle or saw waveform is selected, the value influences an XOR calculation
+the changes the resulting waveform. This is most noticeable with the triangle waveform. 
+It can be used to provide an NES-like fuzzy triangle as well as an overdriven saw sound
+(similar to the VRC6 NES chip) among several other varieties of sounds.
 
+When used with the saw, the result is more substle. It adds some overtones to 
+the saw.
 
-## PCM audio
+**Noise** Just like the other waveform types, the frequency of the noise waveform can be controlled using frequency. In this case a higher frequency will give brighter noise and a lower value will give darker noise. The PWM/XOR values do not influence
+the noise shape.
+
+### PCM audio
 
 For PCM playback, VERA contains a 4kB FIFO buffer. This buffer needs to be filled in a timely fashion by the CPU. To facilitate this an **AFLOW** (Audio FIFO low) interrupt can be generated when the FIFO is less than 1/4 filled.
 
-### Audio registers
+#### Audio registers
 
 #### `AUDIO_CTRL ($9F3B)` ####
 
