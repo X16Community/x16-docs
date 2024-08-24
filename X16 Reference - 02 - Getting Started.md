@@ -35,7 +35,7 @@ Let's try some variations on this command:
 To get the DOS command a little faster, try pressing F8, then typing `$=D`. You
 can even leave off the last quote; DOS doesn't care.
 
-So now that you have a list of directories, try mnoving to one:
+So now that you have a list of directories, try moving to one:
 
 `DOS "CD:BASIC"`
 
@@ -86,7 +86,7 @@ Now, notice the extra symbols on your keycaps? There are two sets of extra
 symbols: the ones on the lower-right can be accessed by holding SHIFT and a
 letter. Go ahead: try pressing Shift and S. You should see a small heart symbol
 on your screen. We know you'll love the Commander X16 as much as we do. Press
-Alt and a letter, and you'll get the symmbol on the lower-left corner of the
+Alt and a letter, and you'll get the symbol on the lower-left corner of the
 screen. Try pressing Alt and the ` key next to the nummber 1. You should get a
 large + symbol. One of the Plusses of PETSCII is using these line drawing
 symbols to draw shapes on the screen.
