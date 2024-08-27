@@ -850,6 +850,26 @@ At reset, the palette will contain a predefined palette:
 
 **Palette offset** works in the same way as with the layers.
 
+## Composite video
+
+### Color bleed
+CRT Televisions and composite monitors experience color bleeding when certain colors are placed next to each other.  Color bleed is especially apparent when choosing text color against certain background colors.  Sprite pixel colors, character colors, and tiles will require careful color choice for better contrast.  This chart shows which color combinations to avoid, and which work especially well together.
+
+<img src="images/CompositeColors.png">
+
+### Overscan
+
+Overscan is the border region in composite televisions and monitors that extend off screen.  This overscan region varies by device, so there are no exact pixel measurements to describe the overscan region.  Enabling the border can be a guideline for the visible draw region.
+
+<img src="images/CompositeOverscan.png">
+
+A game or application developer can use techniques adjust on-screen artifacts when composite video is in use.  
+
+- V-scale and H-scale registers to shrink the screen 
+- move some of the screen assets in closer
+- develop in a screen mode with an enabled border
+
+Setting to screen mode 3 or 11 while RGB or NTSC out is selected will also set 240p mode for games that are 320x240.  However, a high resolution program may have poor presentation in 240p.
 
 ## Sprite collisions
 
