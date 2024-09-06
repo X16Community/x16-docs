@@ -131,7 +131,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`GRAPH_clear`](#function-name-graph_clear) | `$FF23` | Video | Clear screen | none | r0 r1 r2 r3 A X Y P | X16
 | [`GRAPH_draw_image`](#function-name-graph_draw_image) | `$FF38` | Video | Draw a rectangular image | r0 r1 r2 r3 r4 | A P | X16
 | [`GRAPH_draw_line`](#function-name-graph_draw_line) | `$FF2C` | Video | Draw a line | r0 r1 r2 r3 | r0 r1 r2 r3 r7 r8 r9 r10 r12 r13 A X Y P | X16
-| [`GRAPH_draw_oval`](#function-name-graph_draw_oval) &#128683; | `$FF35` | Video | Draw an oval or circle | - | - | X16
+| [`GRAPH_draw_oval`](#function-name-graph_draw_oval) | `$FF35` | Video | Draw an oval or circle (optionally filled) | r0 r1 r2 r3 r4 C | A X Y P | X16
 | [`GRAPH_draw_rect`](#function-name-graph_draw_rect) &#8224; | `$FF2F` | Video | Draw a rectangle (optionally filled) | r0 r1 r2 r3 r4 C | A P | X16
 | [`GRAPH_get_char_size`](#function-name-graph_get_char_size) | `$FF3E` | Video | Get size and baseline of a character | A X | A X Y P | X16
 | [`GRAPH_init`](#function-name-graph_init) | `$FF20` | Video | Initialize graphics | r0 | r0 r1 r2 r3 A X Y P | X16
