@@ -942,7 +942,7 @@ Thus the output frequency can be set in steps of about 0.373 Hz.
 *Example: to output a frequency of 440Hz (note A4) the **Frequency word** should be set to  440 / (48828.125 / (2^17)) = 1181*
 
 **Volume** controls the volume of the sound with a logarithmic curve; 0 is silent, 63 ($3F)
-is the loudest. The **Left** and **Right** bits control to which output channels the sound
+is the loudest. The **Left** and **Right** bits control to which channels the sound
 should be output.
 
 **Waveform** controls the waveform of the sound:
@@ -959,15 +959,15 @@ permutation when used with the triangle or saw. For pulse, a value of 63 ($3F) w
 give a 50% duty cycle or square wave, 0 will give a very narrow pulse.
 
 When the triangle or saw waveform is selected, the value influences an XOR calculation
-the changes the resulting waveform. This is most noticeable with the triangle waveform. 
+that changes the resulting waveform. This is most noticeable with the triangle waveform.
 It can be used to provide an NES-like fuzzy triangle as well as an overdriven saw sound
 (similar to the VRC6 NES chip) among several other varieties of sounds.
 
-When used with the saw, the result is more substle. It adds some overtones to 
-the saw.
+When used with the saw, the result is more subtle. It adds some overtones to the saw.
 
-Setting the PW/XOR to 00 for Tri/Saw inverts the waveform from what it was prior
-to the addition of the XOR feature. Be careful of phasing as a result.
+Setting the PW/XOR to 0 for Tri/Saw inverts the waveform from what it was prior
+to the addition of the XOR feature, and PW of 63 results in the original waveform.
+Be aware of phasing effects that this difference could cause.
 
 **Noise** Just like the other waveform types, the frequency of the noise waveform can be controlled using frequency. In this case a higher frequency will give brighter noise and a lower value will give darker noise. The PWM/XOR values do not influence
 the noise shape.
@@ -993,7 +993,7 @@ For PCM playback, VERA contains a 4kB FIFO buffer. This buffer needs to be fille
 
 **PCM Volume** (bits 0..3)controls the volume of the PCM playback, this has a logarithmic curve. A value of 0 is silence, 15 is the loudest.
 
-#### `AUDIO_RATE ($9F3C)` ####
+##### `AUDIO_RATE ($9F3C)` #####
 
 **PCM sample rate** controls the speed at which samples are read from the FIFO. A few example values:
 
@@ -1007,7 +1007,7 @@ For PCM playback, VERA contains a 4kB FIFO buffer. This buffer needs to be fille
 
 Using a value of 128 will give the best quality (lowest distortion); at this value for every output sample, an input sample from the FIFO is read. Lower values will output the same sample multiple times to the audio DAC. Input samples are always read as a complete set (being 1/2/4 bytes).
 
-#### `AUDIO_DATA ($9F3D)` ####
+##### `AUDIO_DATA ($9F3D)` #####
 
 **Audio FIFO data** Writes to this register add one byte to the PCM FIFO. If the FIFO is full, the write will be ignored.
 
