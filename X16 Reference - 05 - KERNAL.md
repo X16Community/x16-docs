@@ -2351,7 +2351,7 @@ flip_leds:
         txa
         eor #7 ; invert the LED state
         tax
-        set
+        clc
         lda #E_KBD_LEDS
         jsr EXTAPI ; set state and send to keyboard
         rts
