@@ -95,6 +95,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `ON` | command | A GOTO/GOSUB table based on a variable value | C64 |
 | `OPEN` | command | Opens a logical file to disk or other device | C64 |
 | `OR` | operator | Bitwise or boolean "OR" | C64 |
+| [`OVAL`](#oval) | command | Draws a filled oval in graphics mode | X16 |
 | `PEEK` | function | Returns a value from a memory address | C64 |
 | `π` | function | Returns the constant for the value of pi | C64 |
 | [`POINTER`](#pointer) | function | Returns the address of a BASIC variable | C128 |
@@ -121,6 +122,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`RESTORE`](#restore) | command | Resets the `READ` pointer to a `DATA` constant | C64 |
 | `RETURN` | command | Returns from a subroutine to the statement following a GOSUB | C64 |
 | `RIGHT$` | function | Returns a substring from the end of a string | C64 |
+| [`RING`](#ring) | command | Draws an oval outline in graphics mode | X16 |
 | `RND` | function | Returns a floating point number 0 <= n < 1 | C64 |
 | [`RPT$`](#rpt) | function | Returns a string of repeated characters | X16 |
 | `RUN` | command | Clears the variable state and starts a BASIC program | C64 |
@@ -1031,6 +1033,23 @@ moved away from the user, and positive if it is moved towards the user. The rang
 OLD
 ```
 
+### OVAL
+
+**TYPE: Command**  
+**FORMAT: OVAL &lt;x1&gt;,&lt;y1&gt;,&lt;x2&gt;,&lt;y2&gt;,&lt;color&gt;**
+
+**Action:** This command draws a filled oval on the graphics screen in a given color.
+
+The coordinate arguments define the rectangular bounding box of the oval. To draw a filled circle, make the width and height equal to each other.
+
+**EXAMPLE of OVAL Statement:**
+
+```BASIC
+10 SCREEN $80
+20 FORI=1 TO 20:OVAL RND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*128:NEXT
+30 GOTO 20
+```
+
 ### POINTER
 
 **TYPE: Function**  
@@ -1218,6 +1237,23 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 ```
 
 This example plays a chromatic scale while applying pulse-width modulation on the voice.
+
+### RING
+
+**TYPE: Command**  
+**FORMAT: RING &lt;x1&gt;,&lt;y1&gt;,&lt;x2&gt;,&lt;y2&gt;,&lt;color&gt;**
+
+**Action:** This command draws an oval outline on the graphics screen in a given color.
+
+The coordinate arguments define the rectangular bounding box of the oval. To draw a circle outline, make the width and height equal to each other.
+
+**EXAMPLE of RING Statement:**
+
+```BASIC
+10 SCREEN $80
+20 FORI=1 TO 20:RING RND(1)*320,RND(1)*200,RND(1)*320,RND(1)*200,RND(1)*128:NEXT
+30 GOTO 20
+```
 
 ### RECT
 
