@@ -1695,6 +1695,7 @@ Registers affected: Varies
 | `$0B` | [`led_update`](#extapi-function-name-led_update) | Illuminates or clears the SMC activity LED based on disk activity or error status | - | - | - |
 | `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
 | `$0D` | [`scnsiz`](#extapi-function-name-scnsiz) | Directly sets the kernal editor text dimensions | .X .Y | - | - |
+| `$0E` | [`kbd_leds`](#extapi-function-name-kbd_leds) | Set or get the state of the PS/2 keyboard LEDs | .X .P | .X | - |
 
 
 ---
@@ -2309,6 +2310,50 @@ do_80x25:
         lda #(BOTTOM >> 1) ; each step in DC_VSTOP is 2 pixel rows
         sta VERA_DC_VSTOP
         stz VERA_CTRL
+        rts
+```
+
+---
+
+#### extapi Function Name: kbd_leds
+
+Purpose: Set or retrieve the PS/2 keyboard LED state  
+Minimum ROM version: R48  
+Call address: $FEAB, .A=14  
+Communication registers: .X .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine is used to send a command to the keyboard to set the state of the Num Lock, Caps Lock, and Scroll Lock LEDs. You can also query the KERNAL for its idea of what the state of the LEDs is.
+
+Note: This call does **not** change the state of the kernal's caps lock toggle.
+
+**How to Use:**
+
+1) To query the state of the LEDs, set carry, otherwise to set the LED state, clear carry and set .X to the desired value of the LED register. Bit 0 is Scroll Lock, bit 1 is Num Lock, and bit 2 is Caps Lock.
+2) Call `kbd_leds`
+3) If carry was set on the call to `kbd_leds`, the routine will return with .X set to the current state, otherwise the routine will send the updated LED state to the keyboard. In this case, there will be no confirmation on whether it was successful.
+
+**EXAMPLE:**
+
+This example toggles the state of the LEDs to the opposite state that they were initially.
+
+```ASM
+
+EXTAPI = $FEAB
+E_KBD_LEDS = $0E
+
+flip_leds:
+        sec
+        lda #E_KBD_LEDS
+        jsr EXTAPI ; fetch state
+        txa
+        eor #7 ; invert the LED state
+        tax
+        clc
+        lda #E_KBD_LEDS
+        jsr EXTAPI ; set state and send to keyboard
         rts
 ```
 
