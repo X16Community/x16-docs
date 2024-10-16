@@ -1,3 +1,4 @@
+
 # ZSM format specification
 
 #### Zsound Repo
@@ -177,3 +178,6 @@ An example of an EXTCMD containing one sync event might look as follows: `0x40 0
 The purpose for this channel is that any project with an idea that does not fit neatly into the above categories may pack data into the project's music files in whatever form is required. It should be understood that these ZSMs will not be expected to use the extended behaviors outside of the project they were designed for. The music itself, however, should play properly. The only constraint is that the data must conform to the EXTCMD byte - supplying exactly the specified number of bytes per EXTCMD.
 
 The reference playback library in Zsound will implement this channel as a simple callback passing the memory location and data size to the referenced function, and take no further action internally.
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>
