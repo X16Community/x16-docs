@@ -1,5 +1,5 @@
 
-# ZSM format specification
+# Appendix G: ZSM File Format
 
 #### Zsound Repo
 
