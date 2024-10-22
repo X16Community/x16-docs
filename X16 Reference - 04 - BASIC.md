@@ -1053,12 +1053,15 @@ The coordinate arguments define the rectangular bounding box of the oval. To dra
 ### PEEK
 
 **TYPE: Command**  
-**FORMAT: POINTER(&lt;address&gt;)**
+**FORMAT: PEEK(&lt;address&gt;)**
 
 **Action:** Returns the value at given memory address
 
-Note that this does work with Cartridge RAM/ROM as these are memory pages
-within the KERNAL space (`$C000`) where BAISC also operates.
+Note that this many not work as expected with Cartridge RAM/ROM as these are 
+memory pages shared with the KERNAL space (`$C000`) where BAISC also operates.
+You should be able to PEEK values at `$C000` by setting the ROMBANK accordingly
+(using `BANK`, e.g.) though be aware the KERNAL has to switch ROM banks when
+interacting with BASIC and may not always behave as expected.
 
 **EXAMPLE of PEEK function:**
 
@@ -1090,8 +1093,9 @@ RUN
 
 **Action:** Sets the contents of the memory address to given value.
 
-Note that this does work with Cartridge RAM/ROM as these are memory pages
-within the KERNAL space (`$C000`) where BAISC also operates.
+Note that writing to values within the KERNAL/Cartridge area (`$C000`)
+will  not work as expected and will silently fail. This is because the 
+KERNAL/BAISC shares the same memory space as cartridge RAM/ROM.
 
 **EXAMPLE of POKE function:**
 
