@@ -99,7 +99,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`PEEK`](#peek) | function | Returns a value from a memory address | C64 |
 | `π` | function | Returns the constant for the value of pi | C64 |
 | [`POINTER`](#pointer) | function | Returns the address of a BASIC variable | C128 |
-| `POKE`(#poke) | command | Assigns a value to a memory address | C64 |
+| [`POKE`](#poke) | command | Assigns a value to a memory address | C64 |
 | `POS` | function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | command | Immediately powers down the Commander X16 | X16 |
 | `PRINT` | command | Prints data to the screen or other output | C64 |
