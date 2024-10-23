@@ -1077,7 +1077,7 @@ requires using `BANK` to set the banks accordingly.
 **EXAMPLE of POINTER function:**
 
 ```BASIC
-10 A="MOO"
+10 A$="MOO"
 20 PRINT HEX$(POINTER(A$))
 RUN
 0823
