@@ -96,10 +96,10 @@ for GitHub's Markdown flavor. Do not remove!
 | `OPEN` | command | Opens a logical file to disk or other device | C64 |
 | `OR` | operator | Bitwise or boolean "OR" | C64 |
 | [`OVAL`](#oval) | command | Draws a filled oval in graphics mode | X16 |
-| `PEEK` | function | Returns a value from a memory address | C64 |
+| [`PEEK`](#peek) | function | Returns a value from a memory address | C64 |
 | `π` | function | Returns the constant for the value of pi | C64 |
 | [`POINTER`](#pointer) | function | Returns the address of a BASIC variable | C128 |
-| `POKE` | command | Assigns a value to a memory address | C64 |
+| [`POKE`](#poke) | command | Assigns a value to a memory address | C64 |
 | `POS` | function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | command | Immediately powers down the Commander X16 | X16 |
 | `PRINT` | command | Prints data to the screen or other output | C64 |
@@ -1050,6 +1050,23 @@ The coordinate arguments define the rectangular bounding box of the oval. To dra
 30 GOTO 20
 ```
 
+### PEEK
+
+**TYPE: Command**  
+**FORMAT: PEEK(&lt;address&gt;)**
+
+**Action:** Returns the value at given memory address
+
+PEEKing values within the BRAM (`$A000`) and KERNAL/Cartridge (`$C000`)
+requires using `BANK` to set the banks accordingly.
+
+**EXAMPLE of PEEK function:**
+
+```BASIC
+10 A=PEEK($C000)
+20 PRINT A
+```
+
 ### POINTER
 
 **TYPE: Function**  
@@ -1064,6 +1081,28 @@ The coordinate arguments define the rectangular bounding box of the oval. To dra
 20 PRINT HEX$(POINTER(A$))
 RUN
 0823
+```
+
+### POKE
+
+**TYPE: Function**  
+**FORMAT: POKE &lt;address&gt;, &lt;value&gt;**
+
+**Action:** Sets the contents of the memory address to given value.
+
+To write to memory within a RAMBANK page, [`BANK`](#bank) must be 
+called beforehand with the appropriate arguments.
+
+Writing to values within the KERNAL/Cartridge area (`$C000`)
+will not work as expected and may silently fail in KERNAL ROM versions
+older than R49. In R49, POKE works as expected assuming the 
+area being written to is RAM and that [`BANK`](#bank) has been 
+called with appropriate arguments.
+
+**EXAMPLE of POKE function:**
+
+```BASIC
+10 POKE $A000,47
 ```
 
 ### POWEROFF
