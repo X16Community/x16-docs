@@ -1245,7 +1245,7 @@ $02FE: I_FB_move_pixels
 
 The model of this API is based on the direct-access cursor. In order to read and write pixels, the cursor has to be set to a specific x/y-location, and all subsequent calls will access consecutive pixels at the cursor position and update the cursor.
 
-The default driver supports the VERA framebuffer at a resolution of 320x200 pixels and 256 colors. Using `screen_mode` to set mode $80 will enable this driver.
+The default driver supports the VERA framebuffer at a resolution of 320x240 pixels and 256 colors. Using `screen_mode` to set mode $80 will enable this driver.
 
 ---
 
@@ -2429,7 +2429,7 @@ If you use this function to get the text resolution instead of calling [`SCREEN`
 ```ASM
 LDA #$80
 CLC
-JSR screen_mode ; SET 320x200@256C MODE
+JSR screen_mode ; SET 320x240@256C MODE
 BCS FAILURE
 ```
 
