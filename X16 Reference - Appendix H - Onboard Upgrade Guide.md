@@ -329,3 +329,6 @@ Downgrade ROM
 Downgrade VERA
 - If using VERA.BIN from release page, use the associated FLASHVERA
 - If using VERA.BIN released together with x16-flash, use x16-flash to program it
+
+<!-- For PDF formatting -->
+<div class="page-break"></div>
