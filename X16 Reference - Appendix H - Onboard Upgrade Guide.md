@@ -1,7 +1,7 @@
 
 
 
-# Appendix G: How to update your x16 to latest release
+# Appendix H: How to update your X16 to latest release
 
 These instructions will guide you how to update your X16 firmware from any previous version to the latest version. This guide will be updated once there are new releases. This guide is applicable for Gen 1 hardware, PRxxxxx boards.
 
