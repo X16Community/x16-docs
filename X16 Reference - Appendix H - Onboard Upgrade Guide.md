@@ -309,7 +309,7 @@ Downgrade SMC using any tool
 
 ### Step 3: Downgrade ROM
 Downgrade ROM
-- ROM older than R42 is indended for an incompatible hardware revision
+- ROM older than R42 is intended for an incompatible hardware revision
 
 ### Step 4: Downgrade VERA
 Downgrade VERA
