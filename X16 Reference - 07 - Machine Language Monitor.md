@@ -88,7 +88,7 @@ C*
 | \#                   | Unused
 |  B                   | A Break Point is Active
 |  D                   | Decimal Mode Active (also known as Binary Code Decimal)
-|  I                   | IRQ is Enabled
+|  I                   | IRQ is Inhibited
 |  Z                   | Zero Bit
 |  C                   | Carry Bit
 
