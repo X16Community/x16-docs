@@ -1,6 +1,8 @@
 
 # Chapter 7: Machine Language Monitor
 
+<img src="images/monitor.png">
+
 The built-in machine language monitor can be started with the `MON` BASIC command. It is based on the monitor of the Final Cartridge III and supports most of its features.
 
 If you invoke the monitor by mistake, you can exit with by typing `X`, followed by the `RETURN` key.
@@ -59,6 +61,36 @@ These are the remaining commands:
   * `8`, `9` to change the default drive (also for `L`)
   * `$` to display the disk directory
   * anything else as a disk command
+
+Monitor Display
+```
+MON
+C*
+   PC  RA RO AC XR YR SP NV#BDIZC
+.;E3bb 01 04 00 00 00 F6 ........
+.
+```
+| Column  | Description |
+|---------|-------------|
+|PC       | Program Counter and the current address
+|RA       | Active RAM Bank
+|RO       | Active ROM Bank
+|AC       | Accumulator
+|XR       | X Register
+|YR       | Y Register
+|SP       | Stack Pointer
+|NV#BDIZC | Status Register
+
+| Status Register Bits | Bit Description |
+|----------------------|-----------------|
+|  N                   | Negative
+|  V                   | Overflow Vector
+| \#                   | Unused
+|  B                   | A Break Point (opcode BRK)
+|  D                   | Decimal Mode Active (also known as Binary Code Decimal)
+|  I                   | IRQ Enabled / Disabled
+|  Z                   | Zero Bit
+|  C                   | Carry Bit
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
