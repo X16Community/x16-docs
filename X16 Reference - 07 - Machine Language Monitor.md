@@ -75,9 +75,9 @@ C*
 |PC       | Program Counter and the current address
 |RA       | Active RAM Bank
 |RO       | Active ROM Bank
-|AC       | Accumulator
-|XR       | X Register
-|YR       | Y Register
+|AC       | Accumulator Value
+|XR       | X Register Value
+|YR       | Y Register Value
 |SP       | Stack Pointer
 |NV#BDIZC | Status Register
 
@@ -86,9 +86,9 @@ C*
 |  N                   | Negative
 |  V                   | Overflow Vector
 | \#                   | Unused
-|  B                   | A Break Point (opcode BRK)
+|  B                   | A Break Point is Active
 |  D                   | Decimal Mode Active (also known as Binary Code Decimal)
-|  I                   | IRQ Enabled / Disabled
+|  I                   | IRQ is Enabled
 |  Z                   | Zero Bit
 |  C                   | Carry Bit
 
