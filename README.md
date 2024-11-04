@@ -47,6 +47,8 @@ first.
 * [Appendix D: Official Expansion Cards](X16%20Reference%20-%20Appendix%20D%20-%20Official%20Expansion%20Cards.md#appendix-d-official-expansion-cards)
 * [Appendix E: Diagnostic Bank](X16%20Reference%20-%20Appendix%20E%20-%20Diagnostic%20Bank.md#appendix-e-diagnostic-bank)
 * [Appendix F: The 65C816 Processor](X16%20Reference%20-%20Appendix%20F%20-%2065C816%20Processor.md#appendix-f-the-65c816-processor)
+* [Appendix G: ZSM File Format](X16%20Reference%20-%20Appendix%20G%20-%20ZSM%20File%20Format.md#appendix-g-zsm-file-format)
+* [Appendix H: Onboard Upgrade Guide](X16%20Reference%20-%20Appendix%20H%20-%20Onboard%20Upgrade%20Guide.md#appendix-h-how-to-update-your-x16-to-latest-release)
 
 ## External Links
 
