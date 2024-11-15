@@ -161,7 +161,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=1</summary>
 	<table>
 		<tr>
@@ -199,7 +199,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=2</summary>
 	<table>
 		<tr>
@@ -252,7 +252,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=3</summary>
 	<table>
 		<tr>
@@ -292,7 +292,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=4</summary>
 	<table>
 		<tr>
@@ -334,7 +334,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=5</summary>
 	<table>
 		<tr>
@@ -394,7 +394,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=6</summary>
 	<table>
 		<tr>
@@ -442,7 +442,7 @@ The VERA consists of:
 	</table>
 </details>
 
-<details>
+<details open>
 	<summary>DCSEL=63</summary>
 	<table>
 		<tr>
