@@ -32,6 +32,8 @@ The VERA consists of:
 
 # Registers
 
+## $9F20-$9F28
+
 <table>
 	<tr>
 		<th>Addr</th>
@@ -111,224 +113,387 @@ The VERA consists of:
 		<td>SCANLINE_L (Read only)</td>
 		<td colspan="8" align="center">Scan line (7:0)</td>
 	</tr>
+</table>
+
+## $9F29-$9F2C
+
+<details open>
+	<summary>DCSEL=0</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>DC_VIDEO</td>
+			<td colspan="1" align="center">Current Field</td>
+			<td colspan="1" align="center">Sprites Enable</td>
+			<td colspan="1" align="center">Layer1 Enable</td>
+			<td colspan="1" align="center">Layer0 Enable</td>
+			<td colspan="1" align="center">NTSC/RGB: 240P</td>
+			<td colspan="1" align="center">NTSC: Chroma Disable / RGB: HV Sync </td>
+			<td colspan="2" align="center">Output Mode</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>DC_HSCALE<br></td>
+			<td colspan="8" align="center">Active Display H-Scale</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>DC_VSCALE<br></td>
+			<td colspan="8" align="center">Active Display V-Scale</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>DC_BORDER<br></td>
+			<td colspan="8" align="center">Border Color</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=1</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>DC_HSTART</td>
+			<td colspan="8" align="center">Active Display H-Start (9:2)</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>DC_HSTOP</td>
+			<td colspan="8" align="center">Active Display H-Stop (9:2)</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>DC_VSTART</td>
+			<td colspan="8" align="center">Active Display V-Start (8:1)</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>DC_VSTOP</td>
+			<td colspan="8" align="center">Active Display V-Stop (8:1)</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=2</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_CTRL</td>
+			<td align="center">Transp. Writes</td>
+			<td align="center">Cache Write Enable</td>
+			<td align="center">Cache Fill Enable</td>
+			<td align="center">One-byte Cache Cycling</td>
+			<td align="center">16-bit Hop</td>
+			<td align="center">4-bit Mode</td>
+			<td colspan="2" align="center">Addr1 Mode</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_TILEBASE<br>(Write only)</td>
+			<td colspan="6" align="center">FX Tile Base Address (16:11)</td>
+			<td align="center">Affine Clip Enable</td>
+			<td align="center">2-bit Polygon</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_MAPBASE<br>(Write only)</td>
+			<td colspan="6" align="center">FX Map Base Address (16:11)</td>
+			<td colspan="2" align="center">Map Size</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>FX_MULT<br>(Write only)</td>
+			<td align="center">Reset Accum.</td>
+			<td align="center">Accumulate</td>
+			<td align="center">Subtract Enable</td>
+			<td align="center">Multiplier Enable</td>
+			<td colspan="2" align="center">Cache Byte Index</td>
+			<td align="center">Cache Nibble Index</td>
+			<td align="center">Two-byte Cache Incr. Mode</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=3</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_X_INCR_L<br>(Write only)</td>
+			<td colspan="8" align="center">X Increment (-2:-9) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_X_INCR_H<br>(Write only)</td>
+			<td align="center">X Incr. 32x</td>
+			<td colspan="7" align="center">X Increment (5:-1) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_Y_INCR_L<br>(Write only)</td>
+			<td colspan="8" align="center">Y/X2 Increment (-2:-9) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>FX_Y_INCR_H<br>(Write only)</td>
+			<td align="center">Y/X2 Incr. 32x</td>
+			<td colspan="7" align="center">Y/X2 Increment (5:-1) (signed)</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=4</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_X_POS_L<br>(Write only)</td>
+			<td colspan="8" align="center">X Position (7:0)</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_X_POS_H<br>(Write only)</td>
+			<td align="center">X Pos. (-9)</td>
+			<td colspan="4" align="center">-</td>
+			<td colspan="3" align="center">X Position (10:8)</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_Y_POS_L<br>(Write only)</td>
+			<td colspan="8" align="center">Y/X2 Position (7:0)</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>FX_Y_POS_H<br>(Write only)</td>
+			<td align="center">Y/X2 Pos. (-9)</td>
+			<td colspan="4" align="center">-</td>
+			<td colspan="3" align="center">Y/X2 Position (10:8)</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=5</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_X_POS_S<br>(Write only)</td>
+			<td colspan="8" align="center">X Postion (-1:-8)</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_Y_POS_S<br>(Write only)</td>
+			<td colspan="8" align="center">Y/X2 Postion (-1:-8)</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_POLY_FILL_L<br>(4-bit Mode=0)<br>(Read only)</td>
+			<td align="center">Fill Len >= 16</td>
+			<td colspan="2" align="center">X Position (1:0)</td>
+			<td colspan="4" align="center">Fill Len (3:0)</td>
+			<td align="center">0</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_POLY_FILL_L<br>(4-bit Mode=1, 2-bit Polygon=0)<br>(Read only)</td>
+			<td align="center">Fill Len >= 8</td>
+			<td colspan="2" align="center">X Position (1:0)</td>
+			<td align="center">X Pos. (2)</td>
+			<td colspan="3" align="center">Fill Len (2:0)</td>
+			<td align="center">0</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_POLY_FILL_L<br>(4-bit Mode=1, 2-bit Polygon=1)<br>(Read only)</td>
+			<td align="center">X2 Pos. (-1)</td>
+			<td colspan="2" align="center">X Position (1:0)</td>
+			<td align="center">X Pos. (2)</td>
+			<td colspan="3" align="center">Fill Len (2:0)</td>
+			<td align="center">X Pos. (-1)</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>FX_POLY_FILL_H<br>(Read only)</td>
+			<td colspan="7" align="center">Fill Len (9:3)</td>
+			<td align="center">0</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=6</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_CACHE_L<br>(Write only)</td>
+			<td colspan="8" align="center">Cache (7:0) | Multiplicand (7:0) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>FX_ACCUM_RESET<br>(Read only)</td>
+			<td colspan="8" align="center">Reset Accumulator</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_CACHE_M<br>(Write only)</td>
+			<td colspan="8" align="center">Cache (15:8) | Multiplicand (15:8) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>FX_ACCUM<br>(Read only)</td>
+			<td colspan="8" align="center">Accumulate</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>FX_CACHE_H<br>(Write only)</td>
+			<td colspan="8" align="center">Cache (23:16) | Multiplier (7:0) (signed)</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>FX_CACHE_U<br>(Write only)</td>
+			<td colspan="8" align="center">Cache (31:24) | Multiplier (15:8) (signed)</td>
+		</tr>
+	</table>
+</details>
+
+<details open>
+	<summary>DCSEL=63</summary>
+	<table>
+		<tr>
+			<th>Addr</th>
+			<th>Name</th>
+			<th>Bit&nbsp;7</th>
+			<th>Bit&nbsp;6</th>
+			<th>Bit&nbsp;5 </th>
+			<th>Bit&nbsp;4</th>
+			<th>Bit&nbsp;3 </th>
+			<th>Bit&nbsp;2</th>
+			<th>Bit&nbsp;1 </th>
+			<th>Bit&nbsp;0</th>
+		</tr>
+		<tr>
+			<td>$9F29</td>
+			<td>DC_VER0<br>(Read only)</td>
+			<td colspan="8" align="center">The ASCII character "V"</td>
+		</tr>
+		<tr>
+			<td>$9F2A</td>
+			<td>DC_VER1<br>(Read only)</td>
+			<td colspan="8" align="center">Major release</td>
+		</tr>
+		<tr>
+			<td>$9F2B</td>
+			<td>DC_VER2<br>(Read only)</td>
+			<td colspan="8" align="center">Minor release</td>
+		</tr>
+		<tr>
+			<td>$9F2C</td>
+			<td>DC_VER3<br>(Read only)</td>
+			<td colspan="8" align="center">Minor build number</td>
+		</tr>
+	</table>
+</details>
+
+## $9F2D-$9F3F
+
+<table>
 	<tr>
-		<td>$9F29</td>
-		<td>DC_VIDEO (DCSEL=0)</td>
-		<td colspan="1" align="center">Current Field</td>
-		<td colspan="1" align="center">Sprites Enable</td>
-		<td colspan="1" align="center">Layer1 Enable</td>
-		<td colspan="1" align="center">Layer0 Enable</td>
-		<td colspan="1" align="center">NTSC/RGB: 240P</td>
-		<td colspan="1" align="center">NTSC: Chroma Disable / RGB: HV Sync </td>
-		<td colspan="2" align="center">Output Mode</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>DC_HSCALE<br>(DCSEL=0)</td>
-		<td colspan="8" align="center">Active Display H-Scale</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>DC_VSCALE<br>(DCSEL=0)</td>
-		<td colspan="8" align="center">Active Display V-Scale</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>DC_BORDER<br>(DCSEL=0)</td>
-		<td colspan="8" align="center">Border Color</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>DC_HSTART<br>(DCSEL=1)</td>
-		<td colspan="8" align="center">Active Display H-Start (9:2)</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>DC_HSTOP<br>(DCSEL=1)</td>
-		<td colspan="8" align="center">Active Display H-Stop (9:2)</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>DC_VSTART<br>(DCSEL=1)</td>
-		<td colspan="8" align="center">Active Display V-Start (8:1)</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>DC_VSTOP<br>(DCSEL=1)</td>
-		<td colspan="8" align="center">Active Display V-Stop (8:1)</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_CTRL<br>(DCSEL=2)</td>
-		<td align="center">Transp. Writes</td>
-		<td align="center">Cache Write Enable</td>
-		<td align="center">Cache Fill Enable</td>
-		<td align="center">One-byte Cache Cycling</td>
-		<td align="center">16-bit Hop</td>
-		<td align="center">4-bit Mode</td>
-		<td colspan="2" align="center">Addr1 Mode</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_TILEBASE<br>(DCSEL=2)<br>(Write only)</td>
-		<td colspan="6" align="center">FX Tile Base Address (16:11)</td>
-		<td align="center">Affine Clip Enable</td>
-		<td align="center">2-bit Polygon</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_MAPBASE<br>(DCSEL=2)<br>(Write only)</td>
-		<td colspan="6" align="center">FX Map Base Address (16:11)</td>
-		<td colspan="2" align="center">Map Size</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>FX_MULT<br>(DCSEL=2)<br>(Write only)</td>
-		<td align="center">Reset Accum.</td>
-		<td align="center">Accumulate</td>
-		<td align="center">Subtract Enable</td>
-		<td align="center">Multiplier Enable</td>
-		<td colspan="2" align="center">Cache Byte Index</td>
-		<td align="center">Cache Nibble Index</td>
-		<td align="center">Two-byte Cache Incr. Mode</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_X_INCR_L<br>(DCSEL=3)<br>(Write only)</td>
-		<td colspan="8" align="center">X Increment (-2:-9) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_X_INCR_H<br>(DCSEL=3)<br>(Write only)</td>
-		<td align="center">X Incr. 32x</td>
-		<td colspan="7" align="center">X Increment (5:-1) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_Y_INCR_L<br>(DCSEL=3)<br>(Write only)</td>
-		<td colspan="8" align="center">Y/X2 Increment (-2:-9) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>FX_Y_INCR_H<br>(DCSEL=3)<br>(Write only)</td>
-		<td align="center">Y/X2 Incr. 32x</td>
-		<td colspan="7" align="center">Y/X2 Increment (5:-1) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_X_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center">X Position (7:0)</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_X_POS_H<br>(DCSEL=4)<br>(Write only)</td>
-		<td align="center">X Pos. (-9)</td>
-		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center">X Position (10:8)</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_Y_POS_L<br>(DCSEL=4)<br>(Write only)</td>
-		<td colspan="8" align="center">Y/X2 Position (7:0)</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>FX_Y_POS_H<br>(DCSEL=4)<br>(Write only)</td>
-		<td align="center">Y/X2 Pos. (-9)</td>
-		<td colspan="4" align="center">-</td>
-		<td colspan="3" align="center">Y/X2 Position (10:8)</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_X_POS_S<br>(DCSEL=5)<br>(Write only)</td>
-		<td colspan="8" align="center">X Postion (-1:-8)</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_Y_POS_S<br>(DCSEL=5)<br>(Write only)</td>
-		<td colspan="8" align="center">Y/X2 Postion (-1:-8)</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_POLY_FILL_L<br>(DCSEL=5, 4-bit Mode=0)<br>(Read only)</td>
-		<td align="center">Fill Len >= 16</td>
-		<td colspan="2" align="center">X Position (1:0)</td>
-		<td colspan="4" align="center">Fill Len (3:0)</td>
-		<td align="center">0</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_POLY_FILL_L<br>(DCSEL=5, 4-bit Mode=1, 2-bit Polygon=0)<br>(Read only)</td>
-		<td align="center">Fill Len >= 8</td>
-		<td colspan="2" align="center">X Position (1:0)</td>
-		<td align="center">X Pos. (2)</td>
-		<td colspan="3" align="center">Fill Len (2:0)</td>
-		<td align="center">0</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_POLY_FILL_L<br>(DCSEL=5, 4-bit Mode=1, 2-bit Polygon=1)<br>(Read only)</td>
-		<td align="center">X2 Pos. (-1)</td>
-		<td colspan="2" align="center">X Position (1:0)</td>
-		<td align="center">X Pos. (2)</td>
-		<td colspan="3" align="center">Fill Len (2:0)</td>
-		<td align="center">X Pos. (-1)</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>FX_POLY_FILL_H<br>(DCSEL=5)<br>(Read only)</td>
-		<td colspan="7" align="center">Fill Len (9:3)</td>
-		<td align="center">0</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_CACHE_L<br>(DCSEL=6)<br>(Write only)</td>
-		<td colspan="8" align="center">Cache (7:0) | Multiplicand (7:0) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>FX_ACCUM_RESET<br>(DCSEL=6)<br>(Read only)</td>
-		<td colspan="8" align="center">Reset Accumulator</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_CACHE_M<br>(DCSEL=6)<br>(Write only)</td>
-		<td colspan="8" align="center">Cache (15:8) | Multiplicand (15:8) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>FX_ACCUM<br>(DCSEL=6)<br>(Read only)</td>
-		<td colspan="8" align="center">Accumulate</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>FX_CACHE_H<br>(DCSEL=6)<br>(Write only)</td>
-		<td colspan="8" align="center">Cache (23:16) | Multiplier (7:0) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>FX_CACHE_U<br>(DCSEL=6)<br>(Write only)</td>
-		<td colspan="8" align="center">Cache (31:24) | Multiplier (15:8) (signed)</td>
-	</tr>
-	<tr>
-		<td>$9F29</td>
-		<td>DC_VER0<br>(DCSEL=63)<br>(Read only)</td>
-		<td colspan="8" align="center">The ASCII character "V"</td>
-	</tr>
-	<tr>
-		<td>$9F2A</td>
-		<td>DC_VER1<br>(DCSEL=63)<br>(Read only)</td>
-		<td colspan="8" align="center">Major release</td>
-	</tr>
-	<tr>
-		<td>$9F2B</td>
-		<td>DC_VER2<br>(DCSEL=63)<br>(Read only)</td>
-		<td colspan="8" align="center">Minor release</td>
-	</tr>
-	<tr>
-		<td>$9F2C</td>
-		<td>DC_VER3<br>(DCSEL=63)<br>(Read only)</td>
-		<td colspan="8" align="center">Minor build number</td>
+		<th>Addr</th>
+		<th>Name</th>
+		<th>Bit&nbsp;7</th>
+		<th>Bit&nbsp;6</th>
+		<th>Bit&nbsp;5 </th>
+		<th>Bit&nbsp;4</th>
+		<th>Bit&nbsp;3 </th>
+		<th>Bit&nbsp;2</th>
+		<th>Bit&nbsp;1 </th>
+		<th>Bit&nbsp;0</th>
 	</tr>
 	<tr>
 		<td>$9F2D</td>
