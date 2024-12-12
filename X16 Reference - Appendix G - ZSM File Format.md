@@ -6,7 +6,7 @@
 The Zsound suite of Commander X16 audio tools contains the original ZSM reference player, found at:  
 https://github.com/ZeroByteOrg/zsound/
 
-An newer, more flexible, and more recently maintained library with PCM support, ZSMKit, is avalable at:  
+A newer, more flexible, and more recently maintained library with PCM support, ZSMKit, is avalable at:  
 https://github.com/mooinglemur/ZSMKit/
 
 #### Current ZSM Revision: 1
