@@ -1254,6 +1254,8 @@ The default driver supports the VERA framebuffer at a resolution of 320x240 pixe
 Signature: void FB_init();  
 Purpose: Enter graphics mode.
 
+The default driver for this call activates VERA layer 0 without changing the state of any other VERA layers.  If layer 1 (such as the KERNAL text layer) is active and opaque, it may occlude layer 0 entirely.
+
 ---
 
 #### Function Name: FB_get_info
@@ -1392,6 +1394,8 @@ Signature: void GRAPH_init(word vectors: r0);
 Purpose: Activate framebuffer driver, enter and initialize graphics mode
 
 **Description**: This call activates the framebuffer driver whose vector table is passed in r0. If r0 is 0, the default driver is activated. It then switches the video hardware into graphics mode, sets the window to full screen, initializes the colors and activates the system font.
+
+This function calls `FB_init`, whose default driver activates VERA layer 0 without changing the state of any other VERA layers.  If layer 1 (such as the KERNAL text layer) is active and opaque, it may occlude layer 0 entirely.
 
 ---
 
