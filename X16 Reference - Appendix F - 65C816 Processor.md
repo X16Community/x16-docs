@@ -37,7 +37,7 @@ relocation offer interesting multitasking opportunities.
 
 ## Compatibility with the 65C02
 
-The 65C916 CPU is generally compatible with the 65C02 instruction set, with the
+The 65C816 CPU is generally compatible with the 65C02 instruction set, with the
 exception  of the `BBRx`, `BBSx`, `RMBx`, and `SMBx` instructions. We recommend
 programmers avoid these instructions when writing X16 softwware, using the more
 conventional Boolean logic instructions, instead.
@@ -210,7 +210,7 @@ addresses (although they would be the same if .DP is set to $00.
 
 ## Vectors
 
-The 65816 has two different sets of interrupt vectors. In emulation mode, the
+The 65C816 has two different sets of interrupt vectors. In emulation mode, the
 vectors are the same as the 65C02. In native mode (.e = 0), the native vectors
 are used. This allows you to switch to the desired operation mode, based on the
 operating mode of your interrupt handlers.
