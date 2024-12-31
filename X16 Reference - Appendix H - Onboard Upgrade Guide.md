@@ -57,7 +57,7 @@ You may want to take a picture of the screen or write it down, for future refere
 
 #### 2.2 ROM/SMC/VERA (optional)
 - If you know your current version numbers (step 1), and do not care about rolling back, you can safely skip this step.
-- If you like to preserve the history, you can optionally dump the existing versions of ROM/SMC/VERA, for your own archival purposes. In particular, if your version is not a released full version (e.g. ROM prerelease), you may want to make a backup of this one (and give a head's up on Discord, #kernel).
+- If you like to preserve the history, you can optionally dump the existing versions of ROM/SMC/VERA, for your own archival purposes. In particular, if your version is not a released full version (e.g. ROM prerelease), you may want to make a backup of this one (and give a heads-up on Discord, #kernel).
 
 ##### 2.2.1 ROM (optional)
 If your ROM version is marked as release (and not prerelease), and your version is present in the ROM release page https://github.com/X16Community/x16-rom/releases/ , you can likely download your version from the release page should you ever want to roll back. If your version is marked as Prerelease (e.g. 8929A57+ or 33ACE3A4), it is harder to be certain that you can roll back, as those are not official releases. There exist a dump of a 8929A57+ ROM here: https://cx16forum.com/forum/viewtopic.php?p=31112 , although, in theory, there can exist different ROM versions with this number.
@@ -319,11 +319,11 @@ Run SMCBLD7.PRG. Check if "Boot v3 failsafe" is installed. If it is, and you pla
 Downgrade SMC using any tool
 - SMCUPDATE or x16-update
 - Note that SMC 45.1.0* or newer is needed if you want to use the bootloader afterwards
-- SMC older than R42 is indended for an incompatible hardware revision
+- SMC older than R42 is intended for an incompatible hardware revision
 
 ### Step 3: Downgrade ROM
 Downgrade ROM
-- ROM older than R42 is indended for an incompatible hardware revision
+- ROM older than R42 is intended for an incompatible hardware revision
 
 ### Step 4: Downgrade VERA
 Downgrade VERA

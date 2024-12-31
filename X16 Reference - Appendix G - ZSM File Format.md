@@ -6,7 +6,7 @@
 The Zsound suite of Commander X16 audio tools contains the original ZSM reference player, found at:  
 https://github.com/ZeroByteOrg/zsound/
 
-A newer, more flexible, and more recently maintained library with PCM support, ZSMKit, is avalable at:  
+A newer, more flexible, and more recently maintained library with PCM support, ZSMKit, is available at:  
 https://github.com/mooinglemur/ZSMKit/
 
 #### Current ZSM Revision: 1
@@ -102,7 +102,7 @@ Any offset values contained in the PCM data header block are relative to the beg
 
 This is a blob of PCM data with no internal formatting. Offsets into this blob are provided via the PCM header. The end of this blob will be the end of the ZSM file.
 
-## EXTCMD Channel Scifications
+## EXTCMD Channel Specifications
 
 Extension commands provide optional functionality within a ZSM music file. EXTCMD may be ignored by any player. EXTCMD defines 4 "channels" of message streams. Players may implement support for any, all, or none of the channels as desired. An EXTCMD may specify up to 63 bytes of data. If more data than this is required, then it must be broken up into multiple EXTCMDs.
 

@@ -1709,7 +1709,7 @@ Note: the 6502 and 65C02 use bit 4 (**x** on the '816) for the Break flag. While
 **b** does get written to the stack in a BRK operation, bit 4 in .P always
 reflects the state of the 8-bit-index flag. Since the flags differ slightly in
 behavior, make sure your Interrupt handler code reads from the stack, not the .P
-bits, when dispatching a IRQ/BRK interrupt.
+bits, when dispatching an IRQ/BRK interrupt.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
