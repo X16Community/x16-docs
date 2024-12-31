@@ -12,7 +12,7 @@ The WDC65C02 CPU is a modern version of the MOS6502 with a few additional
 instructions and addressing modes and is capable of running at up to 14 MHz. On
 the Commander X16, it is clocked at 8 MHz.
 
-## A note about 65C816 Compatibilty
+## A note about 65C816 Compatibility
 
 The Commander X16 may be upgraded at some point to use the WDC 65C816 CPU.
 The 65C816 is mostly compatible with the 65C02, except for 4 instructions
@@ -137,7 +137,7 @@ AND ($20)    ZP Indirect    $32   2     5     N-----Z- +c
 
 Bitwise AND the provided value with the Accumulator.
 
-- Sets N (Negative) flag if the bit 7 of the result is 1, and otherewise
+- Sets N (Negative) flag if the bit 7 of the result is 1, and otherwise
 clears it.
 - Sets Z (Zero) is the result is zero, and otherwise clears it  
 
@@ -289,7 +289,7 @@ BIT $8080,X  Absolute,X     $3C   3     4+    NV----Z- +c +p
 
 - Sets Z (Zero) flag based on an AND of value provided to the Accumulator.
 - Sets N (Negative) flag to the value of bit 7 at the provided address (NOTE: not with immediate).
-- Sets V (Overflow) flag to the value of bit 6 at the provided addres (NOTE: not with immediate).
+- Sets V (Overflow) flag to the value of bit 6 at the provided address (NOTE: not with immediate).
 
 +p: Add 1 cycle if a page boundary is crossed when forming address.  
 +c: New for the 65C02  
@@ -541,7 +541,7 @@ leaving the new value in its place.
 
 #### 16-bit DEC Example
 
-You can peform a 16-bit DEC by chaining two DECs together, testing the low
+You can perform a 16-bit DEC by chaining two DECs together, testing the low
 byte before decrementing the high byte:
 
 ```asm
@@ -633,7 +633,7 @@ new value in its place.
 
 #### 16-bit INC Example
 
-You can peform a 16-bit INC by chaining two INCs together, testing the low
+You can perform a 16-bit INC by chaining two INCs together, testing the low
 byte after incrementing it.
 
 ```asm
@@ -1311,7 +1311,7 @@ TSB $8080    Absolute       $0C   3     5     ------Z- +c
 
 Performs an OR with each bit in the accumulator and memory.
 Each bit that is 1 in the Accumulator is set to 1 in memory. This is similar to
-an ORA operation, execpt that the result is stored in memory, not in A.
+an ORA operation, except that the result is stored in memory, not in A.
 
 The Z flag is set based on the final result of the operation, ie: the memory
 data is 0.
@@ -1335,7 +1335,7 @@ TSX          Implied        $BA   1     2     N-----Z- Copy from Stack Pointer t
 TXS          Implied        $9A   1     2     -------- Copy from .X to Stack Pointer
 ```
 
-Copies data from one register to anohter.
+Copies data from one register to another.
 
 TSX and TSX copy between the Stack Pointer and the X register. This is the only
 way to directly control the Stack Pointer. To initialize the Stack Pointer to
@@ -1358,7 +1358,7 @@ SYNTAX       MODE           HEX  LEN  CYCLES  FLAGS
 WAI          Implied        $CB   1     3     -------- +c
 ```
 
-Effectively stops the processor until a hardware interrupt occurs. The intterupt
+Effectively stops the processor until a hardware interrupt occurs. The interrupt
 is processed immediately, and execution resumes in the Interrupt handler.
 
 NMI, IRQ, and RST (Reset) will recover from the WAI condition.
@@ -1388,7 +1388,7 @@ P-Register:
   1 = Always 1  
   B = Interrupt Flag  
   D = Decimal Mode  
-  I = Interupts Disabled  
+  I = Interrupts Disabled  
   Z = Zero  
   C = Carry  
 
