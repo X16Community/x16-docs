@@ -37,9 +37,9 @@ relocation offer interesting multitasking opportunities.
 
 ## Compatibility with the 65C02
 
-The 65C916 CPU is generally compatible with the 65C02 instruction set, with the
-exception  of the `BBRx`, `BBSx`, `RMBx`, and `SMBx` instructions. We recommend
-programmers avoid these instructions when writing X16 softwware, using the more
+The 65C816 CPU is generally compatible with the 65C02 instruction set, with the
+exception of the `BBRx`, `BBSx`, `RMBx`, and `SMBx` instructions. We recommend
+programmers avoid these instructions when writing X16 software, using the more
 conventional Boolean logic instructions, instead.
 
 ## Registers
@@ -51,7 +51,7 @@ conventional Boolean logic instructions, instead.
 | Y         | Y Index          | .Y is mostly used as a counter and to offset addresses with Y indexed modes |
 | S         | Stack Pointer    | SP points to the next open position on the stack.                           |
 | DB or DBR | Data Bank        | Data bank is the default bank for operations that use a 16 bit address.     |
-| K or  PBR | Program Bank     | The default address for 16 bit JMP and JSR oprerations. Can only be set with a 24 bit JMP or JSR. |
+| K or  PBR | Program Bank     | The default address for 16 bit JMP and JSR operations. Can only be set with a 24 bit JMP or JSR. |
 | P         | Processor Status | The flags. |
 | PC        | Program Counter  | The address of the current CPU instruction |
 
@@ -75,7 +75,7 @@ The native mode flags are as follows:
   m = Memory width (0=16 bit, 1=8 bit)  
   x = Index register width (0=16 bit, 1=8 bit)  
   d = Decimal Mode  
-  i = Interupts Disabled  
+  i = Interrupts Disabled  
   z = Zero  
   c = Carry  
   e = Emulation Mode (0=65C02 mode, 1=65C816 mode)
@@ -91,14 +91,14 @@ Here are the 6502 and 65C02 registers, for comparison:
   1 = this bit is always 1  
   b = brk: set during a BRK instruction interrupt  
   d = Decimal Mode  
-  i = Interupts Disabled  
+  i = Interrupts Disabled  
   z = Zero  
   c = Carry  
 
 Note the missing **b** flag on the 65C816. This is no longer needed in native
 mode, since the BRK instruction now has its own vector. 
 
-The **e** flag can only accessed via the XCE instruction, which swaps Carry and
+The **e** flag can only be accessed via the XCE instruction, which swaps Carry and
 the Emulation flag.
 
 The other flags can all be manipulated with SEP and REP, and the various
@@ -141,7 +141,7 @@ When the **m** flag is *clear*, Accumulator operations and memory reads and writ
 will be 16-bit operations. The CPU reads two bytes at a time with LDA, writes
 two bytes at a time with STA, and all math involving .A is 16 bits wide.
 
-Likewise, whenn **x** is clear, the .X and .Y index registers are 16 bits wide.
+Likewise, when **x** is clear, the .X and .Y index registers are 16 bits wide.
 INX and INY will now count up to 65535, and indexed instructions like `LDA addr,X`
 can now cover 64K.
 
@@ -175,7 +175,7 @@ all _emulate_ 65C02 behavior when _set_.
 
 ## Address Modes
 
-The 65C816 now has 24 discinct address modes, although most are veriations on a
+The 65C816 now has 24 distinct address modes, although most are variations on a
 theme. Make note of the new syntax for Stack relative instructions (,S), the use
 of brackets for [24 bit indirect] addressing, and the fact that Zero Page has
 been renamed to Direct Page. This means that $0001 and $01 are now two different
@@ -194,7 +194,7 @@ addresses (although they would be the same if .DP is set to $00.
 | Direct Indirect Y Indexed       | ($12),Y   | Resolve pointer at $12 then offset by Y.                           |
 | Direct X Indexed Indirect       | ($12,X)   | Start at $12, offset by X, then read that address.                 |
 | Direct Indirect Long            | [$12]     | 24 bit pointer on Direct Page.                                     |
-| Direct Indrect Long Y Indexed   | [$12],Y   | Resolve address at $12, then offset by Y.                          |
+| Direct Indirect Long Y Indexed   | [$12],Y   | Resolve address at $12, then offset by Y.                          |
 | Indirect                        | ($1234)   | Read pointer at $1234 and get data from the resultant address      |
 | Indirect X Indexed              | ($1234,X) | Read pointer at $1234 offset by X, get data from resultant address |
 | Indirect Long                   | [$1234]   | Pointer is a 24-bit address.                                       |
@@ -210,7 +210,7 @@ addresses (although they would be the same if .DP is set to $00.
 
 ## Vectors
 
-The 65816 has two different sets of interrupt vectors. In emulation mode, the
+The 65C816 has two different sets of interrupt vectors. In emulation mode, the
 vectors are the same as the 65C02. In native mode (.e = 0), the native vectors
 are used. This allows you to switch to the desired operation mode, based on the
 operating mode of your interrupt handlers.
@@ -413,7 +413,7 @@ In 8-bit mode, when you add two positive numbers that result in a sum
 higher than 127 or add two negative numbers that result in a sum below -128, you
 will get a signed overflow, and the v flag will be set.
 
-When the sum of the two numbers exceeeds 255 or 65535, then the Carry flag will
+When the sum of the two numbers exceeds 255 or 65535, then the Carry flag will
 be set. This bit can be added to the next higher byte with ADC #0.
 
 ```asm
@@ -766,7 +766,7 @@ Of course, due to wrapping of the 64K bank, this means that the entire 64K
 region is accessible. Values below 0 will simply wrap around and start from
 $FFFF, and values above $FFFF will wrap around to 0.
 
-Since this is a _relatve_ branch, that means code assembled with BRL, instead of
+Since this is a _relative_ branch, that means code assembled with BRL, instead of
 JMP, can be moved around in memory without the need for re-assembly.
 
 
@@ -962,7 +962,7 @@ BCC $1000
 As you can see, some comparisons will require two distinct branch instructions.
 
 Also, note that the Branch instructions (except BRL) require that the target
-address be within 128 bytes of the instruciton after the branch. If you need to
+address be within 128 bytes of the instruction after the branch. If you need to
 branch further, the usual method is to invert the branch instruction and use a
 JMP to take the branch.
 
@@ -1244,11 +1244,11 @@ JMP ($2034)      (abs)      6C  3   5           ........ .
 JMP ($2034,X)    (abs,X)    7C  3   6           ........ .
 ```
 
-Jump to a differnent address in memory, continuing program execution at the
+Jump to a different address in memory, continuing program execution at the
 specified address.
 
 Instructions like `JMP ($1234,X)` make it possible to branch to a selectable
-subroutine by setting X to the indesx into the vector table.
+subroutine by setting X to the index into the vector table.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -1265,7 +1265,7 @@ JML $FEDCBA      long       5C  4   4           ........ .
 JMP [$2034]      [abs]      DC  3   6           ........ .
 ```
 
-Jump to a differnent address in memory, continuing program execution at the
+Jump to a different address in memory, continuing program execution at the
 specified address. JML accepts a 24-bit address, allowing the program to change
 program banks.
 
@@ -1304,7 +1304,7 @@ JSR ($2034,X)    (abs,X)    FC  3   8           ........ .
 ```
 
 Jumps to a new operating address in memory. Also pushes the return address to
-the stack, allowing an RTS insruction to pick up at the address following the
+the stack, allowing an RTS instruction to pick up at the address following the
 JSR.
 
 The [RTS](#rts) instruction returns to the instruction following JSR.
@@ -1555,7 +1555,7 @@ their own syntax rules.
 
 #### PEI
 
-**Push Effecive Indirect Address**
+**Push Effective Indirect Address**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
@@ -1592,7 +1592,7 @@ PER LABEL        rel16      62  3   6           ........ .
 PER pushes the address _relative to the program counter_. This allows you to
 mark the current executing location and push that to the stack.
 
-When used in conjunctin with BRL, PER can form a reloatable JSR instruction.
+When used in conjunction with BRL, PER can form a relocatable JSR instruction.
 
 Consider the following ca65 macro:
 
@@ -1709,7 +1709,7 @@ Note: the 6502 and 65C02 use bit 4 (**x** on the '816) for the Break flag. While
 **b** does get written to the stack in a BRK operation, bit 4 in .P always
 reflects the state of the 8-bit-index flag. Since the flags differ slightly in
 behavior, make sure your Interrupt handler code reads from the stack, not the .P
-bits, when dispatching a IRQ/BRK interrupt.
+bits, when dispatching an IRQ/BRK interrupt.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
@@ -1883,7 +1883,7 @@ SYNTAX           MODE       HEX LEN CYCLES      FLAGS
 REP #$20/#$1234  imm        C2  2   3           nvmxdizc .
 ```
 
-This clears (to 0) flags in the Program Status Byte. The 1 bits in the will be
+This clears (to 0) flags in the Program Status Byte. The 1 bit will be
 cleared in the flags, so REP #$30 will set the **a** and **x** bits low.
 
 
@@ -1985,7 +1985,7 @@ SYNTAX           MODE       HEX LEN CYCLES      FLAGS
 RTS              imp        60  1   6           ........ .
 ```
 
-Return to to a calling routine after a [JSR](#jsr).
+Return to a calling routine after a [JSR](#jsr).
 
 RTS reads a 2 byte address from the stack and loads that address into the
 Program Counter. The next instruction executed will then be the
@@ -2226,7 +2226,7 @@ byte of RAM.
 
 #### STZ
 
-**Store Sero to Memory**
+**Store Zero to Memory**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
@@ -2352,10 +2352,10 @@ TRB does two things with one operation: it tests specified bits in a memory
 location, and it clears (resets) those bits after the test.
 
 First, TRB performs a logical AND between the memory address specified and the
-Accmulator. If the result of the AND is zero, the **z** flag will be set.
+Accumulator. If the result of the AND is zero, the **z** flag will be set.
 
 Second, TRB clears bits in the memory value based on the bit mask in the
-accmulator. Any bit that is 1 in .A will be changed to 0 in memory.
+accumulator. Any bit that is 1 in .A will be changed to 0 in memory.
 
 So to _clear_ a bit in a memory value, set that value to 1 in .A, like this:
 
@@ -2391,7 +2391,7 @@ TSB does two things with one operation: it tests specified bits in a memory
 location, and it clears (resets) those bits after the test.
 
 First, TSB performs a logical AND between the memory address specified and the
-Accmulator. If the result of the AND is zero, the **z** flag will be set.
+Accumulator. If the result of the AND is zero, the **z** flag will be set.
 
 TSB also _sets_ the bits that are 1 in the accumulator, similar to an OR
 operation.

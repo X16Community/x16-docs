@@ -250,7 +250,7 @@ On the YM2151 using channel 0, plays in the current octave the sequence **C** **
 
 
 ### Octave
-* Synopsis: Explictly set the octave number for notes that follow
+* Synopsis: Explicitly set the octave number for notes that follow
 * Syntax: `O<0-7>`
 
 Example:
