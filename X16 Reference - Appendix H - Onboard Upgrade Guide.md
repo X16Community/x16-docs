@@ -85,20 +85,19 @@ If your version is not archived (e.g. ROM prerelease), you may want to make a ba
 #### Suggested folder structure:
 - UPDATE
 	- VERA
-		- 47.0.2
-			- FLASHVERA.PRG
-			- VERA.BIN
+		- FLASHVERA.PRG
+		- VERA.BIN (downloaded file must be renamed to VERA.BIN)
 	- ROM
-		- R48
-			- UPDATE.PRG
-			- ROM.BIN
+		- UPDATE.PRG
+		- ROM.BIN
 	- SMC
-		- 47.2.3
-			- SMCUPDATE.PRG
+		- SMCUPDATE-x.x.x.PRG (do not rename)
 	- SMCTOOLS
 		- SMCBLD7.PRG
 		- SMCBLW19.PRG
 		- BOOT3.BIN
+
+To organize multiple ROM and VERA versions on the SD card, you may e.g. add folders with version numbers, and place firmware inside.
 
 #### Downloads:
 - VERA 47.0.2
@@ -127,15 +126,13 @@ If your version is not archived (e.g. ROM prerelease), you may want to make a ba
 #### Navigating the file system on X16
 - To list files in current folder, or change folder, you use the commands `DOS"$"` or `DOS"CD:folder"`.
 - A shortcut is to use the `@` prefix, e.g. `@$` and `@CD:folder`
-- To enter the VERA folder, you can e.g. use the command `@CD:/UPDATE/VERA/47.0.2`
+- To enter the VERA folder, you can e.g. use the command `@CD:/UPDATE/VERA`
 - You can also navigate like this:
 
 ```
 @CD:/UPDATE
 @$
 @CD:VERA
-@$
-@CD:47.0.2
 @$
 ```
 
@@ -146,7 +143,7 @@ VERA have best backward compatibility, and should be flashed first.
 - Follow instructions on release page to program VERA.
 
 ```
-@CD:/UPDATE/VERA/47.0.2
+@CD:/UPDATE/VERA
 LOAD "FLASHVERA.PRG"
 RUN
 ```
@@ -159,7 +156,7 @@ RUN
 - You may follow this guide: https://github.com/FlightControl-User/x16-flash
 
 ```
-@CD:/UPDATE/ROM/R48
+@CD:/UPDATE/ROM
 LOAD "UPDATE.PRG"
 RUN
 ```
@@ -184,8 +181,8 @@ RUN
 - If there is a risk of having the bad v2 bootloader, have a jumper wire ready
 - Load and run the installer
 ```
-@CD:/UPDATE/SMC/47.2.3
-LOAD "SMCUPDATE.PRG"
+@CD:/UPDATE/SMC
+LOAD "SMCUPDATE-47.2.3.PRG"
 RUN
 ```
 - Use the jumper wire if needed, ref the "update-with-bad-bootloader-v2.md" instructions
