@@ -191,6 +191,10 @@ RUN
 - Use the jumper wire if needed, ref the "update-with-bad-bootloader-v2.md" instructions
 
 #### Alternative tools
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
+
 - The tool SMCUPDATE 2.0 allows you to specify a .hex file to install
 	- This tool works with bootloader 2, but not with bootloader 3
 	- Tool: https://github.com/stefan-b-jakobsson/x16-smc-update/releases/tag/2.0
@@ -202,6 +206,10 @@ RUN
 	- Tool: https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 - These tools can work with the .hex and .bin files found in the release page
 	- https://github.com/X16Community/x16-smc/releases/tag/r47.2.3
+
+</p>
+</details>
+
 
 
 ### Step 7: Install bootloader v3
@@ -252,6 +260,11 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 
 
 ## Appendix: Stock version numbers
+
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
+
 This is based on feedback from users on Discord, and is very approximate. If you have updated info, feel free to send a message on Discord.
 
 ### PR00001 to PR00300
@@ -290,11 +303,14 @@ This is based on feedback from users on Discord, and is very approximate. If you
 | PR00831 | R47pre git 33ACE3A4* | 45.1.0* | 0.3.2 | 2 (bad)*       |
 | PR00923 |                      | 47.0.0  |       |                |
 
-
-
+</p>
+</details>
 
 
 ## Appendix: How to downgrade from latest release to first release
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
 
 ### Step 1: Downgrade bootloader
 This is optional, as all bootloaders are backward compatible. If you do not plan to downgrade bootloader, go to step 2.
@@ -322,6 +338,10 @@ Downgrade ROM
 Downgrade VERA
 - If using VERA.BIN from release page, use the associated FLASHVERA
 - If using VERA.BIN released together with x16-flash, use x16-flash to program it
+
+</p>
+</details>
+
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
