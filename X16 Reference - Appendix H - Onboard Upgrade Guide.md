@@ -21,6 +21,7 @@ These instructions will guide you how to update your X16 firmware from any previ
 | ROM             | R48     | 2024-09-06 | https://github.com/X16Community/x16-rom/releases/tag/r48           |
 | SMC             | 48.0.0  | 2024-12-23 | https://github.com/X16Community/x16-smc/releases/tag/r48.0.0       |
 | VERA            | 47.0.2  | 2024-03-30 | https://github.com/X16Community/vera-module/releases/tag/v47.0.2   |
+| VERA (prelim)   | 48.0.1  | 2024-12-26 | https://github.com/X16Community/vera-module/releases/tag/v48.0.1   |
 | SMC bootloader  | 3       | 2024-09-13 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v3 |
 
 
@@ -100,9 +101,13 @@ If your version is not archived (e.g. ROM prerelease), you may want to make a ba
 To organize multiple ROM and VERA versions on the SD card, you may e.g. add folders with version numbers, and place firmware inside.
 
 #### Downloads:
-- VERA 47.0.2
+- VERA 47.0.2 (release)
 	- https://github.com/X16Community/vera-module/releases/tag/v47.0.2
 		- Download Assets -> VERA_47.0.2.BIN and FLASHVERA.PRG
+- VERA 48.0.1 (prerelease)
+	- https://github.com/X16Community/vera-module/releases/tag/v48.0.1
+		- Download Assets -> VERA_48.0.1.BIN
+		- Use FLASHVERA.PRG from 47.0.2 assets
 - ROM R48
 	- https://github.com/X16Community/x16-rom/releases/tag/r48
 		- Download Assets -> Release.R48.ROM.Image.zip
@@ -149,6 +154,10 @@ RUN
 ```
 
 - After programming, restart machine and type `HELP` to verify VERA version.
+
+#### VERA 48.0.1 prerelease
+- You can optionally install VERA 48.0.1, which is currently a prerelease. Same procedure as for 47.0.2.
+- Release page: https://github.com/X16Community/vera-module/releases/tag/v48.0.1
 
 ### Step 5: Update ROM to R48
 - Minimum SMC version: 43.0.0
@@ -233,6 +242,7 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 ## Appendix: Release history
 | Date       | ROM               | SMC     | VERA   | SMC bootloader | Notes                           |
 |------------|-------------------|---------|--------|----------------|---------------------------------|
+| 2024-12-26 |                   |         | 48.0.1 |                | XOR Sawtooth + bus stability    |
 | 2024-12-23 |                   | 48.0.0  |        |                | Kbd initstate, read fuse++      |
 | 2024-09-13 |                   |         |        | 3              | Boot v3, with failsafe          |
 | 2024-09-06 | R48               |         |        |                | Release R48 ("Cadmium")         |
