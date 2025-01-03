@@ -19,7 +19,7 @@ These instructions will guide you how to update your X16 firmware from any previ
 | Firmware        | Version | Date       | Link                                                               |
 |-----------------|---------|------------|--------------------------------------------------------------------|
 | ROM             | R48     | 2024-09-06 | https://github.com/X16Community/x16-rom/releases/tag/r48           |
-| SMC             | 47.2.3  | 2024-07-05 | https://github.com/X16Community/x16-smc/releases/tag/r47.2.3       |
+| SMC             | 48.0.0  | 2024-12-23 | https://github.com/X16Community/x16-smc/releases/tag/r48.0.0       |
 | VERA            | 47.0.2  | 2024-03-30 | https://github.com/X16Community/vera-module/releases/tag/v47.0.2   |
 | SMC bootloader  | 3       | 2024-09-13 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v3 |
 
@@ -109,10 +109,10 @@ To organize multiple ROM and VERA versions on the SD card, you may e.g. add fold
 			- Extract "rom.bin"
 	- https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 		- Download Assets -> CX16-UPDATE-R3.0.0.PRG
-- SMC 47.2.3
-	- https://github.com/X16Community/x16-smc/actions/runs/10988514867
-		- Download Artifacts -> "SMC default firmware" (NOT the custom CommunityX16)
-			- Extract "SMCUPDATE-47.2.3.PRG"
+- SMC 48.0.0
+	- https://github.com/X16Community/x16-smc/releases/tag/r48.0.0
+		- Download Assets -> X16-SMC_r48.0.0.zip
+			- Extract "SMCUPDATE-48.0.0.PRG"
 - SMC tools v6
 	- https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198
 		- Download smc-flash-manipulation-6.zip
@@ -166,7 +166,7 @@ RUN
 - Important: Only program ROM in this step, not VERA or SMC.
 
 
-### Step 6: Update SMC to 47.2.3
+### Step 6: Update SMC to 48.0.0
 - To update SMC, a little program on the SMC called "bootloader" is used to replace its main program.
 - All PR boards up to ~900 seem to have been delivered with version 45.1.0, and with a bootloader which claims to be version 2, but, unfortunately, is a corrupt version of version 2 (also referred to as the "bad" bootloader). This have the consequence that, if you attempt to program, the x16 will hang at the end of programming. If you attempt to fix the hang problem by disconnecting power, and plug it back in, your SMC will be "bricked", and you cannot use your x16 until you disconnect the SMC and program it manually using an external programmer or Arduino [recovery-with-arduino].
 - To update your SMC with bad bootloader, you have 2 options:
@@ -175,14 +175,13 @@ RUN
 		- NB: If you plan to do option 2, ref the instructions, you should practice doing this reset while at the READY prompt. Once you get the hang of it, you can do it during programming. It is important that you get it correct at the critical moment when the SMC is hanging inside the bad bootloader.
 - If you have a different SMC version than 45.1.0, you most likely do not have the bad bootloader.
 
-#### Recommended install method, SMCUPDATE-47.2.3.PRG
-- The recommended method to upgrade SMC to latest version 47.2.3, is to use an installer with version 47.2.3 bundled together with the installer.
-- Note that this version is currently not inside an official release
+#### Recommended install method, SMCUPDATE-48.0.0.PRG
+- The recommended method to upgrade SMC to latest version 48.0.0, is to use an installer with version 48.0.0 bundled together with the installer.
 - If there is a risk of having the bad v2 bootloader, have a jumper wire ready
 - Load and run the installer
 ```
 @CD:/UPDATE/SMC
-LOAD "SMCUPDATE-47.2.3.PRG"
+LOAD "SMCUPDATE-48.0.0.PRG"
 RUN
 ```
 - Use the jumper wire if needed, ref the "update-with-bad-bootloader-v2.md" instructions
@@ -202,7 +201,7 @@ RUN
 	- This tool gives bad recommendation in the case of bad bootloader
 	- Tool: https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 - These tools can work with the .hex and .bin files found in the release page
-	- https://github.com/X16Community/x16-smc/releases/tag/r47.2.3
+	- https://github.com/X16Community/x16-smc/releases/tag/r48.0.0
 
 </p>
 </details>
@@ -234,6 +233,7 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 ## Appendix: Release history
 | Date       | ROM               | SMC     | VERA   | SMC bootloader | Notes                           |
 |------------|-------------------|---------|--------|----------------|---------------------------------|
+| 2024-12-23 |                   | 48.0.0  |        |                | Kbd initstate, read fuse++      |
 | 2024-09-13 |                   |         |        | 3              | Boot v3, with failsafe          |
 | 2024-09-06 | R48               |         |        |                | Release R48 ("Cadmium")         |
 | 2024-07-05 |                   | 47.2.3  |        |                | Bootloader manipulation ++      |
