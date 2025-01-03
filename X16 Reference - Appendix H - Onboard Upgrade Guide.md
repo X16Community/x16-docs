@@ -57,32 +57,25 @@ You may want to take a picture of the screen or write it down, for future refere
 
 #### 2.2 ROM/SMC/VERA (optional)
 - If you know your current version numbers (step 1), and do not care about rolling back, you can safely skip this step.
-- If you like to preserve the history, you can optionally dump the existing versions of ROM/SMC/VERA, for your own archival purposes. In particular, if your version is not a released full version (e.g. ROM prerelease), you may want to make a backup of this one (and give a heads-up on Discord, #kernel).
+- If you like to preserve the history, and your version is not already archived, you may want to dump it before overwriting it.
 
-##### 2.2.1 ROM (optional)
-If your ROM version is marked as release (and not prerelease), and your version is present in the ROM release page https://github.com/X16Community/x16-rom/releases/ , you can likely download your version from the release page should you ever want to roll back. If your version is marked as Prerelease (e.g. 8929A57+ or 33ACE3A4), it is harder to be certain that you can roll back, as those are not official releases. There exist a dump of a 8929A57+ ROM here: https://cx16forum.com/forum/viewtopic.php?p=31112 , although, in theory, there can exist different ROM versions with this number.
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
 
-Should you want to make a backup of your ROM (which is entirely optional), you can use any of the following tools:
-- https://cx16forum.com/forum/viewtopic.php?p=31112 (slow, inconvenient, but maybe safer)
-- https://discord.com/channels/547559626024157184/549248089379307522/1292106222509756427 (fast, convenient, maybe less safe in terms of SD card)
-
-##### 2.2.2 SMC (optional)
-If your SMC version is present on the release page https://github.com/X16Community/x16-smc/releases/ , you can download it from there if you want to roll back. The 45.1.0 release can be downloaded from here https://github.com/FlightControl-User/x16-flash/releases/download/r3.0.0/R45-BINS.zip . All bootloader versions are present in the [smc tools] bundle.
-
-Should you want to dump your SMC, for archival purposes:
-- If your SMC version is 47.2.3 or newer, you can dump your SMC using SMCDMP8.PRG inside [smc tools].  https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198
-- If your SMC version is older, and you want to make a backup, you need an external programmer/Arduino:
-	- Fully disconnect power supply
-	- Carefully remove SMC from socket
-	- Connect SMC to programmer/Arduino ( https://github.com/X16Community/x16-smc/blob/main/doc/recovery-with-arduino.md )
-	- Use this command to dump flash: `avrdude -cstk500v1 -pattiny861 -P<yourport> -b19200 -Uflash:r:smc-dump.hex:i`
-
-##### 2.2.3 VERA (optional)
-- VERA releases can be downloaded from here https://github.com/X16Community/vera-module/releases/ .
-- If you want to dump your VERA, you have two options:
-	- Wait for someone to make a VERA dumper (or make one yourself)
-	- Connect using an external programmer and dump it (not documented yet)
-- Note that, if VERA have been programmed using the "x16-flash" tool, the tool will have removed the first 32 bytes of the file. This tool expects there to be a custom 32 byte header in front of the bitstream file, which is not present in the releases. Luckily, this is not a problem for release "0.1.1", "0.3.1", "0.3.2" and "47.0.2" (all current releases), as these start with a ~54 bytes unimportant header before a preamble. Still, because of this, it is recommended to use FLASHVERA instead of x16-flash to update VERA.
+If your version is not archived (e.g. ROM prerelease), you may want to make a backup of this one (and give a heads-up on Discord, #kernel).
+  - Dump tool for ROM/SMC/VERA/RTC: https://cx16forum.com/forum/viewtopic.php?p=34970
+- Archive of official releases:
+  - ROM: https://github.com/X16Community/x16-rom/releases/
+  - SMC: https://github.com/X16Community/x16-smc/releases/
+  - VERA: https://github.com/X16Community/vera-module/releases/
+  - SMC bootloaders: https://github.com/X16Community/x16-smc-bootloader/releases
+- Unofficial releases, known to have been delivered with some machines:
+  - SMC 45.1.0: Dump: https://github.com/FlightControl-User/x16-flash/releases/download/r3.0.0/R45-BINS.zip
+  - SMC bootloader v2(bad): Dump: Inside [bootloader tools] https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198 / src: https://github.com/X16Community/x16-smc/pull/20
+  - ROM R47 prerelease git 8929A57+: Dump: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: X16Community/x16-rom#213 (exact source is ambiguous due to the +)
+  - ROM R47 prerelease git 33ACE3A4: Dump: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: X16Community/x16-rom#241
+</p>
+</details>
 
 ### Step 3: Download files and place on SD card
 
