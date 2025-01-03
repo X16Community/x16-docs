@@ -272,12 +272,12 @@ This is based on feedback from users on Discord, and is very approximate. If you
 
 ### PR00301 to PR00900
 
-| Firmware        | Version              | Date       | Link                                                                        |
-|-----------------|----------------------|------------|-----------------------------------------------------------------------------|
-| ROM             | R47pre git 33ACE3A4* | 2023-12-24 | Build: Not archived / src: https://github.com/X16Community/x16-rom/pull/241 |
-| SMC             | 45.1.0*              | 2023-10-18 |                                                                             |
-| VERA            | 0.3.2                | 2023-11-20 |                                                                             |
-| SMC bootloader  | 2 (bad)*             | 2023-10-04 |                                                                             |
+| Firmware        | Version              | Date       | Link                                                                                                             |
+|-----------------|----------------------|------------|------------------------------------------------------------------------------------------------------------------|
+| ROM             | R47pre git 33ACE3A4* | 2023-12-24 | Build: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: https://github.com/X16Community/x16-rom/pull/241 |
+| SMC             | 45.1.0*              | 2023-10-18 |                                                                                                                  |
+| VERA            | 0.3.2                | 2023-11-20 |                                                                                                                  |
+| SMC bootloader  | 2 (bad)*             | 2023-10-04 |                                                                                                                  |
 
 ### PR00901 to PR?????
 
