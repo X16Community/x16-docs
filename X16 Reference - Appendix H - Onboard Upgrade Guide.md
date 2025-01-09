@@ -19,8 +19,9 @@ These instructions will guide you how to update your X16 firmware from any previ
 | Firmware        | Version | Date       | Link                                                               |
 |-----------------|---------|------------|--------------------------------------------------------------------|
 | ROM             | R48     | 2024-09-06 | https://github.com/X16Community/x16-rom/releases/tag/r48           |
-| SMC             | 47.2.3  | 2024-07-05 | https://github.com/X16Community/x16-smc/releases/tag/r47.2.3       |
+| SMC             | 48.0.0  | 2024-12-23 | https://github.com/X16Community/x16-smc/releases/tag/r48.0.0       |
 | VERA            | 47.0.2  | 2024-03-30 | https://github.com/X16Community/vera-module/releases/tag/v47.0.2   |
+| VERA (prelim)   | 48.0.1  | 2024-12-26 | https://github.com/X16Community/vera-module/releases/tag/v48.0.1   |
 | SMC bootloader  | 3       | 2024-09-13 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v3 |
 
 
@@ -57,32 +58,25 @@ You may want to take a picture of the screen or write it down, for future refere
 
 #### 2.2 ROM/SMC/VERA (optional)
 - If you know your current version numbers (step 1), and do not care about rolling back, you can safely skip this step.
-- If you like to preserve the history, you can optionally dump the existing versions of ROM/SMC/VERA, for your own archival purposes. In particular, if your version is not a released full version (e.g. ROM prerelease), you may want to make a backup of this one (and give a heads-up on Discord, #kernel).
+- If you like to preserve the history, and your version is not already archived, you may want to dump it before overwriting it.
 
-##### 2.2.1 ROM (optional)
-If your ROM version is marked as release (and not prerelease), and your version is present in the ROM release page https://github.com/X16Community/x16-rom/releases/ , you can likely download your version from the release page should you ever want to roll back. If your version is marked as Prerelease (e.g. 8929A57+ or 33ACE3A4), it is harder to be certain that you can roll back, as those are not official releases. There exist a dump of a 8929A57+ ROM here: https://cx16forum.com/forum/viewtopic.php?p=31112 , although, in theory, there can exist different ROM versions with this number.
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
 
-Should you want to make a backup of your ROM (which is entirely optional), you can use any of the following tools:
-- https://cx16forum.com/forum/viewtopic.php?p=31112 (slow, inconvenient, but maybe safer)
-- https://discord.com/channels/547559626024157184/549248089379307522/1292106222509756427 (fast, convenient, maybe less safe in terms of SD card)
-
-##### 2.2.2 SMC (optional)
-If your SMC version is present on the release page https://github.com/X16Community/x16-smc/releases/ , you can download it from there if you want to roll back. The 45.1.0 release can be downloaded from here https://github.com/FlightControl-User/x16-flash/releases/download/r3.0.0/R45-BINS.zip . All bootloader versions are present in the [smc tools] bundle.
-
-Should you want to dump your SMC, for archival purposes:
-- If your SMC version is 47.2.3 or newer, you can dump your SMC using SMCDMP8.PRG inside [smc tools].  https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198
-- If your SMC version is older, and you want to make a backup, you need an external programmer/Arduino:
-	- Fully disconnect power supply
-	- Carefully remove SMC from socket
-	- Connect SMC to programmer/Arduino ( https://github.com/X16Community/x16-smc/blob/main/doc/recovery-with-arduino.md )
-	- Use this command to dump flash: `avrdude -cstk500v1 -pattiny861 -P<yourport> -b19200 -Uflash:r:smc-dump.hex:i`
-
-##### 2.2.3 VERA (optional)
-- VERA releases can be downloaded from here https://github.com/X16Community/vera-module/releases/ .
-- If you want to dump your VERA, you have two options:
-	- Wait for someone to make a VERA dumper (or make one yourself)
-	- Connect using an external programmer and dump it (not documented yet)
-- Note that, if VERA have been programmed using the "x16-flash" tool, the tool will have removed the first 32 bytes of the file. This tool expects there to be a custom 32 byte header in front of the bitstream file, which is not present in the releases. Luckily, this is not a problem for release "0.1.1", "0.3.1", "0.3.2" and "47.0.2" (all current releases), as these start with a ~54 bytes unimportant header before a preamble. Still, because of this, it is recommended to use FLASHVERA instead of x16-flash to update VERA.
+If your version is not archived (e.g. ROM prerelease), you may want to make a backup of this one (and give a heads-up on Discord, #kernel).
+  - Dump tool for ROM/SMC/VERA/RTC: https://cx16forum.com/forum/viewtopic.php?p=34970
+- Archive of official releases:
+  - ROM: https://github.com/X16Community/x16-rom/releases/
+  - SMC: https://github.com/X16Community/x16-smc/releases/
+  - VERA: https://github.com/X16Community/vera-module/releases/
+  - SMC bootloaders: https://github.com/X16Community/x16-smc-bootloader/releases
+- Unofficial releases, known to have been delivered with some machines:
+  - SMC 45.1.0: Dump: https://github.com/FlightControl-User/x16-flash/releases/download/r3.0.0/R45-BINS.zip
+  - SMC bootloader v2(bad): Dump: Inside [bootloader tools] https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198 / src: https://github.com/X16Community/x16-smc/pull/20
+  - ROM R47 prerelease git 8929A57+: Dump: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: X16Community/x16-rom#213 (exact source is ambiguous due to the +)
+  - ROM R47 prerelease git 33ACE3A4: Dump: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: X16Community/x16-rom#241
+</p>
+</details>
 
 ### Step 3: Download files and place on SD card
 
@@ -92,35 +86,38 @@ Should you want to dump your SMC, for archival purposes:
 #### Suggested folder structure:
 - UPDATE
 	- VERA
-		- 47.0.2
-			- FLASHVERA.PRG
-			- VERA.BIN
+		- FLASHVERA.PRG
+		- VERA.BIN (downloaded file must be renamed to VERA.BIN)
 	- ROM
-		- R48
-			- UPDATE.PRG
-			- ROM.BIN
+		- UPDATE.PRG
+		- ROM.BIN
 	- SMC
-		- 47.2.3
-			- SMCUPDATE.PRG
+		- SMCUPDATE-x.x.x.PRG (do not rename)
 	- SMCTOOLS
 		- SMCBLD7.PRG
 		- SMCBLW19.PRG
 		- BOOT3.BIN
 
+To organize multiple ROM and VERA versions on the SD card, you may e.g. add folders with version numbers, and place firmware inside.
+
 #### Downloads:
-- VERA 47.0.2
+- VERA 47.0.2 (release)
 	- https://github.com/X16Community/vera-module/releases/tag/v47.0.2
 		- Download Assets -> VERA_47.0.2.BIN and FLASHVERA.PRG
+- VERA 48.0.1 (prerelease)
+	- https://github.com/X16Community/vera-module/releases/tag/v48.0.1
+		- Download Assets -> VERA_48.0.1.BIN
+		- Use FLASHVERA.PRG from 47.0.2 assets
 - ROM R48
 	- https://github.com/X16Community/x16-rom/releases/tag/r48
 		- Download Assets -> Release.R48.ROM.Image.zip
 			- Extract "rom.bin"
 	- https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 		- Download Assets -> CX16-UPDATE-R3.0.0.PRG
-- SMC 47.2.3
-	- https://github.com/X16Community/x16-smc/actions/runs/10988514867
-		- Download Artifacts -> "SMC default firmware" (NOT the custom CommunityX16)
-			- Extract "SMCUPDATE-47.2.3.PRG"
+- SMC 48.0.0
+	- https://github.com/X16Community/x16-smc/releases/tag/r48.0.0
+		- Download Assets -> X16-SMC_r48.0.0.zip
+			- Extract "SMCUPDATE-48.0.0.PRG"
 - SMC tools v6
 	- https://github.com/X16Community/x16-smc/pull/53#issuecomment-2362330198
 		- Download smc-flash-manipulation-6.zip
@@ -134,15 +131,13 @@ Should you want to dump your SMC, for archival purposes:
 #### Navigating the file system on X16
 - To list files in current folder, or change folder, you use the commands `DOS"$"` or `DOS"CD:folder"`.
 - A shortcut is to use the `@` prefix, e.g. `@$` and `@CD:folder`
-- To enter the VERA folder, you can e.g. use the command `@CD:/UPDATE/VERA/47.0.2`
+- To enter the VERA folder, you can e.g. use the command `@CD:/UPDATE/VERA`
 - You can also navigate like this:
 
 ```
 @CD:/UPDATE
 @$
 @CD:VERA
-@$
-@CD:47.0.2
 @$
 ```
 
@@ -153,12 +148,16 @@ VERA have best backward compatibility, and should be flashed first.
 - Follow instructions on release page to program VERA.
 
 ```
-@CD:/UPDATE/VERA/47.0.2
+@CD:/UPDATE/VERA
 LOAD "FLASHVERA.PRG"
 RUN
 ```
 
 - After programming, restart machine and type `HELP` to verify VERA version.
+
+#### VERA 48.0.1 prerelease
+- You can optionally install VERA 48.0.1, which is currently a prerelease. Same procedure as for 47.0.2.
+- Release page: https://github.com/X16Community/vera-module/releases/tag/v48.0.1
 
 ### Step 5: Update ROM to R48
 - Minimum SMC version: 43.0.0
@@ -166,7 +165,7 @@ RUN
 - You may follow this guide: https://github.com/FlightControl-User/x16-flash
 
 ```
-@CD:/UPDATE/ROM/R48
+@CD:/UPDATE/ROM
 LOAD "UPDATE.PRG"
 RUN
 ```
@@ -176,7 +175,7 @@ RUN
 - Important: Only program ROM in this step, not VERA or SMC.
 
 
-### Step 6: Update SMC to 47.2.3
+### Step 6: Update SMC to 48.0.0
 - To update SMC, a little program on the SMC called "bootloader" is used to replace its main program.
 - All PR boards up to ~900 seem to have been delivered with version 45.1.0, and with a bootloader which claims to be version 2, but, unfortunately, is a corrupt version of version 2 (also referred to as the "bad" bootloader). This have the consequence that, if you attempt to program, the x16 will hang at the end of programming. If you attempt to fix the hang problem by disconnecting power, and plug it back in, your SMC will be "bricked", and you cannot use your x16 until you disconnect the SMC and program it manually using an external programmer or Arduino [recovery-with-arduino].
 - To update your SMC with bad bootloader, you have 2 options:
@@ -185,19 +184,22 @@ RUN
 		- NB: If you plan to do option 2, ref the instructions, you should practice doing this reset while at the READY prompt. Once you get the hang of it, you can do it during programming. It is important that you get it correct at the critical moment when the SMC is hanging inside the bad bootloader.
 - If you have a different SMC version than 45.1.0, you most likely do not have the bad bootloader.
 
-#### Recommended install method, SMCUPDATE-47.2.3.PRG
-- The recommended method to upgrade SMC to latest version 47.2.3, is to use an installer with version 47.2.3 bundled together with the installer.
-- Note that this version is currently not inside an official release
+#### Recommended install method, SMCUPDATE-48.0.0.PRG
+- The recommended method to upgrade SMC to latest version 48.0.0, is to use an installer with version 48.0.0 bundled together with the installer.
 - If there is a risk of having the bad v2 bootloader, have a jumper wire ready
 - Load and run the installer
 ```
-@CD:/UPDATE/SMC/47.2.3
-LOAD "SMCUPDATE.PRG"
+@CD:/UPDATE/SMC
+LOAD "SMCUPDATE-48.0.0.PRG"
 RUN
 ```
 - Use the jumper wire if needed, ref the "update-with-bad-bootloader-v2.md" instructions
 
 #### Alternative tools
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
+
 - The tool SMCUPDATE 2.0 allows you to specify a .hex file to install
 	- This tool works with bootloader 2, but not with bootloader 3
 	- Tool: https://github.com/stefan-b-jakobsson/x16-smc-update/releases/tag/2.0
@@ -208,7 +210,11 @@ RUN
 	- This tool gives bad recommendation in the case of bad bootloader
 	- Tool: https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 - These tools can work with the .hex and .bin files found in the release page
-	- https://github.com/X16Community/x16-smc/releases/tag/r47.2.3
+	- https://github.com/X16Community/x16-smc/releases/tag/r48.0.0
+
+</p>
+</details>
+
 
 
 ### Step 7: Install bootloader v3
@@ -236,6 +242,8 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 ## Appendix: Release history
 | Date       | ROM               | SMC     | VERA   | SMC bootloader | Notes                           |
 |------------|-------------------|---------|--------|----------------|---------------------------------|
+| 2024-12-26 |                   |         | 48.0.1 |                | XOR Sawtooth + bus stability    |
+| 2024-12-23 |                   | 48.0.0  |        |                | Kbd initstate, read fuse++      |
 | 2024-09-13 |                   |         |        | 3              | Boot v3, with failsafe          |
 | 2024-09-06 | R48               |         |        |                | Release R48 ("Cadmium")         |
 | 2024-07-05 |                   | 47.2.3  |        |                | Bootloader manipulation ++      |
@@ -259,6 +267,11 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 
 
 ## Appendix: Stock version numbers
+
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
+
 This is based on feedback from users on Discord, and is very approximate. If you have updated info, feel free to send a message on Discord.
 
 ### PR00001 to PR00300
@@ -272,12 +285,12 @@ This is based on feedback from users on Discord, and is very approximate. If you
 
 ### PR00301 to PR00900
 
-| Firmware        | Version              | Date       | Link                                                                        |
-|-----------------|----------------------|------------|-----------------------------------------------------------------------------|
-| ROM             | R47pre git 33ACE3A4* | 2023-12-24 | Build: Not archived / src: https://github.com/X16Community/x16-rom/pull/241 |
-| SMC             | 45.1.0*              | 2023-10-18 |                                                                             |
-| VERA            | 0.3.2                | 2023-11-20 |                                                                             |
-| SMC bootloader  | 2 (bad)*             | 2023-10-04 |                                                                             |
+| Firmware        | Version              | Date       | Link                                                                                                             |
+|-----------------|----------------------|------------|------------------------------------------------------------------------------------------------------------------|
+| ROM             | R47pre git 33ACE3A4* | 2023-12-24 | Build: https://cx16forum.com/forum/viewtopic.php?p=31112 / src: https://github.com/X16Community/x16-rom/pull/241 |
+| SMC             | 45.1.0*              | 2023-10-18 |                                                                                                                  |
+| VERA            | 0.3.2                | 2023-11-20 |                                                                                                                  |
+| SMC bootloader  | 2 (bad)*             | 2023-10-04 |                                                                                                                  |
 
 ### PR00901 to PR?????
 
@@ -297,11 +310,14 @@ This is based on feedback from users on Discord, and is very approximate. If you
 | PR00831 | R47pre git 33ACE3A4* | 45.1.0* | 0.3.2 | 2 (bad)*       |
 | PR00923 |                      | 47.0.0  |       |                |
 
-
-
+</p>
+</details>
 
 
 ## Appendix: How to downgrade from latest release to first release
+
+<details><summary>CLICK FOR DETAILS</summary>
+<p>
 
 ### Step 1: Downgrade bootloader
 This is optional, as all bootloaders are backward compatible. If you do not plan to downgrade bootloader, go to step 2.
@@ -329,6 +345,10 @@ Downgrade ROM
 Downgrade VERA
 - If using VERA.BIN from release page, use the associated FLASHVERA
 - If using VERA.BIN released together with x16-flash, use x16-flash to program it
+
+</p>
+</details>
+
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
