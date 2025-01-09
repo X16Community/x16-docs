@@ -308,7 +308,7 @@ The following keyboard layouts are available from ROM. You can select one direct
 | `FI-FI`     | Finnish                             | [0000040B](http://kbdlayout.info/0000040B) |
 | `PT-BR`     | Portuguese (Brazil ABNT)            | [00000416](http://kbdlayout.info/00000416) |
 | `CS-CZ`     | Czech                               | [00000405](http://kbdlayout.info/00000405) |
-| `JA-JP`     | Japanese                            | [00000411](http://kbdlayout.info/00000411) |
+| `JA-JP`     | Japanese                            | [Custom IME](https://github.com/X16Community/x16-rom/pull/364) (since r49) |
 | `FR-FR`     | French                              | [0000040C](http://kbdlayout.info/0000040C) |
 | `DE-CH`     | Swiss German                        | [00000807](http://kbdlayout.info/00000807) |
 | `EN-US/DVO` | United States - Dvorak              | [00010409](http://kbdlayout.info/00010409) |
