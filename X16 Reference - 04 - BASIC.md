@@ -334,6 +334,8 @@ BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 
 The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
+**Warning:** Appending to file involves a risk of corrupting the file system of the SD card! See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
+
 ### BVLOAD
 
 **TYPE: Command**  
