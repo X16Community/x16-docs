@@ -238,28 +238,28 @@ The Commodore DOS side and the FAT32 side are well separated, so a lot of code c
 
 Or the core feature set, these are the supported functions:
 
-| Feature                   | Syntax                        | Supported | Comment |
-|---------------------------|-------------------------------|-----------|---------|
-| Reading                   | `,?,R`                        | yes       |         |
-| Writing                   | `,?,W`                        | yes       |         |
-| Appending                 | `,?,A`                        | yes       | Warning, see below<sup>1</sup> |
-| Modifying                 | `,?,M`                        | yes       |         |
-| Types                     | `,S`/`,P`/`,U`/`,L`           | yes       | ignored on FAT32 |
-| Overwriting               | `@:`                          | yes       |         |
-| Magic channels 0/1        |                               | yes       |         |
-| Channel 15 command        | _command_`:`_args_...         | yes       |         |
-| Channel 15 status         | _code_`,`_string_`,`_a_`,`_b_ | yes       |         |
-| CMD partition syntax      | `0:`/`1:`/...                 | yes       |         |
-| CMD subdirectory syntax   | `//DIR/:`/`/DIR/:`            | yes       |         |
-| Directory listing         | `$`                           | yes       |         |
-| Dir with name filtering   | `$:FIL*`                      | yes       |         |
-| Dir with name and type filtering   | `$:*=P`/`$:*=D`/`$:*=A`       | yes       |         |
-| Dir with timestamps       | `$=T`                         | yes       | with ISO-8601 times |
-| Dir with time filtering   | `$=T<`/`$=T>`                 | not yet   |         |
-| Dir long listing          | `$=L`                         | yes       | shows human readable file size instead of blocks, time in ISO-8601 syntax, attribute byte, and exact file size in hexadecimal |
-| Partition listing         | `$=P`                         | yes       |         |
-| Partition filtering       | `$:NAME*=P`                   | no        |         |
-| Current Working Directory | `$=C`                         | yes       |         |
+| Feature                          | Syntax                        | Supported | Comment                                                                                                                       |
+|----------------------------------|-------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------|
+| Reading                          | `,?,R`                        | yes       |                                                                                                                               |
+| Writing                          | `,?,W`                        | yes       |                                                                                                                               |
+| Appending                        | `,?,A`                        | yes       | Warning, see below<sup>1</sup>                                                                                                |
+| Modifying                        | `,?,M`                        | yes       |                                                                                                                               |
+| Types                            | `,S`/`,P`/`,U`/`,L`           | yes       | ignored on FAT32                                                                                                              |
+| Overwriting                      | `@:`                          | yes       |                                                                                                                               |
+| Magic channels 0/1               |                               | yes       |                                                                                                                               |
+| Channel 15 command               | _command_`:`_args_...         | yes       |                                                                                                                               |
+| Channel 15 status                | _code_`,`_string_`,`_a_`,`_b_ | yes       |                                                                                                                               |
+| CMD partition syntax             | `0:`/`1:`/...                 | yes       |                                                                                                                               |
+| CMD subdirectory syntax          | `//DIR/:`/`/DIR/:`            | yes       |                                                                                                                               |
+| Directory listing                | `$`                           | yes       |                                                                                                                               |
+| Dir with name filtering          | `$:FIL*`                      | yes       |                                                                                                                               |
+| Dir with name and type filtering | `$:*=P`/`$:*=D`/`$:*=A`       | yes       |                                                                                                                               |
+| Dir with timestamps              | `$=T`                         | yes       | with ISO-8601 times                                                                                                           |
+| Dir with time filtering          | `$=T<`/`$=T>`                 | not yet   |                                                                                                                               |
+| Dir long listing                 | `$=L`                         | yes       | shows human readable file size instead of blocks, time in ISO-8601 syntax, attribute byte, and exact file size in hexadecimal |
+| Partition listing                | `$=P`                         | yes       |                                                                                                                               |
+| Partition filtering              | `$:NAME*=P`                   | no        |                                                                                                                               |
+| Current Working Directory        | `$=C`                         | yes       |                                                                                                                               |
 
 * <sup>1</sup>: Warning: Risk of corrupting SD cards on older ROM versions, see [Appending to file](#appending-to-file)
 
