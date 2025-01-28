@@ -242,7 +242,7 @@ Or the core feature set, these are the supported functions:
 |---------------------------|-------------------------------|-----------|---------|
 | Reading                   | `,?,R`                        | yes       |         |
 | Writing                   | `,?,W`                        | yes       |         |
-| Appending                 | `,?,A`                        | yes       |         |
+| Appending                 | `,?,A`                        | yes       | Warning, see below<sup>1</sup> |
 | Modifying                 | `,?,M`                        | yes       |         |
 | Types                     | `,S`/`,P`/`,U`/`,L`           | yes       | ignored on FAT32 |
 | Overwriting               | `@:`                          | yes       |         |
@@ -260,6 +260,8 @@ Or the core feature set, these are the supported functions:
 | Partition listing         | `$=P`                         | yes       |         |
 | Partition filtering       | `$:NAME*=P`                   | no        |         |
 | Current Working Directory | `$=C`                         | yes       |         |
+
+* <sup>1</sup>: Warning: Risk of corrupting SD cards on older ROM versions, see [Appending to file](#appending-to-file)
 
 And this table shows which of the standard commands are supported:
 
@@ -396,6 +398,11 @@ DOS"$=C"
 0    "/"                DIR
 65535 BLOCKS FREE.
 ```
+### Appending to file
+
+To append data to an existing file, open the file with `,?,A` and write to it.
+
+**Warning:** Appending to an empty file using R48 or older, will corrupt the file system, due to a severe Kernal bug. The bug is fixed in [#369](https://github.com/X16Community/x16-rom/pull/369). Keep this in mind when releasing software which appends to files, as some users may have older ROM versions installed.
 
 ## License
 
