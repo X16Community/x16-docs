@@ -285,7 +285,7 @@ This is based on feedback from users on Discord, and is very approximate. If you
 | VERA            | 0.3.2                | 2023-11-20 |                                                                                                                  |
 | SMC bootloader  | 2 (bad)*             | 2023-10-04 |                                                                                                                  |
 
-### PR00901 to PR?????
+### PR00901 to PR01000
 
 | Firmware        | Version | Date       | Link                                                               |
 |-----------------|---------|------------|--------------------------------------------------------------------|
@@ -294,14 +294,24 @@ This is based on feedback from users on Discord, and is very approximate. If you
 | VERA            | 47.0.2  | 2024-03-30 | https://github.com/X16Community/vera-module/releases/tag/v47.0.2   |
 | SMC bootloader  | 2       | 2023-10-04 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v2 |
 
+### PR01001 to PR?????
+
+| Firmware        | Version | Date       | Link                                                               |
+|-----------------|---------|------------|--------------------------------------------------------------------|
+| ROM             | R48     | 2024-09-06 | https://github.com/X16Community/x16-rom/releases/tag/r48           |
+| SMC             | 47.2.3  | 2024-07-05 | https://github.com/X16Community/x16-smc/releases/tag/r47.2.3       |
+| VERA            | 47.0.2  | 2024-03-30 | https://github.com/X16Community/vera-module/releases/tag/v47.0.2   |
+| SMC bootloader  | 2       | 2023-10-04 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v2 |
+
 ### Some stock versions
-| Machine | ROM                  | SMC     | VERA  | SMC bootloader |
-|---------|----------------------|---------|-------|----------------|
-| PR00015 | R47pre git 8929A57+* |         |       |                |
-| PR00102 | R47pre git 8929A57+* | 45.1.0* | 0.3.2 | 2 (bad)*       |
-| PR00499 | R47pre git 33ACE3A4* |         |       |                |
-| PR00831 | R47pre git 33ACE3A4* | 45.1.0* | 0.3.2 | 2 (bad)*       |
-| PR00923 |                      | 47.0.0  |       |                |
+| Machine | ROM                  | SMC     | VERA   | SMC bootloader |
+|---------|----------------------|---------|--------|----------------|
+| PR00015 | R47pre git 8929A57+* |         |        |                |
+| PR00102 | R47pre git 8929A57+* | 45.1.0* | 0.3.2  | 2 (bad)*       |
+| PR00499 | R47pre git 33ACE3A4* |         |        |                |
+| PR00831 | R47pre git 33ACE3A4* | 45.1.0* | 0.3.2  | 2 (bad)*       |
+| PR00923 |                      | 47.0.0  |        |                |
+| PR01011 | R48                  | 47.2.3  | 47.0.2 | 2              |
 
 </p>
 </details>
