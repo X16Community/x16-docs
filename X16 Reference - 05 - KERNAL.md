@@ -526,6 +526,10 @@ For example:
 `SETLFS` and `SETNAM` both need to be called prior other file comamnds, such as `OPEN` or
 `SAVE`.
 
+To append to a file, add `,?,A` to the filename. See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
+
+**Warning:** Appending to file involves a risk of corrupting the file system of the SD card! See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
+
 ---
 
 ### Memory
