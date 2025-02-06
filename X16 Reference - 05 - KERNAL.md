@@ -574,9 +574,11 @@ Signature: (word result: r2) memory_crc(word address: r0, word num_bytes: r1);
 Purpose: Calculate the CRC16 of a memory region.  
 Call address: $FEEA
 
-**Description:** This function calculates the CRC16 checksum of the memory region specified by an address (r0) and a size in bytes (r1). The result is returned in r2. r0 is preserved, r1 is destroyed.
+**Description:** This function calculates the CRC16 checksum ([CRC-16/IBM-3740](https://www.crccalc.com/?crc=01%2002%2003%2004&method=CRC-16/IBM-3740&datatype=hex&outtype=hex)) of the memory region specified by an address (r0) and a size in bytes (r1). The result is returned in r2. r0 is preserved, r1 is destroyed.
 
 Like `memory_fill`, this function does not increment the address if it is in the range of $9F00-$9FFF, which allows checksumming VERA memory or data streamed from any other I/O device.
+
+Note: ROM R48 and older contains the following bug: If the size of the data is not a multiple of 256, the remainder of the data is processed in the wrong byte order. This bug was fixed in [#382](https://github.com/X16Community/x16-rom/pull/382). Thus, if your data is not a multiple of 256, you will get different CRC depending of ROM version.
 
 ---
 
