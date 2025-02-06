@@ -1,7 +1,7 @@
 
 # Chapter 12: I/O Programming
 
-There are two 65C22 "Versatile Interface Adapter" (VIA) I/O controllers in the system, VIA#1 at address $9F00 and VIA#2 at address $9F10. The IRQ out lines of VIA#1 is connected to the CPU's NMI line, while the IRQ out line of VIA#2 is connected to the CPU's IRQ line.
+There are two 65C22 "Versatile Interface Adapter" (VIA) I/O controllers in the system, VIA#1 at address $9F00 and VIA#2 at address $9F10. The IRQ out pin of VIA#1 is connected to the CPU's IRQ line, while the IRQ out pin of VIA#2 can be configured via jumper to connect to either the CPU's IRQ or NMI line on production boards (those beginning with serial PR), or hardwired to the CPU's IRQ line on earlier boards.  
 
 The-following tables describe the connections of the I/O pins:
 
@@ -34,7 +34,7 @@ The KERNAL uses Timer 2 for timing transmissions on the Serial Bus.
 
 **VIA#2**
 
-The second VIA is completely unused by the system. All its 16 GPIOs and 4 handshake I/Os can be freely used.
+The second VIA is completely unused by the KERNAL. All its 16 GPIOs and 4 handshake I/Os can be freely used by user software.
 
 ## I2C Bus
 
