@@ -597,6 +597,8 @@ If the target address is in the $9F00-$9FFF range, all bytes will be written to 
 * If using the LZSA library to compress data, make sure to use format 2 and include the raw blocks flag, which is what the above command does.
 * This function cannot be used to decompress data in-place, as the output data would overwrite the input data before it is consumed. Therefore, make sure to load the input data to a different location.
 * It is possible to have the input data stored in banked RAM, with the obvious 8 KB size restriction.
+* When decompressing to VRAM, it's reccomended to do that through `DATA0`.
+* If you'd like to have control of how the LZSA2 data is obtained, check out the [`memory_decompress_from_func`](#extapi-function-name-memory_decompress_from_func) function.
 
 ---
 
@@ -1700,6 +1702,7 @@ Registers affected: Varies
 | `$0C` | [`mouse_set_position`](#extapi-function-name-mouse_set_position) | Moves the mouse cursor to a specific X/Y location | .X (.X)-(.X+3) | - | - |
 | `$0D` | [`scnsiz`](#extapi-function-name-scnsiz) | Directly sets the kernal editor text dimensions | .X .Y | - | - |
 | `$0E` | [`kbd_leds`](#extapi-function-name-kbd_leds) | Set or get the state of the PS/2 keyboard LEDs | .X .P | .X | - |
+| `$0F` | [`memory_decompress_from_func`](#extapi-function-name-memory_decompress_from_func) | Decompresses LZSA2 data streamed by a function | r1 r4 | r1 | r4 |
 
 
 ---
@@ -2359,6 +2362,98 @@ flip_leds:
         lda #E_KBD_LEDS
         jsr EXTAPI ; set state and send to keyboard
         rts
+```
+
+---
+
+#### extapi Function Name: memory_decompress_from_func
+
+Purpose: Decompress LZSA2 data
+Minimum ROM version: R49  
+Call address: $FEAB, .A=15  
+Communication registers: r1 r4  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .Y .P r1  
+
+**Description:** This function works the same way as the regular [`memory_decompress`](function-name-memory_decompress), but instead of taking a memory address where the LZSA2 data to decompress is located via the `r0` register, it takes an address (passed in `r4`) of a user-defined function that returns LZSA2 data byte by byte. This might be useful for decompressing data from IO devices or Cartridges.
+
+**How to Use:**
+
+1) Design a function that streams LZSA2 data and pass its address to `r4`.
+2) Pass a target address to `r1`. If you're decompressing to VRAM, don't forget to set the `VERA_ADDR` registers to the address you want decompressed data to land into.
+3) Call `memory_decompress_from_func`
+
+##### LZSA2 Streaming function
+
+In order to use `memory_decompress_from_func`, you obviously have to design a function, that you can provide to the decompressing routine. It should preferably be located in low-ram (it ***may not*** be on a cartridge, it probably can be located in high-ram though, if the decompressed data destination is somewhere else). There are some prequesites for such a function you need to apply:
+
+- It returns bytes of LZSA2 each call byte by byte via `.A` register. That is, for example, if your LZSA2 data starts with `.byte $65, $02, $66, $55, $00, $22 ...`, your function has to return `$65` of the first call, `$02` on the 2nd, `$66` on the 3rd one and so on.
+- It shouldn't fail &ndash; decompressor always assumes that the LZSA fetching function was successful in obtaining data upon returning. There isn't *any* kind of way of informing the decompressor, that the fetcher failed. In case the possibility of the function failing is inavoidable, `BRK` is probably the only possible way you could handle that.
+- It **HAS TO** preserve the values of `.X`, `.Y`, `r1`, `r2`, `r3` registers.
+- the same applies to VERA registers (both data ports are used by the decompressor) if VRAM is the target.
+- The ROM bank must be set to 0 upon returning.
+- If you plan to output decompressed data to High-RAM, you should restore the RAM bank upon returning too (you shouldn't set it to constant value, but instead use the value that was there upon entering the function &ndash; this will make it more futureproof against newer kernal versions that may feature a banked output of `memory_decompress`).
+- You're free to use **any KERNAL routines you want** inside of it, just remember to restore the stuff mentioned above before returning to the decompressor.
+
+**EXAMPLE:**
+
+In this example, data is decompressed directly from an opened file. Note however, that this particular implementation is pretty slow and instead you should consider designing a better data-fetching function.
+
+```ASM
+r1 = $04
+r4 = $0a
+
+EXTAPI = $FEAB
+GETIN = $FFE4
+SETNAM = $FFBD
+SETLFS = $FFBA
+OPEN = $FFC0
+CHKIN = $FFC6
+CLOSE = $FFC3
+CLRCHN = $FFCC
+
+    ; prepare the file
+        lda #filename_len
+        ldx #<filename
+        ldy #>filename
+        jsr SETNAM
+        lda #1
+        ldx #8
+        ldy #2
+        jsr SETLFS
+        jsr OPEN
+        ldx #1
+        jsr CHKIN
+
+    ; run decompression
+        lda #A0
+        sta r1+1
+        stz r1
+        lda #<fetch_from_file
+        sta r4
+        lda #>fetch_from_file
+        sta r4+1
+        lda #15 ; extapi id
+        jsr EXTAPI
+
+    ; cleanup
+        jsr CLRCHN
+        lda #1
+        jmp CLOSE
+
+
+
+fetch_from_file:
+        phy
+        phx
+        jsr GETIN
+        plx
+        ply
+        rts
+
+filename: .byte "data.lzsa"
+filename_len = *-filename
 ```
 
 ---
