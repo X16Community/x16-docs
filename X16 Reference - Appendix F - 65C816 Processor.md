@@ -78,7 +78,7 @@ The native mode flags are as follows:
   i = Interrupts Disabled  
   z = Zero  
   c = Carry  
-  e = Emulation Mode (0=65C02 mode, 1=65C816 mode)
+  e = Emulation mode (0=65C816 mode, 1=65C02 mode)
 
 In emulation mode, the **m** and **x** flags are always set to 1.
 
