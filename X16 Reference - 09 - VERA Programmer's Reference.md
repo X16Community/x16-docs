@@ -612,7 +612,8 @@ The VERA consists of:
 		<td>$9F3F</td>
 		<td>SPI_CTRL</td>
 		<td colspan="1" align="center">Busy</td>
-		<td colspan="5" align="center">-</td>
+		<td colspan="4" align="center">-</td>
+		<td colspan="1" align="center">Auto-TX</td>
 		<td colspan="1" align="center">Slow clock</td>
 		<td colspan="1" align="center">Select</td>
 	</tr>
@@ -892,9 +893,12 @@ The palette offset (in **'H-Scroll (11:8)'**), as well as T256C in non-1bpp mode
 
 The SPI controller is connected to the SD card connector. The speed of the clock output of the SPI controller can be controlled by the **'Slow Clock'** bit. When this bit is 0 the clock is 12.5MHz, when 1 the clock is about 390kHz. The slow clock speed is to be used during the initialization phase of the SD card. Some SD cards require a clock less than 400kHz during part of the initialization.
 
-A transfer can be started by writing to **SPI_DATA**. While the transfer is in progress the BUSY bit will be set. After the transfer is done, the result can be read from the **SPI_DATA** register.
+
+A transfer can be started by writing to **SPI_DATA**. While the transfer is in progress the **BUSY** bit will be set. After the transfer is done, the received byte can be read from the **SPI_DATA** register.
 
 The chip select can be controlled by writing the **SELECT** bit. Writing 1 will assert the chip-select (logic-0) and writing 0 will release the chip-select (logic-1).
+
+If the **Auto-TX** bit is set, reading from **SPI_DATA** will automatically start a new SPI transfer, in addition to returning the latest received value. Useful when reading many consecutive bytes from SPI. The new SPI transfer will transmit the dummy byte $FF.
 
 
 ## Palette
