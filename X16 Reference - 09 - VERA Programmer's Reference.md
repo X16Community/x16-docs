@@ -891,8 +891,13 @@ The palette offset (in **'H-Scroll (11:8)'**), as well as T256C in non-1bpp mode
 
 ## SPI controller
 
-The SPI controller is connected to the SD card connector. The speed of the clock output of the SPI controller can be controlled by the **'Slow Clock'** bit. When this bit is 0 the clock is 12.5MHz, when 1 the clock is about 390kHz. The slow clock speed is to be used during the initialization phase of the SD card. Some SD cards require a clock less than 400kHz during part of the initialization.
+VERA contains a built-in SPI controller. This is connected to both the SD card connector, and the flash chip used for VERA bitstream.
 
+An SPI transfer causes one byte to be clocked out to the slave, simultaneously as one byte is clocked in to the master, one bit at a time.
+
+When JP1 jumper is unconnected, chip-select will select the SD card. When JP1 jumper is connected, chip-select will select the flash chip.
+
+The speed of the clock output of the SPI controller can be controlled by the **'Slow Clock'** bit. When this bit is 0 the clock is 12.5MHz, when 1 the clock is about 390kHz. The slow clock speed is to be used during the initialization phase of the SD card. Some SD cards require a clock less than 400kHz during part of the initialization.
 
 A transfer can be started by writing to **SPI_DATA**. While the transfer is in progress the **BUSY** bit will be set. After the transfer is done, the received byte can be read from the **SPI_DATA** register.
 
