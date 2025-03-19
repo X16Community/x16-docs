@@ -19,7 +19,7 @@ In other words: the CPU is still the orchestrator of all that is done, but it is
 
 ### DCSEL
 
-VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, starting at address $9F20 and ending at $9F3F. Many of these are (fully) used, but some bits remain unused. The DCSEL bits in register $9F25 (also called CTRL) has been extended to 6-bits to allow for the 4 registers $9F29-$9F2C to have additional meanings.
+VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, starting at address \$9F20 and ending at \$9F3F. Many of these are (fully) used, but some bits remain unused. The DCSEL bits in register \$9F25 (also called CTRL) has been extended to 6-bits to allow for the 4 registers \$9F29-\$9F2C to have additional meanings.
 
 <table>
 	<tr>

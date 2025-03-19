@@ -326,13 +326,13 @@ This command does not allow for automatic bank advancing, but you can achieve a 
 BSAVE "MYFILE.BIN",8,1,$A000,$C000
 ```
 
-The above example saves a region of memory from $A000 in bank 1 through and including $BFFF, stopping before $C000.
+The above example saves a region of memory from \$A000 in bank 1 through and including \$BFFF, stopping before \$C000.
 
 ```BASIC
 BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 ```
 
-The above example appends a region of memory from $A000 through and including $AFFF, stopping before $B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
+The above example appends a region of memory from \$A000 through and including \$AFFF, stopping before \$B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 **Warning:** Appending to file involves a risk of corrupting the file system of the SD card! See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
 
@@ -460,7 +460,7 @@ A more elaborate X16-Edit manual can be found [here](https://github.com/X16Commu
 
 **Action:** Plays back a null-terminated script from MEMORY into the BASIC editor. Among other uses, this can be used to "type" in a program from a plain text file.
 
-* If the `ram bank` argument is omitted and the address is in the range $A000-$BFFF, the RAM bank selected by the `BANK` command is used.
+* If the `ram bank` argument is omitted and the address is in the range \$A000-\$BFFF, the RAM bank selected by the `BANK` command is used.
 * The input can span multiple RAM banks. The input will stop once it reaches a null byte ($00) or if a BASIC error occurs.
 * The redirected input only applies to BASIC immediate mode. While programs are running, the EXEC handling is suspended.
 
@@ -1531,7 +1531,7 @@ The first three arguments are required, but the last one is optional.
 
 * `sprite idx` is a value between 0-127 inclusive.
 * `VRAM bank` is a value, `0` or `1`, which represents which of the two 64k regions of VRAM to select.
-* `VRAM address` is a 16-bit value, $0000-$FFFF, is the address within the VRAM bank to point the sprite to. The lowest 5 bits are ignored.
+* `VRAM address` is a 16-bit value, \$0000-\$FFFF, is the address within the VRAM bank to point the sprite to. The lowest 5 bits are ignored.
 * `color depth` selects either 4 or 8-bit color depth for the sprite. 0 = 4-bit, 1 = 8-bit.  This attribute can also be set by the `SPRITE` command.
 
 **EXAMPLE of SPRITE Statement:**
@@ -1677,8 +1677,8 @@ In the default text modes, this can be used to retrieve the character a specific
 
 In addition, VPEEK can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
-BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
+BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
+BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
 
 **EXAMPLE of VPEEK Function:**
 
@@ -1695,8 +1695,8 @@ PRINT VPEEK(1,$B000) : REM SCREEN CODE OF CHARACTER AT 0/0 ON SCREEN
 
 In addition, VPOKE can reach add-on VERA cards with higher bank numbers.
 
-BANK 2-3 is for IO3 (VERA at $9F60-$9F7F)  
-BANK 4-5 is for IO4 (VERA at $9F80-$9F9F)  
+BANK 2-3 is for IO3 (VERA at \$9F60-\$9F7F)  
+BANK 4-5 is for IO4 (VERA at \$9F80-\$9F9F)  
 
 **EXAMPLE of VPOKE Statement:**
 
@@ -1756,12 +1756,12 @@ In BASIC, the LOAD, SAVE and OPEN statements default to the last-used IEEE devic
 
 Like on the C64, BASIC keywords are tokenized.
 
-* The C64 BASIC V2 keywords occupy the range of $80 (`END`) to $CB (`GO`).
-* BASIC V3.5 also used $CE (`RGR`) to $FD (`WHILE`).
-* BASIC V7 introduced the $CE escape code for function tokens $CE-$02 (`POT`) to $CE-$0A (`POINTER`), and the $FE escape code for statement tokens $FE-$02 (`BANK`) to $FE-$38 (`SLOW`).
-* The unreleased BASIC V10 extended the escaped tokens up to $CE-$0D (`RPALETTE`) and $FE-$45 (`EDIT`).
+* The C64 BASIC V2 keywords occupy the range of \$80 (`END`) to \$CB (`GO`).
+* BASIC V3.5 also used \$CE (`RGR`) to \$FD (`WHILE`).
+* BASIC V7 introduced the \$CE escape code for function tokens \$CE-\$02 (`POT`) to \$CE-\$0A (`POINTER`), and the \$FE escape code for statement tokens \$FE-\$02 (`BANK`) to \$FE-\$38 (`SLOW`).
+* The unreleased BASIC V10 extended the escaped tokens up to \$CE-\$0D (`RPALETTE`) and \$FE-\$45 (`EDIT`).
 
-The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges $CE-$80+ and $FE-$80+.
+The X16 BASIC aims to be as compatible as possible with this encoding. Keywords added to X16 BASIC that also exist in other versions of BASIC match the token, and new keywords are encoded in the ranges \$CE-\$80+ and \$FE-\$80+.
 
 ## Auto-Boot
 

@@ -139,11 +139,11 @@ If there are two meanings listed, the first indicates input (a keypress) and the
 **Notes:**
 
 * $01: SWAP COLORS swaps the foreground and background colors in text mode
-* $07/$09/$0A/$18/$1B: have been added for ASCII compatibility. *[$0A/$18/$1B do not have any effect on output. Outputs of $08/$09 have their traditional C64 effect]*
-* $80: VERBATIM MODE prints the next character (only!) as a glyph without interpretation. This is similar to quote mode, but also includes codes CR ($0D) and DEL ($14).
+* \$07/\$09/\$0A/\$18/\$1B: have been added for ASCII compatibility. *[\$0A/\$18/\$1B do not have any effect on output. Outputs of \$08/\$09 have their traditional C64 effect]*
+* \$80: VERBATIM MODE prints the next character (only!) as a glyph without interpretation. This is similar to quote mode, but also includes codes CR (\$0D) and DEL (\$14).
 * F9-F12: these codes match the C65 additions
 * $84: This code is generated when pressing SHIFT+END.
-* Additionally, the codes $04/$06/$0B/$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
+* Additionally, the codes \$04/\$06/\$0B/\$0C are interpreted when printing in graphics mode using `GRAPH_put_char`.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
@@ -336,22 +336,22 @@ SAVE"AUTOBOOT.X16
 
 The tables for the active keyboard layout reside in banked RAM, at $A000 on bank 0:
 
-| Addresses   | Description |
-|-------------|-------------|
-| $A000-$A07F | Table 0     |
-| $A080-$A0FF | Table 1     |
-| $A100-$A17F | Table 2     |
-| $A180-$A1FF | Table 3     |
-| $A200-$A27F | Table 4     |
-| $A280-$A07F | Table 5     |
-| $A300-$A37F | Table 6     |
-| $A380-$A3FF | Table 7     |
-| $A400-$A47F | Table 8     |
-| $A480-$A4FF | Table 9     |
-| $A500-$A57F | Table 10    |
-| $A580-$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
-| $A590-$A66F | dead key table |
-| $A670-$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
+| Addresses     | Description |
+|---------------|-------------|
+| \$A000-\$A07F | Table 0     |
+| \$A080-\$A0FF | Table 1     |
+| \$A100-\$A17F | Table 2     |
+| \$A180-\$A1FF | Table 3     |
+| \$A200-\$A27F | Table 4     |
+| \$A280-\$A07F | Table 5     |
+| \$A300-\$A37F | Table 6     |
+| \$A380-\$A3FF | Table 7     |
+| \$A400-\$A47F | Table 8     |
+| \$A480-\$A4FF | Table 9     |
+| \$A500-\$A57F | Table 10    |
+| \$A580-\$A58F | big-endian bitfield:<br/>keynum codes for which Caps means Shift |
+| \$A590-\$A66F | dead key table |
+| \$A670-\$A67E | ASCIIZ identifier (e.g. "ABC/X16") |
 
 The first byte of each of the 11 tables is the table ID which contains the encoding and the combination of modifiers that this table is for.
 

@@ -9,10 +9,10 @@ This is an overview of the X16 memory map:
 
 |Addresses  |Description                                                                             |
 |-----------|----------------------------------------------------------------------------------------|
-|$0000-$9EFF|Fixed RAM (40 KB minus 256 bytes)                                                       |
-|$9F00-$9FFF|I/O Area (256 bytes)                                                                    |
-|$A000-$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)                      |
-|$C000-$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 256 banks, see below) |
+|\$0000-\$9EFF|Fixed RAM (40 KB minus 256 bytes)                                                       |
+|\$9F00-\$9FFF|I/O Area (256 bytes)                                                                    |
+|\$A000-\$BFFF|Banked RAM (8 KB window into one of 256 banks for a total of 2 MB)                      |
+|\$C000-\$FFFF|Banked System ROM and Cartridge ROM/RAM (16 KB window into one of 256 banks, see below) |
 
 ## Banked Memory
 
@@ -62,27 +62,27 @@ for ideas on how this may be used. This provides up to 3.5MB of additional RAM o
 
 This is the allocation of fixed RAM in the KERNAL/BASIC environment.
 
-|Addresses  |Description                                                     |
-|-----------|----------------------------------------------------------------|
-|$0000-$00FF|Zero page                                                       |
-|$0100-$01FF|CPU stack                                                       |
-|$0200-$03FF|KERNAL and BASIC variables, vectors                             |
-|$0400-$07FF|Available for machine code programs or custom data storage      |
-|$0800-$9EFF|BASIC program/variables; available to the user                  |
+|Addresses   |Description                                                      |
+|------------|-----------------------------------------------------------------|
+|\$0000-\$00FF|Zero page                                                       |
+|\$0100-\$01FF|CPU stack                                                       |
+|\$0200-\$03FF|KERNAL and BASIC variables, vectors                             |
+|\$0400-\$07FF|Available for machine code programs or custom data storage      |
+|\$0800-\$9EFF|BASIC program/variables; available to the user                  |
 
 The `$0400-$07FF` can be seen as the equivalent of `$C000-$CFFF` on a C64. A typical use would be for helper machine code called by BASIC.
 
 ### Zero Page
 
-|Addresses  |Description                            |
-|-----------|---------------------------------------|
-|$0000-$0001|Banking registers                      |
-|$0002-$0021|16 bit registers r0-r15 for KERNAL API |
-|$0022-$007F|Available to the user                  |
-|$0080-$009C|Used by KERNAL and DOS                 |
-|$009D-$00A8|Reserved for DOS/BASIC                 |
-|$00A9-$00D3|Used by the Math library (and BASIC)   |
-|$00D4-$00FF|Used by BASIC                          |
+|Addresses   |Description                             |
+|------------|----------------------------------------|
+|\$0000-\$0001|Banking registers                      |
+|\$0002-\$0021|16 bit registers r0-r15 for KERNAL API |
+|\$0022-\$007F|Available to the user                  |
+|\$0080-\$009C|Used by KERNAL and DOS                 |
+|\$009D-\$00A8|Reserved for DOS/BASIC                 |
+|\$00A9-\$00D3|Used by the Math library (and BASIC)   |
+|\$00D4-\$00FF|Used by BASIC                          |
 
 Machine code applications are free to reuse the BASIC area, and if they don't use the Math library, also that area.
 
@@ -101,10 +101,10 @@ During startup, the KERNAL activates RAM bank 1 as the default for the user.
 
 ### Bank 0
 
-|Addresses  |Description                            |
-|-----------|---------------------------------------|
-|$A000-$BEFF| System Reserved                       |
-|$BF00-$BFFF| Parameter passing space               |
+|Addresses   |Description                             |
+|------------|----------------------------------------|
+|\$A000-\$BEFF| System Reserved                       |
+|\$BF00-\$BFFF| Parameter passing space               |
 
 You can use the space at $0:BF00-0:$BFFF to pass parameters between programs.
 This space is initalized to zeroes, so you may use it however you wish.
@@ -125,16 +125,16 @@ This is the memory map of the I/O Area:
 
 |Addresses    |Description                          |Speed|
 |-------------|-------------------------------------|-----|
-|$9F00-$9F0F|VIA I/O controller #1                |8 MHz|
-|$9F10-$9F1F|VIA I/O controller #2                |8 MHz|
-|$9F20-$9F3F|VERA video controller                |8 MHz|
-|$9F40-$9F41|YM2151 audio controller              |2 MHz|
-|$9F42-$9F5F|Unavailable                          | --- |
-|$9F60-$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
-|$9F80-$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
-|$9FA0-$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
-|$9FC0-$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
-|$9FE0-$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
+|\$9F00-\$9F0F|VIA I/O controller #1                |8 MHz|
+|\$9F10-\$9F1F|VIA I/O controller #2                |8 MHz|
+|\$9F20-\$9F3F|VERA video controller                |8 MHz|
+|\$9F40-\$9F41|YM2151 audio controller              |2 MHz|
+|\$9F42-\$9F5F|Unavailable                          | --- |
+|\$9F60-\$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
+|\$9F80-\$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
+|\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
+|\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
+|\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
 
 ### Expansion Cards & Cartridges
 

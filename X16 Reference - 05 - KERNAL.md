@@ -23,14 +23,14 @@ The Commander X16 contains a version of KERNAL as its operating system in ROM. I
 
 ## KERNAL Version
 
-The KERNAL version can be read from location $FF80 in ROM. A value of $FF indicates a custom build. All other values encode the build number. Positive numbers are release versions ($02 = release version 2), two's complement negative numbers are prerelease versions ($FE = $100 - 2 = prerelease version 2).
+The KERNAL version can be read from location \$FF80 in ROM. A value of \$FF indicates a custom build. All other values encode the build number. Positive numbers are release versions (\$02 = release version 2), two's complement negative numbers are prerelease versions (\$FE = $100 - 2 = prerelease version 2).
 
 ## Compatibility Considerations
 
 For applications to remain compatible between different versions of the ROM, they can rely upon:
 
-* the KERNAL API calls at $FF81-$FFF3
-* the KERNAL vectors at $0314-$0333
+* the KERNAL API calls at \$FF81-\$FFF3
+* the KERNAL vectors at \$0314-\$0333
 
 The following features must not be relied upon:
 
@@ -67,7 +67,7 @@ The following C128 APIs have equivalent functionality on the X16 but are not com
 
 There are lots of new APIs. Please note that their addresses and their behavior is still preliminary and can change between revisions.
 
-Some new APIs use the "16 bit" ABI, which uses virtual 16 bit registers r0 through r15, which are located in zero page locations $02 through $21: r0 = r0L = $02, r0H = $03, r1 = r1L = $04 etc.
+Some new APIs use the "16 bit" ABI, which uses virtual 16 bit registers r0 through r15, which are located in zero page locations \$02 through \$21: r0 = r0L = \$02, r0H = \$03, r1 = r1L = \$04 etc.
 
 The 16 bit ABI generally follows the following conventions:
 
@@ -207,33 +207,33 @@ Some notes:
 
 ### KERNAL Vectors
 
-The KERNAL indirect vectors ($0314-$0333) are fully compatible with the C64:
+The KERNAL indirect vectors (\$0314-\$0333) are fully compatible with the C64:
 
-$0314-$0315: `CINV` – IRQ Interrupt Routine  
-$0316-$0317: `CBINV` – BRK Instruction Interrupt  
-$0318-$0319: `NMINV` – Non-Maskable Interrupt  
-$031A-$031B: `IOPEN` – Kernal OPEN Routine  
-$031C-$031D: `ICLOSE` – Kernal CLOSE Routine  
-$031E-$031F: `ICHKIN` – Kernal CHKIN Routine  
-$0320-$0321: `ICKOUT` – Kernal CKOUT Routine  
-$0322-$0323: `ICLRCH` – Kernal CLRCHN Routine  
-$0324-$0325: `IBASIN` – Kernal CHRIN Routine  
-$0326-$0327: `IBSOUT` – Kernal CHROUT Routine  
-$0328-$0329: `ISTOP` – Kernal STOP Routine  
-$032A-$032B: `IGETIN` – Kernal GETIN Routine  
-$032C-$032D: `ICLALL` – Kernal CLALL Routine  
-$0330-$0331: `ILOAD` – Kernal LOAD Routine  
-$0332-$0333: `ISAVE` – Kernal SAVE Routine  
+\$0314-\$0315: `CINV` – IRQ Interrupt Routine  
+\$0316-\$0317: `CBINV` – BRK Instruction Interrupt  
+\$0318-\$0319: `NMINV` – Non-Maskable Interrupt  
+\$031A-\$031B: `IOPEN` – Kernal OPEN Routine  
+\$031C-\$031D: `ICLOSE` – Kernal CLOSE Routine  
+\$031E-\$031F: `ICHKIN` – Kernal CHKIN Routine  
+\$0320-\$0321: `ICKOUT` – Kernal CKOUT Routine  
+\$0322-\$0323: `ICLRCH` – Kernal CLRCHN Routine  
+\$0324-\$0325: `IBASIN` – Kernal CHRIN Routine  
+\$0326-\$0327: `IBSOUT` – Kernal CHROUT Routine  
+\$0328-\$0329: `ISTOP` – Kernal STOP Routine  
+\$032A-\$032B: `IGETIN` – Kernal GETIN Routine  
+\$032C-\$032D: `ICLALL` – Kernal CLALL Routine  
+\$0330-\$0331: `ILOAD` – Kernal LOAD Routine  
+\$0332-\$0333: `ISAVE` – Kernal SAVE Routine  
 
 Additional KERNAL indirect vectors have been added as part of the KERNAL's 65C816 support
 
-$0334-$0335: `IECOP` - COP Instruction Interrupt Routine (emulation mode)  
-$0336-$0337: `IEABORT` - ABORT Routine (emulation mode)  
-$0338-$0339: `INIRQ` - IRQ Interrupt Routine (native mode)  
-$033A-$033B: `INBRK` - BRK Instruction Interrupt Routine (native mode)  
-$033C-$033D: `INNMI` - Non-Maskable Interrupt Routine (native mode)  
-$033E-$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)  
-$0340-$0341: `INABORT` - ABORT Routine (native mode)  
+\$0334-\$0335: `IECOP` - COP Instruction Interrupt Routine (emulation mode)  
+\$0336-\$0337: `IEABORT` - ABORT Routine (emulation mode)  
+\$0338-\$0339: `INIRQ` - IRQ Interrupt Routine (native mode)  
+\$033A-\$033B: `INBRK` - BRK Instruction Interrupt Routine (native mode)  
+\$033C-\$033D: `INNMI` - Non-Maskable Interrupt Routine (native mode)  
+\$033E-\$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)  
+\$0340-\$0341: `INABORT` - ABORT Routine (native mode)  
 
 #### Handling NMI
 
@@ -259,8 +259,8 @@ values will need to be popped before returning from the NMI:
 
 The X16 adds two new functions for dealing with the Commodore Peripheral Bus ("IEEE"):
 
-$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
-$FF44: `MACPTR` - read multiple bytes from peripheral bus
+\$FEB1: `MCIOUT` - write multiple bytes to peripheral bus
+\$FF44: `MACPTR` - read multiple bytes from peripheral bus
 
 ---
 
@@ -534,13 +534,13 @@ To append to a file, add `,?,A` to the filename. See [Appending to file](X16%20R
 
 ### Memory
 
-$FEE4: `memory_fill` - fill memory region with a byte value  
-$FEE7: `memory_copy` - copy memory region  
-$FEEA: `memory_crc` - calculate CRC16 of memory region  
-$FEED: `memory_decompress` - decompress LZSA2 block  
-$FF74: `fetch` - read a byte from any RAM or ROM bank  
-$FF77: `stash` - write a byte to any RAM bank
-$FF99: `MEMTOP` - get number of banks and address of end of usable RAM
+\$FEE4: `memory_fill` - fill memory region with a byte value  
+\$FEE7: `memory_copy` - copy memory region  
+\$FEEA: `memory_crc` - calculate CRC16 of memory region  
+\$FEED: `memory_decompress` - decompress LZSA2 block  
+\$FF74: `fetch` - read a byte from any RAM or ROM bank  
+\$FF77: `stash` - write a byte to any RAM bank
+\$FF99: `MEMTOP` - get number of banks and address of end of usable RAM
 
 <!---
 *** undocumented - we might remove it
@@ -556,7 +556,7 @@ Call address: $FEE4
 
 **Description:** This function fills the memory region specified by an address (r0) and a size in bytes (r1) with the constant byte value passed in .A. r0 and .A are preserved, r1 is destroyed.
 
-If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for filling VERA memory ($9F23 or $9F24), for example.
+If the target address is in the \$9F00-\$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for filling VERA memory (\$9F23 or \$9F24), for example.
 
 ---
 
@@ -568,7 +568,7 @@ Call address: $FEE7
 
 **Description:** This function copies one memory region specified by an address (r0) and a size in bytes (r2) to a different region specified by its start address (r1). The two regions may overlap. r0 and r1 are preserved, r2 is destroyed.
 
-Like with `memory_fill`, source and destination addresses in the $9F00-$9FFF range will not be incremented during the copy. This allows, for instance, uploading data from RAM to VERA (destination of $9F23 or $9F24), downloading data from VERA (source $9F23 or $9F24) or copying data inside VERA (source $9F23, destination $9F24). This functionality can also be used to upload, download or transfer data with other I/O devices that have an 8 bit data port.
+Like with `memory_fill`, source and destination addresses in the \$9F00-\$9FFF range will not be incremented during the copy. This allows, for instance, uploading data from RAM to VERA (destination of \$9F23 or \$9F24), downloading data from VERA (source \$9F23 or \$9F24) or copying data inside VERA (source \$9F23, destination \$9F24). This functionality can also be used to upload, download or transfer data with other I/O devices that have an 8 bit data port.
 
 ---
 
@@ -580,7 +580,7 @@ Call address: $FEEA
 
 **Description:** This function calculates the CRC16 checksum ([CRC-16/IBM-3740](https://www.crccalc.com/?crc=01%2002%2003%2004&method=CRC-16/IBM-3740&datatype=hex&outtype=hex)) of the memory region specified by an address (r0) and a size in bytes (r1). The result is returned in r2. r0 is preserved, r1 is destroyed.
 
-Like `memory_fill`, this function does not increment the address if it is in the range of $9F00-$9FFF, which allows checksumming VERA memory or data streamed from any other I/O device.
+Like `memory_fill`, this function does not increment the address if it is in the range of \$9F00-\$9FFF, which allows checksumming VERA memory or data streamed from any other I/O device.
 
 Note: ROM R48 and older contains the following bug: If the size of the data is not a multiple of 256, the remainder of the data is processed in the wrong byte order. This bug was fixed in [#382](https://github.com/X16Community/x16-rom/pull/382). Thus, if your data is not a multiple of 256, you will get different CRC depending of ROM version.
 
@@ -594,7 +594,7 @@ Call address: $FEED
 
 **Description:** This function decompresses an LZSA2-compressed data block from the location passed in r0 and outputs the decompressed data at the location passed in r1. After the call, r1 will be updated with the location of the last output byte plus one.
 
-If the target address is in the $9F00-$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory ($9F23 or $9F24), for example. Note that decompressing _from_ I/O is not supported.
+If the target address is in the \$9F00-\$9FFF range, all bytes will be written to the same address (r0), i.e. the address will not be incremented. This is useful for decompressing directly into VERA memory (\$9F23 or \$9F24), for example. Note that decompressing _from_ I/O is not supported.
 
 **Notes**:
 
@@ -663,10 +663,10 @@ the system in A. For example:
 ```
 
 If the system has 512k of banked RAM, zp_NUM_BANKS
-will contain $40 (64). For 1024k, $80; for 1536k, $C0.
-For 2048k, the result will be $00 (which can be thought
-of as $100, or 256). It is possible to have other
-values (e.g. $42), such as if the system has bad
+will contain \$40 (64). For 1024k, \$80; for 1536k, \$C0.
+For 2048k, the result will be \$00 (which can be thought
+of as \$100, or 256). It is possible to have other
+values (e.g. \$42), such as if the system has bad
 banked RAM.
 
 **Setting the top of BASIC RAM**
@@ -683,9 +683,9 @@ language routine at the top of BASIC RAM, just below the I/O space:
 
 Analysis: 
 
-The SYS command uses memory locations $30C-$30F to pre-load the CPU registers,
+The SYS command uses memory locations \$30C-\$30F to pre-load the CPU registers,
 it then dumps the registers back to these locations after the SYS call is
-complete. $30D is the X register, $30E is .Y, and $30F is the flags. The Carry
+complete. \$30D is the X register, \$30E is .Y, and \$30F is the flags. The Carry
 flag is bit 0, so setting $30F to 1 before calling MEMTOP indicates that this is
 a _read_ of the values. 
 
@@ -699,18 +699,18 @@ a _read_ of the values.
    variables, you should _probably_ do this at the top of your program.
 
 The address entered is actually the first byte of free space _after_
-your BASIC program space, so if you set MEMTOP to $9C00, then you can start your
-assembly program at $9C00 with `* = $9C00` or `org $9c00`.
+your BASIC program space, so if you set MEMTOP to \$9C00, then you can start your
+assembly program at \$9C00 with `* = $9C00` or `org $9c00`.
 
-To reserve 256 bytes, set X to $9E. To reserve 1KB, set X to $9C. To return to
-the default values, set Y=$9F and X=0.
+To reserve 256 bytes, set X to \$9E. To reserve 1KB, set X to \$9C. To return to
+the default values, set Y=\$9F and X=0.
 
 ---
 
 ### Clock
 
-$FF4D: `clock_set_date_time` - set date and time  
-$FF50: `clock_get_date_time` - get date and time  
+\$FF4D: `clock_set_date_time` - set date and time  
+\$FF50: `clock_get_date_time` - get date and time  
 
 ---
 
@@ -781,10 +781,10 @@ sty STARTTIME+2  ; most significant byte
 
 ### Keyboard
 
-$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
-$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
-$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
-$FED2: `keymap` - set or get the current keyboard layout
+\$FEBD: `kbdbuf_peek` - get first char in keyboard queue and queue length  
+\$FEC0: `kbdbuf_get_modifiers` - get currently pressed modifiers  
+\$FEC3: `kbdbuf_put` - append a char to the keyboard queue  
+\$FED2: `keymap` - set or get the current keyboard layout
 
 ---
 
@@ -872,9 +872,9 @@ Unless the KERNAL IRQ handler is being bypassed or supplemented, it is not norma
 
 ### Mouse
 
-$FF68: `mouse_config` - configure mouse pointer  
-$FF71: `mouse_scan` - query mouse  
-$FF6B: `mouse_get` - get state of mouse
+\$FF68: `mouse_config` - configure mouse pointer  
+\$FF71: `mouse_scan` - query mouse  
+\$FF6B: `mouse_get` - get state of mouse
 
 ---
 
@@ -960,8 +960,8 @@ BNE BUTTON_PRESSED
 
 ### Joystick
 
-$FF53: `joystick_scan` - query joysticks  
-$FF56: `joystick_get` - get state of one joystick
+\$FF53: `joystick_scan` - query joysticks  
+\$FF56: `joystick_get` - get state of one joystick
 
 ---
 
@@ -1046,10 +1046,10 @@ If the default interrupt handler is disabled or replaced:
 
 ### I2C
 
-$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
-$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
-$FEC6: `i2c_read_byte` - read a byte from an I2C device  
-$FEC9: `i2c_write_byte` - write a byte to an I2C device
+\$FEB4: `i2c_batch_read` - read multiple bytes from an I2C device  
+\$FEB7: `i2c_batch_write` - write multiple bytes to an I2C device  
+\$FEC6: `i2c_read_byte` - read a byte from an I2C device  
+\$FEC9: `i2c_write_byte` - write a byte to an I2C device
 
 ---
 
@@ -1176,8 +1176,8 @@ JSR $FEC9 ; reset the computer
 
 ### Sprites
 
-$FEF0: `sprite_set_image` - set the image of a sprite  
-$FEF3: `sprite_set_position` - set the position of a sprite
+\$FEF0: `sprite_set_image` - set the image of a sprite  
+\$FEF3: `sprite_set_position` - set the position of a sprite
 
 ---
 
@@ -1381,18 +1381,18 @@ Purpose: Copy horizontally consecutive pixels to a different position
 
 The high-level graphics API exposes a set of standard functions. It allows applications to easily perform some common high-level actions like drawing lines, rectangles and images, as well as moving parts of the screen. All commands are completely implemented on top of the framebuffer API, that is, they will continue working after replacing the framebuffer driver with one that supports a different resolution, color depth or even graphics device.
 
-$FF20: `GRAPH_init` - initialize graphics  
-$FF23: `GRAPH_clear` - clear screen  
-$FF26: `GRAPH_set_window` - set clipping region  
-$FF29: `GRAPH_set_colors` - set stroke, fill and background colors  
-$FF2C: `GRAPH_draw_line` - draw a line  
-$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)  
-$FF32: `GRAPH_move_rect` - move pixels  
-$FF35: `GRAPH_draw_oval` - draw an oval or circle  
-$FF38: `GRAPH_draw_image` - draw a rectangular image  
-$FF3B: `GRAPH_set_font` - set the current font  
-$FF3E: `GRAPH_get_char_size` - get size and baseline of a character  
-$FF41: `GRAPH_put_char` - print a character
+\$FF20: `GRAPH_init` - initialize graphics  
+\$FF23: `GRAPH_clear` - clear screen  
+\$FF26: `GRAPH_set_window` - set clipping region  
+\$FF29: `GRAPH_set_colors` - set stroke, fill and background colors  
+\$FF2C: `GRAPH_draw_line` - draw a line  
+\$FF2F: `GRAPH_draw_rect` - draw a rectangle (optionally filled)  
+\$FF32: `GRAPH_move_rect` - move pixels  
+\$FF35: `GRAPH_draw_oval` - draw an oval or circle  
+\$FF38: `GRAPH_draw_image` - draw a rectangular image  
+\$FF3B: `GRAPH_set_font` - set the current font  
+\$FF3E: `GRAPH_get_char_size` - get size and baseline of a character  
+\$FF41: `GRAPH_put_char` - print a character
 
 ---
 
@@ -1519,32 +1519,32 @@ Purpose: Print a character onto the graphics screen
 * $0A: LF
 * $0B: ATTRIBUTES: ITALICS
 * $0C: ATTRIBUTES: OUTLINE
-* $0D/$8D: REGULAR/SHIFTED RETURN
-* $11/$91: CURSOR: DOWN/UP
+* \$0D/\$8D: REGULAR/SHIFTED RETURN
+* \$11/\$91: CURSOR: DOWN/UP
 * $12: ATTRIBUTES: REVERSE
-* $13/$93: HOME/CLEAR
+* \$13/\$93: HOME/CLEAR
 * $14 DEL
 * $92: ATTRIBUTES: CLEAR ALL
 * all color codes
 
 Notes:
 
-* CR ($0D) SHIFT+CR ($8D) and LF ($0A) all set the cursor to the beginning of the next line. The only difference is that CR and SHIFT+CR reset the attributes, and LF does not.
-* BACKSPACE ($08) and DEL ($14) move the cursor to the beginning of the previous character but does not actually clear it. Multiple consecutive BACKSPACE/DEL characters are not supported.
+* CR (\$0D) SHIFT+CR (\$8D) and LF (\$0A) all set the cursor to the beginning of the next line. The only difference is that CR and SHIFT+CR reset the attributes, and LF does not.
+* BACKSPACE (\$08) and DEL (\$14) move the cursor to the beginning of the previous character but does not actually clear it. Multiple consecutive BACKSPACE/DEL characters are not supported.
 * There is no way to individually disable attributes (underlined, bold, reversed, italics, outline). The only way to disable them is to reset the attributes using code $92, which switches to plain text.
 * All 16 PETSCII color codes are supported. Code $01 to swap the colors will swap the stroke and fill colors.
 * The stroke color is used to draw the characters, and the underline is drawn using the fill color. In reverse text mode, the text background is filled with the fill color.
-* *[BELL ($07), TAB ($09) and SHIFT+TAB ($18) are not yet implemented.]*
+* *[BELL (\$07), TAB (\$09) and SHIFT+TAB (\$18) are not yet implemented.]*
 
 ---
 
 ### Console
 
-$FEDB: `console_init` - initialize console mode  
-$FEDE: `console_put_char` - print character to console  
-$FED8: `console_put_image` - draw image as if it was a character  
-$FEE1: `console_get_char` - get character from console  
-$FED5: `console_set_paging_message` - set paging message or disable paging
+\$FEDB: `console_init` - initialize console mode  
+\$FEDE: `console_put_char` - print character to console  
+\$FED8: `console_put_image` - draw image as if it was a character  
+\$FEE1: `console_get_char` - get character from console  
+\$FED5: `console_set_paging_message` - set paging message or disable paging
 
 The console is a screen mode that allows text output and input in proportional fonts that support the usual styles. It is useful for rich text-based interfaces.
 
@@ -1613,13 +1613,13 @@ Call address: $FED5
 
 ### Other
 
-$FF47: `enter_basic` - enter BASIC  
-$FECF: `entropy_get` - get 24 random bits  
-$FEAB: `extapi` - extended API  
-$FECC: `monitor` - enter machine language monitor  
-$FF5F: `screen_mode` - get/set screen mode  
-$FF62: `screen_set_charset` - activate 8x8 text mode charset  
-$FFED: `SCREEN` - get the text resolution  
+\$FF47: `enter_basic` - enter BASIC  
+\$FECF: `entropy_get` - get 24 random bits  
+\$FEAB: `extapi` - extended API  
+\$FECC: `monitor` - enter machine language monitor  
+\$FF5F: `screen_mode` - get/set screen mode  
+\$FF62: `screen_set_charset` - activate 8x8 text mode charset  
+\$FFED: `SCREEN` - get the text resolution  
 
 #### Function Name: enter_basic
 
@@ -2703,15 +2703,15 @@ Registers affected: .A .X .Y .P .SP
 
 #### 65C816 extapi16 Function Name: stack_enter_kernal_stack
 
-Purpose: Point the SP to the previously-saved $01xx stack, preserving the current one  
+Purpose: Point the SP to the previously-saved \$01xx stack, preserving the current one  
 Minimum ROM version: R47  
-Call address: $FEA8, .C=3  
+Call address: \$FEA8, .C=3  
 Communication registers: none  
 Preparatory routines: `stack_push`  
 Error returns: none  
 Registers affected: .A .X .Y .P .SP  
 
-**Description:** This function requests that the KERNAL temporarily bring the $01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from $01xx but need to call the KERNAL API or legacy code.
+**Description:** This function requests that the KERNAL temporarily bring the \$01xx stack into effect during use a different stack. This is useful for applications which have moved the SP away from \$01xx but need to call the KERNAL API or legacy code.
 
 **How to Use:**
 

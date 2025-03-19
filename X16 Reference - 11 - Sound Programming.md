@@ -153,7 +153,7 @@ You must include a delay between writes to the address select register ($9F40) a
 
 The YM becomes `BUSY` for approximately 150 CPU cycles' (at 8Mhz) whenever it receives a data write. *Any writes into YM_data during this `BUSY` period will be ignored!*
 
-In order to avoid this, you can use the `BUSY` flag which is bit 7 of the `YM status` byte. Read the status byte from `YM_data` (0x9F41). If the top bit (7) is set, the YM may not be written into at this time. Note that it is not _required_ that you read `YM_status`, only that writes occur no less than ~150 CPU cycles apart. For instance, BASIC executes slowly enough that you are in no danger of writing into the YM too quickly, so BASIC programs may skip checking `YM_status`.
+In order to avoid this, you can use the `BUSY` flag which is bit 7 of the `YM status` byte. Read the status byte from `YM_data` ($9F41). If the top bit (7) is set, the YM may not be written into at this time. Note that it is not _required_ that you read `YM_status`, only that writes occur no less than ~150 CPU cycles apart. For instance, BASIC executes slowly enough that you are in no danger of writing into the YM too quickly, so BASIC programs may skip checking `YM_status`.
 
 Lastly, the `BUSY` flag sometimes takes a (very) short period before it goes high. This has only been observed when IMMEDIATELY polling the flag after a write into `YM_data.` As long as your code does not do so, this quirk should not be an issue.
 
@@ -758,7 +758,7 @@ The Operator Control parameters are mapped to channels/operators as follows: Reg
 
 **DT1** (Detune 1 - fine detune)
 
-Registers $40-$5F, Bits 4-6
+Registers \$40-\$5F, Bits 4-6
 
 Detunes the operator from the channel's main pitch. Values 0 and 4=no detuning.
 Values 1-3=detune up, 5-7 = detune down.<br/>
@@ -766,50 +766,50 @@ The amount of detuning varies with pitch. It decreases as the channel's pitch in
 
 **MUL** (Frequency Multiplier)
 
-Registers $40-$5F, Bits 0-3
+Registers \$40-\$5F, Bits 0-3
 
 If MUL=0, it multiplies the operator's frequency by 0.5<br/>
 Otherwise, the frequency is multiplied by the value in MUL (1,2,3...etc)
 
 **TL** (Total Level - attenuation)
 
-Registers $60-$7F, Bits 0-6
+Registers \$60-\$7F, Bits 0-6
 
 This is essentially "volume control" - It is an attenuation value, so $00 = maximum level and $7F is minimum level. On output operators, this is the volume output by that operator. On modulating operators, this affects the amount of modulation done to other operators.
 
 **KS** (Key Scaling)
 
-Registers $80-$9F, Bits 6-7
+Registers \$80-\$9F, Bits 6-7
 
 Controls the speed of the ADSR progression. The KS value sets four different levels of scaling. Key scaling increases along with the pitch set in KC. 0=min, 3=max
 
 **AR** (Attack Rate)
 
-Registers $80-$9F, Bits 0-4
+Registers \$80-\$9F, Bits 0-4
 
 Sets the attack rate of the ADSR envelope. 0=slowest, $1F=fastest
 
 **AMS-Enable** (Amplitude Modulation Sensitivity Enable)
 
-Registers $A0-$BF, Bit 7
+Registers \$A0-\$BF, Bit 7
 
 If set, the operator's output level will be affected by the LFO according to the channel's AMS setting. If clear, the operator will not be affected.
 
 **D1R** (Decay Rate 1)
 
-Registers $A0-$BF, Bits 0-4
+Registers \$A0-\$BF, Bits 0-4
 
 Controls the rate at which the level falls from peak down to the sustain level (D1L). 0=none, $1F=fastest.
 
 **DT2** (Detune 2 - coarse)
 
-Registers $C0-$DF, Bits 6-7
+Registers \$C0-\$DF, Bits 6-7
 
 Sets a strong detune amount to the operator's frequency. Yamaha suggests that this is most useful for sound effects. 0=off,
 
 **D2R** (Decay Rate 2)
 
-Registers $C0-$DF, Bits 0-4
+Registers \$C0-\$DF, Bits 0-4
 
 Sets the Decay2 rate, which takes effect once the level has fallen from peak down to the sustain level (D1L). This rate continues
 until the level reaches zero or until the note is released.
@@ -818,13 +818,13 @@ until the level reaches zero or until the note is released.
 
 **D1L**
 
-Registers $E0-$FF, Bits 4-7
+Registers \$E0-\$FF, Bits 4-7
 
 Sets the level at which the ADSR envelope changes decay rates from D1R to D2R. 0=minimum (no D2R), $0F=maximum (immediately at peak, which effectively disables D1R)
 
 **RR**
 
-Registers $E0-$FF, Bitst 0-3
+Registers \$E0-\$FF, Bitst 0-3
 
 Sets the rate at which the level drops to zero when a note is released. 0=none, $0F=fastest
 
@@ -860,9 +860,9 @@ Key state and voice selection are both contained in the value written into the K
 
 **Simple Examples:**
 
-To release the note in channel 4: write $08 to `YM_address` ($9F40) and then write $04 ($00+4) to `YM_data` ($9F41).
+To release the note in channel 4: write $08 to `YM_address` ($9F40) and then write \$04 (\$00+4) to `YM_data` (\$9F41).
 
-To begin a note on channel 7, write $08 into `YM_address` to select the KON register. Then write $7F ($78+7) into `YM_data`
+To begin a note on channel 7, write $08 into `YM_address` to select the KON register. Then write \$7F (\$78+7) into `YM_data`
 
 If the current key state of a channel is not known, you can write key off and then key on immediately (after waiting for the YM busy period to end, of course):
 
@@ -878,9 +878,9 @@ The ADSR parameters will be discussed in more detail later.
 
 **Advanced:**
 
-Each channel (voice) of the YM2151 uses 4 operators which can be gated together or independently. Independent triggering gives lots of advanced possibilities. To trigger and release operators independently, you use different values than $78 or $00. These values are composed by 4 bits which signal the on/off state for each operator.
+Each channel (voice) of the YM2151 uses 4 operators which can be gated together or independently. Independent triggering gives lots of advanced possibilities. To trigger and release operators independently, you use different values than \$78 or \$00. These values are composed by 4 bits which signal the on/off state for each operator.
 
-Suppose a note is playing on channel 2 with all 4 operators active. You can release only the M1 operator by writing $72 into register $08.
+Suppose a note is playing on channel 2 with all 4 operators active. You can release only the M1 operator by writing \$72 into register \$08.
 
 **The KON value format:**
 
@@ -958,7 +958,7 @@ To get started quickly, here is some BASIC code to patch voice 0 with a marimba 
 
 Once a voice has been patched as above, you can now POKE notes into it with very few commands for each note.
 
-Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the $20 range register (LR|FB|CON), for the $38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at $40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
+Patches consist mostly of ADSR envelope parameters. A complete patch contains values for the \$20 range register (LR|FB|CON), for the \$38 range register (AMS|PMS), and 4 values for each of the parameter ranges starting at \$40. (4 operators per voice means 4 values per parameter). Since this is a huge amount of flexibility, it is recommended to experiment with instrument creation in an application such as a chip tracker or VST, as the creative process of instrument design is very hands-on and subjective.
 
 ## Using the LFO
 
@@ -968,7 +968,7 @@ You can re-trigger the LFO by setting and then clearing the `LR` bit in the test
 
 ### Vibrato
 
-Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of $7F means 100% effectiveness, $40 means all channels' vibrato depths will be reduced by half, etc.
+Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of \$7F means 100% effectiveness, \$40 means all channels' vibrato depths will be reduced by half, etc.
 
 The vibrato speed is global, depending solely on the value set to `LFRQ.`
 
