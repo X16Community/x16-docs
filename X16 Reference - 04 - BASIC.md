@@ -953,6 +953,8 @@ MONITOR
 
 `MOUSE 1` turns on the mouse pointer and `MOUSE 0` turns it off. If the BASIC program has its own mouse pointer sprite configured, it can use `MOUSE -1`, which will turn the mouse pointer on, but not set the default pointer sprite.
 
+The sprite attributes for the mouse pointer are always read from VERA address $1:FC00-$1:FC07, the attributes for Sprite 0. The default curser will be written to the default Sprite 0 data address in VERA at $1:3000 when Mode is set to 1.
+
 The size of the mouse pointer's area will be configured according to the current screen mode. If the screen mode is changed, the MOUSE statement has to be repeated.
 
 **EXAMPLES of MOUSE Statement:**
