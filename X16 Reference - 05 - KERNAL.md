@@ -889,7 +889,7 @@ Registers affected: .A .X .Y
 
 **Description:** The routine `mouse_config` configures the mouse pointer.
 
-The argument in .A specifies whether the mouse pointer should be visible or not, and what shape it should have. For a list of possible values, see the basic statement `MOUSE`.
+The argument in .A specifies whether the mouse pointer should be visible or not, and what shape it should have. For a list of possible values, see the basic statement [MOUSE](X16%20Reference%20-%2004%20-%20BASIC.md#mouse).
 
 The arguments in .X and .Y specify the screen resolution in 8 pixel increments. The values .X = 0 and .Y = 0 keep the current resolution.
 
