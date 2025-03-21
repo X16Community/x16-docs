@@ -1,3 +1,4 @@
+
 # Appendix I: Character Sets
 
 From ROM version R48 there are a total of 12 character sets build in. The different character sets are listed below with a short description of their history and/or use cases.
