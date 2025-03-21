@@ -2567,6 +2567,8 @@ Registers affected: .A, .X, .Y
 | 11    | Eastern ISO (thin) (since r47)  |
 | 12    | Katakana (thin) (since r48)     |
 
+See [Appendix I](X16%20Reference%20-%20Appendix%20I%20-%20Character%20Sets.md#appendix-i-character-sets)  
+
 If .A is zero, .X (lo) and .Y (hi) contain a pointer to a 2 KB RAM area that gets uploaded as the new 8x8 character set. The data has to consist of 256 characters of 8 bytes each, top to bottom, with the MSB on the left, set bits (1) represent the foreground colored pixels.
 
 **EXAMPLE:**

@@ -49,6 +49,7 @@ first.
 * [Appendix F: The 65C816 Processor](X16%20Reference%20-%20Appendix%20F%20-%2065C816%20Processor.md#appendix-f-the-65c816-processor)
 * [Appendix G: ZSM File Format](X16%20Reference%20-%20Appendix%20G%20-%20ZSM%20File%20Format.md#appendix-g-zsm-file-format)
 * [Appendix H: Onboard Upgrade Guide](X16%20Reference%20-%20Appendix%20H%20-%20Onboard%20Upgrade%20Guide.md#appendix-h-how-to-update-your-x16-to-latest-release)
+* [Appendix I: Character Sets](X16%20Reference%20-%20Appendix%20I%20-%20Character%20Sets.md#appendix-i-character-sets)
 
 ## External Links
 
