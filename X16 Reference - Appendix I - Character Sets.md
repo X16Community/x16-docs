@@ -18,6 +18,8 @@ From ROM version R48 there are a total of 12 character sets build in. The differ
 11) [Eastern ISO (thin)](#eastern-iso-thin)
 12) [Katakana (thin)](#katakana-thin)
 
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+
 # ISO
 ![ISO](images/Appendix_I/01ISO.png)  
 Added to the kernal early on to provide a characterset with international letters and glyphs.
