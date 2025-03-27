@@ -81,6 +81,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `LOAD` | command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | command | Moves the text cursor to new location | X16 |
 | `LOG` | function | Returns the natural logarithm of a number | C64 |
+| [`MEMDIAG`](#memdiag) | command | Starts the built-in memory diagnostics | X16 |
 | [`MENU`](#menu) | command | Invokes the Commander X16 utility menu | X16 |
 | `MID$` | function | Returns a substring from the middle of a string | C64 |
 | [`MON`](#mon) | command | Enters the machine language monitor | X16 |
@@ -910,6 +911,20 @@ The values are 1-based. If no column is given, only the line is changed.
 180 :  LOCATEY,X:PRINTCHR$($12);" ";
 190 NEXT
 ```
+
+### MEMDIAG
+
+**TYPE: Command**
+**FORMAT: MEMDIAG**
+
+**Action:** This command starts the built-in memory diagnostics.  
+Note: It is not possible to exit the memory diagnostics. A system reset is the only option to exit memory diagnostic mode.
+
+**Example of MEMDIAG Statement:**
+```BASIC
+MEMDIAG
+```
+For more information, see [Appendix E: Diagnostic Bank](X16%20Reference%20-%20Appendix%20E%20-%20Diagnostic%20Bank.md#appendix-e-diagnostic-bank)
 
 ### MENU
 

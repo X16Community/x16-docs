@@ -20,7 +20,10 @@ The memory diagnostics can be started in two different ways. If the system is fu
 ```BASIC
 BANK 0,7: SYS $C000
 ```
-
+Or by simply executing the MEMDIAG command:
+```BASIC
+MEMDIAG
+```
 It is also possible to jump directly to the diagnostic ROM bank from assembly.  
 ```asm
 	lda	#$07    ; ROM bank 7 is the diagnostic bank
