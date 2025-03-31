@@ -936,7 +936,7 @@ The palette translates 8-bit color indexes into 12-bit output colors. The palett
 
 At reset, the palette will contain a predefined palette:
 
-![A picture of the Commander X16 palette](cx16palette.png)
+![A picture of the Commander X16 palette](images/cx16palette.png)
 
 * Color indexes 0-15 contain a palette somewhat similar to the C64 color palette.
 * Color indexes 16-31 contain a grayscale ramp.
