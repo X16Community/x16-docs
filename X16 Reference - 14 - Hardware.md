@@ -129,7 +129,7 @@ Expansion cards can use the IO3-IO6 lines as enable lines to provide their IO ad
 devices, expansion boards should allow the user to select their desired I/O bank with jumpers
 or DIP switches. IO7 is given priority to external cartridges that use MMIO and should be
 only used by an expansion card if there are no other MMIO ranges available. Doing so may
-cause a bus conflict with cartridges that make us of MMIO (such as those with expansion
+cause a bus conflict with cartridges that make use of MMIO (such as those with expansion
 hardware). See below for more information on cartridges.
 
 ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`)

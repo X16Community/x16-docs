@@ -32,7 +32,7 @@ The VERA consists of:
 
 # Registers
 
-## $9F20-$9F28
+## \$9F20-\$9F28
 
 <table>
 	<tr>
@@ -115,7 +115,7 @@ The VERA consists of:
 	</tr>
 </table>
 
-## $9F29-$9F2C
+## \$9F29-\$9F2C
 
 <details open>
 	<summary>DCSEL=0</summary>
@@ -480,7 +480,7 @@ The VERA consists of:
 	</table>
 </details>
 
-## $9F2D-$9F3F
+## \$9F2D-\$9F3F
 
 <table>
 	<tr>
@@ -621,34 +621,34 @@ The VERA consists of:
 
 ## VRAM address space layout
 
-| Address range     | Description                |
-| ----------------- | -------------------------- |
-| $0:0000 - $1:F9BF | Video RAM                  |
-| $1:F9C0 - $1:F9FF | PSG registers              |
-| $1:FA00 - $1:FBFF | Palette                    |
-| $1:FC00 - $1:FFFF | Sprite attributes          |
+| Address range      | Description                 |
+| ------------------ | --------------------------- |
+| \$0:0000 - \$1:F9BF | Video RAM                  |
+| \$1:F9C0 - \$1:F9FF | PSG registers              |
+| \$1:FA00 - \$1:FBFF | Palette                    |
+| \$1:FC00 - \$1:FFFF | Sprite attributes          |
 
 The X16 KERNAL uses the following video memory layout:
 
-| Addresses       | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| $0:0000-$1:2BFF | 320x240@256c Bitmap                                       |
-| $1:2C00-$1:2FFF | *unused* (1024 bytes)                                     |
-| $1:3000-$1:AFFF | Sprite Image Data (up to $1000 per sprite at 64x64 8-bit) |
-| $1:B000-$1:EBFF | Text Mode                                                 |
-| $1:EC00-$1:EFFF | *unused* (1024 bytes)                                     |
-| $1:F000-$1:F7FF | Charset                                                   |
-| $1:F800-$1:F9BF | *unused* (448 bytes)                                     |
-| $1:F9C0-$1:F9FF | VERA PSG Registers (16 x 4 bytes)                         |
-| $1:FA00-$1:FBFF | VERA Color Palette (256 x 2 bytes)                        |
-| $1:FC00-$1:FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
+| Addresses        | Description                                                |
+|------------------|------------------------------------------------------------|
+| \$0:0000-\$1:2BFF | 320x240@256c Bitmap                                       |
+| \$1:2C00-\$1:2FFF | *unused* (1024 bytes)                                     |
+| \$1:3000-\$1:AFFF | Sprite Image Data (up to $1000 per sprite at 64x64 8-bit) |
+| \$1:B000-\$1:EBFF | Text Mode                                                 |
+| \$1:EC00-\$1:EFFF | *unused* (1024 bytes)                                     |
+| \$1:F000-\$1:F7FF | Charset                                                   |
+| \$1:F800-\$1:F9BF | *unused* (448 bytes)                                      |
+| \$1:F9C0-\$1:F9FF | VERA PSG Registers (16 x 4 bytes)                         |
+| \$1:FA00-\$1:FBFF | VERA Color Palette (256 x 2 bytes)                        |
+| \$1:FC00-\$1:FFFF | VERA Sprite Attributes (128 x 8 bytes)                    |
 
-**This memory map is not fixed**: All of the address space between $0:0000 and $1:F9BF is available for any use in your programs, if you do not need text displayed by KERNAL or BASIC. This includes allocating multiple text or graphic buffers, or simply re-arranging the buffers to allow for
+**This memory map is not fixed**: All of the address space between \$0:0000 and \$1:F9BF is available for any use in your programs, if you do not need text displayed by KERNAL or BASIC. This includes allocating multiple text or graphic buffers, or simply re-arranging the buffers to allow for
 certain tile set layouts. Just be aware that once you move things around, you'll have to fully manage your bitmaps, tiles, and text/tile buffers. 
 
 To restore the standard text mode, call `CINT` ($FF81). This will reset the screen to the default screen mode. If you have configured custom settings in your NVRAM, these will be used.
 
-Also, the registers in $1:F9C0-$1:FFFF are actually write-only. However, they share the same address as part of the video RAM. Be aware that when you read back the register data, you are actually reading the last value sent by the host system, which is not necessarily the value in the register.
+Also, the registers in \$1:F9C0-\$1:FFFF are actually write-only. However, they share the same address as part of the video RAM. Be aware that when you read back the register data, you are actually reading the last value sent by the host system, which is not necessarily the value in the register.
 To make sure this data is filled with known values, we recommend fully initializng the registers before use. Normally, the X16 KERNAL handles this for you, but if you are writing a cartridge program, using the system with a custom ROM, or even running VERA on another computer, then you'll 
 need to make sure this block gets initialized to known values. 
 

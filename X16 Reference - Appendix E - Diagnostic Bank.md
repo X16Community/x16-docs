@@ -37,10 +37,10 @@ This will make the Commander X16 boot directly into the diagnostic ROM bank and 
 ### Without screen
 When the diagnostic ROM bank starts, it will use the activity LED to indicate the progress.  
 * ON - while zero-page memory is tested (very brief)
-* OFF - for 1st test of base memory ($0100-$9EFF)
-* ON - for 2nd test of base memory ($0100-$9EFF)
-* OFF - for 3rd test of base memory ($0100-$9EFF)
-* ON - for 4th test of base memory ($0100-$9EFF)
+* OFF - for 1st test of base memory (\$0100-\$9EFF)
+* ON - for 2nd test of base memory (\$0100-\$9EFF)
+* OFF - for 3rd test of base memory (\$0100-\$9EFF)
+* ON - for 4th test of base memory (\$0100-\$9EFF)
   
 After the initial test of base memory, the number of available memory banks is tested, VERA is initialized and both the activity LED and the keyboard LEDs are used to indicate the progress.  
 The keyboard LEDs are used as a binary counter:  
@@ -108,16 +108,16 @@ The algorithm is then implemented in the following way:
 2. For each address, check the pattern and write the inverted pattern in ascending order
 3. For each address, check the inverted pattern and write the original pattern in ascending order
 4. For each address, check the original pattern and write the inverted pattern in descending order
-5. For eac address, check the inverted pattern and write the original pattern in descending order
+5. For each address, check the inverted pattern and write the original pattern in descending order
 6. Check all addresses contain the original pattern
 ### Implementation
-When memory test starts, the first thing that happens is that zero-page is tested by itself. If this test passes, the rest of base memory is tested from $0100-$9EFF while ensuring that these tests do not affect zero-page memory.  
+When memory test starts, the first thing that happens is that zero-page is tested by itself. If this test passes, the rest of base memory is tested from \$0100-\$9EFF while ensuring that these tests do not affect zero-page memory.  
   
 When base memory has passed the initial test, zero-page is used for variables and stack pointer is initialized to enable pushing and popping of registers and function calls.  
 VERA is initialized and the number of memory banks is tested.  
   
 All available memory banks are tested together as opposed to checking and clearing a single memory page at a time.  
-When all memory banks have been tested, the base memory $0200-$9EFF is tested again.  
+When all memory banks have been tested, the base memory \$0200-\$9EFF is tested again.  
   
 Memory banks and base memory is tested in continuous loop.  
   

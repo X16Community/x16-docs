@@ -132,7 +132,7 @@ To perform a floating point calculation, follow the following pattern:
 1. the result is in FACC, move it into MEM somewhere or convert it to another type or string.
 
 An example program that calculates and prints the distance an object has fallen over a certain period
-using the formula  $d = \dfrac{1}{2} g {t}^{2}$
+using the formula $d = \dfrac{1}{2} g {t}^{2}$
 
 ```ASM
 ; calculate how far an object has fallen:  d = 1/2 * g * t^2.

@@ -62,7 +62,7 @@ to the $100-1FF range) in Emulation mode.
 
 .DB and .K are the bank registers, allowing programs and data to occupy separate
 64K banks on computers with more than 64K of RAM. (The X16 does not use the bank
-registers, instead using addresses $00 and $01 for banking.)
+registers, instead using addresses \$00 and \$01 for banking.)
 
 ## Status Flags
 
@@ -178,8 +178,8 @@ all _emulate_ 65C02 behavior when _set_.
 The 65C816 now has 24 distinct address modes, although most are variations on a
 theme. Make note of the new syntax for Stack relative instructions (,S), the use
 of brackets for [24 bit indirect] addressing, and the fact that Zero Page has
-been renamed to Direct Page. This means that $0001 and $01 are now two different
-addresses (although they would be the same if .DP is set to $00.
+been renamed to Direct Page. This means that \$0001 and \$01 are now two different
+addresses (although they would be the same if .DP is set to \$00.
 
 | Mode                            | Syntax    | Description |
 | ------------------------------- | --------- | ------------------------------------------------------------------ |
@@ -206,7 +206,7 @@ addresses (although they would be the same if .DP is set to $00.
 | Implied                         |           | Target is part of the opcode name.                                 |
 | Relative Address (8 bit signed) | $1234     | Branches can only jump by -128 to 127 bytes.                       |
 | 16 bit relative address         | $1234     | BRL can jump by 32K bytes.                                         |
-| Block Move                      | #$12,#$34 | Operands are the bank numbers for block move/copy.                 |
+| Block Move                      | #\$12,#\$34 | Operands are the bank numbers for block move/copy.                 |
 
 ## Vectors
 
@@ -278,12 +278,12 @@ inverted: 0 indicates a borrow took place, and 1 means it did not.
 | SBC #$01  | $10  | $09    | Carry is set, indicating no borrow. |
 | SBC #$01  | $00  | $99    | Carry is clear, indicating a borrow.|
 
-In the second example ($00 - $01), the final result was $99 with a borrow. 
+In the second example (\$00 - \$01), the final result was \$99 with a borrow. 
 
 Note that the **n** flag tracks the high bit, but two's complement doesn't work
 as expected in Decimal mode. Instead, we have to use _Ten's complement_. 
 
-Simply put, $00 - $01 gives you $99. So when working in signed BCD, any value
+Simply put, \$00 - \$01 gives you \$99. So when working in signed BCD, any value
 where the high digit is 5-9 is actually a negative value. To convert negative
 values to positive values for printing, you would subtract from 99 and add 1.
 
@@ -764,7 +764,7 @@ instruction _following_ The BRL.
 
 Of course, due to wrapping of the 64K bank, this means that the entire 64K
 region is accessible. Values below 0 will simply wrap around and start from
-$FFFF, and values above $FFFF will wrap around to 0.
+\$FFFF, and values above \$FFFF will wrap around to 0.
 
 Since this is a _relative_ branch, that means code assembled with BRL, instead of
 JMP, can be moved around in memory without the need for re-assembly.
@@ -883,8 +883,8 @@ SYNTAX           MODE       HEX LEN CYCLES      FLAGS
 CLV              imp        B8  1   2           .v...... .
 ```
 
-Overflow is _set_ when the result of an addition operation goes up through $80
-or subtraction goes down through $80.
+Overflow is _set_ when the result of an addition operation goes up through \$80
+or subtraction goes down through \$80.
 
 CLV clears the overflow flag. There is no "SEV" instruction, but overflow can be
 set with SEP #$40.
@@ -1630,7 +1630,7 @@ by 1 byte.
 A 16-bit push writes the high byte first, decrements the PC, then writes the low
 byte, and decrements the PC again.
 
-In Emulation mode, the Stack Pointer will always be an address in the $100-$1FF
+In Emulation mode, the Stack Pointer will always be an address in the \$100-\$1FF
 range, so there is only room for 256 bytes on the stack. In native mode, the
 stack can be anywhere in the first 64KB of RAM.
 
@@ -2071,16 +2071,16 @@ When Decimal is set, the CPU will store numbers in Binary Coded Decimal format.
 Clearing this flag restores the CPU to binary operation. See
 [Decimal Mode](#decimal-mode) for more information.
 
-In binary mode, adding 1 to $09 will set the Accumulator to $0A. In BCD mode,
-adding 1 to $09 will set the Accumulator to $10.
+In binary mode, adding 1 to \$09 will set the Accumulator to \$0A. In BCD mode,
+adding 1 to \$09 will set the Accumulator to \$10.
 
 Using BCD allows for easier conversion of binary numbers to decimal. BCD also
 allows for storing decimal numbers without loss of precision due to power-of-2
 rounding.
 
 An add or subtract (ADC or SBC) is required to actually trigger BCD conversion.
-So if you have a number like $1A on the accumulator and you SED, you can convert
-.A to $20 with the instruction `ADC #$00`.
+So if you have a number like \$1A on the accumulator and you SED, you can convert
+.A to \$20 with the instruction `ADC #$00`.
 
 
 [[Opcodes](#instructions-by-opcode)] [[By Name](#instructions-by-name)] [[By Category](#instructions-by-category)]
