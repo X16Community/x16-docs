@@ -17,6 +17,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`ASC`](#asc) | function | Returns numeric PETSCII value from string | C64 |
 | `ATN` | function | Returns arctangent of a number | C64 |
 | [`BANK`](#bank) | command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
+| [`BASLOAD`](#bank) | command | Load and tokenize a BASLOAD (.basl) text file | X16 |
 | [`BIN$`](#bin) | function | Converts numeric to a binary string | X16 |
 | [`BINPUT#`](#binput) | command | Reads a fixed-length block of data from an open file | X16 |
 | [`BLOAD`](#bload) | command | Loads a headerless binary file from disk to a memory address | X16 |
@@ -260,6 +261,28 @@ Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init
 Note: BANK uses its own register to store the the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
 Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
+
+### BASLOAD
+
+**TYPE: Command**  
+**FORMAT: BASLOAD &lt;filename&gt;**
+
+**Action:** Loads a plain text file with BASLOAD source and converts it into a runnable program.
+
+For more information about BASLOAD, see [this external documentation](https://github.com/stefan-b-jakobsson/basload-rom)
+
+**EXAMPLE of BASLOAD Command:**
+
+```BASIC
+BASLOAD "MYPROG.BASL"
+LOADING...
+READY.
+LIST
+
+1 PRINT "HELLO, WORLD!"
+2 GOTO 1
+READY.
+```
 
 ### BINPUT&#35;
 
