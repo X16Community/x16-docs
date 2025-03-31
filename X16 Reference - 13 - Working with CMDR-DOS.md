@@ -376,7 +376,7 @@ The above opens LEVEL.DAT for reading and positions the read/write pointer at by
 30 INPUT#15,A,A$,T,S
 40 CLOSE 15
 50 IF A>=20 THEN 90
-60 SZ=VAL("$"+MID$(A$,9))
+60 SZ=VAL("$"+MID$(A$,10))
 70 PRINT "SIZE=";SZ
 80 GOTO 100
 90 PRINT"ERROR"
