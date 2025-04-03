@@ -130,9 +130,11 @@ This is the memory map of the I/O Area:
 |\$9F20-\$9F3F|VERA video controller                |8 MHz|
 |\$9F40-\$9F41|YM2151 audio controller              |2 MHz|
 |\$9F42-\$9F5F|Unavailable                          | --- |
+|\$9F50-\$9F5F|Planned for X16GS. [Details](https://x16community.github.io/faq/gs-faq.html) | --- |
 |\$9F60-\$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
 |\$9F80-\$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
 |\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
+|\$9FB0-\$9FBF|Used by emulator. [Details](https://github.com/X16Community/x16-emulator?tab=readme-ov-file#emulator-io-registers) | --- |
 |\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
 |\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
 
