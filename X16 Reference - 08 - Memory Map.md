@@ -56,6 +56,8 @@ Here is the ROM/Cartridge bank allocation:
 Cartridges can use the remaining 32-255 banks in any combination of ROM, RAM, Memory-Mapped IO, etc. See Kevin's reference cartridge design
 for ideas on how this may be used. This provides up to 3.5MB of additional RAM or ROM.
 
+Bootable cartridge: See [Hardware - Booting from Cartridges](X16%20Reference%20-%2014%20-%20Hardware.md#booting-from-cartridges)
+
 **Important**: The layout of the banks is not yet final.
 
 ## RAM Contents
