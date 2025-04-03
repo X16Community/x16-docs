@@ -125,10 +125,10 @@ This is the memory map of the I/O Area:
 
 |Addresses    |Description                          |Speed|
 |-------------|-------------------------------------|-----|
-|\$9F00-\$9F0F|VIA I/O controller #1                |8 MHz|
+|\$9F00-\$9F0F|VIA I/O controller #1. [Details](X16%20Reference%20-%2012%20-%20IO%20Programming.md#chapter-12-io-programming) |8 MHz|
 |\$9F10-\$9F1F|VIA I/O controller #2                |8 MHz|
-|\$9F20-\$9F3F|VERA video controller                |8 MHz|
-|\$9F40-\$9F41|YM2151 audio controller              |2 MHz|
+|\$9F20-\$9F3F|VERA video controller. [Details](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#registers) |8 MHz|
+|\$9F40-\$9F41|YM2151 audio controller. [Details](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#ym2151-opm-fm-synthesis) |2 MHz|
 |\$9F42-\$9F5F|Unavailable                          | --- |
 |\$9F50-\$9F5F|Planned for X16GS. [Details](https://x16community.github.io/faq/gs-faq.html) | --- |
 |\$9F60-\$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
