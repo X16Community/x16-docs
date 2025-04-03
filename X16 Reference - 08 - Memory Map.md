@@ -56,6 +56,8 @@ Here is the ROM/Cartridge bank allocation:
 Cartridges can use the remaining 32-255 banks in any combination of ROM, RAM, Memory-Mapped IO, etc. See Kevin's reference cartridge design
 for ideas on how this may be used. This provides up to 3.5MB of additional RAM or ROM.
 
+Bootable cartridge: See [Hardware - Booting from Cartridges](X16%20Reference%20-%2014%20-%20Hardware.md#booting-from-cartridges)
+
 **Important**: The layout of the banks is not yet final.
 
 ## RAM Contents
@@ -125,14 +127,16 @@ This is the memory map of the I/O Area:
 
 |Addresses    |Description                          |Speed|
 |-------------|-------------------------------------|-----|
-|\$9F00-\$9F0F|VIA I/O controller #1                |8 MHz|
+|\$9F00-\$9F0F|VIA I/O controller #1. [Details](X16%20Reference%20-%2012%20-%20IO%20Programming.md#chapter-12-io-programming) |8 MHz|
 |\$9F10-\$9F1F|VIA I/O controller #2                |8 MHz|
-|\$9F20-\$9F3F|VERA video controller                |8 MHz|
-|\$9F40-\$9F41|YM2151 audio controller              |2 MHz|
+|\$9F20-\$9F3F|VERA video controller. [Details](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#registers) |8 MHz|
+|\$9F40-\$9F41|YM2151 audio controller. [Details](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#ym2151-opm-fm-synthesis) |2 MHz|
 |\$9F42-\$9F5F|Unavailable                          | --- |
+|\$9F50-\$9F5F|Planned for X16GS. [Details](https://x16community.github.io/faq/gs-faq.html) | --- |
 |\$9F60-\$9F7F|Expansion Card Memory Mapped IO3     |8 MHz|
 |\$9F80-\$9F9F|Expansion Card Memory Mapped IO4     |8 MHz|
 |\$9FA0-\$9FBF|Expansion Card Memory Mapped IO5     |2 MHz|
+|\$9FB0-\$9FBF|Used by emulator. [Details](https://github.com/X16Community/x16-emulator?tab=readme-ov-file#emulator-io-registers) | --- |
 |\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
 |\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
 
