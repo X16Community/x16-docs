@@ -1710,6 +1710,7 @@ Registers affected: Varies
 | `$0D` | [`scnsiz`](#extapi-function-name-scnsiz) | Directly sets the kernal editor text dimensions | .X .Y | - | - |
 | `$0E` | [`kbd_leds`](#extapi-function-name-kbd_leds) | Set or get the state of the PS/2 keyboard LEDs | .X .P | .X | - |
 | `$0F` | [`memory_decompress_from_func`](#extapi-function-name-memory_decompress_from_func) | Decompresses LZSA2 data streamed by a function | r1 r4 | r1 | r4 |
+| `$10` | [`default_palette`](#extapi-function-name-default_palette) | Get or upload the default palette | .P | .A .X .Y | - |
 
 
 ---
@@ -2465,6 +2466,24 @@ filename_len = *-filename
 
 ---
 
+#### extapi Function Name: default_palette
+Purpose: Get or upload the default palette
+Minimum ROM version: R49
+Call address: $FEAB, .A=16
+Communication registers: .A .X .Y .P
+Preparatory routines: None
+Error returns: (none)
+Registers affected: .A .X .Y .P
+
+**Description:** This routine returns the bank and address of the default palette or uploads the default palette to the VERA.
+
+**How to Use:**
+
+1) To query the default palette's bank and address, set carry. To upload the default palette to the VERA, clear carry.
+2) Call `default_palette`.
+3) If carry was set on the call to `default_palette`, the routine will return with .A set to the ROM bank containing the palette, .X set to the low byte of the palette address and .Y set to the palette address. If carry was clear, the routine will upload the default palette to the VERA.
+
+---
 
 #### Function Name: monitor
 
