@@ -310,7 +310,7 @@ This is based on feedback from users on Discord, and is very approximate. If you
 | PR00102 | R47pre git 8929A57+* | 45.1.0* | 0.3.2  | 2 (bad)*       |
 | PR00499 | R47pre git 33ACE3A4* |         |        |                |
 | PR00831 | R47pre git 33ACE3A4* | 45.1.0* | 0.3.2  | 2 (bad)*       |
-| PR00923 |                      | 47.0.0  |        |                |
+| PR00923 | R47                  | 47.0.0  | 47.0.2 | 2              |
 | PR01011 | R48                  | 47.2.3  | 47.0.2 | 2              |
 
 </p>
