@@ -85,7 +85,7 @@ Disconnect power from the Commander X16. Remove the ROM chip, which is a SST39SF
 
 ### Warning: High voltage
 
-EEPROM chips requires high voltage (12-24V) to program and to erase. The parallel flash chip used by X16 does not need high voltage for anything. However, RURP can output high voltage to some of the pins, based on the control register. During Arduino reset, this control register may be in a state where it provides high voltage to some pins, which may damage a flash IC. Because of this, it is NOT recommended to connect an IC to RURP while it is powered off. Instead, power on RURP first, and then connect your IC just before programming it.
+EEPROM chips requires high voltage (12-24V) to program and to erase. The parallel flash chip used by X16 does not need high voltage for anything. However, RURP can output high voltage to some of the pins, based on the control register. During Arduino reset, this control register is uninitialized, and may be in a state where it causes high voltage to some pins, which may damage a flash IC. Because of this, it is NOT recommended to connect an IC to RURP while it is powered off. Instead, power on RURP first, and then connect your IC just before programming it.
 
 
 ### Insert ROM chip into programmer
@@ -105,7 +105,7 @@ If you want to dump the contents of the chip, use the command `firestarter read 
 
 Make sure the new rom file (e.g `rom.bin` for r48) is in the current folder.
 
-To erase the chip and program this rom file, use the command `firestarter write SST39SF040 rom.bin`. This command will erase the chip, then verify that the eeprom is blank (0xFF), and then program the file.
+To erase the chip and program this rom file, use the command `firestarter write SST39SF040 rom.bin`. This command will erase the chip, then verify that the entire chip is blank (0xFF), and then program the file.
 
 Erase + blank check takes 45 seconds. Writing 256 kB, takes 1.5 additional minutes.
 
