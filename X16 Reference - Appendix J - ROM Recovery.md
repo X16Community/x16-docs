@@ -3,7 +3,8 @@
 
 **WARNING: This is a draft that may contain errors or omissions that could damage your hardware.**
 
-## Using a PC to upgrade or recover ROM using Relatively Universal ROM Programmer (RURP)
+
+## Option 1: Using a PC to upgrade or recover ROM using Relatively Universal ROM Programmer (RURP)
 
 **Target Component:** ROM
 
@@ -121,6 +122,77 @@ Remove the flash IC from RURP. If you have a ZIF socket on RURP, it is likely le
 Insert the flash IC into X16, while X16 is disconnected from power. (You may optionally insert a ZIF socket into the ROM socket first, to make the ROM easier to remove next time.)
 
 Power on your X16. Enjoy!
+
+
+## Option 2: Using a cartridge to program/recover ROM
+
+**Target Component:** ROM
+
+**Programmer:** X16 + cartridge
+
+**Software:** CX16-UPDATE
+
+**Host OS:** CBM Basic
+
+
+### Description
+
+If you have a working Commander X16, and a cartridge with a ROM socket, and an extra ROM IC (SST39SF040), you can use it to make a backup ROM IC using CX16-UPDATE. In case you later brick your ROM IC, you can replace it with the backup. Using the backup, you can program the ROM IC again, using CX16-UPDATE.
+
+
+### Connect ROM via cartridge to CX16
+
+Disconnect power from the Commander X16.
+
+Ensure that there is a working ROM in CX16.
+
+Connect the ROM to be programmed, to a socket in the cartridge.
+
+If the cartridge requires a "write enable" jumper, insert it.
+
+Connect cartridge to CX16.
+
+
+### Prepare SD card
+
+Prepare a new folder on the SD card which contains CX16-UPDATE, and the rom.bin file to program.
+
+Rename rom.bin to e.g "ROM1.BIN", if the ROM IC is inserted into the slot corresponding to ROM bank 32-63, which is the cartridge starting point. (You can also use ROM2.BIN .. ROM7.BIN, depending on how this ROM IC is accessed by the system).
+
+Ensure that there are no files called rom.bin, smc.bin or vera.bin in this folder. Only CX16-UPDATE.PRG and e.g ROM1.BIN.
+
+
+### Power on the machine and enter BASIC
+
+Power on the machine.
+
+If you get the READY prompt, proceed to the next step.
+
+If not, Commander X16 may try to boot the cartridge. This is done if the machine reads "CX16" at offset $20:$C000.
+
+If you have ROM R49 or newer:
+- Press and hold the "shift" key, while powering on CX16. This will bypass cartridge boot.
+
+If you have older ROM:
+- Press NMI. This may start BASIC or monitor.
+
+If you are in monitor:
+- Change RO to 00 (set ROM bank to $00)
+- Set carry flag (ensure it have an asterisk, "*")
+- Press "enter" at end of line to apply the new registers
+- Enter `R` (show registers, confirm that registers are updated)
+- Enter `G FF47` (Jump to FF47, enter_basic)
+
+
+### Start CX16-UPDATE
+
+Enter the correct folder using `@CD:name_of_folder`. Use `@$` to view contents of current folder.
+
+Start CX16-UPDATE.
+
+Run the program. This should program the IC with the contents from e.g ROM1.BIN.
+
+Power off the machine. Disconnect power. Place the ROM IC where appropriate (backup storage, or, into ROM socket).
 
 
 <!-- For PDF formatting -->
