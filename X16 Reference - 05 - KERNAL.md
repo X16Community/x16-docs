@@ -382,7 +382,7 @@ Registers affected: .A .X .Y .P
 
 #### Function Name: `CHKIN`
 
-Purpose: Set file to be used for character input
+Purpose: Set file to be used for character input\n
 Call address: $FFC6
 Communication registers: .X
 Preparatory routines: OPEN  
