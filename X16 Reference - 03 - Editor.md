@@ -408,7 +408,7 @@ Here is an example that activates a layout derived from "ABC/X16", with unshifte
 
 ### Custom BASIN PETSCII code override handler
 
-**Note**: This is a new feature in R44
+**Note**: This behavior only exists in R44 or later
 
 Some use cases of the BASIN (CHRIN) API call may benefit from being able to modify its behavior, such as intercepting or redirecting certain PETSCII codes.  The Machine Language Monitor uses this mechanism to implement custom behavior for F-keys and for loading additional disassembly or memory display when scrolling the screen.
 
@@ -489,7 +489,7 @@ start:
 
 ### Custom Keyboard Keynum Code Handler
 
-**Note**: This is new behavior for R43, differing from previous releases.
+**Note**: This behavior is for R43 or later, differing from previous releases.
 
 If you need more control over the translation of keynum codes into PETSCII/ISO codes, or if you need to intercept any key down or up event, you can hook the custom scancode handler vector at $032E/$032F.
 
