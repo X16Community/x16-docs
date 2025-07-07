@@ -18,11 +18,11 @@ The following functions are available from machine language code after setting t
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                         |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                            |
 
-**Differences in X16 Behavior of FOUT**
+**Difference in X16 Behavior of FOUT**
 
 The version of FOUT described in the book leaves a pointer to the result string
 in the AY register pair; the X16 version does not do that. Instead, rely on the
-string always being placed in the FBUFFR location at $0100, 
+string always being placed in the FBUFFR location at $0100. 
 
 **Important caveat ragarding the `VAL_1` routine in its current implementation:**
 
