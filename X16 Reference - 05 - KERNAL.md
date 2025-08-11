@@ -2481,7 +2481,7 @@ Registers affected: .A .X .Y .P
 
 1) To query the default palette's bank and address, set carry. To upload the default palette to the VERA, clear carry.
 2) Call `default_palette`.
-3) If carry was set on the call to `default_palette`, the routine will return with .A set to the ROM bank containing the palette, .X set to the low byte of the palette address and .Y set to the palette address. If carry was clear, the routine will upload the default palette to the VERA.
+3) If carry was set on the call to `default_palette`, the routine will return with .A set to the ROM bank containing the palette, .X set to the low byte of the palette address and .Y set to the high byte of the palette address. If carry was clear, the routine will upload the default palette to the VERA.
 
 ---
 
