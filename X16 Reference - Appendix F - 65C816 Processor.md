@@ -339,13 +339,13 @@ as `-49`.
 | Test          | [BIT](#bit) , [TRB](#trb) , [TSB](#tsb) |
 | Flags         | [CLC](#clc) , [CLD](#cld) , [CLI](#cli) , [CLV](#clv) , [REP](#rep) , [SEC](#sec) , [SED](#sed) , [SEI](#sei) , [SEP](#sep) |
 | Compare       | [CMP](#cmp) , [CPX](#cpx) , [CPY](#cpy) |
-| Interrupt     | [COP](#cop) , [WAI](#wai) |
+| Interrupt     | [COP](#cop) , [STP](#stp) , [WAI](#wai) |
 | Inc/Dec       | [DEC](#dec) , [DEX](#dex) , [DEY](#dey) , [INC](#inc) , [INX](#inx) , [INY](#iny) |
 | Flow          | [JMP](#jmp) , [JML](#jml) , [JSL](#jsl) , [JSR](#jsr) , [NOP](#nop) , [RTI](#rti) , [RTL](#rtl) , [RTS](#rts) , [WDM](#wdm) |
 | Load          | [LDA](#lda) , [LDX](#ldx) , [LDY](#ldy) |
 | Block Move    | [MVN](#mvn) , [MVP](#mvp) |
 | Stack         | [PEA](#pea) , [PEI](#pei) , [PER](#per) , [PHA](#pha) , [PHB](#phb) , [PHD](#phd) , [PHK](#phk) , [PHP](#php) , [PHX](#phx) , [PHY](#phy) , [PLA](#pla) , [PLB](#plb) , [PLD](#pld) , [PLP](#plp) , [PLX](#plx) , [PLY](#ply) |
-| Store         | [STA](#sta) , [STP](#stp) , [STX](#stx) , [STY](#sty) , [STZ](#stz) |
+| Store         | [STA](#sta) , [STX](#stx) , [STY](#sty) , [STZ](#stz) |
 | Register Swap | [TAX](#tax) , [TAY](#tay) , [TCD](#tcd) , [TCS](#tcs) , [TDC](#tdc) , [TSC](#tsc) , [TSX](#tsx) , [TXA](#txa) , [TXS](#txs) , [TXY](#txy) , [TYA](#tya) , [TYX](#tyx) , [XBA](#xba) , [XCE](#xce) |
 
 #### ADC
