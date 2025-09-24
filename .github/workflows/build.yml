@@ -49,6 +49,7 @@ jobs:
           "X16 Reference - Appendix G - ZSM File Format.md" \
           "X16 Reference - Appendix H - Onboard Upgrade Guide.md" \
           "X16 Reference - Appendix I - Character Sets.md" \
+          "X16 Reference - Appendix J - ROM Recovery.md" \
           | md-to-pdf --config-file .gh/config.js --stylesheet .gh/markdown.css > "artifacts/Commander X16 Programmer's Reference Guide.pdf"
       - uses: actions/upload-artifact@v4
         with:
