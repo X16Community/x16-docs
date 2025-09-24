@@ -96,7 +96,7 @@ The 16 bit ABI generally follows the following conventions:
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
-| `CHKIN` | `$FFC6` | ChIO | Set channel for character input | X | A X | C64 |
+| [`CHKIN`](#function-name-chkin) | `$FFC6` | ChIO | Set channel for character input | X | A X | C64 |
 | `CHKOUT` | `$FFC9` | ChIO | Set channel for character output | X | A X | C64 |
 | [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3 A X Y P | X16
 | [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3 | A X Y P | X16
@@ -382,9 +382,9 @@ Registers affected: .A .X .Y .P
 
 #### Function Name: `CHKIN`
 
-Purpose: Set file to be used for character input
-Call address: $FFC6
-Communication registers: .X
+Purpose: Set file to be used for character input  
+Call address: $FFC6  
+Communication registers: .X  
 Preparatory routines: OPEN  
 Error returns: None  
 Registers affected: .A .X
