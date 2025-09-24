@@ -2384,7 +2384,7 @@ Preparatory routines: None
 Error returns: (none)  
 Registers affected: .A .X .Y .P r1  
 
-**Description:** This function works the same way as the regular [`memory_decompress`](function-name-memory_decompress), but instead of taking a memory address where the LZSA2 data to decompress is located via the `r0` register, it takes an address (passed in `r4`) of a user-defined function that returns LZSA2 data byte by byte. This might be useful for decompressing data from IO devices or Cartridges.
+**Description:** This function works the same way as the regular [`memory_decompress`](#function-name-memory_decompress), but instead of taking a memory address where the LZSA2 data to decompress is located via the `r0` register, it takes an address (passed in `r4`) of a user-defined function that returns LZSA2 data byte by byte. This might be useful for decompressing data from IO devices or Cartridges.
 
 **How to Use:**
 
@@ -2545,7 +2545,8 @@ Preparatory routines: None
 Error returns: c = 1 in case of error  
 Registers affected: .A, .X, .Y
 
-**Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. For a list of possible values, see the basic statement `SCREEN`. If the mode is unsupported, c will be set, otherwise cleared.
+**Description:** If c is set, a call to this routine gets the current screen mode in .A, the width (in tiles) of the screen in .X, and the height (in tiles) of the screen in .Y. If c is clear, it sets the current screen mode to the value in .A. 
+For a list of possible values, see [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#modes). If the mode is unsupported, c will be set, otherwise cleared.
 
 If you use this function to get the text resolution instead of calling [`SCREEN`](#function-name-screen), this function only returns the text dimensions the currently configured mode would have set, ignoring any changes made by calls to [`scnsiz`](#extapi-function-name-scnsiz). If you want to fetch the KERNAL editor's text resolution, call [`SCREEN`](#function-name-screen) instead.
 
