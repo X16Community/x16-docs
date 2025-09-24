@@ -40,7 +40,16 @@ The second VIA is completely unused by the KERNAL. All its 16 GPIOs and 4 handsh
 
 The Commander X16 contains an I2C bus, which is implemented through two pins of VIA#1. The system management controller (SMC) and the real-time clock (RTC) are connected through this bus. The KERNAL APIs `i2c_read_byte` and `i2c_write_byte` allow talking to these devices.
 
+| Address             | Target                                                                      |
+|---------------------|-----------------------------------------------------------------------------|
+| `1000010 ($42)`     | [System Management Controller (SMC)](#system-Management-Controller)         |
+| `1010??? ($50-$57)` | [Non-volatile storage for cartridges](#non-volatile-storage-for-cartridges) |
+| `1101111 ($6F)`     | [Real-Time Clock (RTC)](#real-time-clock)                                   |
+
+
 ### System Management Controller
+
+**I2C address: $42**
 
 The system management controller (SMC) is device $42 on the I2C bus. It controls the activity LED, and can be used to power down the system or inject RESET and NMI signals. It also handles communication with
 the PS/2 keyboard and mouse.
@@ -67,7 +76,19 @@ the PS/2 keyboard and mouse.
 | $32      | -              | Get SMC firmare version, patch |
 | $8F      | $31            | Start bootloader, if present |  
 
+### Non-volatile storage for cartridges
+
+**I2C address: $50-$57**
+
+#### Commander X16 ROM Cartridge
+[Commander X16 ROM Cartridge](https://texelec.com/product/commander-x16-cartridge/) supports up to 4 128kB EEPROM chips in the $50-$57 address range. Address is chosen based on IC slot on the PCB. Chip type: **Onsemi CAT24M01**
+
+#### ROAM Commander X16 Cartridge
+[ROAM Commander X16 Cartridge](https://www.tindie.com/products/wavicle/roam-commander-x16-cartridge/), by Wavicle, features 1 8kB FRAM chip in the $50-$57 address range. Address is configurable by dip-switches. Chip type: **FM24C64B**
+
 ### Real-Time-Clock
+
+**I2C address: $6F**
 
 The Commander X16 contains a battery-backed Microchip MCP7940N real-time-clock (RTC) chip as device $6F. It provides a real-time clock/calendar, two alarms and 64 bytes of battery-backed SRAM (non-volatile RAM).
 
