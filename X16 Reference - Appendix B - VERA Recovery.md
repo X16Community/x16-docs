@@ -70,7 +70,8 @@ Open the Xgpro software and configure the following settings:
 - Click on "ID Check" to verify the connection
     - The response value should be EF 40 15
     - If it is not, double-check the wiring before proceeding
-
+      
+<img width="600" alt="xgpro-window" src="https://github.com/user-attachments/assets/cdaebea2-df90-4abe-8805-a2e42f936f87" />
 
 ### Update/Flash Procedure
 
