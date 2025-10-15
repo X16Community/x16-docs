@@ -64,13 +64,14 @@ you will not see any screen output during the upgrade process.
 Open the Xgpro software and configure the following settings:
 
 - Select target chip: W25Q16JV
-- Setup interface: Choose ICSP port and uncheck ICSP_VCC_Enable
+- Setup interface: 
+    - Choose ICSP port
+    - Uncheck ICSP_VCC_Enable (as VERA is powered by the X16)
 - Click on "ID Check" to verify the connection
     - The response value should be EF 40 15
     - If it is not, double-check the wiring before proceeding
-
-<img src="images/xgpro-window.png" width="600" />
-
+      
+<img width="600" alt="xgpro-window" src="https://github.com/user-attachments/assets/cdaebea2-df90-4abe-8805-a2e42f936f87" />
 
 ### Update/Flash Procedure
 
