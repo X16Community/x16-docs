@@ -1,7 +1,9 @@
 
 # Chapter 12: I/O Programming
 
-There are two 65C22 "Versatile Interface Adapter" (VIA) I/O controllers in the system, VIA#1 at address \$9F00 and VIA#2 at address \$9F10. The IRQ out pin of VIA#1 is connected to the CPU's IRQ line, while the IRQ out pin of VIA#2 can be configured via jumper to connect to either the CPU's IRQ or NMI line on production boards (those beginning with serial PR), or hardwired to the CPU's IRQ line on earlier boards.  
+There are two 65C22 "Versatile Interface Adapter" (VIA) I/O controllers in the system, VIA#1 and VIA#2. The address range \$9F00 to \$9F0F maps to VIA#1's internal registers \$0 to \$F. Likewise, the address range \$9F10 to \$9F1F maps to VIA#2's internal registers. Details on the internal registers can be found in the published datasheet: <https://www.westerndesigncenter.com/wdc/documentation/w65c22.pdf>.
+
+The IRQ out pin of VIA#1 is connected to the CPU's IRQ line, while the IRQ out pin of VIA#2 can be configured via jumper to connect to either the CPU's IRQ or NMI line on production boards (those beginning with serial PR), or hardwired to the CPU's IRQ line on earlier boards.
 
 The-following tables describe the connections of the I/O pins:
 
