@@ -903,7 +903,7 @@ be included. So LIST has 4 modes:
 `LIST 50-` will display line 50 to the end of the program.
 
 Pressing the `CONTROL` key during a listing will slow the listing down once
-printing reaches the bottom of the screen. Approxmately one line per second will
+printing reaches the bottom of the screen. Approximately one line per second will
 be displayed.
 
 Pressing the `SPACE BAR` during the listing will cause the listing to pause.
@@ -1613,7 +1613,7 @@ memory locations:
 
 When the routine is over, the CPU registers will be loaded back in to these locations. So you can read the results of a machine language routine by PEEKing these locations.
 
-**EXAMPLE of SYS statemet:**
+**EXAMPLE of SYS statement:**
 
 Push a &lt;CR&gt; into the keyboard buffer.
 

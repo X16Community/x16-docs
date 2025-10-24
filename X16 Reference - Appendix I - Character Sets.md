@@ -8,7 +8,7 @@ From ROM version R48 there are a total of 12 character sets build in. The differ
 1) [ISO](#iso)
 2) [PET Uppercase / Graphics](#pet-uppercase--graphics)
 3) [PET Uppercase / Lowercase](#pet-uppercase--lowercase)
-4) [PET Uppercase / Graphis (thin)](#pet-uppercase--graphics-thin)
+4) [PET Uppercase / Graphics (thin)](#pet-uppercase--graphics-thin)
 5) [PET Uppercase / Lowercase (thin)](#pet-uppercase--lowercase-thin)
 6) [ISO (thin)](#iso-thin)
 7) [CP437](#cp437)

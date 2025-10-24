@@ -339,7 +339,7 @@ Range|Type|Description
     <td colspan="2">W</td>
     <td>
       CT: sets output pins CT1 and CT1 high or low. (not connected to anything in X16)<br />
-      W: LFO Waveform: 0-4 = Saw, Square, Triange, Noise<br />
+      W: LFO Waveform: 0-4 = Saw, Square, Triangle, Noise<br />
       For sawtooth: PM->////  AM->\\\\
     </td>
   </tr>
@@ -968,7 +968,7 @@ You can re-trigger the LFO by setting and then clearing the `LR` bit in the test
 
 ### Vibrato
 
-Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` valie of \$7F means 100% effectiveness, \$40 means all channels' vibrato depths will be reduced by half, etc.
+Use Phase Modulation on the desired channels. The `PMS` parameter for each channel allows them to vary their vibrato depths individually. Channels with `PMS` set to zero will have no vibrato. The values given earlier in the `PMS` parameter description represent their maximum amount of affect. These values are modified by the global `PMD.` A `PMD` value of \$7F means 100% effectiveness, \$40 means all channels' vibrato depths will be reduced by half, etc.
 
 The vibrato speed is global, depending solely on the value set to `LFRQ.`
 

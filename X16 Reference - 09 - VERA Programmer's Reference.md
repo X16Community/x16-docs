@@ -352,12 +352,12 @@ The VERA consists of:
 		<tr>
 			<td>$9F29</td>
 			<td>FX_X_POS_S<br>(Write only)</td>
-			<td colspan="8" align="center">X Postion (-1:-8)</td>
+			<td colspan="8" align="center">X Position (-1:-8)</td>
 		</tr>
 		<tr>
 			<td>$9F2A</td>
 			<td>FX_Y_POS_S<br>(Write only)</td>
-			<td colspan="8" align="center">Y/X2 Postion (-1:-8)</td>
+			<td colspan="8" align="center">Y/X2 Position (-1:-8)</td>
 		</tr>
 		<tr>
 			<td>$9F2B</td>

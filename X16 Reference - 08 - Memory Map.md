@@ -109,7 +109,7 @@ During startup, the KERNAL activates RAM bank 1 as the default for the user.
 |\$BF00-\$BFFF| Parameter passing space               |
 
 You can use the space at $0:BF00-0:$BFFF to pass parameters between programs.
-This space is initalized to zeroes, so you may use it however you wish.
+This space is initialized to zeroes, so you may use it however you wish.
 
 The suggested use is to store a PETSCII string in this space and use
 semicolons to separate parameters. The string should be null terminated:
@@ -147,7 +147,7 @@ essentially expansion cards which are housed in an external enclosure and may co
 and an I2C EEPOM (for save data). Internal expansion cards may also use the RAM/ROM space,
 though this could cause conflicts.
 
-While they may be uncomon, since cartridges are essentially external expansion cards in a
+While they may be uncommon, since cartridges are essentially external expansion cards in a
 shell, that means they can also use MMIO. This is only necessary when a cartridge includes
 some sort of hardware expansion and MMIO was desired (as opposed to using the I2C bus). In
 that case, it is recommended cartridges use the IO7 range and that range should be the

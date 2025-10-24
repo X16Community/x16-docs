@@ -524,7 +524,7 @@ For example:
   jsr SETNAM
 ```
 
-`SETLFS` and `SETNAM` both need to be called prior other file comamnds, such as `OPEN` or
+`SETLFS` and `SETNAM` both need to be called prior other file commands, such as `OPEN` or
 `SAVE`.
 
 To append to a file, add `,?,A` to the filename. See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
@@ -604,7 +604,7 @@ If the target address is in the \$9F00-\$9FFF range, all bytes will be written t
 * If using the LZSA library to compress data, make sure to use format 2 and include the raw blocks flag, which is what the above command does.
 * This function cannot be used to decompress data in-place, as the output data would overwrite the input data before it is consumed. Therefore, make sure to load the input data to a different location.
 * It is possible to have the input data stored in banked RAM, with the obvious 8 KB size restriction.
-* When decompressing to VRAM, it's reccomended to do that through `DATA0`.
+* When decompressing to VRAM, it's recommended to do that through `DATA0`.
 * If you'd like to have control of how the LZSA2 data is obtained, check out the [`memory_decompress_from_func`](#extapi-function-name-memory_decompress_from_func) function.
 
 ---
@@ -2394,7 +2394,7 @@ Registers affected: .A .X .Y .P r1
 
 ##### LZSA2 Streaming function
 
-In order to use `memory_decompress_from_func`, you obviously have to design a function, that you can provide to the decompressing routine. It should preferably be located in low-ram (it ***may not*** be on a cartridge, it probably can be located in high-ram though, if the decompressed data destination is somewhere else). There are some prequesites for such a function you need to apply:
+In order to use `memory_decompress_from_func`, you obviously have to design a function, that you can provide to the decompressing routine. It should preferably be located in low-ram (it ***may not*** be on a cartridge, it probably can be located in high-ram though, if the decompressed data destination is somewhere else). There are some prerequisites for such a function you need to apply:
 
 - It returns bytes of LZSA2 each call byte by byte via `.A` register. That is, for example, if your LZSA2 data starts with `.byte $65, $02, $66, $55, $00, $22 ...`, your function has to return `$65` of the first call, `$02` on the 2nd, `$66` on the 3rd one and so on.
 - It shouldn't fail &ndash; decompressor always assumes that the LZSA fetching function was successful in obtaining data upon returning. There isn't *any* kind of way of informing the decompressor, that the fetcher failed. In case the possibility of the function failing is inavoidable, `BRK` is probably the only possible way you could handle that.

@@ -87,7 +87,7 @@ symbols: the ones on the lower-right can be accessed by holding SHIFT and a
 letter. Go ahead: try pressing Shift and S. You should see a small heart symbol
 on your screen. We know you'll love the Commander X16 as much as we do. Press
 Alt and a letter, and you'll get the symbol on the lower-left corner of the
-screen. Try pressing Alt and the ` key next to the nummber 1. You should get a
+screen. Try pressing Alt and the ` key next to the number 1. You should get a
 large + symbol. One of the Plusses of PETSCII is using these line drawing
 symbols to draw shapes on the screen.
 

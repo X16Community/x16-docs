@@ -97,7 +97,7 @@ Make sure RURP is powered.
 
 Connect the IC. The notch should go toward the nearest PCB edge. (For the record: If connecting a 24 or 28 pin IC, connect it according to the drawing on the back of the PCB).
 
-To test communcation with the flash chip, send `firestarter id SST39SF040`.
+To test communication with the flash chip, send `firestarter id SST39SF040`.
 
 If you want to dump the contents of the chip, use the command `firestarter read SST39SF040`. This should dump to `SST39SF040.bin`, taking approx. 2 minutes.
 
