@@ -154,7 +154,7 @@ power on. They contain banked ROM and/or RAM and an optional I2C EEPROM
 They can also function as an expansion card which means they can also use MMIO. Similarly an internal
 expansion card could contain RAM/ROM as well.
 
-Because of this, while develoeprs are free to use the hardware as they please, to avoid
+Because of this, while developers are free to use the hardware as they please, to avoid
 conflcits, the banked ROM/RAM space is suggested to be used only by cartridges and
 cartridges should avoid using MMIO IO3-IO6. Instead, IO7 should be the default option
 for cartridges and the last option for expansion cards (only used if there are no

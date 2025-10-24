@@ -64,7 +64,7 @@ the PS/2 keyboard and mouse.
 | $22      | -              | Get mouse device ID |
 | $30      | -              | Get SMC firmware version, major |
 | $31      | -              | Get SMC firmware version, minor |
-| $32      | -              | Get SMC firmare version, patch |
+| $32      | -              | Get SMC firwmare version, patch |
 | $8F      | $31            | Start bootloader, if present |  
 
 ### Real-Time-Clock

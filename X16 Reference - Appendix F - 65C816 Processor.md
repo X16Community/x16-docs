@@ -1816,7 +1816,7 @@ That value can be placed on the stack in several ways, such as PHA, PHX, or PEA.
 
 #### PLP
 
-**Pull Prgram Status Byte (flags)**
+**Pull Program Status Byte (flags)**
 
 ```text
 SYNTAX           MODE       HEX LEN CYCLES      FLAGS   
