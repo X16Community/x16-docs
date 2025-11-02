@@ -445,7 +445,7 @@ The most common pattern is to then redirect the standard input or output to the 
 
 For file I/O, the lower level calls `ACPTR` and `MACPTR` can be used in place of `CHRIN`, since `CHKIN` does the low-level setup for this.  Likewise `CIOUT` and `MCIOUT` can be used after `CHKOUT` for the same reason.
 
-If the file name length is 0 when addressing a serial device the function always returns without errors, even if the device is not present.
+When opening a zero length file name on a serial device, this function does not check if the device is present.
 
 ---
 
