@@ -386,7 +386,7 @@ Purpose: Set file to be used for character input
 Call address: $FFC6  
 Communication registers: .X  
 Preparatory routines: OPEN  
-Error returns: Carry (Set on Error), .A
+Error returns: Carry (Set on Error), .A  
 Registers affected: .A .X
 
 **Description:** `CHKIN` sets a file to be used as default input allowing for
@@ -437,7 +437,7 @@ Purpose: Opens a channel/file
 Call address: $FFC0  
 Communication registers: None  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: Carry (Set on Error), .A 
+Error returns: Carry (Set on Error), .A  
 Registers affected: .A .X .Y  
 
 **Description:** Opens a file or channel.  
