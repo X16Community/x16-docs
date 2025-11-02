@@ -386,7 +386,7 @@ Purpose: Set file to be used for character input
 Call address: $FFC6  
 Communication registers: .X  
 Preparatory routines: OPEN  
-Error returns: None  
+Error returns: Carry (Set on Error), .A
 Registers affected: .A .X
 
 **Description:** `CHKIN` sets a file to be used as default input allowing for
@@ -437,13 +437,15 @@ Purpose: Opens a channel/file
 Call address: $FFC0  
 Communication registers: None  
 Preparatory routines: SETNAM, SETLFS  
-Error returns: None  
+Error returns: Carry (Set on Error), .A 
 Registers affected: .A .X .Y  
 
 **Description:** Opens a file or channel.  
 The most common pattern is to then redirect the standard input or output to the file using `CHKIN` or `CHKOUT` respectively. Afterwards, I/O from or to the file or channel is done using `BASIN` (`CHRIN`) and `BSOUT` (`CHROUT`) respectively.
 
 For file I/O, the lower level calls `ACPTR` and `MACPTR` can be used in place of `CHRIN`, since `CHKIN` does the low-level setup for this.  Likewise `CIOUT` and `MCIOUT` can be used after `CHKOUT` for the same reason.
+
+If the file name length is 0 when addressing a serial device the function always returns without errors, even if the device is not present.
 
 ---
 
