@@ -146,7 +146,7 @@ todo: examples
 
 The command channel allows you to send commands to the CMDR-DOS interface. You can open and write to the command channel using the OPEN command, or you can use the DOS command to issue commands and read the status. While DOS can be used in immediate mode or in a program, only the combination of OPEN/INPUT# can read the command response back into a variable for later processing.
 
-In either case, the ST psuedo-variable will allow you to quickly check the status. A status of 64 is "okay", and any
+In either case, the ST pseudo-variable will allow you to quickly check the status. A status of 64 is "okay", and any
 other value should be checked by reading the error channel (shown below.)
 
 To open the command channel, you can use the OPEN command with secondary address 15.
@@ -359,7 +359,7 @@ To use the POSITION and TELL commands, you need to open two channels: a data cha
 
 If POSITION succeeds, `00, OK,00,00` is returned on the command channel.  
 
-If TELL succeeds, `07,pppppppp ssssssss,00,00` is returned on the command channel, where `pppppppp` is a hexadecimal representation of the position, and `ssssssss` is a hexadecimal represenation of the file's size.  
+If TELL succeeds, `07,pppppppp ssssssss,00,00` is returned on the command channel, where `pppppppp` is a hexadecimal representation of the position, and `ssssssss` is a hexadecimal representation of the file's size.  
 
 ### Examples
 
