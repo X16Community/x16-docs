@@ -1713,6 +1713,10 @@ Registers affected: Varies
 | `$0E` | [`kbd_leds`](#extapi-function-name-kbd_leds) | Set or get the state of the PS/2 keyboard LEDs | .X .P | .X | - |
 | `$0F` | [`memory_decompress_from_func`](#extapi-function-name-memory_decompress_from_func) | Decompresses LZSA2 data streamed by a function | r1 r4 | r1 | r4 |
 | `$10` | [`default_palette`](#extapi-function-name-default_palette) | Get or upload the default palette | .P | .A .X .Y | - |
+| `$11` | [`has_machine_property`](#extapi-function-name-has_machine_property) | Checks for machine environment property | .X | .P | - |
+| `$12` | [`kbdbuf_get`](#extapi-function-name-kbdbuf_get) | Fetches a character code from the keyboard buffer | - | .A | - |
+| `$13` | [`kbdbuf_clear`](#extapi-function-name-kbdbuf_clear) | Purges the keyboard buffer | - | - | - |
+| `$14` | [`blink_enable`](#extapi-function-name-blink_enable) | Enables or disables the blinking cursor | .X | - | - |
 
 
 ---
@@ -2378,7 +2382,7 @@ flip_leds:
 
 #### extapi Function Name: memory_decompress_from_func
 
-Purpose: Decompress LZSA2 data
+Purpose: Decompress LZSA2 data  
 Minimum ROM version: R49  
 Call address: $FEAB, .A=15  
 Communication registers: r1 r4  
@@ -2469,13 +2473,13 @@ filename_len = *-filename
 ---
 
 #### extapi Function Name: default_palette
-Purpose: Get or upload the default palette
-Minimum ROM version: R49
-Call address: $FEAB, .A=16
-Communication registers: .A .X .Y .P
-Preparatory routines: None
-Error returns: (none)
-Registers affected: .A .X .Y .P
+Purpose: Get or upload the default palette  
+Minimum ROM version: R49  
+Call address: $FEAB, .A=16  
+Communication registers: .A .X .Y .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .Y .P  
 
 **Description:** This routine returns the bank and address of the default palette or uploads the default palette to the VERA.
 
@@ -2484,6 +2488,138 @@ Registers affected: .A .X .Y .P
 1) To query the default palette's bank and address, set carry. To upload the default palette to the VERA, clear carry.
 2) Call `default_palette`.
 3) If carry was set on the call to `default_palette`, the routine will return with .A set to the ROM bank containing the palette, .X set to the low byte of the palette address and .Y set to the high byte of the palette address. If carry was clear, the routine will upload the default palette to the VERA.
+
+---
+
+#### extapi Function Name: has_machine_property
+Purpose: Check whether the current machine environment has a specific capability or property  
+Minimum ROM version: R49  
+Call address: $FEAB, .A=17  
+Communication registers: .A .X .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .P  
+
+**Description:** This routine takes the input parameter .X, and returns with carry set if the current environment has the property represented by the input value.
+
+The valid input values for .X are as follows:
+
+| Numeric value | Name                         | Description                       |
+|---------------|------------------------------|-----------------------------------|
+| $00           | MACHINE_PROPERTY_C816        | Running with a 65C816 processor   |
+| $01           | MACHINE_PROPERTY_FAR         | Has a 65C816 and a 24-bit memory model and separate memory at addresses >= $010000 |
+| $02           | MACHINE_PROPERTY_GSIO        | Not yet implemented: X16 GS I/O semantics at addresses $9F5x |
+| $03           | MACHINE_PROPERTY_SHAREDBANK  | Not yet implemented: Banked RAM at $A000 is shared with memory >= $010000 |
+| $04           | MACHINE_PROPERTY_BANKMIRROR  | Banked RAM loops every 512KiB. Some X16 clones exhibit this behavior when configured with only 512KiB of high RAM. |
+
+
+**How to Use:**
+
+1) Set .X to a property you're interested in querying
+2) Call `has_machine_property`
+3) Check the carry flag to see if the current environment has that property.
+
+**EXAMPLE:**
+
+This example shows a potential check for a game which needs a 65C816 processor, as well as having 24-bit memory accessible at >= $010000.
+
+```ASM
+
+EXTAPI = $FEAB
+
+.setcpu "65816"
+    ; instead of using the `has_machine_property` to check for
+    ; the presence of a 65C816, it is faster and uses fewer code
+    ; bytes to do it this way.  On the 65C02, the SEP opcode
+    ; is a two-byte NOP.  In the interest of making it compatible
+    ; with older emulators that erroneously treat the SEP opcode
+    ; as a single-byte NOP, we can use $03 as the value, which if
+    ; treated as an opcode, is itself a one-byte NOP, so we choose
+    ; this instead of $01.
+    ;
+    ; sets carry (and z) if running under a 65C816, otherwise
+    ; carry is left clear on the 65C02.
+    clc
+    sep #$03
+    bcc @c02
+
+    lda #17
+    ldx #$01 ; MACHINE_PROPERTY_FAR
+    jsr EXTAPI
+    bcc @nofar
+
+    jmp init_game
+@nofar:
+    ; tell the user that the system is unsupported because it doesn't have the memory model we need.
+    rts
+
+@c02
+    ; tell the user that the system is unsupported because it's not a 65C816
+    rts
+
+```
+
+---
+
+#### extapi Function Name: kbdbuf_get
+Purpose: Fetches a character code from the keyboard buffer  
+Minimum ROM version: R49  
+Call address: $FEAB, .A=18  
+Communication registers: .A .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .Y .P  
+
+**Description:** This routine behaves identically to GETIN while the input device is the keyboard.
+However, it has the advantage of being able to fetch a character from the keyboard buffer while reading
+from a file, unlike GETIN which requires you to call CLRCHN to switch away from the file first.
+
+---
+
+#### extapi Function Name: kbdbuf_clear
+Purpose: Purges any queued character codes in the keyboard buffer  
+Minimum ROM version: R49  
+Call address: $FEAB, .A=19  
+Communication registers: .A .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .P  
+
+**Description:** Calling this function will immediately empty the keyboard buffer.
+
+Prior to this function being available, the typical method of purging the buffer was to call GETIN repeatedly until it returned 0.
+
+---
+
+#### extapi Function Name: blink_enable
+Purpose: Enables or disables the blinking KERNAL cursor
+Minimum ROM version: R49  
+Call address: $FEAB, .A=20  
+Communication registers: .A .X .P  
+Preparatory routines: None  
+Error returns: (none)  
+Registers affected: .A .X .P  
+
+**Description:** The cursor blink enable flag is normally only controlled by the BASIN/CHRIN function.  However, user programs
+may want to enable the blinking cursor at other times without implementing their own cursor routine.  Calling this function with .X = 0
+will enable the blinking cursor.  Calling with .X set to any other value will disable.
+
+This setting is _not_ persistent and will not prevent CHRIN from enabling the cursor blink if it is called afterwards.
+It's mainly useful for custom text input while showing a blinking cursor.
+
+This function is similar to the effect of user programs modifying the contents of memory location $CC on the C64.
+This function also takes care to "unblink" the cursor when disabling, which restores the character cell back to the original glyph and color.
+
+**How to Use:**
+
+1) Set .X to 0 (to enable the blinking)
+2) Call `blink_enable`
+3) Run program code with cursor blinking
+4) Set .X to 1 (to disable the blinking)
+5) Call `blink_enable`, which makes sure the character under the cursor returns to the correct glyph and color.
+
+**Notes:**
+* If you want to move the blinking cursor while keeping blink enabled, it is advised that you disable the blink first, relocate it, then re-enable the blinking.
 
 ---
 

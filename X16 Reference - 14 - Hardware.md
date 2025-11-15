@@ -116,13 +116,13 @@ Pin 1 is in the rear-left corner.
 To simplify address decoding, pins IO3-IO7 are active for specific, 32-byte memory mapped IO
 (MMIO) address ranges.
 
-| Address     | Usage                               |Speed|
-|-------------|-------------------------------------|-----|
-|$9F60-$9F7F|Expansion Card Memory Mapped IO3       |8 MHz|
-|$9F80-$9F9F|Expansion Card Memory Mapped IO4       |8 MHz|
-|$9FA0-$9FBF|Expansion Card Memory Mapped IO5       |2 MHz|
-|$9FC0-$9FDF|Expansion Card Memory Mapped IO6       |2 MHz|
-|$9FE0-$9FFF|Cartidge/Expansion Memory Mapped IO7   |2 MHz|
+| Address     | Usage                                    |Speed|
+|-------------|------------------------------------------|-----|
+|$9F60-$9F7F|Expansion Card Memory Mapped IO3            |8 MHz|
+|$9F80-$9F9F|Expansion Card Memory Mapped IO4            |8 MHz|
+|$9FA0-$9FBF|Expansion Card Memory Mapped IO5            |2 MHz|
+|$9FC0-$9FDF|Expansion Card Memory Mapped IO6            |2 MHz|
+|$9FE0-$9FFF|Cartridge/Expansion Memory Mapped IO7, POST |2 MHz|
 
 Expansion cards can use the IO3-IO6 lines as enable lines to provide their IO address range
 (s), or decode the address from the address bus directly. To prevent conflicts with other
@@ -131,6 +131,10 @@ or DIP switches. IO7 is given priority to external cartridges that use MMIO and 
 only used by an expansion card if there are no other MMIO ranges available. Doing so may
 cause a bus conflict with cartridges that make use of MMIO (such as those with expansion
 hardware). See below for more information on cartridges.
+
+As of R49, the last I/O address inside IO7 (`$9FFF`) can have POST codes written to it under
+certain conditions during boot.  See [Appendix E: Diagnostic Bank](X16%20Reference%20-%20Appendix%20E%20-%20Diagnostic%20Bank.md#POST)
+for details, and for what to expect when configuring an expansion card at this address.
 
 ROMB0-ROMB7 are connected to the ROM bank latch at address `$01`. Values 0-31 (`$00`-`$1F`)
 address the on-board ROM chips, and 32-255 are intended for expansion ROM or RAM chips

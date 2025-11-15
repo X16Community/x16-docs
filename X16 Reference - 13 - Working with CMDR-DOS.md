@@ -292,9 +292,6 @@ And this table shows which of the standard commands are supported:
 | MEMORY-READ      | `M-R` _addr_lo_ _addr_hi_ [_count_]                   | Read RAM                        | yes       |
 | MEMORY-WRITE     | `M-W` _addr_lo_ _addr_hi_ _count_ _data_              | Write RAM                       | yes       |
 | NEW              | `N`[_medium_]`:`_name_`,`_id_`,FAT32`                 | File system creation            | yes<sup>3</sup>|
-| PARTITION        | `/`[_medium_][`:`_name_]                              | Select 1581 partition           | no        |
-| PARTITION        | `/`[_medium_]`:`_name_`,`_track_ _sector_ _count_lo_ _count_hi_ `,C` | Create 1581 partition | no   |
-| POSITION         | `P` _channel_ _record_lo_ _record_hi_ _offset_        | Set record index in REL file    | not yet   |
 | REMOVE DIRECTORY | `RD`[_path_]`:`_name_                                 | Delete a sub-directory          | yes       |
 | RENAME           | `R`[_path_]`:`_new_name_`=`_old_name_                 | Rename file                     | yes       |
 | RENAME-HEADER    | `R-H`[_medium_]`:`_new_name_                          | Rename a filesystem             | yes       |
@@ -350,12 +347,16 @@ The following added command channel features are specific to CMDR-DOS:
 
 | Feature               | Syntax      | Description                                                                    |
 |-----------------------|-------------|--------------------------------------------------------------------------------|
+| FATLBA<sup>9</sup>    | `FL` _channel_ | Return the current LBA, cluster number, sector index, and cluster shift; channel arg is binary |
 | POSITION              | `P` _channel_ _p0_ _p1_ _p2_ _p3_  | Set position within file (like sd2iec); all args binary |
-| TELL<sup>8</sup>                  | `T` _channel_ | Return the current position within a file and the file's size; channel arg is binary |
+| TELL<sup>8</sup>      | `T` _channel_ | Return the current position within a file and the file's size; channel arg is binary |
 
 * <sup>8</sup>: available in ROM version R48 and later
+* <sup>9</sup>: available in ROM version R49 and later
 
-To use the POSITION and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
+To use the FATLBA, POSITION, and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
+
+If FATLBA succeeds, `07,llllllll cccccccc,i,s` is returned on the command channel, where `llllllll` is a hexadecimal representation of the raw LBA at the file's current position, `cccccccc` is a hexadecimal representation of the associated cluster within the filesystem, `i` is a decimal index of the sector within a cluster, and `s` is a decimal representation of the _cluster shift_ value.  Cluster shift relates to the filesystem's cluster size, where the cluster size in bytes is 2^<sup>9+s</sup>.  
 
 If POSITION succeeds, `00, OK,00,00` is returned on the command channel.  
 
@@ -406,7 +407,7 @@ To append data to an existing file, open the file with `,?,A` and write to it.
 
 ## License
 
-Copyright 2020-2024 Michael Steil <<mist64@mac.com>>, et al.
+Copyright 2020-2025 Michael Steil <<mist64@mac.com>>, et al.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 

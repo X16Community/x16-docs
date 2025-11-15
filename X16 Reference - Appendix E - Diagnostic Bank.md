@@ -15,6 +15,50 @@ The Diagnostic ROM bank can run a full diagnostic on the system memory (base + 5
 	* [Implementation](#implementation)
 
 ## Running Diagnostics
+### POST
+As of R49, short, rudimentary diagnostics are run against the VIA#1,
+zeropage, and stack RAM upon every powerup. If either of these tests
+fail, the diagnostic ROM will attempt to initialize the VERA to show
+a failure code on screen.
+
+During these rudimentary tests and upon failure, POST codes can be sent to I/O address
+$9FFF, which resides in the IO7 range.  Before writing a code to this
+address, the system will attempt to read from $9FFF to check for
+an expansion card's presence. If there is no card present, or if the
+card handling the range does not respond to reads at this address, it
+will act as an open bus read, and return $9F.  An open bus read will
+cause the POST code to be written.  If any other value besides $9F is
+read from $9FFF, the write is skipped.  This design allows POST codes
+to be written in the presence of passive logical analysis hardware
+while hopefully avoiding putting other expansion cards into a bad
+state.
+
+POST code format: `%FSSSCCCC`  
+F = 1 for a critical fault (system will not continue booting), 0 for normal operation  
+`SSS` = subsystem  
+`CCCCCCC` = code  
+
+| Subsystem | Description    |
+|-----------|----------------|
+| `%000`    | Generic status |
+| `%001`    | VERA           |
+| `%010`    | VIA#1          |
+| `%011`    | RAM            |
+
+The following table is a list of POST codes. In rows containing two codes,
+the first code indicates the check is about to start, and the second code
+indicates a failure of the check.
+
+| Code      | Description                              |
+|-----------|------------------------------------------|
+| `$01`     | POST complete                            |
+| `$20/$A0` | Check VIA#1                              |
+| `$30/$B0` | Check zeropage RAM                       |
+| `$31/$B1` | Check stack RAM                          |
+| `$90`     | POST failure: Waiting for VERA init      |
+| `$91`     | POST failure: Initializing VERA          |
+| `$92`     | POST failure: VERA not ready             |
+
 ### Functional system
 The memory diagnostics can be started in two different ways. If the system is functional enough to actually boot into BASIC, the diagnostics can be started from there with the following:  
 ```BASIC

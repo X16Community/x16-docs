@@ -265,9 +265,11 @@ Note: Memory address `$00`, which is the hardware RAM bank register, will usuall
 ### BASLOAD
 
 **TYPE: Command**  
-**FORMAT: BASLOAD &lt;filename&gt;**
+**FORMAT: BASLOAD &lt;filename&gt;[,<device>]**
 
 **Action:** Loads a plain text file with BASLOAD source and converts it into a runnable program.
+
+The device number is optional.  If it's not specified, the current device is used.  The current device is set to 8 at system boot and may be changed with the `DOS` command.
 
 For more information about BASLOAD, see [this external documentation](https://github.com/stefan-b-jakobsson/basload-rom)
 
@@ -439,11 +441,12 @@ COLOR 2,0 : REM SET FG COLOR TO RED, BG COLOR TO BLACK
 ### DOS
 
 **TYPE: Command**  
-**FORMAT: DOS &lt;string&gt;**
+**FORMAT: DOS &lt;string or number&gt;**
 
 **Action:** This command works with the command/status channel or the directory of a Commodore DOS device and has different functionality depending on the type of argument.
 
 * Without an argument, `DOS` prints the status string of the current device.
+* With a numeric argument, the current device is switched to the given number.
 * With a string argument of `"8"` or `"9"`, it switches the current device to the given number.
 * With an argument starting with `"$"`, it shows the directory of the device.
 * Any other argument will be sent as a DOS command.
@@ -836,7 +839,7 @@ SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
 ### LINPUT
 
 **TYPE: Command**  
-**FORMAT: LINPUT &lt;var$&gt;
+**FORMAT: LINPUT &lt;var$&gt;**
 
 **Action:** `LINPUT` Reads a line of data from the keyboard and stores the data into a string variable. Unlike `INPUT`, no parsing or cooking of the input is done, and therefore quotes, commas, and colons are stored in the string as typed. No prompt is displayed, either.
 
@@ -885,7 +888,7 @@ The above example parses and prints out the filenames from a directory listing.
 
 ### LIST
 
-**TYPE: Command**
+**TYPE: Command**  
 **FORMAT: LIST [start] [-] [end]**
 
 **Action:** `LIST` Displays the currently loaded BASIC program on the screen.
@@ -1362,7 +1365,7 @@ Optional arguments:
 * The value of the increment for subsequent lines, default **10**  
 * The earliest old line to start renumbering at, default: **0**  
 
-**THIS STATEMENT IS EXPERIMENTAL**.  Please ensure your have saved your program before using this command to renumber.
+**Please ensure your have saved your program before using this command to renumber.**
 
 **KNOWN BUG**:
 In release R43, due to improper parsing of escape tokens, REN will improperly treat arguments to these statements as line numbers:
