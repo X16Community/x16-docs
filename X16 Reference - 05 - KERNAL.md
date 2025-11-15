@@ -2559,6 +2559,8 @@ EXTAPI = $FEAB
 
 ```
 
+---
+
 #### extapi Function Name: kbdbuf_get
 Purpose: Fetches a character code from the keyboard buffer  
 Minimum ROM version: R49  
