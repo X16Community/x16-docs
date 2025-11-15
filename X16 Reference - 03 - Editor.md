@@ -114,7 +114,7 @@ If there are two meanings listed, the first indicates input (a keypress) and the
 | $08  | DISALLOW CHARSET SW (SHIFT+ALT) | F7                        | $88  |
 | $09  | **TAB** / ALLOW CHARSET SW | F2                        | $89  |
 | $0A  | **LF**                     | F4                        | $8A  |
-| $0B  | -                          | F6                        | $8B  |
+| $0B  | **LAYOUT SWAP**            | F6                        | $8B  |
 | $0C  | -                          | F8                        | $8C  |
 | $0D  | RETURN                     | SHIFTED RETURN            | $8D  |
 | $0E  | CHARSET: LOWER/UPPER       | CHARSET: UPPER/PETSCII    | $8E  |
@@ -331,6 +331,8 @@ The BASIC command `KEYMAP` allows activating a specific keyboard layout. It can 
 10 KEYMAP"NB-NO"
 SAVE"AUTOBOOT.X16
 ```
+
+PETSCII code 11 ($0B) or Ctrl+K is used to toggle between the current keyboard layout and the previously loaded one.  This function can be activated by pressing Ctrl+K in the BASIC editor or by sending the code to the screen with the BASIC PRINT command or the CHROUT KERNAL API call.  The layout swap function works only with built-in ROM-based layouts and will not properly swap back to a custom layout in RAM.
 
 ### Loadable Keyboard Layouts
 
