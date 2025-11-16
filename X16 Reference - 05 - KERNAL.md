@@ -1696,6 +1696,8 @@ Call address: $FED5
 \$FF62: `screen_set_charset` - activate 8x8 text mode charset  
 \$FFED: `SCREEN` - get the text resolution  
 
+---
+
 #### Function Name: CINT
 
 Purpose: Reset screen/keyboard to defaults  
