@@ -366,6 +366,7 @@ Registers affected: .P
 Upon return, if C is clear, there were no errors. Otherwise, C will be set.  
 
 **Note:** Before returning, this routine uses a `CLI` processor instruction, which will allow IRQ interrupts to be triggered. This makes the `BSOUT` routine inappropriate for use within interrupt handler functions. One possible workaround could be to output text information directly, by writing to the appropriate VERA registers. Care must be taken to save and restore the VERA's state, however, in order to prevent affecting other software running on the system (to include BASIC or the KERNAL itself).  
+
 ---
 
 #### Function Name: `BASIN`
