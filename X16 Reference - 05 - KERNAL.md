@@ -65,7 +65,7 @@ The following C128 APIs have equivalent functionality on the X16 but are not com
 
 ## New API for the Commander X16
 
-There are lots of new APIs. Please note that their addresses and their behavior is still preliminary and can change between revisions.
+There are many new APIs.
 
 Some new APIs use the "16 bit" ABI, which uses virtual 16 bit registers r0 through r15, which are located in zero page locations \$02 through \$21: r0 = r0L = \$02, r0H = \$03, r1 = r1L = \$04 etc.
 
@@ -90,9 +90,10 @@ The 16 bit ABI generally follows the following conventions:
 | Label | Address | Class | Description | Inputs | Affects | Origin |
 |-|-|-|-|-|-|-|
 | [`ACPTR`](#function-name-acptr) | `$FFA5` | [CPB](#commodore-peripheral-bus "Commodore Peripheral Bus") | Read byte from peripheral bus | | A X | C64 |
-| `BASIN` | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character | | A X | C64 |
+| [`BASIN`](#function-name-basin) | `$FFCF` | [ChIO](#channel-io "Channel I/O") | Get character from file or editor line | | A X | C64 |
 | [`BSAVE`](#function-name-bsave) | `$FEBA` | ChIO | Like `SAVE` but omits the 2-byte header | A X Y | A X Y | X16 |
 | [`BSOUT`](#function-name-bsout) | `$FFD2` | ChIO | Write byte in A to default output. | A | P | C64 |
+| [`CINT`](#function-name-cint) | `$FF81` | Misc | Reset screen/keyboard to default state. | none | A X Y P | C64 |
 | `CIOUT` | `$FFA8` | CPB | Send byte to peripheral bus | A | A X | C64 |  
 | `CLALL` | `$FFE7` | ChIO | Close all channels | | A X | C64 |
 | [`CLOSE`](#function-name-close) | `$FFC3` | ChIO | Close a channel | A | A X Y P | C64 |
@@ -100,7 +101,7 @@ The 16 bit ABI generally follows the following conventions:
 | `CHKOUT` | `$FFC9` | ChIO | Set channel for character output | X | A X | C64 |
 | [`clock_get_date_time`](#function-name-clock_get_date_time) | `$FF50` | Time | Get the date and time | none | r0 r1 r2 r3 A X Y P | X16
 | [`clock_set_date_time`](#function-name-clock_set_date_time) | `$FF4D` | Time | Set the date and time | r0 r1 r2 r3 | A X Y P | X16
-| `CHRIN` | `$FFCF` | ChIO | Alias for `BASIN` | | A X | C64 |
+| [`CHRIN`](#function-name-basin) | `$FFCF` | ChIO | Alias for `BASIN` | | A X | C64 |
 | [`CHROUT`](#function-name-bsout) | `$FFD2` | ChIO | Alias for `BSOUT` | A | P | C64 |
 | `CLOSE_ALL` | `$FF4A` | ChIO | Close all files on a device  | | | C128 |
 | `CLRCHN` | `$FFCC` | ChIO | Restore character I/O to screen/keyboard | | A X | C64 |
@@ -128,7 +129,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`FB_set_palette`](#function-name-fb_set_palette) | `$FEFC` | Video | Set (parts of) the palette | A X r0 | A X Y P | X16
 | [`FB_set_pixel`](#function-name-fb_set_pixel) | `$FF0B` | Video | Set one pixel, update cursor | A | none | X16
 | [`FB_set_pixels`](#function-name-fb_set_pixels) | `$FF0E` | Video | Copy pixels from RAM, update cursor | r0 r1 | A X P | X16
-| `GETIN` | `$FFE4` | Kbd | Get character from keyboard | | A X | C64 |
+| [`GETIN`](#function-name-getin) | `$FFE4` | ChIO | Get character from file or keyboard | | A X | C64 |
 | [`GRAPH_clear`](#function-name-graph_clear) | `$FF23` | Video | Clear screen | none | r0 r1 r2 r3 A X Y P | X16
 | [`GRAPH_draw_image`](#function-name-graph_draw_image) | `$FF38` | Video | Draw a rectangular image | r0 r1 r2 r3 r4 | A P | X16
 | [`GRAPH_draw_line`](#function-name-graph_draw_line) | `$FF2C` | Video | Draw a line | r0 r1 r2 r3 | r0 r1 r2 r3 r7 r8 r9 r10 r12 r13 A X Y P | X16
@@ -146,6 +147,7 @@ The 16 bit ABI generally follows the following conventions:
 | [`i2c_read_byte`](#function-name-i2c_read_byte) | `$FEC6` | I2C | Read a byte from an I2C device | A X Y | A C | X16
 | [`i2c_write_byte`](#function-name-i2c_write_byte) | `$FEC9` | I2C | Write a byte to an I2C device | A X Y | A C | X16
 | `IOBASE` | `$FFF3` | Misc | Return start of I/O area | | X Y | C64 |
+| [`IOINIT`](#function-name-ioinit) | `$FF84` | Misc | Reset serial state and IRQ sources | | A X Y P | C64 |
 | [`JSRFAR`](#function-name-jsrfar) | `$FF6E` | Misc | Execute a routine on another RAM or ROM bank | PC+3 PC+5 | none | X16
 | [`joystick_get`](#function-name-joystick_get) | `$FF56` | Joy | Get one of the saved controller states | A | A X Y P | X16
 | [`joystick_scan`](#function-name-joystick_scan) | `$FF53` | Joy | Poll controller states and save them | none | A X Y P | X16
@@ -354,8 +356,53 @@ Upon return, if C is clear, there were no errors.  C being set indicates an erro
 
 Purpose: Write a character to the default output device.  
 Call Address: $FFD2  
-Communication Register: .A  
+Communication Registers: .A  
 Preparatory routines: OPEN, CHKOUT (Both are only needed when sending to files/other non-screen devices)  
+Error returns: c = 0 if no error, c = 1 in case of error  
+Registers affected: .P  
+
+**Description:** Writes the character in A to the currently-selected output device. By default, this is the user's screen. By calling `CHKOUT`, however, the default device can be changed and characters can be sent to other devices - a file on an SD card, for example. In order to send output to a file, call `OPEN` first to open the file, then `CHKOUT` to set it as the default output device, then finally `BSOUT` to write the data.  
+
+Upon return, if C is clear, there were no errors. Otherwise, C will be set.  
+
+**Note:** Before returning, this routine uses a `CLI` processor instruction, which will allow IRQ interrupts to be triggered. This makes the `BSOUT` routine inappropriate for use within interrupt handler functions. One possible workaround could be to output text information directly, by writing to the appropriate VERA registers. Care must be taken to save and restore the VERA's state, however, in order to prevent affecting other software running on the system (to include BASIC or the KERNAL itself).  
+---
+
+#### Function Name: `BASIN`
+
+(This routine is also referred to as `CHRIN`)  
+
+Purpose: Read a character from the selected input channel, or from the screen editor.  
+Call Address: $FFCF  
+Communication Registers: .A  
+Preparatory routines: `OPEN`, `CHKIN` (Both are only needed when reading from files/other non-screen devices)  
+Error returns: none (use `READST`)  
+Registers affected: .A .X .Y .P  
+
+**Description:** Reads a character from the currently-selected input device, or a character from the screen editor.
+
+##### Screen editor
+
+After a `CLRCHN`, or without calling `CHKIN`, calling `BASIN` for the first time will invoke the KERNAL screen editor.  The user will be able to type and navigate around the screen with exactly the same behaviors as the BASIC editor. `BASIN` will block until the user presses RETURN/ENTER.
+
+When `BASIN` returns from the editor, .A will contain the first character of the edited line that the user pressed RETURN on.  Subsequent calls to `BASIN` will return immediately with the next character in .A from the edited line.  Code $0D or 13 signals the end of the line.  A call to `BASIN` after this point will re-enter the KERNAL editor to read another line.
+
+##### Channel I/O
+
+After calling `CHKIN`, calling `BASIN` (or `CHRIN`) will fetch a byte from the selected input channel. `BASIN` does not report success or failure itself, but a call to `READST` can indicate failures or the end of file.
+
+Note that on the end-of-file indication is delivered with the last byte of a file in the status returned by `READST`.
+
+---
+
+#### Function Name: `BSOUT`
+
+(This routine is also referred to as `CHROUT`)  
+
+Purpose: Write a character to the default output device.  
+Call Address: $FFD2  
+Communication Registers: .A  
+Preparatory routines: `OPEN`, `CHKOUT` (Both are only needed when sending to files/other non-screen devices)  
 Error returns: c = 0 if no error, c = 1 in case of error  
 Registers affected: .P  
 
@@ -392,6 +439,29 @@ Registers affected: .A .X
 **Description:** `CHKIN` sets a file to be used as default input allowing for
 subsequent calls to `CHRIN` or other file read functions. The `x` register
 should contain the logical file number. `OPEN` will need to have been called prior to using `CHKIN`.
+
+---
+
+#### Function Name: `GETIN`
+
+Purpose: Read a byte from the selected input channel, or a character from the keyboard buffer.  
+Call Address: $FFE4  
+Communication Registers: .A  
+Preparatory routines: `OPEN`, `CHKIN` (Both are only needed when reading from files/other non-keyboard devices)  
+Error returns: none (use `READST` for Channel I/O)  
+Registers affected: .A .X .Y .P  
+
+**Description:** Reads a byte from the currently-selected input channel, or a character from the keyboard's input buffer.
+
+##### Keyboard
+
+After a `CLRCHN`, or without calling `CHKIN`, calling `GETIN` will return a character from the keyboard's input buffer into the .A register.  If the buffer is empty, .A will contain 0.
+
+As of R49, an alternative to calling `GETIN` for keyboard input if you are simultaneously handling file I/O is to use the `extapi` call `kbdbuf_get`, which isn't affected by the `CHKIN` call.
+
+##### Channel I/O
+
+After calling `CHKIN`, calling `GETIN` behaves nearly identically to `BASIN`.
 
 ---
 
@@ -1616,6 +1686,8 @@ Call address: $FED5
 
 ### Other
 
+\$FF81: `CINT` - reset screen/keyboard to defaults  
+\$FF84: `IOINIT` - reset serial state and IRQ sources to defaults  
 \$FF47: `enter_basic` - enter BASIC  
 \$FECF: `entropy_get` - get 24 random bits  
 \$FEAB: `extapi` - extended API  
@@ -1623,6 +1695,61 @@ Call address: $FED5
 \$FF5F: `screen_mode` - get/set screen mode  
 \$FF62: `screen_set_charset` - activate 8x8 text mode charset  
 \$FFED: `SCREEN` - get the text resolution  
+
+#### Function Name: CINT
+
+Purpose: Reset screen/keyboard to defaults  
+Call address: $FF81  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: None  
+
+**Description:** This routine is implicitly called by the system under these circumstances (after calling IOINIT):
+* At system powerup
+* When NMI is encountered and the default handler is in place
+* When BRK is encountered and the default handler is in place
+
+This routine takes no arguments.
+
+The routine does the following:
+* Sets up the VERA for VBLANK interrupts and disables other kinds of VERA interrupts
+* Resets the default channel I/O output to screen
+* Resets the default channel I/O input to keyboard/screen
+* Downloads the default PETSCII upper/graph character set to the character set space in VRAM
+* Downloads the default system palette to VERA
+* Sets up sane defaults for the VERA layers and sprites
+* Applies screen preferences (output, resolution, mode) from the active NVRAM profile
+* Applies the preferred keyboard layout (KEYMAP) from NVRAM if it exists, otherwise restores to the emulator-given `-layout` parameter, otherwise as a final fallback, restores to `ABC/X16`.
+* Applies the preferred typematic (key repeat) parameters from NVRAM.
+* Sets up initial KERNAL editor state, including default F-key macros.
+* Clears the screen as if the user pressed Shift+HOME/CLR
+
+
+---
+
+#### Function Name: IOINIT
+
+Purpose: Reset serial state and IRQ sources to defaults  
+Call address: $FF81  
+Communication registers: None  
+Preparatory routines: None  
+Error returns: None  
+
+**Description:** This routine is implicitly called by the system under these circumstances:
+* At system powerup
+* When NMI is encountered and the default handler is in place
+* When BRK is encountered and the default handler is in place
+
+This routine takes no arguments.
+
+The routine does the following:
+* Waits for the VERA to accept register writes
+* Disables the interrupt sources on the VERA, VIA#1, VIA#2, and YM2151
+* Sets the values and data direction of the IEC pins on VIA#1 to defaults
+* Sets the VIA#1 timer T1 reload value to max ($FFFF) and puts it into freerunning mode for use as an entropy source
+* Sets up the VERA for VBLANK interrupts
+
+---
 
 #### Function Name: enter_basic
 
@@ -2791,7 +2918,7 @@ Registers affected: Varies
 **Description:** This API slot provides access to various native mode 65C816 calls. The call is selected by the .C register (accumulator), and each call has its own register use and return behavior.
 
 **IMPORTANT**  
-* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.
+* All of the calls behind this API __must__ be called in native 65C816 mode, with m=0, .DP=$0000.  Most will return with m=0, x=0.
 * In addition, some of these __must__ be called with `rom_bank` (zp address $01) set to bank 0 (the KERNAL bank) and not via KERNAL support in other ROM banks. If your program is launched from BASIC, the default bank is usually 4 until explicitly changed by your program.
 
 | Call # | Name           | Description                                 | Inputs | Outputs | Additional Prerequisites |
@@ -2801,6 +2928,10 @@ Registers affected: Varies
 |  `$02` | [`stack_pop`](#65c816-extapi16-function-name-stack_pop) | Returns to the previous stack context | none | none | x=0, $01=0 |
 |  `$03` | [`stack_enter_kernal_stack`](#65c816-extapi16-function-name-stack_enter_kernal_stack) | Switches to the $01xx stack | none | none | x=0, $01=0 |
 |  `$04` | [`stack_leave_kernal_stack`](#65c816-extapi16-function-name-stack_leave_kernal_stack) | Returns to the previous stack context after `stack_enter_kernal_stack` | none | none | x=0, $01=0 |
+|  `$05` | [`xmacptr`](#65c816-extapi16-function-name-xmacptr) | 24-bit aware extended implementation of MACPTR | r0L-r1L r2 | r2 c | none |
+|  `$06` | [`xmciout`](#65c816-extapi16-function-name-xmciout) | 24-bit aware extended implementation of MCIOUT | r0L-r1L r2 | r2 c | none |
+|  `$07` | [`hbload`](#65c816-extapi16-function-name-hbload) | 24-bit aware extended implementation of BLOAD | .X r0L-r1L | .A r0L-r1L c | prior calls to setnam, setlfs |
+|  `$08` | [`get_last_far_bank`](#65c816-extapi16-function-name-get_last_far_bank) | Returns last useful far bank for 24-bit addressing | none | .C | none |
 
 ---
 
@@ -2900,8 +3031,100 @@ Registers affected: .A .X .Y .P .SP
 2) A prior call to `stack_enter_kernal_stack` must be in effect that hasn't been undone by this function.
 3) Call `stack_leave_kernal_stack`.
 
+---
+
+#### 65C816 extapi16 Function Name: xmacptr
+
+Purpose: Fetch a block of data up to 65536 bytes from a file on supported device  
+Minimum ROM version: R49  
+Call address: $FEA8, .C=5  
+Communication registers: r0L-r1L r2 c  
+Preparatory routines: `CHKIN`  
+Error returns: c=1  
+Registers affected: .A .X .Y .P r0-r2  
+
+**Description:** This function is the 24-bit counterpart to `MACPTR`, but has a slightly different calling convention.  Supported devices include the SD card and x16emu's HostFS.
+
+While it is mainly useful for loading data onto systems with 24-bit far memory, such as the unreleased X16 GS, or the emulator with the `-gs` flag, this routine can also be used to load data into the first 64K of address space, including banked RAM at $00A000.  Banked RAM loads automatically advance the RAM bank the same as they do for MACPTR.
+
+**How to Use:**
+
+1) Set `r0L-r1L` to the 24-bit target address (little-endian).
+2) Set `r2` to the number of bytes to read. The value $0000 is treated as a request for up to 65536 bytes.
+3) Call `xmacptr`.
+4) `r2` will contain the actual number of bytes read, or $0000 for 65536.  To distinguish the two possible conditions (zero bytes vs 64K), check the carry flag upon return.
 
 ---
+
+#### 65C816 extapi16 Function Name: xmciout
+
+Purpose: Write a block of data up to 65536 bytes to a file on a supported device  
+Minimum ROM version: R49  
+Call address: $FEA8, .C=6  
+Communication registers: r0L-r1L r2 c  
+Preparatory routines: `CHKOUT`  
+Error returns: c=1  
+Registers affected: .A .X .Y .P r0-r2  
+
+**Description:** This function is the 24-bit counterpart to `MCIOUT`, but has a slightly different calling convention.  Supported devices include the SD card and x16emu's HostFS.
+
+While it is mainly useful for systems with 24-bit far memory, such as the unreleased X16 GS, or the emulator with the `-gs` flag, this routine can also be used to save data from the first 64K of address space, including banked RAM at $00A000.  Writes from banked RAM automatically advance the RAM bank the same as they do for MCIOUT when passing through $BFFF.
+
+**How to Use:**
+
+1) Set `r0L-r1L` to the 24-bit source address (little-endian).
+2) Set `r2` to the number of bytes to write to the file. The value $0000 is treated as a request for up to 65536 bytes.
+3) Call `xmciout`.
+4) `r2` will contain the actual number of bytes written, or $0000 for 65536.  To distinguish the two possible conditions (zero bytes vs 64K), check the carry flag upon return.
+
+---
+
+#### 65C816 extapi16 Function Name: hbload
+
+Purpose: Load a file from a supported device into 24-bit address space  
+Minimum ROM version: R49  
+Call address: $FEA8, .C=7  
+Communication registers: .X r0L-r1L c  
+Preparatory routines: `SETNAM`, `SETLFS`  
+Error returns: c=1 .A=errno  
+Registers affected: .A .X .Y .P r0-r2  
+
+**Description:** This function is the 24-bit counterpart to a headerless `LOAD`, but has a slightly different calling convention.
+
+This routine is only available on machines with 24-bit far memory, such as the unreleased X16 GS, or the emulator with the `-gs` flag.  Other machine types will return c=1 with .A=40 (unsupported machine).
+
+**How to Use:**
+
+1) Call `SETNAM`
+2) Call `SETLFS`.  Unlike for `LOAD`, the .Y value for `SETLFS` is ignored by `HBLOAD`.
+3) Set r0L-r1L to the 24-bit starting memory address for the load.
+4) Set .X to 0 for LOAD and 1 for VERIFY
+5) Call `hbload`.
+4) `r0L-r1L` contain the first address _following_ the end of the load.
+
+**Notes:**
+If the device is not present, `hbload` may return with m=1, x=1 instead of the usual m=0, x=0.
+
+---
+
+#### 65C816 extapi16 Function Name: get_last_far_bank
+
+Purpose: Return the maximum usable far bank (bits 16-23 of a 24-bit memory address)  
+Minimum ROM version: R49  
+Call address: $FEA8, .C=8  
+Communication registers: .C   
+Preparatory routines: none  
+Error returns: none  
+Registers affected: .A .X .P  
+
+**Description:** This function returns the maximum usable far bank for 24-bit addressing.  A stock dev board with a 65C816 will return $00, as it doesn't have any addressing beyond $00FFFF. A GS system, or the emulator with the `-gs` flag will return `$FF`.
+
+**How to Use:**
+
+1) Call `get_last_far_bank`
+2) .C (and by extension, .A) will contain the maximum usable far bank number, ranging from $00-$FF.  The amount of far ram available in bytes is `.C * 65536`.
+
+--
 
 [^1]: [https://github.com/emmanuel-marty/lzsa](https://github.com/emmanuel-marty/lzsa)
   

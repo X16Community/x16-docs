@@ -356,7 +356,7 @@ The following added command channel features are specific to CMDR-DOS:
 
 To use the FATLBA, POSITION, and TELL commands, you need to open two channels: a data channel and the command channel. The _channel_ argument should be the same as the secondary address of the data channel.
 
-If FATLBA succeeds, `07,llllllll cccccccc,i,s` is returned on the command channel, where `llllllll` is a hexadecimal representation of the raw LBA at the file's current position, `cccccccc` is a hexadecimal representation of the associated cluster within the filesystem, `i` is a decimal index of the sector within a cluster, and `s` is a decimal representation of the _cluster shift_ value.  Cluster shift relates to the filesystem's cluster size, where the cluster size in bytes is 2^<sup>9+s</sup>.  
+If FATLBA succeeds, `07,llllllll cccccccc,ii,ss` is returned on the command channel, where `llllllll` is a hexadecimal representation of the raw LBA at the file's current position, `cccccccc` is a hexadecimal representation of the associated cluster within the filesystem, `ii` is a decimal index of the sector within a cluster, and `ss` is a decimal representation of the _cluster shift_ value.  Cluster shift relates to the filesystem's cluster size, where the cluster size in bytes is 2<sup>9+`ss`</sup>.  Note that `ii` can add a third digit when the value exceeds 99, as cluster shift 7 has sector index values up to 127.  
 
 If POSITION succeeds, `00, OK,00,00` is returned on the command channel.  
 
