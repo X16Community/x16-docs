@@ -2930,7 +2930,7 @@ Registers affected: Varies
 |  `$04` | [`stack_leave_kernal_stack`](#65c816-extapi16-function-name-stack_leave_kernal_stack) | Returns to the previous stack context after `stack_enter_kernal_stack` | none | none | x=0, $01=0 |
 |  `$05` | [`xmacptr`](#65c816-extapi16-function-name-xmacptr) | 24-bit aware extended implementation of MACPTR | r0L-r1L r2 | r2 c | none |
 |  `$06` | [`xmciout`](#65c816-extapi16-function-name-xmciout) | 24-bit aware extended implementation of MCIOUT | r0L-r1L r2 | r2 c | none |
-|  `$07` | [`hbload`](#65c816-extapi16-function-name-hbload) | 24-bit aware extended implementation of headerless LOAD | .X r0L-r1L | .A r0L-r1L c | prior calls to setnam, setlfs |
+|  `$07` | [`hbload`](#65c816-extapi16-function-name-hbload) | 24-bit aware extended implementation of headerless LOAD | .X r0L-r1L | .A r0L-r1L m=1 x=1 c | prior calls to setnam, setlfs |
 |  `$08` | [`get_last_far_bank`](#65c816-extapi16-function-name-get_last_far_bank) | Returns last useful far bank for 24-bit addressing | none | .C | none |
 
 ---
@@ -3103,7 +3103,7 @@ This routine is only available on machines with 24-bit far memory, such as the u
 4) `r0L-r1L` contain the first address _following_ the end of the load.
 
 **Notes:**
-If the device is not present, `hbload` may return with m=1, x=1 instead of the usual m=0, x=0.
+`hbload` returns with **m=1, x=1** instead of the usual m=0, x=0 for extapi16 calls.
 
 ---
 
