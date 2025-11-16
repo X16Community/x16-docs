@@ -1715,7 +1715,7 @@ Error returns: None
 This routine takes no arguments.
 
 The routine does the following:
-* Sets up the VERA for VBLANK interrupts and disables other kinds of VERA interrupts
+* Sets up the VERA for VSYNC interrupts and disables other kinds of VERA interrupts
 * Resets the default channel I/O output to screen
 * Resets the default channel I/O input to keyboard/screen
 * Downloads the default PETSCII upper/graph character set to the character set space in VRAM
@@ -1750,7 +1750,7 @@ The routine does the following:
 * Disables the interrupt sources on the VERA, VIA#1, VIA#2, and YM2151
 * Sets the values and data direction of the IEC pins on VIA#1 to defaults
 * Sets the VIA#1 timer T1 reload value to max ($FFFF) and puts it into freerunning mode for use as an entropy source
-* Sets up the VERA for VBLANK interrupts
+* Sets up the VERA for VSYNC interrupts
 
 ---
 
