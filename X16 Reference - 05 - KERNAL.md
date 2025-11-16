@@ -1852,7 +1852,7 @@ Registers affected: Varies
 
 ####  extapi Function Name: clear_status
 
-Purpose: Reset the IEC status byte to 0   
+Purpose: Reset the IEC status byte to 0  
 Minimum ROM version: R47  
 Call address: $FEAB, .A=1  
 Communication registers: none  
@@ -1866,7 +1866,7 @@ Registers affected: .A
 
 ####  extapi Function Name: getlfs
 
-Purpose: Return the values from the last call to `setlfs`   
+Purpose: Return the values from the last call to `setlfs`  
 Minimum ROM version: R47  
 Call address: $FEAB, .A=2  
 Communication registers: .A .X .Y  
@@ -3114,7 +3114,7 @@ This routine is only available on machines with 24-bit far memory, such as the u
 Purpose: Return the maximum usable far bank (bits 16-23 of a 24-bit memory address)  
 Minimum ROM version: R49  
 Call address: $FEA8, .C=8  
-Communication registers: .C   
+Communication registers: .C  
 Preparatory routines: none  
 Error returns: none  
 Registers affected: .A .X .P  
