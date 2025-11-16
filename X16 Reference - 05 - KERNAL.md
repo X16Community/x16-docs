@@ -1730,7 +1730,7 @@ The routine does the following:
 #### Function Name: IOINIT
 
 Purpose: Reset serial state and IRQ sources to defaults  
-Call address: $FF81  
+Call address: $FF84  
 Communication registers: None  
 Preparatory routines: None  
 Error returns: None  
