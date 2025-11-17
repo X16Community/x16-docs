@@ -2749,7 +2749,7 @@ This function also takes care to "unblink" the cursor when disabling, which rest
 5) Call `blink_enable`, which makes sure the character under the cursor returns to the correct glyph and color.
 
 **Notes:**
-* If you want to move the blinking cursor while keeping blink enabled, it is advised that you disable the blink first, relocate it, then re-enable the blinking.
+* If you wish to use BSOUT (CHROUT) or PLOT With an active blinking cursor, it is necessary that you disable the blink first, do the BSOUT or PLOT call, then re-enable the blinking.
 
 ---
 
