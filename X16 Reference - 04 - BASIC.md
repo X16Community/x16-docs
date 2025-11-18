@@ -956,9 +956,9 @@ MENU
 **TYPE: Function**  
 **FORMAT: MOD(&lt;dividend&gt;, &lt;divisor&gt;)**
 
-**Action:** Returns the truncated remainder of dividend divided by divisor
+**Action:** Returns the truncated remainder of &lt;dividend&gt; divided by &lt;divisor&gt;
 
-The `MOD` function supports 16bit signed numbers (-32768 - 37767)
+The `MOD` function supports 16bit signed numbers (-32768 to 32767)
 
 **EXAMPLE of MOD Function:**
 ```BASIC
