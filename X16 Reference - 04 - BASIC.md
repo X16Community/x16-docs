@@ -84,6 +84,7 @@ for GitHub's Markdown flavor. Do not remove!
 | `LOG` | function | Returns the natural logarithm of a number | C64 |
 | [`MENU`](#menu) | command | Invokes the Commander X16 utility menu | X16 |
 | `MID$` | function | Returns a substring from the middle of a string | C64 |
+| [`MOD`](#mod) | function | Returns the truncated remainder of a division | X16 |
 | [`MON`](#mon) | command | Enters the machine language monitor | X16 |
 | [`MOUSE`](#mouse) | command | Hides or shows mouse pointer | X16 |
 | [`MOVSPR`](#movspr) | command | Set the X/Y position of a sprite | X16 |
@@ -948,6 +949,30 @@ The values are 1-based. If no column is given, only the line is changed.
 
 ```BASIC
 MENU
+```
+
+### MOD
+
+**TYPE: Function**  
+**FORMAT: MOD(&lt;dividend&gt;, &lt;divisor&gt;)**
+
+**Action:** Returns the truncated remainder of dividend divided by divisor
+
+The `MOD` function supports 16bit signed numbers (-32768 - 37767)
+
+**EXAMPLE of MOD Function:**
+```BASIC
+PRINT MOD(-17, 5)
+-2
+
+PRINT MOD(17, 5)
+ 2
+
+PRINT MOD(42, 0)
+?DIVISION BY ZERO ERROR
+
+PRINT MOD(65000, 101)
+?ILLEGAL QUANTITY ERROR
 ```
 
 ### MON
