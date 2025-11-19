@@ -17,6 +17,7 @@ The following functions are available from machine language code after setting t
 | $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FACC. _Caveat! Read below!_ |
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                         |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                            |
+| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = i32(FACC)        |
 
 **Difference in X16 Behavior of FOUT**
 
@@ -39,7 +40,6 @@ The following calls are new to the X16 and were not part of the C128 math librar
 |---------|----------|-------------------------------------------------|
 | $FE87  | `FLOAT`  | FACC = (s8).A   convert signed byte to float     |
 | $FE8A  | `FLOATS` | FACC = (s16)facho+1:facho                        |
-| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = i32(FACC)        |
 | $FE93  | `FOUTC`  | Convert FACC to ASCIIZ string at fbuffr - 1 + .Y |
 
 ## Movement
