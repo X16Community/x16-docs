@@ -43,9 +43,9 @@ VERA is mapped as 32 8-bit registers in the memory space of the Commander X16, s
 	</tr>
 </table>
 
-The FX features use DCSEL values 2, 3, 4, 5, and 6. This effectively gives FX 20 8-bit registers. Note that 15 of these registers are *write-only*, 2 of them are *read-only* and 3 are both *readable* and *writable*,
+The FX features use DCSEL values 2, 3, 4, 5, and 6. This effectively gives FX 20 8-bit registers. Note that 15 of these registers are *write-only*, 2 of them are *read-only* and 3 are both *readable* and *writable*.  In addition, DCSEL value 63 is read-only, and reports the VERA version.  DCSEL values 7-62 are currently unused, but behave like DCSEL value 63.
 
-***Important***: *unless DCSEL values of 2-6 are used, the behavior of VERA is exactly the same as it was before the FX update. This ensures that the FX update is backwards compatible with traditional non-FX uses of VERA.*
+***Important***: *If the only DCSEL values used are 0 and 1, the behavior of VERA is exactly the same as it was before the FX update. This ensures that the FX update is backwards compatible with traditional non-FX uses of VERA.*
 
 ### Addr1 Mode
 
