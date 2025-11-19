@@ -17,7 +17,7 @@ The following functions are available from machine language code after setting t
 | $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FACC. _Caveat! Read below!_ |
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                         |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                            |
-| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = i32(FACC)        |
+| $FE8D  | `QINT`   | convert floating point to signed 32-bit integer (which is stored within the FAC mantissa bytes in big-endian order)        |
 
 **Difference in X16 Behavior of FOUT**
 
