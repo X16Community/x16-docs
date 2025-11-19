@@ -39,7 +39,7 @@ The following calls are new to the X16 and were not part of the C128 math librar
 |---------|----------|-------------------------------------------------|
 | $FE87  | `FLOAT`  | FACC = (s8).A   convert signed byte to float     |
 | $FE8A  | `FLOATS` | FACC = (s16)facho+1:facho                        |
-| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = u32(FACC)        |
+| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = i32(FACC)        |
 | $FE93  | `FOUTC`  | Convert FACC to ASCIIZ string at fbuffr - 1 + .Y |
 
 ## Movement
