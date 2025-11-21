@@ -13,10 +13,17 @@ The following functions are available from machine language code after setting t
 |---------|----------|----------------------------------------------------------------------------------------------|
 | $FE00   | `AYINT`  | convert floating point to integer (signed word)                                              |
 | $FE03   | `GIVAYF` | convert integer (signed word) to floating point                                              |
-| $FE06   | `FOUT`   | convert floating point to ASCII string                                                       |
+| $FE06   | `FOUT`   | convert floating point to ASCII string. (See below)                                                       |
 | $FE09   | `VAL_1`  | convert ASCII string in .X:.Y length in .A, to floating point in FACC. _Caveat! Read below!_ |
 | $FE0C   | `GETADR` | convert floating point to an address (unsigned word)                                         |
 | $FE0F   | `FLOATC` | convert address (unsigned word) to floating point                                            |
+| $FE8D   | `QINT`   | convert floating point to signed 32-bit integer (which is stored in the FACC mantissa bytes in big-endian order)        |
+
+**Difference in X16 Behavior of FOUT**
+
+The version of FOUT described in the book leaves a pointer to the result string
+in the AY register pair; the X16 version does not do that. Instead, rely on the
+string always being placed in the FBUFFR location at $0100. 
 
 **Important caveat ragarding the `VAL_1` routine in its current implementation:**
 
@@ -33,7 +40,6 @@ The following calls are new to the X16 and were not part of the C128 math librar
 |---------|----------|-------------------------------------------------|
 | $FE87  | `FLOAT`  | FACC = (s8).A   convert signed byte to float     |
 | $FE8A  | `FLOATS` | FACC = (s16)facho+1:facho                        |
-| $FE8D  | `QINT`   | facho:facho+1:facho+2:facho+3 = u32(FACC)        |
 | $FE93  | `FOUTC`  | Convert FACC to ASCIIZ string at fbuffr - 1 + .Y |
 
 ## Movement
