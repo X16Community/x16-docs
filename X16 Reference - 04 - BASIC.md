@@ -1520,6 +1520,11 @@ The above example overwrites an existing file on drive 9, which would be a Commo
 
 For a list of supported modes, see [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor). The value of -1 toggles between modes $00 and $03.
 
+The video memory for all text modes start at VERA bank 1, address $B000. (e.g. `VPOKE 1, $B000, 0`).
+For mode $80, bitmap memory starts at VERA bank 0, address $0000. (e.g. `VPOKE 0, $0000, 0`).
+
+To understand the memory layout of text modes, refer to [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode).
+
 **EXAMPLE of SCREEN Statement:**
 
 ```BASIC
