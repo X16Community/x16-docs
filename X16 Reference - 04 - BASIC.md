@@ -1520,10 +1520,29 @@ The above example overwrites an existing file on drive 9, which would be a Commo
 
 For a list of supported modes, see [Chapter 3: Editor](X16%20Reference%20-%2003%20-%20Editor.md#chapter-3-editor). The value of -1 toggles between modes $00 and $03.
 
+To edit text on the screen, refer to the following commands:
+* [CHAR](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#char)
+* [COLOR](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#color)
+* [LOCATE](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#locate)
+* [POS](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#pos)
+* [TATTR](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#tattr)
+* [TDATA](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#tdata)
+* [TILE](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#tile)
+
+To edit bitmap data in screen mode $80, refer to the following commands:
+* [FRAME](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#frame)
+* [LINE](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#line)
+* [OVAL](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#oval)
+* [PSET](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#pset)
+* [RECT](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#rect)
+* [RING](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#ring)
+
+Direct writing of the VERA's memory can be performed via [VPOKE](https://github.com/X16Community/x16-docs/blob/master/X16%20Reference%20-%2004%20-%20BASIC.md#vpoke).
+
+Details about programming for the VERA video adapter can be found in [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md). In particular, please refer to the sections on [VRAM Address Space Layout](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#vram-address-space-layout) and [Tile mode 1 bpp (16 color text mode)](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode), with 128 tiles per line and 64 lines, even though the display will not show the entire range at once.
+
 The video memory for all text modes start at VERA bank 1, address $B000. (e.g. `VPOKE 1, $B000, 0`).
 For mode $80, bitmap memory starts at VERA bank 0, address $0000. (e.g. `VPOKE 0, $0000, 0`).
-
-To understand the memory layout of text modes, refer to [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode), with 128 tiles per line and 64 lines, even though the display will not show the entire range at once.
 
 **EXAMPLE of SCREEN Statement:**
 
