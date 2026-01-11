@@ -1523,7 +1523,7 @@ For a list of supported modes, see [Chapter 3: Editor](X16%20Reference%20-%2003%
 The video memory for all text modes start at VERA bank 1, address $B000. (e.g. `VPOKE 1, $B000, 0`).
 For mode $80, bitmap memory starts at VERA bank 0, address $0000. (e.g. `VPOKE 0, $0000, 0`).
 
-To understand the memory layout of text modes, refer to [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode).
+To understand the memory layout of text modes, refer to [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode), with 128 tiles per line and 64 lines, even though the display will not show the entire range at once.
 
 **EXAMPLE of SCREEN Statement:**
 
