@@ -87,7 +87,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`FRAME`](#frame) | Command | Draws an unfilled rectangle in graphics mode | X16 |
 | [`FRE`](#fre) | Function | Returns the number of unused BASIC bytes free | C64 |
 | [`GET`](#get) | Statement | Polls the keyboard cache for a single keystroke | C64 |
-| [`GET#`](#get) | I/O Statement | Polls an open logical file for a single character | C64 |
+| [`GET#`](#get-1) | I/O Statement | Polls an open logical file for a single character | C64 |
 | [`GOSUB`](#gosub) | Statement | Jumps to a BASIC subroutine | C64 |
 | [`GOTO`](#goto) | Statement | Branches immediately to a line number | C64 |
 | [`HELP`](#help) | Command | Displays a brief summary of online help resources | X16 |
@@ -95,31 +95,31 @@ for GitHub's Markdown flavor. Do not remove!
 | [`I2CPEEK`](#i2cpeek) | Function | Reads a byte from a device on the I²C bus | X16 |
 | [`I2CPOKE`](#i2cpoke) | Command | Writes a byte to a device on the I²C bus | X16 |
 | [`IF-THEN`](#if-then) | Statement | Tests a boolean condition and branches on result | C64 |
-| `INPUT` | Command | Reads a line or values from the keyboard | C64 |
-| `INPUT#` | Command | Reads lines or values from a logical file | C64 |
-| `INT` | Function | Discards the fractional part of a number | C64 |
-| [`JOY`](#joy) | Function | Reads gamepad button state | X16 |
+| [`INPUT`](#input) | Statement | Reads a line or values from the keyboard | C64 |
+| [`INPUT#`](#input-1) | I/O Statement | Reads lines or values from a logical file | C64 |
+| [`INT`](#int) | Integer Function | Discards the fractional part of a number | C64 |
+| [`JOY`](#joy) | Integer Function | Reads gamepad button state | X16 |
 | [`KEYMAP`](#keymap) | Command | Changes the keyboard layout | X16 |
-| `LEFT$` | Function | Returns a substring starting from the beginning of a string | C64 |
-| `LEN` | Function | Returns the length of a string | C64 |
-| `LET` | Command | Explicitly declares a variable | C64 |
+| [`LEFT$`](#left) | String Function | Returns a substring starting from the beginning of a string | C64 |
+| [`LEN`](#len) | Integer Function | Returns the length of a string | C64 |
+| [`LET`](#let) | Statement | Explicitly declares a variable | C64 |
 | [`LINE`](#line) | Command | Draws a line in graphics mode | X16 |
 | [`LINPUT`](#linput) | Command | Reads a line from the keyboard | X16 |
 | [`LINPUT#`](#linput-1) | Command | Reads a line or other delimited data from an open file | X16 |
 | [`LIST`](#list) | Command | Outputs the program listing to the screen | C64 |
-| `LOAD` | Command | Loads a program from disk into memory | C64 |
+| [`LOAD`](#load) | Command | Loads a program from disk into memory | C64 |
 | [`LOCATE`](#locate) | Command | Moves the text cursor to new location | X16 |
-| `LOG` | Function | Returns the natural logarithm of a number | C64 |
+| [`LOG`](#log) | Floating-Point Function | Returns the natural logarithm of a number | C64 |
 | [`MENU`](#menu) | Command | Invokes the Commander X16 utility menu | X16 |
-| `MID$` | Function | Returns a substring from the middle of a string | C64 |
+| [`MID$`](#mid) | String Function | Returns a substring from the middle of a string | C64 |
 | [`MOD`](#mod) | Function | Returns the truncated remainder of a division | X16 |
 | [`MON`](#mon) | Command | Enters the machine language monitor | X16 |
 | [`MOUSE`](#mouse) | Command | Hides or shows mouse pointer | X16 |
 | [`MOVSPR`](#movspr) | Command | Set the X/Y position of a sprite | X16 |
 | [`MX/MY/MB`](#mxmymb) | variable | Reads the mouse position and button state | X16 |
 | [`MWHEEL`](#mwheel) | variable | Reads the mouse wheel movement | X16 |
-| `NEW` | Command | Resets the state of BASIC and clears program memory | C64 |
-| `NEXT` | Command | Declares the end of a loop construct | C64 |
+| [`NEW`](#new) | Command | Resets the state of BASIC and clears program memory | C64 |
+| [`NEXT`](#next) | Statement | Declares the end of a loop construct | C64 |
 | `NOT` | Operator | Bitwise or boolean inverse | C64 |
 | [`OLD`](#old) | Command | Undoes a NEW command or warm reset | X16 |
 | `ON` | Command | A GOTO/GOSUB table based on a variable value | C64 |
@@ -392,7 +392,7 @@ LIST
 READY.
 ```
 
-### BIN$
+### BIN&#36;
 
 **TYPE: String Function**  
 **FORMAT: BIN$(n)**
@@ -601,7 +601,7 @@ CLS
 **TYPE: I/O Statement**  
 **FORMAT: CMD &lt;file number&gt;[, string]**
 
-**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, tape, a printer, or an I/O device like the modem[^nomodem].  The file number must be specified in a prior `OPEN` statemewnt.  The string, when specified, is sent to the file.  This is handy 
+**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, a printer, or an I/O device like the modem[^nomodem].  The file number must be specified in a prior `OPEN` statemewnt.  The string, when specified, is sent to the file.  This is handy 
 for titling printouts, etc.
 
 When this command is in effect, any `PRINT` statements and `LIST` commands will not display on the screen, but will send the text in the same format to the file.
@@ -1195,7 +1195,7 @@ The `GET` statement can be used to avoid some of the limitations of the `INPUT` 
 
 [^missing_pt]: There is no Programming Techniques section currently.
 
-### GET#**
+### GET&#35;
 
 **TYPE: I/O Statement**  
 **FORMAT: GET# &lt;file number&gt;, &lt;variable list&gt;**
@@ -1352,6 +1352,63 @@ The `IF` in line 20 tests a random number to see if it is less than .5.
 
 When the result is true, the whole series of statements following the word `THEN` are executed: first `X` is incremented by 1, then the program skips to line 40.  When the result is false, the program drops to the next statement, line 30.
 
+### INPUT
+
+**TYPE: Statement**  
+**FORMAT: INPUT ["&lt;prompt&gt;"] &lt;variable list&gt;**
+
+**Action:** This is a statement that lets the person `RUN`ning the program "feed" information into the computer.  When executed, this statement `PRINT`s a question mark `(?)` on the screen, and positions the cursor 1 space to the right of the question mark.  Now the computer waits, cursor blinking, for the operator to type in the answer and press the **<mark>RETURN</mark>** key.
+
+The word `INPUT` may be followed by any text contained in quote marks `(" ")`.  This text is `PRINT`ed on the screen, followed by the question mark.
+
+After the text comes a semicolon `(;)` and the name of one or more variables separated by commas.  This variable is where the computer stores the information that the operator types.  The variable can be any legal variable name, and you can have several different variable names, each for a different input.
+
+**EXAMPLES of the INPUT Statement:**
+```BASIC
+10 INPUT R
+20 INPUT E, X, I$
+30 INPUT "ENTER ANSWER"; A$(42)
+```
+When this program `RUN`s, the quesiton mark appears to prompt the operator that the Commander X16 is expecting an input for line 30.  Any number typed goes into A for later use in the program.  If the anwser typed was not a number, the `?REDO FROM START` message appears, which means that a string was entered when a number was expected.  If the operator just hits **<mark>RETURN</mark>** without typing anything, the variable's value doesn't change.
+
+Now the question mark for line 20, appears.  If we type only one number and hit **<mark>RETURN</mark>**, the Commander X16 will now display 2 question marks `(??)`, which means that more input is required.  You can just type as many inputs as you need, separated by commas, which prevents the double question mark from appearing.  If you type more data than the `INPUT` statement requested, the `?EXTRA IGNORED` message appears, which means that the extra items you typed were not put into any variables.
+
+Line 30 displays the words ENTER ANSWER before the question mark appears.  The semicolon is required between the prompt and any list of variables.
+
+The `INPUT` statement can never be used outside a program.  The Commander X16 needs space for a buffer for the `INPUT` variables, the same space that is used for commands.
+
+### INPUT&#35;
+
+**TYPE: I/O Statement**  
+**FORMAT: INPUT# &lt;file number&gt;, &lt;variable list&gt;**
+
+**Action:**  This is usually the fastest and easiest way to retrieve data stored in a file on disk.  The data is in the form of whole variables of up to 80 characters in length, as opposed to the one-at-a-time method of `GET#`.  First, the file must have been `OPEN`ed, then `INPUT#` can fill the variables.
+
+The `INPUT#` command assumes a variable is finished when it reads a `RETURN` code (`CHR$`(13)), a comma `(,)`, or colon `(:)`.  Quote marks `(")` can be used to enclose these characters when writing if they are needed (see the `PRINT#` statement).
+
+If the variable  type used is numeric, and non-numeric characters are received, a `BAD DATA` error results.  `INPUT#` can read strings up to 80 characters long, beyond which a `?STRING TOO LONG` error results.
+
+When used with device #3 (the screen), this statement will read an entire logical line and move the cursor down to the next line.
+
+**EXAMPLES of the INPUT# Statement:**
+```BASIC
+10 INPUT# 1, FR
+20 INPUT# 2, X$, Y$
+```
+
+### INT
+
+**TYPE: Integer Function**  
+**FORMAT: INT(&lt;numeric&gt;)**
+
+**Action:** Returns the integer value of the expression.  If the expression is positive, the fractional part is left off.  If the expression is negative, any fraction causes the next lower integer to be returned.
+
+**EXAMPLES of the INT Function:**
+```BASIC
+10 PRINT INT(102.4242), INT(-16.702)
+RUN
+ 102       -17
+```
 
 ### JOY
 
@@ -1410,6 +1467,52 @@ Note that this bitfield is different from the `joystick_get` KERNEL API one. Als
 ```BASIC
 10 KEYMAP"SV-SE"    :REM SMALL BASIC PROGRAM TO SET LAYOUT TO SWEDISH/SWEDEN
 SAVE"AUTOBOOT.X16"  :REM SAVE AS AUTOBOOT FILE
+```
+
+### LEFT&#36;
+
+**TYPE: String Function**  
+**FORMAT: LEFT$(&lt;string&gt;, &lt;integer&gt;)**
+
+**Action:** Returns a string comprised of the leftmost &lt;integer&gt; chracters of the &lt;string&gt;.  The integer argument value must be in the range 0 to 255.  If the integer is greater than the length of the string, the entire string will be returned.  If an &lt;integer&gt; value of zero is used, then a null string (of zero length) is returned.
+
+**EXAMPLES of the LEFT$ Function:**
+```BASIC
+10 X$ = "COMMANDER X16 COMPUTER"
+20 C$ = LEFT$(X$, 9): PRINT C$
+RUN
+
+COMMANDER
+```
+
+### LEN
+
+**TYPE: Integer Function**  
+**FORMAT: LEN(&lt;string&gt;)**
+
+**Action:** Returns the number of chracters in the string expression.  Non-printed characters and blanks are counted.
+
+**EXAMPLE of the LEN Function:**
+```BASIC
+10 CX$ = "COMMANDER X16 COMPUTER"
+20 PRINT LEN(CX$)
+RUN
+ 22
+```
+
+### LET
+
+**TYPE: Statement**  
+**FORMAT: [LET] &lt;variable&gt; = &lt;expression&gt;**
+
+**Action:** The `LET` statement can be used to assign a value to a variable.  However, the word `LET` is optional and therefore most advanced programmers leave `LET` out because it's aways understood and wastes valuable memory.  The equal sign `(=)` alone is sufficient when assigning the value of an expression to a variable name.
+
+**EXAMPLES of the LET Statement:**
+```BASIC
+10 LET A = 42 : REM This is the same as A=12
+20 LET A$ = "123"
+30 B$ = "WIDGETS"
+40 ANS$ = A$ + " " + B$ : REM ANS$ would equal "123 WIDGETS"
 ```
 
 ### LINE
@@ -1496,7 +1599,7 @@ The above example parses and prints out the filenames from a directory listing.
 The start and ending line numbers are both optional.
 
 The start and/or end may be specified. If both are specified, a hyphen must
-be included. So LIST has 4 modes:
+be included. So `LIST` has 4 modes:
 
 `LIST` by itself will display the entire program.
 
@@ -1506,14 +1609,30 @@ be included. So LIST has 4 modes:
 
 `LIST 50-` will display line 50 to the end of the program.
 
-Pressing the `CONTROL` key during a listing will slow the listing down once
+Pressing the **<mark>CTRL</mark>** key during a listing will slow the listing down once
 printing reaches the bottom of the screen. Approximately one line per second will
-be displayed.
+be displayed.  `LIST` is aborted by hitting the **<mark>RUN/STOP</mark>** key.
 
-Pressing the `SPACE BAR` during the listing will cause the listing to pause.
-Pressing the `SPACE BAR` a second time will unpause the listing. You may also
+Pressing the **<mark>SPACE BAR</mark>** during the listing will cause the listing to pause.
+Pressing the **<mark>SPACE BAR</mark>** a second time will unpause the listing. You may also
 use the down arrow key to scroll by one line or use the `PgDn` key to scroll
 approximately one screen full of text.
+
+### LOAD
+
+**TYPE: Command**  
+**FORMAT: LOAD ["&lt;filename&gt;"][,&lt;device&gt;][,&lt;address&gt;]**
+
+**Action:** The `LOAD` statement reads the contents of a program file from disk into memory.  That way you can use the information `LOAD`ed or change the information in some way.  The device number is optional, but when it is left out, the Commander X16 will automatically default to 8, the first disk device.  The `LOAD` command closes all open files and if it is used in direct mode, it performs a `CLR` (clear) before reading the program.  If `LOAD` is executed from within a program, the program is `RUN`.  this means that you can use `LOAD` to "chain" several programs together.  None of the variables are cleared during a chain operation.
+
+If you are using file name pattern matching, the first file which matches the pattern is loaded.  The asterisk in quotes by itself `("*")` causes the first file name in the disk directory to be loaded.  If the file name used does not or if it is not a program, the BASIC error message `?FILE NOT FOUND` occurs.
+
+Programs will `LOAD` starting at memory location $0801 (hex) unless a secondary &lt;address&gt; of 1 is used.  If you use the secondary address of 1 this will cause the program to `LOAD` to the memory loction from which it was saved. 
+
+**EXAMPLES of the LOAD Command:**
+- LOAD FN$ (uses the contents of FN$ to load from disk)
+- LOAD "*",8 (loads the first program from device 8)
+- LOAD "GAME",8,1 (loads "GAME" into the same memory address it was saved from)
 
 ### LOCATE
 
@@ -1536,6 +1655,40 @@ The values are 1-based. If no column is given, only the line is changed.
 170 :  Y=Y0+R*SIN(T)
 180 :  LOCATEY,X:PRINTCHR$($12);" ";
 190 NEXT
+```
+
+### LOG
+
+**TYPE: Floating-Point Function** 
+**FORMAT: LOG(&lt;numeric&gt;)**
+
+**Action:** Returns the natural logarithm (log to the base of e) of the argument.  If the value of the argument is zero or negative, the BASIC error message `?ILLEGAL QUANTITY` will occur.
+
+**EXAMPLES of the LOG Function:**
+```BASIC
+10 PRINT LOG(42/9)
+RUN
+ 1.54044504
+
+10 NUM = LOG(ARG) / LOG(10): REM Calculates the LOG of ARG to the base 10)
+```
+
+### MID$
+
+**TYPE: String Function**  
+**FORMAT: MID$(&lt;string&gt;, &lt;numeric-1&gt;[,&lt;numeric-2&gt;])**
+
+**Action:** The `MID$` function returns a sub-string which is taken from within a larger &lt;string&gt; argument.  The starting position of the sub-string is defined by the &lt;numeric-1&gt; argument and the length of the sub-string by the &lt;numeric-2&gt; argument.  Both of the numeric arguments can have values ranging from 0 to 255.
+
+If the &lt;numeric-1&gt; value is greater than the length of the &lt;string&gt;, or if the &lt;numeric-2&gt; value is zero, then `MID$` gives a null string value.  If the &lt;numeric-2&gt; is left out, then the computer will assume that a length of the rest of the string is to be used.  And if the source string has fewer characters than &lt;numeric-2&gt;, from the starting position to the end of the string argument, then the whole rest of the string is used.
+
+**EXAMPLE of the MID$ Function:**
+```BASIC
+10 G$ = "GOOD"
+20 A$ = "MORNING EVENING AFTERNOON"
+30 PRINT G$ + MID$(A$, 8, 8)
+RUN
+GOOD EVENING
 ```
 
 ### MENU
@@ -1674,6 +1827,50 @@ REM SIMPLE DRAWING PROGRAM
 
 **Action:** Return the mouse scroll wheel movement since the value was last read. The value is negative if the scroll wheel is
 moved away from the user, and positive if it is moved towards the user. The range of the returned value is -128 to +127.
+
+### NEW
+
+**TYPE: Command**  
+**FORMAT: NEW**
+
+**Action:** The `NEW` command is used to delete the program currently in memory and clear all variables.  Before typing in a new program, `NEW` should be used in direct mode to clear memory.  `NEW` can also be used in a program, but you should be aware of the fact that it will erase everything that has gone before and is still in the computer's memory.  This can be particularly troublesome when you're trying to debug your program.
+
+> **BE CAREFUL**: Not clearing out an old program before typing a new one can result in a confusing mix of the two programs.
+
+**EXAMPLES of the NEW Command:**
+```BASIC
+NEW : REM Clears the program and all variables)
+10 NEW : REM Performs a NEW operation and STOPs the program.
+```
+
+### NEXT
+
+**TYPE: Statement**  
+**FORMAT: NEXT [&lt;counter&gt;],[&lt;counter&gt;]...**
+
+**Action:** The `NEXT` statement is used with `FOR` to establish the end of a `FOR`...`NEXT` loop.  The `NEXT` need not be physically the last statement in the loop, but it is always the last statement executed in a loop.  The &lt;counter&gt; is the loop index's variable name used with `FOR` to start the loop.  A single `NEXT` can stop several nested loops when it is followed by each `FOR`'s &lt;counter&gt; variable name(s).  to do this each name must appear in the order of inner-most nested loop first, to outer-most nested loop last.  When using a single `NEXT` to increment and stop several variable names, each variable name must be separated by commas.  Loops can be nested to 9 levels.  If the counter variable(s) are omitted, the counter associated with the `FOR` of the current level (of the nested loops) is incremented.
+
+When the `NEXT` is reached, the counter value is incremented by 1 or by an optional `STEP` value.  It is then tested against an end-value to see if it's time to stop the loop.  A loop will be stopped when a `NEXT` is found which has its counter value greater than the end-value.
+
+**EXAMPLES of the NEXT Statement:**
+```BASIC
+10 FOR A=1 TO 5: FOR B=10 TO 20: FOR C=5 TO -10 STEP -1
+20 NEXT C, B, A : REM Stopping nested loops
+
+10 FOR A = 1 TO 100
+20 FOR B = 1 TO 10
+30 NEXT B
+500 NEXT A  : REM Note how the loops do NOT cross each other.
+
+10 FOR Z = 1 TO 10
+20 FOR X = 1 TO 20
+30 NEXT
+40 NEXT : REM Notice that no variable names are needed
+```
+
+### NOT
+
+
 
 ### OLD
 
