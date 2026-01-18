@@ -120,17 +120,17 @@ for GitHub's Markdown flavor. Do not remove!
 | [`MWHEEL`](#mwheel) | variable | Reads the mouse wheel movement | X16 |
 | [`NEW`](#new) | Command | Resets the state of BASIC and clears program memory | C64 |
 | [`NEXT`](#next) | Statement | Declares the end of a loop construct | C64 |
-| `NOT` | Operator | Bitwise or boolean inverse | C64 |
+| [`NOT`](#not) | Logical Operator | Bitwise or boolean inverse | C64 |
 | [`OLD`](#old) | Command | Undoes a NEW command or warm reset | X16 |
-| `ON` | Command | A GOTO/GOSUB table based on a variable value | C64 |
-| `OPEN` | Command | Opens a logical file to disk or other device | C64 |
-| `OR` | Operator | Bitwise or boolean "OR" | C64 |
+| [`ON`](#on) | Statement | A GOTO/GOSUB table based on a variable value | C64 |
+| [`OPEN`](#open) | I/O Statement | Opens a logical file to disk or other device | C64 |
+| [`OR`](#or) | Logical Operator | Bitwise or boolean "OR" | C64 |
 | [`OVAL`](#oval) | Command | Draws a filled oval in graphics mode | X16 |
 | [`PEEK`](#peek) | Function | Returns a value from a memory address | C64 |
 | `π` | Function | Returns the constant for the value of pi | C64 |
 | [`POINTER`](#pointer) | Function | Returns the address of a BASIC variable | C128 |
 | [`POKE`](#poke) | Command | Assigns a value to a memory address | C64 |
-| `POS` | Function | Returns the column position of the text cursor | C64 |
+| [`POS`](#pos) | Integer Function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | Command | Immediately powers down the Commander X16 | X16 |
 | `PRINT` | Command | Prints data to the screen or other output | C64 |
 | `PRINT#` | Command | Prints data to an open logical file | C64 |
@@ -601,7 +601,7 @@ CLS
 **TYPE: I/O Statement**  
 **FORMAT: CMD &lt;file number&gt;[, string]**
 
-**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, a printer, or an I/O device like the modem[^nomodem].  The file number must be specified in a prior `OPEN` statemewnt.  The string, when specified, is sent to the file.  This is handy 
+**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, a printer, or an I/O device like the modem<sup>1</sup>.  The file number must be specified in a prior `OPEN` statemewnt.  The string, when specified, is sent to the file.  This is handy 
 for titling printouts, etc.
 
 When this command is in effect, any `PRINT` statements and `LIST` commands will not display on the screen, but will send the text in the same format to the file.
@@ -625,7 +625,7 @@ PRINT# 4: CLOSE 4: REM Un-listens and closes printer
 70 CLOSE 1 : REM Write remaining buffer contents, close file.
 ```
 
-[^nomodem]: Device #2 (RS-232) support has been removed from the X16 KERNAL.
+* <sup>1</sup> Device #2 (RS-232) support has been removed from the X16 KERNAL.
 
 ### COLOR
 
@@ -1183,7 +1183,7 @@ PRINT FRE(0) - (FRE(0) < 0) * 65536
 
 If the `GET` statement specifies numeric data, and the user types a key other than a number, the message `?SYNTAX ERROR` appears.  To be safe, read the keys as strings and convert them to numbers later.
 
-The `GET` statement can be used to avoid some of the limitations of the `INPUT` statement.  For more on this, see the section on Using the `GET` Statement in the Programming Techniques[^missing_pt] section.
+The `GET` statement can be used to avoid some of the limitations of the `INPUT` statement.  For more on this, see the section on Using the `GET` Statement in the Programming Techniques<sup>2</sup> section.
 
 **EXAMPLES of the GET Statement:**
 
@@ -1193,7 +1193,7 @@ The `GET` statement can be used to avoid some of the limitations of the `INPUT` 
 30 GET B, B$ : REM Reads a number key (0..9) and any key.
 ```
 
-[^missing_pt]: There is no Programming Techniques section currently.
+* <sup>2</sup>: There is no Programming Techniques section currently.
 
 ### GET&#35;
 
@@ -1621,7 +1621,7 @@ approximately one screen full of text.
 ### LOAD
 
 **TYPE: Command**  
-**FORMAT: LOAD ["&lt;filename&gt;"][,&lt;device&gt;][,&lt;address&gt;]**
+**FORMAT: LOAD ["&lt;filename&gt;"][,&lt;device&gt;][,&lt;address&gt;] LOAD ["&lt;filename&gt;"][,&lt;device&gt;][,&lt;ram bank&gt;, &lt;start address&gt;] **
 
 **Action:** The `LOAD` statement reads the contents of a program file from disk into memory.  That way you can use the information `LOAD`ed or change the information in some way.  The device number is optional, but when it is left out, the Commander X16 will automatically default to 8, the first disk device.  The `LOAD` command closes all open files and if it is used in direct mode, it performs a `CLR` (clear) before reading the program.  If `LOAD` is executed from within a program, the program is `RUN`.  this means that you can use `LOAD` to "chain" several programs together.  None of the variables are cleared during a chain operation.
 
@@ -1629,10 +1629,15 @@ If you are using file name pattern matching, the first file which matches the pa
 
 Programs will `LOAD` starting at memory location $0801 (hex) unless a secondary &lt;address&gt; of 1 is used.  If you use the secondary address of 1 this will cause the program to `LOAD` to the memory loction from which it was saved. 
 
+If using the second form of the `LOAD` command, &lt;ram bank&gt; sets the back for the load, and &lt;start address&gt; is the location where your data will be `LOAD`ed into.
+
+The value of the &lt;ram bank&gt; argument only affects the `LOAD` when the &lt;start address&gt; is set in the range of `$A000-$BFFF`.
+
 **EXAMPLES of the LOAD Command:**
 - LOAD FN$ (uses the contents of FN$ to load from disk)
 - LOAD "*",8 (loads the first program from device 8)
 - LOAD "GAME",8,1 (loads "GAME" into the same memory address it was saved from)
+- LOAD "MUSIC.BIN",8,1,$A000 (loads a file into banked RAM, RAM bank 1, starting at $A000.  The first two bytes of the file are skipped.  To avoid skipping the first two bytes, use the `BLOAD` command instead.)
 
 ### LOCATE
 
@@ -1870,7 +1875,44 @@ When the `NEXT` is reached, the counter value is incremented by 1 or by an optio
 
 ### NOT
 
+**TYPE: Logical Operator**  
+**FORMAT: NOT &lt;expression&gt;**
 
+**Action:** The `NOT` logical operator "complements" the value of each bit in its single operand, producing an integer "two's complement" result.  In other words, the `NOT` is really saying, "if it isn't...".  When working with a floating-point number, the operands are converted to integers and any fractions are lost.  The `NOT` operator can also be used in a comparison to reverse the true/false value which was the result of a relationship test and therefore it will reverse the meaning of the comparison.  In the first example below, if the "two's complement" of "I" is equal to "D" and if "D" is `NOT` equal to "JA" then the expression is true.
+
+**EXAMPLES of the NOT Operator:**
+```BASIC
+10 IF NOT I = D AND NOT (D=JA) THEN...
+
+IA% = NOT 42 : PRINT IA%
+-43
+```
+
+> **NOTE:** To find the value of `NOT` use the expression X = (-(X+1)).  (The two's complement of any integer is the bit complement plus one.)
+
+### ON
+
+**TYPE: Statement**  
+**FORMAT: ON &lt;variable&gt; GOTO / GOSUB &lt;line number&gt; [,&lt;line number&gt;]...**
+
+**Action:** The `ON` statement is used to `GOTO` or `GOSUB` to one of several given line numbers, depending on the value of a variable.  The value of the variables can range from zero through the number of lines given.  If the value is a non-integer, the fractional portion is left off.  for example, if the variable value is 3, `ON` will `GOTO` (or `GOSUB`) the third line number in the list.
+
+If the value of the variable is negative, the BASIC error message `?ILLEGAL QUANTITY` occurs.  If the number is zero, or greater than the number of items in the list, the program just ignores the statement and continues with the statement following the `ON` statement.
+
+`ON` is really an underused variant of the `IF...THEN...` statement.  Instead of using a qhole lot of `IF` statements each of which sends the program to one specific line, one `ON` statement can replace a list of `IF` statements.  When you look at the first example you should notice that the one `ON` statement replaces four `IF...THEN...` statements.
+
+**EXAMPLES of the ON Statement:**
+```BASIC
+ON -(X=2) - 2 * (X=6) - 3 * (X < 3) - 4 * (X > 7) GOTO 400, 900, 1000, 100
+
+ON A GOTO 100,130,180,220
+
+ON Z+7 GOSUB 4800, 230, 4800
+
+100 ON NUM GOTO 250, 350, 320, 490
+
+500 ON SUM / 2 + 1 GOSUB 100, 900, 50
+```
 
 ### OLD
 
@@ -1883,6 +1925,63 @@ When the `NEXT` is reached, the counter value is incremented by 1 or by an optio
 
 ```BASIC
 OLD
+```
+
+### OPEN
+
+**TYPE: I/O Statement**  
+**FORMAT: OPEN &lt;file number&gt;, &lt;device&gt; [, &lt;address&gt;] [, "&lt;file name&gt; [,&lt;type&gt;][, &lt;mode&gt;]"]**
+
+**Action** This statement `OPEN`s a channel for input and/or output to a peripheral device.  however, you may NOt need all those ports for every `OPEN` statement.  Some `OPEN` statements require only two codes:
+
+- LOGICAL FILE NUMBER
+- DEVICE NUMBER
+
+The &lt;file number&gt; is the logical file number, which relates to the `OPEN`, `CLOSE`, `CMD`, `GET#`, `INPUT#`, and `PRINT#` statements to each other and associates them with the file name and the piece of equipment being used.  The logical file number can range from 1 to 255 and you can assign it any number you want in that range.
+
+> **NOTE:** File numbers over 128 were really designed for other uses, so it's good practice to use only numbers below 127 for file numbers.
+
+Each peripheral device (printer, disk drive, etc) in the system has its own number which it answers to.  The &lt;device&gt; number is used with `OPEN` to specify on which device the data file exists. Peripherals like disk drives or printers also answer to several secondary addresses.  Think of these as codes which tell each device what operation to perform.  The device logical file number is used with every `GET#`, `INPUT#`, and `PRINT#`.
+
+If the &lt;device&gt; number is left out the Commander X16 will automatically assume that you want to talk to device #1, which has traditionally been assigned to the tape device.  Since the Commander X16 has no support for the tape device, I/O statements that reference it may operate with no error, but no actual work will be done.  Because of this, it should be assumed that specifying the device address is NOT optional.
+
+For disk files, the secondary addresses 2 through 14 are available for data files, but other numbers have special meanings for DOS commands.  You must use a secondary address when using your disk drive(s)<sup>3</sup>.
+
+The &lt;file name&gt; is a string of 1 to 16 characters and is optional for printer files.  If the file &lt;type&gt; is left out, the type of file will automatically default to the Program (PRG) file type unless the &lt;mode&gt; is given.  Sequential (SEQ) files are `OPEN`ed for reading (&lt;mode&gt;=R) unless you specify that files should be `OPEN`ed for writing (&lt;mode&gt;=W)  A file &lt;type&gt; can be used to `OPEN` an existing Relative file.  Use **REL** for &lt;type&gt; with Relative files.  Relative and Sequential files are for disk only.
+
+> **NOTE:** Sequential files written outside of a disk image (.D64, .D81, etc) will appear as **PRG** files when viewing the file listing of the SD card.  This is because the FAT32 file system used by the SD card does not differentiate between file types. 
+
+If you try to access a file before it is `OPEN`ed the BASIC error message `?FILE NOT OPEN` will occur.  If you try to `OPEN` a file for reading which does not exist the BASIC error message `?FILE NOT FOUND` will occur.  If a file is `OPEN`ed to disk and the file name already exists, the DOS error message `FILE EXISTS` occurs.  If a file is `OPEN`ed that is already `OPEN`, the BASIC error message `FILE OPEN` occurs.
+
+**EXAMPLES of the OPEN Statement:**
+- OPEN 2, 8, 2, "TEXT FILE, SEQ, W"  (opens a sequential file on disk)
+- OPEN 50, 0 (keyboard input)
+- OPEN 4, 3 (screen output)
+- OPEN 75, 4 (printer output)
+- OPEN 1, 8, 15, "COMMAND" (send a command to a disk device)
+
+
+<br><br><br>
+> <sup>3</sup>: Reminder to add a discussion about manipulating disk files.
+
+### OR
+
+**TYPE: Logical Operator**  
+**FORMAT: &lt;operand&gt; OR &lt;operand&gt;**
+
+**Action:** Just as the relational operators can be used to make decisions regarding program flow, logical operators can connect two or more relations and return a true or false value which can then be used in a decision.  When used in calculations, the logical `OR` gives you a bit result of 1 if the corresponding bit of either, or both, operands is 1.  This will produce an integer as a result, depending on the values of the operands.
+
+When used in comparisons the logical `OR` operator is also used to link two expressions into a single compound expression.  If either of the expressions are true, the combined expression value is true (-1).  In the first example below, if AA is equal to BB `OR` if XX is 20, the expression is true.
+
+Logical operators work by converting their operands to 16 bit, signed, two's complement integers in the range of -32768 to +32767.  If the operands are not in that range, an error message results.  Each bit of thee result is determined by the corresponding bits in the two operands.
+
+**EXAMPLES of the OR Operator:**
+```BASIC
+10 IF (AA=BB) OR (XX=20) THEN...
+
+50 KK% = 64 OR 32: PRINT KK%
+RUN
+ 96 (64 has a bit value of 1000000 and 100000 for 32. ORing the two together results in 1100000 or 96 decimal)
 ```
 
 ### OVAL
@@ -1904,12 +2003,12 @@ The coordinate arguments define the rectangular bounding box of the oval. To dra
 
 ### PEEK
 
-**TYPE: Command**  
+**TYPE: Integer Function**  
 **FORMAT: PEEK(&lt;address&gt;)**
 
 **Action:** Returns the value at given memory address
 
-PEEKing values within the BRAM (`$A000`) and KERNAL/Cartridge (`$C000`)
+`PEEK`ing values within the BRAM (`$A000`) and KERNAL/Cartridge (`$C000`)
 requires using `BANK` to set the banks accordingly.
 
 **EXAMPLE of the PEEK function:**
@@ -1937,7 +2036,7 @@ RUN
 
 ### POKE
 
-**TYPE: Function**  
+**TYPE: Statement**  
 **FORMAT: POKE &lt;address&gt;, &lt;value&gt;**
 
 **Action:** Sets the contents of the memory address to given value.
@@ -1957,6 +2056,18 @@ called with appropriate arguments.
 10 POKE $A000,47
 ```
 
+### POS
+
+**TYPE: Integer Function**  
+**FORMAT: POS(&lt;dummy&gt;)**
+
+**Action:** Tells you the current cursor position which, of course, is in the range of 0 (leftmost character) through position 79 on an 80 character logical screen line.  If the Commander X16 is in 40 column mode, any position from 40 to 79 will refer to the second screen line.  The &lt;dummy&gt; argument is ignored.
+
+**EXAMPLE of the POS Function:**
+```BASIC
+10 IF POS(0) > 38 THEN PRINT CHR$(13)
+```
+
 ### POWEROFF
 
 **TYPE: Command**  
@@ -1969,6 +2080,65 @@ called with appropriate arguments.
 ```BASIC
 POWEROFF
 ```
+
+### PRINT
+
+**TYPE: Statement**  
+**FORMAT: PRINT [&lt;variable&gt;][&lt;,/;&gt;&lt;variable&gt;]...**
+
+**Action:** The `PRINT` statement is normally used to write data items to the screen.  However, the `CMD` statement may be used to redirect that output to any other device in the system.  The &lt;variable(s)&gt; in the output-list are expressions of any type.  If no output-list is present, a blank line is printed.  The position of each printed item is determined by the punctuation used to separate items in the output-list.
+
+The punctuation characters that you can use are blanks, commas, or semicolons.  the 80 character logical screen line is divided into 8 print zones of 10 spaces each.  In the list of expressions, a comma causes the next value to be printed at the beginning of the next zone.  A semicolon causes the next value to be printed immediately following the previous value.  However, there are two exceptions to this rule:
+
+1. Numeric items are followed by an added space.
+2. Positive numbers have a space preceding them.
+
+When you use blanks or no punctuation between string constants or variable names, it has the same effect as a semicolon.  However, blanks between a string and a numeric item or between two numeric items will stop output without printing the second item.
+
+If a comma or a semicolon is at the end of the output-list, the next `PRINT` statement begins printing on the same line, and spaced accordingly.  If no punctuation finishes the list, a carriage-return and a line-feed are printed at the end of the data.  The next `PRINT` statement will begin on the next line.  If your output is directed to the screen and the data printed is longer than 40 columns, the output is continued on the next screen line.
+
+There is no statement in BASIC with more variety than the `PRINT` statement.  There are so many symbols, functions, and parameters associated with this statement that it might almost be considered as a language of its own within BASIC; a language specially designed for writing on the screen.
+
+**EXAMPLES of the PRINT Statement:**
+
+```BASIC
+10 X = 10
+20 PRINT -5 * X, X - 5, X + 5, X / 5
+RUN
+-50        5         15        2
+```
+```BASIC
+10 X = 9
+20 PRINT X; "SQUARED IS";X * X;"AND";
+30 PRINT X "MULTIPLIED BY 19 IS" X * 19
+RUN
+ 9 SQUARED IS 81 AND 9 MULTIPLIED BY 19 IS 171
+```
+```BASIC
+10 A$(1)="ALPHA":A$(2)="BRAVO":A$(3)="CHARLIE":A$(4)="DELTA":A$(5)="ECHO"
+20 PRINT A$(1)A$(2);A$(3) A$(4),A$(5)
+RUN
+ALPHABRAVOCHARLIEDELTA        ECHO
+```
+**Quote Mode**
+
+Once the quote mark ( <mark>**SHIFT**</mark> <mark>**2**</mark> ) is typed, the cursor controls stop operating and start displaying reversed characters which actually stand for the cursor control you are hitting.  This allows you to program these cursor controls, because once the text inside the quotes is `PRINT`ed, they perform their functions.  The <mark>**INST/DEL**</mark> key is the only cursor control not affected by "quote mode".
+
+**1. Cursor Movement**
+
+The cursor controls which can be "programmed" in quote mode are:
+
+| **KEY** | **APPEARS AS** |
+|---------:|:----------------:|
+| <mark>**CLR/HOME**</mark> | [Reverse S](images/rvs-S.png) |
+| <mark>**SHIFT**</mark> <mark>**CLR/HOME**</mark> | [Reverse Heart](images/rvs-heart.png) |
+| <mark>**&uarr;CRSR&darr;**</mark> | [Reverse S](images/rvs-Q.png) |
+| <mark>**SHIFT**</mark> <mark>**&uarr;CRSR&darr;**</mark> | [Reverse Ball](images/rvs-ball.png) |
+| <mark>**&larr;CRSR&rarr;**</mark> | [Reverse Left Bracket](images/rvs-r-bracket.png) |
+| <mark>**SHIFT**</mark> <mark>**&larr;CRSR&rarr;**</mark> | [Reverse Bar](images/rvs-bar.png) |
+
+
+
 
 ### PSET
 
