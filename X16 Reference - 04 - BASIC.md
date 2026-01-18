@@ -25,6 +25,21 @@ mark {
   }
 }
 
+marksq {
+  background-color: #f5f5f5;
+  color: #000000;
+  padding: 0 4px; 
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  marksq {
+    background-color: #f5f5f5;
+    color: #000000;
+    padding: 0 4px; 
+  }
+}
+
 </style>
 
 # Chapter 4: BASIC Programming
@@ -132,8 +147,8 @@ for GitHub's Markdown flavor. Do not remove!
 | [`POKE`](#poke) | Command | Assigns a value to a memory address | C64 |
 | [`POS`](#pos) | Integer Function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | Command | Immediately powers down the Commander X16 | X16 |
-| `PRINT` | Command | Prints data to the screen or other output | C64 |
-| `PRINT#` | Command | Prints data to an open logical file | C64 |
+| [`PRINT`](#print) | Statement | Prints data to the screen or other output | C64 |
+| [`PRINT#`](#print-1) | Statement | Prints data to an open logical file | C64 |
 | [`PSET`](#pset) | Command | Changes a pixel's color in graphics mode | X16 |
 | [`PSGCHORD`](#psgchord) | Command | Starts or stops simultaneous notes on VERA PSG | X16 |
 | [`PSGFREQ`](#psgfreq) | Command | Plays a frequency in Hz on VERA PSG | X16 |
@@ -2128,16 +2143,74 @@ Once the quote mark ( <mark>**SHIFT**</mark> <mark>**2**</mark> ) is typed, the 
 
 The cursor controls which can be "programmed" in quote mode are:
 
-| **KEY** | **APPEARS AS** |
-|---------:|:----------------:|
-| <mark>**CLR/HOME**</mark> | [Reverse S](images/rvs-S.png) |
-| <mark>**SHIFT**</mark> <mark>**CLR/HOME**</mark> | [Reverse Heart](images/rvs-heart.png) |
-| <mark>**&uarr;CRSR&darr;**</mark> | [Reverse S](images/rvs-Q.png) |
-| <mark>**SHIFT**</mark> <mark>**&uarr;CRSR&darr;**</mark> | [Reverse Ball](images/rvs-ball.png) |
-| <mark>**&larr;CRSR&rarr;**</mark> | [Reverse Left Bracket](images/rvs-r-bracket.png) |
-| <mark>**SHIFT**</mark> <mark>**&larr;CRSR&rarr;**</mark> | [Reverse Bar](images/rvs-bar.png) |
+> | **KEY** | **APPEARS AS** |
+> |---------:|:----------------:|
+> | <mark>**CLR/HOME**</mark> | ![Reverse S](images/rvs-S.png) |
+> | <mark>**SHIFT**</mark> <mark>**CLR/HOME**</mark> | ![Reverse Heart](images/rvs-heart.png) |
+> | <mark>**&uarr;CRSR&darr;**</mark> | ![Reverse Q](images/rvs-Q.png) |
+> | <mark>**SHIFT**</mark> <mark>**&uarr;CRSR&darr;**</mark> | ![Reverse Ball](images/rvs-ball.png) |
+> | <mark>**&larr;CRSR&rarr;**</mark> | ![Reverse Left Bracket](images/rvs-r-bracket.png) |
+> | <mark>**SHIFT**</mark> <mark>**&larr;CRSR&rarr;**</mark> | ![Reverse Bar](images/rvs-bar.png) |
 
+If you wanted the word HELLO to `PRINT` diagonally from the upper left corner of the screen, you would type:
 
+PRINT "<mark>**CLR/HOME**</mark> H <mark>**&uarr;CRSR&darr;**</mark> E <mark>**&uarr;CRSR&darr;**</mark> L <mark>**&uarr;CRSR&darr;**</mark> L <mark>**&uarr;CRSR&darr;**</mark> O"
+
+Which would appear as:
+
+<span style="font-size: 25px;">PRINT "![](images/rvs-S.png) H ![](images/rvs-Q.png) E ![](images/rvs-Q.png) L ![](images/rvs-Q.png) L ![](images/rvs-Q.png) O"</span>
+
+**2. Reverse Characters**
+
+Holding down the <mark>**CTRL**</mark> key and hitting <mark>**9**</mark> will cause <marksq>**R**</marksq> to appear inside the quotes.  This will make all characters print starting in *reverse video* (like a negative of a picture).  To end the reverse printing hit <mark>**CTRL**</mark> <mark>**0**</mark>, which prints a ![](images/norm-lower-bar.png) or else `PRINT` a <mark>**RETURN**</mark> (`CHR$`(13)).  (Just ending the `PRINT` statement without a semicolon or a comma will take care of this.)
+
+**3. Color Controls**
+
+Holding down the <mark>**CTRL**</mark> or the Commander X16 Logo key with any of the 8 color keys will make a special reversed character which appears in quotes.  When the character is `PRINT`ed, then the color change will occur.
+
+> | **KEY** | **COLOR** | **APPEARS AS** |
+> |--------:|:---------:|:--------------:|
+> | <mark>**CTRL**</mark> <mark>**1**</mark> | Black | ![Reverse UR Corner](images/rvs-ur-corner.png) |
+> | <mark>**CTRL**</mark> <mark>**2**</mark> | White | ![Reverse E](images/rvs-E.png) |
+> | <mark>**CTRL**</mark> <mark>**3**</mark> | Red | ![Reverse Pound](images/rvs-pound.png) |
+> | <mark>**CTRL**</mark> <mark>**4**</mark> | Cyan | ![Reverse Left Ramp](images/rvs-l-ramp.png) |
+> | <mark>**CTRL**</mark> <mark>**5**</mark> | Purple | ![Reverse Left Half Tile](images/rvs-half-tile.png) |
+> | <mark>**CTRL**</mark> <mark>**6**</mark> | Green | ![Reverse Up Arrow](images/rvs-up-arr.png) |
+> | <mark>**CTRL**</mark> <mark>**7**</mark> | Blue | ![Reverse Left Arrow](images/rvs-l-arr.png) |
+> | <mark>**CTRL**</mark> <mark>**8**</mark> | Yellow | ![Reverse Pi](images/rvs-pi.png) |
+> | <mark>**LOGO**</mark> <mark>**1**</mark> | Orange | ![Reverse Spade](images/rvs-spade.png) |
+> | <mark>**LOGO**</mark> <mark>**2**</mark> | Brown | ![Reverse Upper Left Corner](images/rvs-ul-corner.png) |
+> | <mark>**LOGO**</mark> <mark>**3**</mark> | Light Red | ![Reverse X Symbol](images/rvs-x-symbol.png) |
+> | <mark>**LOGO**</mark> <mark>**4**</mark> | Grey 1 | ![Reverse Circle](images/rvs-circle.png) |
+> | <mark>**LOGO**</mark> <mark>**5**</mark> | Grey 2 | ![Reverse Club](images/rvs-club.png) |
+> | <mark>**LOGO**</mark> <mark>**6**</mark> | Light Green | ![Reverse Right Offset Bar](images/rvs-r-offset-bar.png) |
+> | <mark>**LOGO**</mark> <mark>**7**</mark> | Light Blue | ![Reverse Diamond](images/rvs-diamond.png) |
+> | <mark>**LOGO**</mark> <mark>**8**</mark> | Grey 3 | ![Reverse Plus Symbol](images/rvs-plus-symbol.png) |
+
+If you wanted to print the word HELLO in cyan and the word THERE in white, type:
+
+PRINT "<mark>**CTRL**</mark> <mark>**4**</mark>HELLO<mark>**CTRL**</mark> <mark>**2**</mark>THERE"
+
+Which would appear as:
+
+<span style="font-size: 25px;">PRINT "![](images/rvs-l-ramp.png) HELLO ![](images/rvs-E.png) THERE"</span>
+
+**4. Insert Mode**
+
+The spaces created by using the <mark>**INST/DEL**</mark> key have some of the same characteristics as quote mode.  The cursor controls and color controls show up as reversed characters.  The only difference is in the <mark>**INST**</mark> and <mark>**DEL**</mark> which performs
+its normal function even in quote mode, now creates the <marksq>**T**</marksq>.  And <mark>**INST**</mark>, which created a special character in quote mode, inserts spaces normally.
+
+Because of this, it is possible to create a `PRINT` statement containing <mark>**DEL**</mark>etes, which cannot be `PRINT`ed in quote mode.  Here is an example of how this is done:
+
+10 PRINT "HELLO" <mark>**INST/DEL**</mark><mark>**SHIFT**</mark><mark>**INST/DEL**</mark><mark>**SHIFT**</mark><mark>**INST/DEL**</mark><mark>**INST/DEL**</mark><mark>**INST/DEL**</mark>P"
+
+which displays as:
+
+10 PRINT "HELLO<marksq>**T**</marksq><marksq>**T**</marksq>P"
+
+When the above line is `RUN`, the word displayed will be HELP, because the last two letters are deleted and the P is put in their place.
+
+> **WARNING:** The <mark>**DEL**</mark>etes will work when `LIST`ing as well as `PRINT`ing, so editing a line with these characters will be difficult.
 
 
 ### PSET
