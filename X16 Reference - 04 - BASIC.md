@@ -9,8 +9,8 @@ It also adds a border radius to the background to give the highlighted items a m
 <style>
 /* Light mode is the default style. */
 mark {
-  background-color: #f5f5f5;
-  color: #000000;
+  background-color: #000000;
+  color: #f5f5f5;
   border-radius: 5px; 
   padding: 0 4px; 
 }
@@ -26,8 +26,8 @@ mark {
 }
 
 marksq {
-  background-color: #f5f5f5;
-  color: #000000;
+  background-color: #000000;
+  color: #f5f5f5;
   padding: 0 4px; 
 }
 
@@ -148,7 +148,7 @@ for GitHub's Markdown flavor. Do not remove!
 | [`POS`](#pos) | Integer Function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | Command | Immediately powers down the Commander X16 | X16 |
 | [`PRINT`](#print) | Statement | Prints data to the screen or other output | C64 |
-| [`PRINT#`](#print-1) | Statement | Prints data to an open logical file | C64 |
+| [`PRINT#`](#print-1) | I/O Statement | Prints data to an open logical file | C64 |
 | [`PSET`](#pset) | Command | Changes a pixel's color in graphics mode | X16 |
 | [`PSGCHORD`](#psgchord) | Command | Starts or stops simultaneous notes on VERA PSG | X16 |
 | [`PSGFREQ`](#psgfreq) | Command | Plays a frequency in Hz on VERA PSG | X16 |
@@ -158,15 +158,15 @@ for GitHub's Markdown flavor. Do not remove!
 | [`PSGPLAY`](#psgplay) | Command | Plays a series of notes on VERA PSG | X16 |
 | [`PSGVOL`](#psgvol) | Command | Sets voice volume on VERA PSG | X16 |
 | [`PSGWAV`](#psgwav) | Command | Sets waveform on VERA PSG | X16 |
-| `READ` | Command | Assigns the next `DATA` constant to one or more variables | C64 |
+| [`READ`](#read) | Statement | Assigns the next `DATA` constant to one or more variables | C64 |
 | [`REBOOT`](#reboot) | Command | Performs a warm reboot of the system | X16 |
 | [`RECT`](#rect) | Command | Draws a filled rectangle in graphics mode | X16 |
-| `REM` | Command | Declares a comment | C64 |
+| [`REM`](#rem) | Statement | Declares a comment | C64 |
 | [`REN`](#ren) | Command | Renumbers a BASIC program | X16 |
 | [`RESET`](#reset) | Command | Performs a hard reset of the system | X16 |
 | [`RESTORE`](#restore) | Command | Resets the `READ` pointer to a `DATA` constant | C64 |
-| `RETURN` | Command | Returns from a subroutine to the statement following a GOSUB | C64 |
-| `RIGHT$` | Function | Returns a substring from the end of a string | C64 |
+| [`RETURN`](#return) | Statement | Returns from a subroutine to the statement following a GOSUB | C64 |
+| [`RIGHT$`](#right) | String Function | Returns a substring from the end of a string | C64 |
 | [`RING`](#ring) | Command | Draws an oval outline in graphics mode | X16 |
 | `RND` | Function | Returns a floating point number 0 <= n < 1 | C64 |
 | [`RPT$`](#rpt) | Function | Returns a string of repeated characters | X16 |
@@ -2202,7 +2202,7 @@ its normal function even in quote mode, now creates the <marksq>**T**</marksq>. 
 
 Because of this, it is possible to create a `PRINT` statement containing <mark>**DEL**</mark>etes, which cannot be `PRINT`ed in quote mode.  Here is an example of how this is done:
 
-10 PRINT "HELLO" <mark>**INST/DEL**</mark><mark>**SHIFT**</mark><mark>**INST/DEL**</mark><mark>**SHIFT**</mark><mark>**INST/DEL**</mark><mark>**INST/DEL**</mark><mark>**INST/DEL**</mark>P"
+10 PRINT "HELLO" <mark>**INST/DEL**</mark> <mark>**SHIFT**</mark> <mark>**INST/DEL**</mark> <mark>**SHIFT**</mark> <mark>**INST/DEL**</mark> <mark>**INST/DEL**</mark> <mark>**INST/DEL**</mark>P"
 
 which displays as:
 
@@ -2212,6 +2212,52 @@ When the above line is `RUN`, the word displayed will be HELP, because the last 
 
 > **WARNING:** The <mark>**DEL**</mark>etes will work when `LIST`ing as well as `PRINT`ing, so editing a line with these characters will be difficult.
 
+The "insert mode" condition is ended when the <mark>**RETURN**</mark> (or <mark>**SHIFT**</mark> <mark>**RETURN**</mark>) key is hit, or when as many characters have been typed as spaces were inserted.
+
+**5. Other Special Characters**
+
+There are some other chracters that can be `PRINT`ed for special function, although they are not easily available from the keyboard.  In order to get these in quotes, you must leave empty spaces for them in the line, hit <mark>**RETURN**</mark> or <mark>**SHIFT**</mark> <mark>**RETURN**</mark>, and go back to the spaces with the cursor controls. Now you must hit <mark>**CTRL**</mark> <mark>**RVS/ON**</mark>, to start typing reversed chracters, and type the keys shown below:
+
+| Function | Type     | Appears As |
+|:--------:|:---------|:-----------|
+| <mark>**SHIFT**</mark> <mark>**RETURN**</mark> | <mark>**SHIFT**</mark> <mark>**M**</mark> | ![Reverse Backslash](images/rvs-backslash.png) |
+| Switch to lower case | <mark>**N**</mark> | ![Reverse N](images/rvs-N.png) |
+| Switch to upper case | <mark>**SHIFT**</mark> <mark>**N**</mark> | ![Reverse Slash](images/rvs-slash.png) |
+| Disable case-switching keys | <mark>**H**</mark> | ![Reverse H](images/rvs-H.png) |
+| Enable case-switching keys | <mark>**I**</mark> | ![Reverse I](images/rvs-I.png) |
+
+The <mark>**SHIFT**</mark> <mark>**RETURN**</mark> will work in the `LIST`ing as well as `PRINT`ing, so editing will be almost impossible if this character is used.  The `LIST`in will also look very strange.
+
+### PRINT#
+
+**TYPE: I/O Statement**  
+**FORMAT: PRINT# &lt;file number&gt; [&lt;variable&gt;][&lt;,/;&gt;&lt;variable&gt;]...** 
+
+**Action:** The `PRINT#` statement is used to write data items to a logical file.  It must use the same number used to `OPEN` the file.  Output goes to the device number used in the `OPEN` statement.  The &lt;variable&gt; expressions in the output-list can be of any type.  The punctuation characters between items are the same as with the `PRINT` statement and they can be used in the same ways.  The effects of punctuation are different in one significant respects.
+
+If no punctuation finishes the list, a carriage-return and a line-feed are written at the end of the data.  If a comma or semicolon terminates the output-list, the carriage-return and line-feed are suppressed.  Regardless of the punctuation, the next `PRINT#` statement beings output in the next available character position.  The line-feed will act as a stop when using the `INPUT#` statement, leaving an empty variable when the next `INPUT#` is executed.  The line-feed can be suppressed or compensated for as shown in the examples below.
+
+The easiest way to write more than one variable to a file is to set a string variable to `CHR$`(13), and use that string in between all the other variables when writing the file.
+
+**EXAMPLES of the PRINT# Statement:**
+```BASIC
+10 OPEN 1,8,1, "TEXT FILE,SEQ,W"
+20 CR$ = CHR$(13)                     :REM By changing the CHR$(13) to CHR$(44)
+30 PRINT# 1,1;CR$;2;CR$;3;CR$;4;CR$;5 :REM you put a "," between each variable.
+40 PRINT# 1,6                         :REM CHR$(59) would put a ";" between each variable.
+```
+```BASIC
+10 CM$=CHR$(44) : CR$=CHR$(13)
+20 PRINT#1, "AAA" CM$ "BBB","CCC";"DDD";"EEE" CR$ "FFF",CR$;
+30 REM Result: "AAA,BBB     CCCDDDEEE<CR>FFF<CR>
+40 INPUT#1, A$,BCDE$,F$
+```
+```BASIC
+10 CR$=CHR$(13)
+20 PRINT#2, "AAA";CR$;"BBB"
+30 PRINT#2, "CCC";
+40 INPUT#2, A$, B$, DUMMY$, C$
+```
 
 ### PSET
 
@@ -2372,6 +2418,47 @@ The full set of macros is documented [here](X16%20Reference%20-%20Appendix%20A%2
 
 This example plays a chromatic scale while applying pulse-width modulation on the voice.
 
+### READ
+
+**TYPE: Statement**  
+**FORMAT: READ &lt;<variable>&gt; [,&lt;variable&gt;]...***
+
+**Action:** The `READ` statement is used to fill variable names from constants in `DATA` statements.  The data actually read must agree with the variable types specified or the BASIC error message `?SYNTAX ERROR` will result.  Variables in the `DATA` input-list must be spearated by commas.
+
+A single `READ` statement can access on or more `DATA` statements, which will be accessed in order (see [DATA](#data)), or several `READ` statements can access the same `DATA` statement.  If more `READ` statements are executed than the number of elements in `DATA` statement(s), in the program, the BASIC error message `?OUT OF DATA` is printed.  If the number of variables specified is fewer than the number of elements in the `DATA` statement(s), subsequent `READ` statements will continue reading at the next data element. (See [RESTORE](#restore).)
+
+> **NOTE:** The `?SYNTAX ERROR` will appear with the line number from the `DATA` statement, NOt the `READ` statement.
+
+**EXAMPLES of the READ Statement:**
+```BASIC
+10 READ A, B, C$
+20 DATA 4, 42, HELLO
+```
+```BASIC
+10 FOR X = 1 TO 10: READ A(X): NEXT X
+20 DATA 3.14, 42.5, 18.32, 103.52, 16.67
+30 DATA 1.11, 86.0, 32.54, 5.52, 2.23
+```
+```BASIC
+10 READ CITY$, STATE$, ZIP
+20 DATA PUYALLUP, WASHINGTON, 98373
+```
+
+### REM
+
+**TYPE: Statement**  
+**FORMAT: REM [&lt;remark&gt;]**
+
+**Action:** The `REM` statement makes your programs more easily understood when `LIST`ed.  It's a reminder to yourself to tell you what you had in mind when you were writing each section of the program.  For instance, you might want to remember what a variable is used for, or some other useful information.  The `REM`ark can be any text, word, or character including the colon `(:)` or BASIC keywords.  The `REM` statement and anything following it on the same line number are ignored by BASIC, but `REM`arks are printed exactly as entered when the program is listed.  A `REM` statement can be referred to by a `GOTO` or `GOSUB` statement, and the execution of the program will continue with the next highter program line having executable statements.
+
+**EXAMPLES of the REM Statement:**
+```BASIC
+10 REM CALCULATE THE AVERAGE VELOCITY OF AN UNLADEN SWALLOW
+20 FOR X = 1 TO 20: REM LOOP FOR TWENTY VALUES
+30 SUM = SUM + VEL(X) : NEXT X
+40 AVG = SUM / 20
+```
+
 ### RING
 
 **TYPE: Command**  
@@ -2504,6 +2591,40 @@ RESET
 ```
 
 This program will output the number 1 followed by the number 4.
+
+### RETURN
+
+**TYPE: Statement**  
+**FORMAT: RETURN**
+
+**Action:** The `RETURN` statement is used to exit from a subroutine called for by a `GOSUB` statement.  `RETURN` restarts the rest of your program at the next executable statement following the `GOSUB`.  If you are nesting subroutines, each `GOSUB` must be paired with at least one `RETURN` statement.  A subroutine can contain any number of `RETURN` statements, but the first one encountered will exit the subroutine.
+
+**EXAMPLE of the RETURN Statement:**
+```BASIC
+10 PRINT "THIS IS THE PROGRAM"
+20 GOSUB 1000
+30 PRINT "THE PROGRAM CONTINUES"
+40 GOSUB 1000
+60 END
+1000 PRINT "THIS IS THE SUBROUTINE." : RETURN
+```
+
+### RIGHT$
+
+**TYPE: String Function**  
+**FORMAT: RIGHT$(&lt;string&gt;, &lt;numeric&gt;)**
+
+**Action:** The `RIGHT$` function returns a sub-string taken from the right-most end of the &lt;string&gt; argument.  The length of the sub-string is defined by the &lt;numeric&gt; argument which can be any integer in the range of 0 to 255.  If the value of the numeric expression is zero, then a null string `("")` is returned.  If the value you give in the &lt;numeric&gt; argument is greater than the length of the &lt;string&gt; then the entire string is returned.
+
+**EXAMPLE of the RIGHT$ Function:**
+```BASIC
+10 MSG$ = "COMMANDER X16"
+20 PRINT RIGHT$(MSG$, 3)
+RUN
+X16
+```
+
+
 
 ### RPT$
 
