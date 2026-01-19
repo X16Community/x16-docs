@@ -168,22 +168,22 @@ for GitHub's Markdown flavor. Do not remove!
 | [`RETURN`](#return) | Statement | Returns from a subroutine to the statement following a GOSUB | C64 |
 | [`RIGHT$`](#right) | String Function | Returns a substring from the end of a string | C64 |
 | [`RING`](#ring) | Command | Draws an oval outline in graphics mode | X16 |
-| `RND` | Function | Returns a floating point number 0 <= n < 1 | C64 |
+| [`RND`](#rnd) | Floating-Point Function | Returns a floating point number 0 <= n < 1 | C64 |
 | [`RPT$`](#rpt) | Function | Returns a string of repeated characters | X16 |
-| `RUN` | Command | Clears the variable state and starts a BASIC program | C64 |
+| [`RUN`](#run) | Command | Clears the variable state and starts a BASIC program | C64 |
 | [`SAVE`](#save) | Command | Saves a BASIC program from memory to disk | C64 |
 | [`SCREEN`](#screen) | Command | Selects a text or graphics mode | X16 |
-| `SGN` | Function | Returns the sign of a numeric value | C64 |
-| `SIN` | Function | Returns the sine of an angle in radians | C64 |
+| [`SGN`](#sgn) | Integer Function | Returns the sign of a numeric value | C64 |
+| [`SIN`](#sin) | Floating-Point Function | Returns the sine of an angle in radians | C64 |
 | [`SLEEP`](#sleep) | Command | Introduces a delay in program execution | X16 |
-| `SPC` | Function | Returns a string with a set number of spaces | C64 |
+| [`SPC`](#spc) | Special Function | Returns a string with a set number of spaces | C64 |
 | [`SPRITE`](#sprite) | Command | Sets attributes for a sprite including visibility | X16 |
 | [`SPRMEM`](#sprmem) | Command | Set the VRAM address for a sprite's visual data | X16 |
-| `SQR` | Function | Returns the square root of a numeric value | C64 |
-| `ST` | variable | Returns the status of certain DOS/peripheral operations | C64 |
-| `STEP` | keyword | Used in a `FOR` declaration to declare the iterator step | C64 |
-| `STOP` | Command | Breaks out of a BASIC program | C64 |
-| `STR$` | Function | Converts a numeric value to a string | C64 |
+| [`SQR`](#sqr) | Floating-Point Function | Returns the square root of a numeric value | C64 |
+| [`ST`](#st) | Integer Function | Returns the status of certain DOS/peripheral operations | C64 |
+| [`STEP`](#step) | Statement | Used in a `FOR` declaration to declare the iterator step | C64 |
+| [`STOP`](#stop) | Statement | Breaks out of a BASIC program | C64 |
+| [`STR$`](#str) | String Function | Converts a numeric value to a string | C64 |
 | [`STRPTR`](#strptr) | Function | Returns the address of a BASIC string | X16 |
 | [`SYS`](#sys) | Command | Transfers control to machine language at a memory address | C64 |
 | `TAB` | Function | Returns a string with spaces used for column alignment | C64 |
@@ -2624,7 +2624,30 @@ RUN
 X16
 ```
 
+### RND
 
+**TYPE: Floating-Point Function**  
+**FORMAT: RND(&lt;numeric&gt;)**
+
+**Action:** `RND` creates a floating-point random number from 0.0 to 1.0.  the computer generates a sequence of random numbers by performing calculations on a starting number, which in computer jargon is called a "seed".  The `RND` function is seeded on system power-up.  the &lt;numeric&gt; argument is a dummy, except for its sign (positive, zero, or negative).
+
+If the &lt;numeric&gt; argument is positive, the same "pseudorandom" sequence of numbers is returned, starting from a given seed value.  Different number sequences will result from different seeds, but any sequence is repeatable by starting from the same seed number.  Having a known sequence of "random" numbers is useful in testing programs.
+
+If you choose a &lt;numeric&gt; argument of zero, then `RND` generates a number directly from a free-running hardware clock (the system "jiffy clock").  Negative arguments cause the `RND` function to be re-seeded with each function call.
+
+**EXAMPLES of the RND Function:**
+
+```BASIC
+10 PRINT INT(RND(0) * 50) : REM Returns random integers from 0 to 49
+
+20 X = INT(RND(1) * 6) + INT(RND(1) * 6) + 2 : REM SIMULATES TWO DICE
+
+30 X = INT(RND(1) * 1000) + 1 : REM RANDOM INTEGERS FROM 0 TO 1000
+
+40 X = INT(RND(1) * 50) + 100 : REM RANDOM NUMBERS FROM 100 TO 249
+
+50 X = RND(1) * (U - L) + L : REM RANDOM NUMBERS BETWEEN UPPER (U) AND LOWER (L) LIMITS.
+```
 
 ### RPT$
 
@@ -2646,6 +2669,22 @@ RUN
 
 READY.
 ```
+
+### RUN
+
+**TYPE: Command**  
+**FORMAT: RUN [&lt;line number&gt;]**
+
+**Action:** The system command `RUN` is used to start the program currently in memory.  The `RUN` command acauses an implied `CLR` operation to be performed before starting the program.  You can void the `CLR` operation by using `CONT` or `GOTO` to restart a program instead of `RUN`.  If a &lt;line number&gt; is specified, your program will start on that line.  Otherwise, the `RUN` command starts at the first line of the program.
+
+The `RUN` command can also be used within a program.  if the &lt;line number&gt; you specify doesn't exist, the BASIC error message `?UNDEF'D STATEMENT` occurs.
+
+A `RUN`ning program stops and BASIC returns to direct mode when an `END` or `STOP` statement is reached, when the last line of the program is finished, or when a BASIC error occurs during execution.
+
+**EXAMPLES of the RUN Command:**
+- RUN - Starts at the first line of a program.
+- RUN 500 - Starts at line number 500.
+- RUN X - Starts at line X, or `?UNDEF'D STATEMENT error if there is no line X.
 
 ### SAVE
 
@@ -2689,6 +2728,33 @@ SCREEN 0 : REM SWITCH TO 80 CHARACTER MODE
 SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 ```
 
+### SGN
+
+**TYPE: Integer Function**  
+**FORMAT: SGN(&lt;numeric&gt;)**
+
+**Action:** `SGN` gives you an integer value depending upon the sign of the &lt;numeric&gt; argument.  If the argument is positive, the result is 1, if zero the result is also zero, if negative the result is -1.
+
+**EXAMPLE of the SGN Function:**
+
+```BASIC
+20 ON SGN(DV) + 2 GOTO 1000, 2000, 3000
+25 REM JUMP TO 1000 IF DV IS NEGATIVE, 2000 IF DV IS ZERO, AND 300 IF DV IS POSITIVE.
+```
+
+### SIN
+
+**TYPE: Floating-Point Function**  
+**FORMAT: SIN(&lt;numeric&gt;)**
+
+**Action:** `SIN` gives you the sine of the &lt;numeric&gt; argument, in radians.  The value of `COS`(x) is equal to `SIN`(x + 3.1415925 / 2).
+
+**EXAMPLE of the SIN Function:**
+```BASIC
+125 AA = SIN(1.5) : PRINT AA
+```
+The result is .997494987.
+
 ### SLEEP
 
 **TYPE: Command**  
@@ -2705,6 +2771,21 @@ Allowed values for `jiffies` is from 0 to 65535, inclusive.
 20 PRINT I
 30 SLEEP 60
 40 NEXT
+```
+
+### SPC
+
+**TYPE: Special Function:**  
+**FORMAT: SPC(&lt;numeric&gt;)**
+
+**Action:** The `SPC` function is used to control the formatting of data, as either an output to the screen or into a logical file.  The number of spaces given by the &lt;numeric&gt; argument are printed, starting at the first available position.  For screen files, the value of the argument is in the range of 0 to 255 and for disk files, up to 254.  For printer files, an automatic carriage-return and line-feed will be performed by the printer if a space is printed in the last character position of a line.  No spaces are printed on the following line.
+
+**EXAMPLE of the SPC Function:**
+```BASIC
+10 PRINT "FIRST "; "SECOND";
+20 PRINT SPC(6) "THIRD" SPC(20) "FOURTH"
+RUN
+FIRST SECOND      THIRD                    FOURTH
 ```
 
 ### SPRITE
@@ -2755,6 +2836,104 @@ The first three arguments are required, but the last one is optional.
 20 SPRMEM 1,1,$3000,1
 30 SPRITE 1,3,0,0,3,3
 40 MOVSPR 1,320,200
+```
+
+### SQR
+
+**TYPE: Floating-Point Function**  
+**FORMAT: SQR(&lt;numeric&gt;)**
+
+**Action:** `SQR` gives you the value of the square root of the &lt;numeric&gt; argument.  The value of the argument must not be negative, or the BASIC error message `?ILLEGAL QUANTITY` will occur.
+
+**EXAMPLE of the SQR Function:**
+```BASIC
+10 FOR X = 4 TO 10: PRINT X*5, SQR(J * 5): NEXT X
+RUN
+ 20        4.47213595
+ 25        5
+ 30        5.47722557
+ 35        5.91607979
+ 40        6.32455532
+ 45        6.70820393
+ 50        7.07106781
+```
+
+### ST
+
+**TYPE Integer Function**  
+**FORMAT: ST**
+
+**Action:** Returns a completion status for the last input/output operation which was performed on an open file.  The `ST`atus can be read from any peripheral device.  The `ST` (or `STATUS`) keyword is a system-defined variable name into which the `KERNAL` puts the status of I/O operations.  A table of status code values for printer, disk, and RS-232 file operations are shown below:
+
+| **ST Bit Position** | **ST Numeric Value** | **Serial Bus R/W** | **RS-232** |
+|:-------------------:|:--------------------:|:-------------------|:-----------|
+| 0 | 1 | Indicates data directionif a timeout occured;<br> 0 = reading, 1 = writing. | Parity Error |
+| 1 | 2 | Timeout error | Framing error |
+| 2 | 4 | - | Receive buffer overrun |
+| 3 | 8 | - | Receive buffer empty |
+| 4 | 16 | `VERIFY` error. | CTS signal missing |
+| 5 | 32 | - | - |
+| 6 | 64 | EOF | RTS signal missing | 
+| 7 | -128 | Device Not Present | BREAK Detected |
+
+**EXAMPLE of the ST Function:**
+```BASIC
+10 OPEN 1,4: OPEN 2,8,4, "TEXT FILE,SEQ,W"
+20 GOSUB 100 : REM CHECK STATUS
+30 INPUT#2, A$, B, C
+40 IF STATUS AND 64 THEN 80 : REM HANDLE END-OF-FILE
+50 GOSUB 100 : REM CHECK STATUS
+60 PRINT#1, A$, B, C
+70 GOTO 20
+80 CLOSE 1 : CLOSE 2
+90 GOSUB 100 : END
+100 IF ST > 0 THEN 9000 : REM HANDLE I/O ERROR
+110 RETURN
+```
+
+### STEP
+
+**TYPE: Statement**  
+**FORMAT: [STEP &lt;expression&gt;]**
+
+**Action:** The optional `STEP` keyword follows the &lt;end-value&gt; expression in a `FOR` statement.  It defines an increment value for the loop counter variable.  Any value can be used as the `STEP` increment.  Of course, a `STEP` value of zero will loop forever.  If the `STEP` keyword is left out, the increment value will be + 1.  When the `NEXT` statement in a `FOR` loop is reached, the `STEP` increment happens.  Then the counter is tested against the end-value to see if the loop is finished.  (See the [FOR](#for) statement for more information.)
+
+> **NOTE:** The `STEP` value cannot be changed once it's in the loop.
+
+**EXAMPLES of the STEP Statement:**
+```BASIC
+10 FOR AA = 2 TO 20 STEP 2 : REM LOOP REPEATS 10 TIMES
+20 FOR K2 = 0 TO -20 STEP -2 : REM LOOP REPEATS 11 TIMES
+```
+
+### STOP
+
+**TYPE: Statement:**  
+**FORMAT: STOP**
+
+**Action:** The `STOP` statement is used to halt execution of the current program and return to direct mode.  Typing the <mark>**RUN/STOP**</mark> key on the keyboard has the same effect as a `STOP` statement.  The BASIC error message `BREAK IN XX` is displayed on the screen, followed by `READY`.  The "XX" is the line number where the `STOP` occurs.  Any open files remain open and all variables are preserved and can be examined.  The program can be restarted by using the `CONT` or `GOTO` statements.
+
+**EXAMPLES of the STOP Statement:**
+```BASIC
+10 INPUT#5, AA, BB, CC
+20 IF AA = BB AND BB = CC THEN STOP
+30 STOP
+```
+If AA is -1 and BB is equal to CC, the result will be `BREAK IN 20`, otherwise the result will be `BREAK IN 30`.
+
+### STR$
+
+**TYPE: String Function**  
+**FORMAT: STR$(&lt;numeric&lt;)**
+
+**Action:** `STR$` gives you the string representation of the numeric value of the argument.  When the `STR$` value is converted to each variable represented in the &lt;numeric&gt; argument, any number shown is followed by a space, and if it's positive, it is also preceded by a space.
+
+**EXAMPLE of the STR$ Function:**
+```BASIC
+10 ZA = 9.2E5: RZ$ = STR$(ZA)
+20 PRINT ZA, RZ$
+RUN
+ 920000     920000
 ```
 
 ### STRPTR
