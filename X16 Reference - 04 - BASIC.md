@@ -186,22 +186,20 @@ for GitHub's Markdown flavor. Do not remove!
 | [`STR$`](#str) | String Function | Converts a numeric value to a string | C64 |
 | [`STRPTR`](#strptr) | Function | Returns the address of a BASIC string | X16 |
 | [`SYS`](#sys) | Command | Transfers control to machine language at a memory address | C64 |
-| `TAB` | Function | Returns a string with spaces used for column alignment | C64 |
-| `TAN` | Function | Return the tangent for an angle in radians | C64 |
+| [`TAB`](#tab) | Special Function | Returns a string with spaces used for column alignment | C64 |
+| [`TAN`] | Floating-Point Function | Return the tangent for an angle in radians | C64 |
 | [`TATTR`](#tattr) | Function | Returns a tile attribute from the tile/text layer | X16 |
 | [`TDATA`](#tdata) | Function | Returns a tile from the tile/text layer | X16 |
-| `THEN` | keyword | Control structure as part of an `IF` statement | C64 |
-| `TI` | variable | Returns the jiffy timer value | C64 |
-| `TI$` | variable | Returns the time HHMMSS from the system clock | C64 |
 | [`TILE`](#tile) | Command | Changes a tile or character on the tile/text layer | X16 |
-| `TO` | keyword | Part of the `FOR` loop declaration syntax | C64 |
-| `USR` | Function | Call a user-defined function in machine language | C64 |
-| `VAL` | Function | Parse a string to return a numeric value | C64 |
-| `VERIFY` | Command | Verify that a BASIC program was written to disk correctly | C64 |
+| [`TIME`](#time) | Numeric Function | Returns the jiffy timer value | C64 |
+| [`TIME$`](#time-1) | String Function | Returns the time HHMMSS from the system clock | C64 |
+| [`USR`](#usr) | Floating-Point Function | Call a user-defined function in machine language | C64 |
+| [`VAL`](#val) | Numeric Function | Parse a string to return a numeric value | C64 |
+| [`VERIFY`] | Command | Verify that a BASIC program was written to disk correctly | C64 |
 | [`VPEEK`](#vpeek) | Function | Returns a value from VERA's VRAM | X16 |
 | [`VPOKE`](#vpoke) | Command | Sets a value in VERA's VRAM | X16 |
 | [`VLOAD`](#vload) | Command | Loads a file to VERA's VRAM | X16 |
-| `WAIT` | Command | Waits for a memory location to match a condition | C64 |
+| [`WAIT`](#wait) | Statement | Waits for a memory location to match a condition | C64 |
 
 ## Commodore 64 Compatibility
 
@@ -2996,26 +2994,35 @@ Run the Machine Language Monitor (Supermon)
 SYS  $FECC
 ```
 
-### TILE
+### TAB
 
-**TYPE: Command**  
-**FORMAT: TILE &lt;x&gt;,&lt;y&gt;,&lt;tile/screen code&gt;\[,&lt;attribute&gt;\]**
+**TYPE: Special Function**  
+**FORMAT: TAB(&lt;numeric&gt;)**
 
-**Action:** The `TILE` command sets the tile or text character at the given x/y tile/character coordinate to the given screen code or tile index, optionally resetting the attribute byte. It works for tiles or text on Layer 1.
+**Action:** The `TAB` function moves the cursor to a relative [SPC](#spc) move position on the screen given by the &lt;numeric&gt; argument, starting with the left-most position of the current line.  The value of the argument can range from 0 to 255.  The `TAB` function should only be used with the `PRINT` statement, since it has no effect if used with the `PRINT#` to a logical file.
 
-In the default text mode, this can be used to quickly change a character on the screen and optionally its fg/bg color without needing to calculate the VRAM address for VPOKE.
-
-However, it can also be used if VERA Layer 1's map base value is changed or the map size is changed.
-
-**EXAMPLE of the TILE command:**
-
+**EXAMPLE of the TAB Function:**
 ```BASIC
-10 REM VERY SLOWLY CLEAR THE SCREEN IN STYLE
-20 FOR Y=59 TO 0 STEP -1
-30 FOR X=79 TO 0 STEP -1
-40 FOR I=255 TO 32 STEP -1
-50 TILE X,Y,I
-60 NEXT:NEXT:NEXT
+10 PRINT "NAME" TAB(25) "AMOUNT": PRINT
+20 INPUT#1, NAME$, AMT$
+30 PRINT NAME$ TAB(25) AMT$
+RUN
+NAME                    AMOUNT
+ARTHUR DENT             42.00
+```
+
+### TAN
+
+**TYPE: Floating-Point Function**  
+**FORMAT: TAN(&lt;number&gt;)**
+
+**Action:** Returns the tangent of the value of the &lt;numeric&gt; expression in radians.  If the `TAN` function overflows, the BASIC error message `?DIVISION BY ZERO` is displayed.
+
+**EXAMPLE of the TAN Function:**
+```BASIC
+10 JP = .8675309 : JJ = TAN(JP) : PRINT JJ
+RUN
+ 1.179404
 ```
 
 ### TATTR
@@ -3059,6 +3066,103 @@ In the default text modes, this can be used to retrieve the character a specific
 50 TD = TDATA(X, Y)
 60 TILE XO+X, YO+Y, TD
 70 NEXT:NEXT
+```
+
+### TILE
+
+**TYPE: Command**  
+**FORMAT: TILE &lt;x&gt;,&lt;y&gt;,&lt;tile/screen code&gt;\[,&lt;attribute&gt;\]**
+
+**Action:** The `TILE` command sets the tile or text character at the given x/y tile/character coordinate to the given screen code or tile index, optionally resetting the attribute byte. It works for tiles or text on Layer 1.
+
+In the default text mode, this can be used to quickly change a character on the screen and optionally its fg/bg color without needing to calculate the VRAM address for VPOKE.
+
+However, it can also be used if VERA Layer 1's map base value is changed or the map size is changed.
+
+**EXAMPLE of the TILE command:**
+
+```BASIC
+10 REM VERY SLOWLY CLEAR THE SCREEN IN STYLE
+20 FOR Y=59 TO 0 STEP -1
+30 FOR X=79 TO 0 STEP -1
+40 FOR I=255 TO 32 STEP -1
+50 TILE X,Y,I
+60 NEXT:NEXT:NEXT
+```
+
+### TIME
+
+**TYPE: Numeric Function**  
+**FORMAT: TI**
+
+**Action:** The `TI` function reads the interval `TI`mer.  This type of "clock" is called a "jiffy clock".  The "jiffy clock" value is set at zero (initialized) when you power-up the system.  Each "tick" of the clock is 1/60th of a second.
+
+**EXAMPLE of the TI Function:**
+```BASIC
+10 PRINT TI/60 "SECONDS SINCE POWER UP."
+```
+
+### TIME$
+
+**TYPE: String Function**  
+**FORMAT: TI$**
+
+**Action:** The `TI$` timer looks and works like a real clock as long as your system is powered on.  The hardware system clock is read and used to update the value of `TI$`, which will give you a time string of six characters in hours, minutes, and seconds.  The `TI$` timer can also be assigned an arbitrary starting point similar to the way you set your wrist watch.  If you assign a value to `TI$`, it will persist across system restarts.
+
+**EXAMPLE of the TI$ Function:**
+```BASIC
+10 HH$ = MID$(TI$,1,2)
+20 MM$ = MID$(TI$,3,2)
+30 SS$ = MID$(TI$,5,2)
+40 PRINT "THE TIME IS ";HH$;":";MM$;":";SS$
+```
+
+### USR
+
+**TYPE: Floating-Point Function**  
+**FORMAT: USR(&lt;numeric&gt;)**
+
+**Action:** The `USR` function jumps to a user callable machine language subroutine which has its starting address pointed to by the contents of memory locations 785 ($0311) and 786 ($0312).  The starting address is established before calling the `USR` function by using [POKE](#poke) statements to set up locations 785 and 786.  Unless [POKE](#poke) statements are used, locations 785 and 786 an `? ILLEGAL QUANTITY` error message.
+
+The value of the &lt;numeric&gt; argument is stored in the floating-point accumulator starting at location 97 ($61), for access by assembler code, and the result of the `USR` function is the value which ends up there when the subroutine returns to BASIC.
+
+**EXAMPLES of the USR Function:**
+```BASIC
+10 A = T * SIN(ZD)
+20 C = USR(A / 2)
+30 D = USR(A / 3)
+```
+
+### VAL
+
+**TYPE: Numeric Function**  
+**FORMAT: VAL(&lt;string&gt;)**
+
+**Action:** Returns a numeric value representing the data in the &lt;string&gt; argument.  If the first non-blank chracter of the string is not a plus sign `(+)`, minus sign `(-)`, or a digit, the value returned is zero.  String conversion is finished when the end of a string or any non-digit character is found (except decimal point or exponential e).
+
+**EXAMPLE of the VAL Function:**
+```BASIC
+100 INPUT#1, NAM$, ZIP$
+110 IF VAL(ZIP$) > 98100 OR VAL(ZIP$) < 98109 THEN PRINT NAM$ TAB(10) "SEATTLE, WA"
+```
+
+### VERIFY
+
+**TYPE: Command**  
+**FORMAT: VERIFY ["&lt;file name&gt;"][,&lt;device&gt;]**
+
+**Action:** The `VERIFY` command ise used, in direct or program mode, to compare the contents of a BASIC program file on disk with the program currently in memory.  `VERIFY` is normally used right after a [SAVE](#save), to make sure that the program was stored correctly on disk.
+
+If the &lt;device&gt; number is left out, the program is assumed to be on the first disk device, which is device #8.  If any differences in program text are found, the BASIC error message `?VERIFY ERROR` is displayed.
+
+A program name can be given either in quotes `(" ")` or as a string variable.
+
+**EXAMPLES of the VERIFY Command:**
+
+- VERIFY (Checks the first file on the first disk device (#8))
+```BASIC
+100 SAVE "MYPROG", 8
+105 VERIFY "MYPROG", 8
 ```
 
 ### VPEEK
@@ -3113,6 +3217,25 @@ VLOAD "MYFILE.PRG", 8, 0, $4000  :REM LOADS MYFILE.PRG FROM DEVICE 8 TO VRAM $40
 ```
 
 To load a raw binary file without skipping the first two bytes, use [`BVLOAD`](#bvload)
+
+### WAIT
+
+**TYPE: Statement**  
+**FORMAT: WAIT &lt;location&gt;, &lt;mask-1&gt; [,&lt;mask-2&gt;]**
+
+**Action:** The `WAIT` statement causes program execution to be suspended until a given memory address recognizes a specified bit pattern.  In other words, `WAIT` can be used to halt the program until some external event has occurred.  This is done by monitoring the status of bits in the input/output registers.  The data items used with `WAIT` can be any numeric expressions, but they will be converted to integer values.
+
+For most programmers, this statement should never be used.  It causes the program to halt until a specific memory location's bits change in a specific way.  This is used for certain I/O operations and almost nothing else.
+
+The `WAIT` statement takes the value in the memory location and performs a logical [AND](#and) operation with the value in &lt;mask-1&gt;.  If there is a &lt;mask-2&gt; in the statement, the result of the first operation is exclusive-ORed with &lt;mask-2&gt;  In other words, &lt;mask-1&gt; "filters out" any bits that you don't want to test.  Where the bit is 0 in &lt;mask-1&gt;, the corresponding bit in the result will always be 0.  The &lt;mask-2&gt; value flips any bits, so that you can test of an off condition as well as an on condition.  Any bits being tested for a 0 should have a 1 in the corresponding position in &lt;mask-2&gt;
+
+If corresponding bits of the &lt;mask-1&gt; and &lt;mask-2&gt; operands differ, the exclusive-OR operation gives a bit result of 1.  If corresponding bits get the same result, the bit is 0.  It is possible to enter an infinite pause with the `WAIT` statement, in which case the <mark>**RUN/STOP**</mark> and <mark>**RESTORE**</mark> keys can be used to recover.  Hold down the <mark>**RUN/STOP**</mark> key and then press <mark>**RESTORE**</mark>.
+
+**EXAMPLES of WAIT Statements:**
+```BASIC
+10 WAIT 53273, 6, 6
+20 WAIT 32868, 144, 16
+```
 
 ## Other New Features
 
