@@ -252,7 +252,7 @@ Refer to [Chapter 13](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.m
 
 ## New Statements and Functions
 
-There are several new statement and functions. Note that all BASIC keywords (such as `FOR`) get converted into tokens (such as `$81`), and the tokens for the new keywords have likely shifted from one ROM version to the next. Therefore, loading BASIC program saved from an old revision of BASIC may mix up keywords. As of ROM version R42, the keyword token positions should no longer shift and programs saved in R42 BASIC should be compatible with future versions.
+There are several new statement and functions. Note that all BASIC keywords (such as [FOR](#for)) get converted into tokens (such as `$81`), and the tokens for the new keywords have likely shifted from one ROM version to the next. Therefore, loading BASIC program saved from an old revision of BASIC may mix up keywords. As of ROM version R42, the keyword token positions should no longer shift and programs saved in R42 BASIC should be compatible with future versions.
 
 ### ABS
 
@@ -276,10 +276,10 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 **TYPE: Operator**  
 **FORMAT: &lt;expression&gt; AND &lt;expression&gt;**
 
-**Action:** AND is used in Boolean operations to test bits.  It can also be used in operations 
+**Action:** `AND` is used in Boolean operations to test bits.  It can also be used in operations 
 to check the truth of both operands.
 
-In Boolean algebra, the result of an AND operation is 1 only if both numbers being ANDed are 1.  The result is 
+In Boolean algebra, the result of an `AND` operation is 1 only if both numbers being `AND`ed are 1.  The result is 
 0 if either or both operands is 0 (false).
 
 **Simple 1 bit truth table for AND**
@@ -290,7 +290,7 @@ In Boolean algebra, the result of an AND operation is 1 only if both numbers bei
 | Operand 2 | 0 | 0 | 0 | 1 |
 | Result | 0 | 0 | 0 | 1 |
 
-The Commander X16 BASIC can perform the AND operation on numbers in the range -32768 to +32767.  Any fractional values are ignored, and numbers beyond the stated range will cause an ?ILLEGAL QUANTITY error.  When converted to binary format, the range allowed yields 16 bits for each operand.  Corresponding bits are ANDed together, forming a 16 bit result in the same range.
+The Commander X16 BASIC can perform the `AND` operation on numbers in the range -32768 to +32767.  Any fractional values are ignored, and numbers beyond the stated range will cause an `?ILLEGAL QUANTITY` error.  When converted to binary format, the range allowed yields 16 bits for each operand.  Corresponding bits are ANDed together, forming a 16 bit result in the same range.
 
 **EXAMPLES of 16 bit AND Operation:**
 
@@ -336,7 +336,7 @@ When evaluating a number for true or false, the computer assumes the number is t
 **TYPE: Integer Function**  
 **FORMAT: ASC(&lt;string&gt;)**
 
-**Action:** Returns an integer value representing the PETSCII code for the first character of `string`. If `string` is the empty string, `ASC()` returns 0.
+**Action:** Returns an integer value representing the `PETSCII` code for the first character of &lt;string&gt;. If &lt;string&gt; is an empty ("") string, `ASC` returns 0.
 
 **EXAMPLE of the ASC Function:**
 
@@ -367,7 +367,7 @@ When evaluating a number for true or false, the computer assumes the number is t
 **TYPE: Command**  
 **FORMAT: BANK m[,n]**
 
-**Action:** Set the active RAM (m) and ROM bank (n) for the purposes of `PEEK`, `POKE`, and `SYS`.  Specifying the ROM bank is optional. If it is not specified, its previous value is retained.
+**Action:** Set the active RAM (m) and ROM bank (n) for the purposes of [PEEK](#peek), [POKE](#poke), and [SYS](#sys).  Specifying the ROM bank is optional. If it is not specified, its previous value is retained.
 
 **EXAMPLE of the BANK Statement:**
 
@@ -377,22 +377,22 @@ BANK 1,10    : REM SETS THE RAM BANK TO 1 AND THE ROM BANK TO 10
 SYS $C063    : REM CALLS ROUTINE AT $C09F IN ROM BANK 10 AUDIO (YM_INIT)
 ```
 
-Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command `FMINIT` does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call `SYS` directly, but advanced users may find a good reason to do so.
+Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init](X16%20Reference%20-%2011%20-%20Sound%20Programming.md#audio-api-routines), which does the first half of what the BASIC command [FMINIT](#fminit) does, without setting any default instruments. It is generally not recommended to call routines in ROM directly this way, and most BASIC programmers will never have a need to call [SYS](#sys) directly, but advanced users may find a good reason to do so.
 
 Note: BANK uses its own register to store the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
-Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a `BLOAD` or `BVERIFY` inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a [BLOAD](#bload) or [BVERIFY](#bverify) inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
 
 ### BASLOAD
 
 **TYPE: Command**  
 **FORMAT: BASLOAD &lt;filename&gt;[,<device>]**
 
-**Action:** Loads a plain text file with BASLOAD source and converts it into a runnable program.
+**Action:** Loads a plain text file with `BASLOAD` source and converts it into a runnable program.
 
-The device number is optional.  If it's not specified, the current device is used.  The current device is set to 8 at system boot and may be changed with the `DOS` command.
+The device number is optional.  If it's not specified, the current device is used.  The current device is set to 8 at system boot and may be changed with the [DOS](#dos) command.
 
-For more information about BASLOAD, see [this external documentation](https://github.com/stefan-b-jakobsson/basload-rom)
+For more information about `BASLOAD`, see [this external documentation](https://github.com/stefan-b-jakobsson/basload-rom)
 
 **EXAMPLE of the BASLOAD Command:**
 
@@ -1372,7 +1372,7 @@ When the result is true, the whole series of statements following the word `THEN
 **TYPE: Statement**  
 **FORMAT: INPUT ["&lt;prompt&gt;"] &lt;variable list&gt;**
 
-**Action:** This is a statement that lets the person `RUN`ning the program "feed" information into the computer.  When executed, this statement `PRINT`s a question mark `(?)` on the screen, and positions the cursor 1 space to the right of the question mark.  Now the computer waits, cursor blinking, for the operator to type in the answer and press the **<mark>RETURN</mark>** key.
+**Action:** This is a statement that lets the person `RUN`ning the program "feed" information into the computer.  When executed, this statement `PRINT`s a question mark `(?)` on the screen, and positions the cursor 1 space to the right of the question mark.  Now the computer waits, cursor blinking, for the operator to type in the answer and press the <mark>**RETURN**</mark> key.
 
 The word `INPUT` may be followed by any text contained in quote marks `(" ")`.  This text is `PRINT`ed on the screen, followed by the question mark.
 
@@ -1384,9 +1384,9 @@ After the text comes a semicolon `(;)` and the name of one or more variables sep
 20 INPUT E, X, I$
 30 INPUT "ENTER ANSWER"; A$(42)
 ```
-When this program `RUN`s, the quesiton mark appears to prompt the operator that the Commander X16 is expecting an input for line 30.  Any number typed goes into A for later use in the program.  If the anwser typed was not a number, the `?REDO FROM START` message appears, which means that a string was entered when a number was expected.  If the operator just hits **<mark>RETURN</mark>** without typing anything, the variable's value doesn't change.
+When this program `RUN`s, the quesiton mark appears to prompt the operator that the Commander X16 is expecting an input for line 30.  Any number typed goes into A for later use in the program.  If the anwser typed was not a number, the `?REDO FROM START` message appears, which means that a string was entered when a number was expected.  If the operator just hits <mark>**RETURN**</mark> without typing anything, the variable's value doesn't change.
 
-Now the question mark for line 20, appears.  If we type only one number and hit **<mark>RETURN</mark>**, the Commander X16 will now display 2 question marks `(??)`, which means that more input is required.  You can just type as many inputs as you need, separated by commas, which prevents the double question mark from appearing.  If you type more data than the `INPUT` statement requested, the `?EXTRA IGNORED` message appears, which means that the extra items you typed were not put into any variables.
+Now the question mark for line 20, appears.  If we type only one number and hit <mark>**RETURN**</mark>, the Commander X16 will now display 2 question marks `(??)`, which means that more input is required.  You can just type as many inputs as you need, separated by commas, which prevents the double question mark from appearing.  If you type more data than the `INPUT` statement requested, the `?EXTRA IGNORED` message appears, which means that the extra items you typed were not put into any variables.
 
 Line 30 displays the words ENTER ANSWER before the question mark appears.  The semicolon is required between the prompt and any list of variables.
 
@@ -1624,12 +1624,12 @@ be included. So `LIST` has 4 modes:
 
 `LIST 50-` will display line 50 to the end of the program.
 
-Pressing the **<mark>CTRL</mark>** key during a listing will slow the listing down once
+Pressing the <mark>**CTRL**</mark> key during a listing will slow the listing down once
 printing reaches the bottom of the screen. Approximately one line per second will
-be displayed.  `LIST` is aborted by hitting the **<mark>RUN/STOP</mark>** key.
+be displayed.  `LIST` is aborted by hitting the <mark>**RUN/STOP**</mark> key.
 
-Pressing the **<mark>SPACE BAR</mark>** during the listing will cause the listing to pause.
-Pressing the **<mark>SPACE BAR</mark>** a second time will unpause the listing. You may also
+Pressing the <mark>**SPACE BAR**</mark> during the listing will cause the listing to pause.
+Pressing the <mark>**SPACE BAR**</mark> a second time will unpause the listing. You may also
 use the down arrow key to scroll by one line or use the `PgDn` key to scroll
 approximately one screen full of text.
 
