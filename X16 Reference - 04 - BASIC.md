@@ -13,26 +13,26 @@ when viewed on github.  PDF output appears correct.
 
 | Keyword | Type | Summary | Origin |
 | - | - | - | - |
-| [`ABS`](#abs)  | Function | Returns absolute value of a number | C64 |
+| [`ABS`](#abs)  | Numeric Function | Returns absolute value of a number | C64 |
 | [`AND`](#and) | Operator | Returns boolean "AND" or bitwise intersection | C64 |
-| [`ASC`](#asc) | Function | Returns numeric PETSCII value from string | C64 |
-| [`ATN`](#atn) | Function | Returns arctangent of a number | C64 |
+| [`ASC`](#asc) | Numeric Function | Returns numeric PETSCII value from string | C64 |
+| [`ATN`](#atn) | Numeric Function | Returns arctangent of a number | C64 |
 | [`BANK`](#bank) | Command | Sets the RAM and ROM banks to use for PEEK, POKE, and SYS | C128 |
 | [`BASLOAD`](#bank) | Command | Load and tokenize a BASLOAD (.basl) text file | X16 |
-| [`BIN$`](#bin) | Function | Converts numeric to a binary string | X16 |
-| [`BINPUT#`](#binput) | Command | Reads a fixed-length block of data from an open file | X16 |
+| [`BIN$`](#bin) | String Function | Converts numeric to a binary string | X16 |
+| [`BINPUT#`](#binput) | I/O Statement | Reads a fixed-length block of data from an open file | X16 |
 | [`BLOAD`](#bload) | Command | Loads a headerless binary file from disk to a memory address | X16 |
 | [`BOOT`](#boot) | Command | Loads and runs `AUTOBOOT.X16` | X16 |
 | [`BSAVE`](#bsave) | Command | Saves a headerless copy of a range of memory to a file | X16 |
 | [`BVERIFY`](#bverify) | Command | Verifies that a file on disk matches RAM contents | X16 |
 | [`BVLOAD`](#bvload) | Command | Loads a headerless binary file from disk to VRAM | X16 |
 | [`CHAR`](#char) | Command | Draws a text string in graphics mode | X16 |
-| [`CHR$`](#chr$) | Function | Returns PETSCII character from numeric value | C64 |
+| [`CHR$`](#chr$) | String Function | Returns PETSCII character from numeric value | C64 |
 | [`CLOSE`](#close) | I/O Statement | Closes a logical file number | C64 |
-| [`CLR`](#clr) | Command | Clears BASIC variable state | C64 |
-| [`CLS`](#cls) | Command | Clears the screen | X16 |
+| [`CLR`](#clr) | Statement | Clears BASIC variable state | C64 |
+| [`CLS`](#cls) | Statement | Clears the screen | X16 |
 | [`CMD`](#cmd) | I/O Statement | Redirects output to non-screen device | C64 |
-| [`COLOR`](#color) | Command | Sets text fg and bg color | X16 |
+| [`COLOR`](#color) | Statement | Sets text fg and bg color | X16 |
 | [`CONT`](#cont) | Command | Resumes execution of a BASIC program | C64 |
 | [`COS`](#cos) | Function | Returns cosine of an angle in radians | C64 |
 | [`DA$`](#da$) | String Function | Returns the date in YYYYMMDD format from the system clock | X16 |
@@ -44,29 +44,29 @@ when viewed on github.  PDF output appears correct.
 | [`END`](#end) | Statement | Terminate program execution and return to `READY.` | C64 |
 | [`EXEC`](#exec) | Command | Play back a script from RAM into the BASIC editor | X16 |
 | [`EXP`](#exp) | Function | Returns the inverse natural log of a number | C64 |
-| [`FMCHORD`](#fmchord) | Command | Start or stop simultaneous notes on YM2151 | X16 |
-| [`FMDRUM`](#fmdrum) | Command | Plays a drum sound on YM2151 | X16 |
-| [`FMFREQ`](#fmfreq) | Command | Plays a frequency in Hz on YM2151 | X16 |
-| [`FMINIT`](#fminit) | Command | Stops sound and reinitializes YM2151 | X16 |
-| [`FMINST`](#fminst) | Command | Loads a patch preset into a YM2151 channel | X16 |
-| [`FMNOTE`](#fmnote) | Command | Plays a musical note on YM2151 | X16 |
-| [`FMPAN`](#fmpan) | Command | Sets stereo panning on YM2151 | X16 |
-| [`FMPLAY`](#fmplay) | Command | Plays a series of notes on YM2151 | X16 |
-| [`FMPOKE`](#fmpoke) | Command | Writes a value into a YM2151 register | X16 |
-| [`FMVIB`](#fmvib) | Command | Controls vibrato and tremolo on YM2151 | X16 |
-| [`FMVOL`](#fmvol) | Command | Sets channel volume on YM2151 | X16 |
+| [`FMCHORD`](#fmchord) | Statement | Start or stop simultaneous notes on YM2151 | X16 |
+| [`FMDRUM`](#fmdrum) | Statement | Plays a drum sound on YM2151 | X16 |
+| [`FMFREQ`](#fmfreq) | Statement | Plays a frequency in Hz on YM2151 | X16 |
+| [`FMINIT`](#fminit) | Statement | Stops sound and reinitializes YM2151 | X16 |
+| [`FMINST`](#fminst) | Statement | Loads a patch preset into a YM2151 channel | X16 |
+| [`FMNOTE`](#fmnote) | Statement | Plays a musical note on YM2151 | X16 |
+| [`FMPAN`](#fmpan) | Statement | Sets stereo panning on YM2151 | X16 |
+| [`FMPLAY`](#fmplay) | Statement | Plays a series of notes on YM2151 | X16 |
+| [`FMPOKE`](#fmpoke) | Statement | Writes a value into a YM2151 register | X16 |
+| [`FMVIB`](#fmvib) | Statement | Controls vibrato and tremolo on YM2151 | X16 |
+| [`FMVOL`](#fmvol) | Statement | Sets channel volume on YM2151 | X16 |
 | [`FN`](#fn) | Function | Calls a previously defined function | C64 |
 | [`FOR-TO-STEP`](#for-to-step) | Statement | Declares the start of a loop construct | C64 |
-| [`FRAME`](#frame) | Command | Draws an unfilled rectangle in graphics mode | X16 |
+| [`FRAME`](#frame) | Statement | Draws an unfilled rectangle in graphics mode | X16 |
 | [`FRE`](#fre) | Function | Returns the number of unused BASIC bytes free | C64 |
 | [`GET`](#get) | Statement | Polls the keyboard cache for a single keystroke | C64 |
 | [`GET#`](#get-1) | I/O Statement | Polls an open logical file for a single character | C64 |
 | [`GOSUB`](#gosub) | Statement | Jumps to a BASIC subroutine | C64 |
 | [`GOTO`](#goto) | Statement | Branches immediately to a line number | C64 |
 | [`HELP`](#help) | Command | Displays a brief summary of online help resources | X16 |
-| [`HEX$`](#hex) | Function | Converts numeric to a hexadecimal string | X16 |
+| [`HEX$`](#hex) | String Function | Converts numeric to a hexadecimal string | X16 |
 | [`I2CPEEK`](#i2cpeek) | Function | Reads a byte from a device on the I²C bus | X16 |
-| [`I2CPOKE`](#i2cpoke) | Command | Writes a byte to a device on the I²C bus | X16 |
+| [`I2CPOKE`](#i2cpoke) | Statement | Writes a byte to a device on the I²C bus | X16 |
 | [`IF-THEN`](#if-then) | Statement | Tests a boolean condition and branches on result | C64 |
 | [`INPUT`](#input) | Statement | Reads a line or values from the keyboard | C64 |
 | [`INPUT#`](#input-1) | I/O Statement | Reads lines or values from a logical file | C64 |
@@ -76,19 +76,19 @@ when viewed on github.  PDF output appears correct.
 | [`LEFT$`](#left) | String Function | Returns a substring starting from the beginning of a string | C64 |
 | [`LEN`](#len) | Integer Function | Returns the length of a string | C64 |
 | [`LET`](#let) | Statement | Explicitly declares a variable | C64 |
-| [`LINE`](#line) | Command | Draws a line in graphics mode | X16 |
-| [`LINPUT`](#linput) | Command | Reads a line from the keyboard | X16 |
-| [`LINPUT#`](#linput-1) | Command | Reads a line or other delimited data from an open file | X16 |
+| [`LINE`](#line) | Statement | Draws a line in graphics mode | X16 |
+| [`LINPUT`](#linput) | Statement | Reads a line from the keyboard | X16 |
+| [`LINPUT#`](#linput-1) | I/O Statement | Reads a line or other delimited data from an open file | X16 |
 | [`LIST`](#list) | Command | Outputs the program listing to the screen | C64 |
 | [`LOAD`](#load) | Command | Loads a program from disk into memory | C64 |
-| [`LOCATE`](#locate) | Command | Moves the text cursor to new location | X16 |
+| [`LOCATE`](#locate) | Statement | Moves the text cursor to new location | X16 |
 | [`LOG`](#log) | Floating-Point Function | Returns the natural logarithm of a number | C64 |
 | [`MENU`](#menu) | Command | Invokes the Commander X16 utility menu | X16 |
 | [`MID$`](#mid) | String Function | Returns a substring from the middle of a string | C64 |
 | [`MOD`](#mod) | Function | Returns the truncated remainder of a division | X16 |
 | [`MON`](#mon) | Command | Enters the machine language monitor | X16 |
-| [`MOUSE`](#mouse) | Command | Hides or shows mouse pointer | X16 |
-| [`MOVSPR`](#movspr) | Command | Set the X/Y position of a sprite | X16 |
+| [`MOUSE`](#mouse) | Statement | Hides or shows mouse pointer | X16 |
+| [`MOVSPR`](#movspr) | Statement | Set the X/Y position of a sprite | X16 |
 | [`MX/MY/MB`](#mxmymb) | variable | Reads the mouse position and button state | X16 |
 | [`MWHEEL`](#mwheel) | variable | Reads the mouse wheel movement | X16 |
 | [`NEW`](#new) | Command | Resets the state of BASIC and clears program memory | C64 |
@@ -98,45 +98,45 @@ when viewed on github.  PDF output appears correct.
 | [`ON`](#on) | Statement | A GOTO/GOSUB table based on a variable value | C64 |
 | [`OPEN`](#open) | I/O Statement | Opens a logical file to disk or other device | C64 |
 | [`OR`](#or) | Logical Operator | Bitwise or boolean "OR" | C64 |
-| [`OVAL`](#oval) | Command | Draws a filled oval in graphics mode | X16 |
+| [`OVAL`](#oval) | Statement | Draws a filled oval in graphics mode | X16 |
 | [`PEEK`](#peek) | Function | Returns a value from a memory address | C64 |
 | `π` | Function | Returns the constant for the value of pi | C64 |
 | [`POINTER`](#pointer) | Function | Returns the address of a BASIC variable | C128 |
-| [`POKE`](#poke) | Command | Assigns a value to a memory address | C64 |
+| [`POKE`](#poke) | Statement | Assigns a value to a memory address | C64 |
 | [`POS`](#pos) | Integer Function | Returns the column position of the text cursor | C64 |
 | [`POWEROFF`](#poweroff) | Command | Immediately powers down the Commander X16 | X16 |
 | [`PRINT`](#print) | Statement | Prints data to the screen or other output | C64 |
 | [`PRINT#`](#print-1) | I/O Statement | Prints data to an open logical file | C64 |
-| [`PSET`](#pset) | Command | Changes a pixel's color in graphics mode | X16 |
-| [`PSGCHORD`](#psgchord) | Command | Starts or stops simultaneous notes on VERA PSG | X16 |
-| [`PSGFREQ`](#psgfreq) | Command | Plays a frequency in Hz on VERA PSG | X16 |
-| [`PSGINIT`](#psginit) | Command | Stops sound and reinitializes VERA PSG | X16 |
-| [`PSGNOTE`](#psgnote) | Command | Plays a musical note on VERA PSG | X16 |
-| [`PSGPAN`](#psgpan) | Command | Sets stereo panning on VERA PSG | X16 |
-| [`PSGPLAY`](#psgplay) | Command | Plays a series of notes on VERA PSG | X16 |
-| [`PSGVOL`](#psgvol) | Command | Sets voice volume on VERA PSG | X16 |
-| [`PSGWAV`](#psgwav) | Command | Sets waveform on VERA PSG | X16 |
+| [`PSET`](#pset) | Statement | Changes a pixel's color in graphics mode | X16 |
+| [`PSGCHORD`](#psgchord) | Statement | Starts or stops simultaneous notes on VERA PSG | X16 |
+| [`PSGFREQ`](#psgfreq) | Statement | Plays a frequency in Hz on VERA PSG | X16 |
+| [`PSGINIT`](#psginit) | Statement | Stops sound and reinitializes VERA PSG | X16 |
+| [`PSGNOTE`](#psgnote) | Statement | Plays a musical note on VERA PSG | X16 |
+| [`PSGPAN`](#psgpan) | Statement | Sets stereo panning on VERA PSG | X16 |
+| [`PSGPLAY`](#psgplay) | Statement | Plays a series of notes on VERA PSG | X16 |
+| [`PSGVOL`](#psgvol) | Statement | Sets voice volume on VERA PSG | X16 |
+| [`PSGWAV`](#psgwav) | Statement | Sets waveform on VERA PSG | X16 |
 | [`READ`](#read) | Statement | Assigns the next `DATA` constant to one or more variables | C64 |
 | [`REBOOT`](#reboot) | Command | Performs a warm reboot of the system | X16 |
-| [`RECT`](#rect) | Command | Draws a filled rectangle in graphics mode | X16 |
+| [`RECT`](#rect) | Statement | Draws a filled rectangle in graphics mode | X16 |
 | [`REM`](#rem) | Statement | Declares a comment | C64 |
 | [`REN`](#ren) | Command | Renumbers a BASIC program | X16 |
 | [`RESET`](#reset) | Command | Performs a hard reset of the system | X16 |
-| [`RESTORE`](#restore) | Command | Resets the `READ` pointer to a `DATA` constant | C64 |
+| [`RESTORE`](#restore) | Statement | Resets the `READ` pointer to a `DATA` constant | C64 |
 | [`RETURN`](#return) | Statement | Returns from a subroutine to the statement following a GOSUB | C64 |
 | [`RIGHT$`](#right) | String Function | Returns a substring from the end of a string | C64 |
-| [`RING`](#ring) | Command | Draws an oval outline in graphics mode | X16 |
+| [`RING`](#ring) | Statement | Draws an oval outline in graphics mode | X16 |
 | [`RND`](#rnd) | Floating-Point Function | Returns a floating point number 0 <= n < 1 | C64 |
-| [`RPT$`](#rpt) | Function | Returns a string of repeated characters | X16 |
+| [`RPT$`](#rpt) | String Function | Returns a string of repeated characters | X16 |
 | [`RUN`](#run) | Command | Clears the variable state and starts a BASIC program | C64 |
 | [`SAVE`](#save) | Command | Saves a BASIC program from memory to disk | C64 |
-| [`SCREEN`](#screen) | Command | Selects a text or graphics mode | X16 |
+| [`SCREEN`](#screen) | Statement | Selects a text or graphics mode | X16 |
 | [`SGN`](#sgn) | Integer Function | Returns the sign of a numeric value | C64 |
 | [`SIN`](#sin) | Floating-Point Function | Returns the sine of an angle in radians | C64 |
-| [`SLEEP`](#sleep) | Command | Introduces a delay in program execution | X16 |
+| [`SLEEP`](#sleep) | Statement | Introduces a delay in program execution | X16 |
 | [`SPC`](#spc) | Special Function | Returns a string with a set number of spaces | C64 |
-| [`SPRITE`](#sprite) | Command | Sets attributes for a sprite including visibility | X16 |
-| [`SPRMEM`](#sprmem) | Command | Set the VRAM address for a sprite's visual data | X16 |
+| [`SPRITE`](#sprite) | Statement | Sets attributes for a sprite including visibility | X16 |
+| [`SPRMEM`](#sprmem) | Statement | Set the VRAM address for a sprite's visual data | X16 |
 | [`SQR`](#sqr) | Floating-Point Function | Returns the square root of a numeric value | C64 |
 | [`ST`](#st) | Integer Function | Returns the status of certain DOS/peripheral operations | C64 |
 | [`STEP`](#step) | Statement | Used in a `FOR` declaration to declare the iterator step | C64 |
@@ -153,10 +153,10 @@ when viewed on github.  PDF output appears correct.
 | [`TIME$`](#time-1) | String Function | Returns the time HHMMSS from the system clock | C64 |
 | [`USR`](#usr) | Floating-Point Function | Call a user-defined function in machine language | C64 |
 | [`VAL`](#val) | Numeric Function | Parse a string to return a numeric value | C64 |
-| [`VERIFY`] | Command | Verify that a BASIC program was written to disk correctly | C64 |
+| [`VERIFY`](#verify) | Command | Verify that a BASIC program was written to disk correctly | C64 |
 | [`VPEEK`](#vpeek) | Function | Returns a value from VERA's VRAM | X16 |
-| [`VPOKE`](#vpoke) | Command | Sets a value in VERA's VRAM | X16 |
-| [`VLOAD`](#vload) | Command | Loads a file to VERA's VRAM | X16 |
+| [`VPOKE`](#vpoke) | Statement | Sets a value in VERA's VRAM | X16 |
+| [`VLOAD`](#vload) | Statement | Loads a file to VERA's VRAM | X16 |
 | [`WAIT`](#wait) | Statement | Waits for a memory location to match a condition | C64 |
 
 ## Commodore 64 Compatibility
@@ -177,16 +177,16 @@ The Commander X16 BASIC interpreter is 100% backwards-compatible with the Commod
 
 Because of the differences in hardware, the following functions and statements are incompatible between C64 and X16 BASIC programs.
 
-* `POKE`: write to a memory address
-* `PEEK`: read from a memory address
-* `WAIT`: wait for memory contents
-* `SYS`: execute machine language code (when used with ROM code)
+* [`POKE`](#poke): write to a memory address
+* [`PEEK`](#peek): read from a memory address
+* [`WAIT`](#wait): wait for memory contents
+* [`SYS`](#sys): execute machine language code (when used with ROM code)
 
 The BASIC interpreter also currently shares all problems of the C64 version, like the slow garbage collector.
 
 ## Saving Files
 
-By default, you cannot automatically overwrite a file with SAVE, BSAVE, or OPEN. To overwrite a file, you must prefix the filename with `@:`, like this: `SAVE "@:HELLO WORLD"`. (`"@0:filename"` is also acceptable.)
+By default, you cannot automatically overwrite a file with [SAVE](#save), [BSAVE](#bsave), or [OPEN](#open). To overwrite a file, you must prefix the filename with `@:`, like this: `SAVE "@:HELLO WORLD"`. (`"@0:filename"` is also acceptable.)
 
 This follows the Commodore convention, which extended to all of their diskette drives and third party hard drives and flash drive readers.
 
@@ -194,7 +194,7 @@ Always confirm you have successfully saved a file by checking the DOS status. Wh
 
 There are two ways to check the error channel from inside a program:
 
-1. You can use the DOS command and make the user perform actions necessary to recover from an error (such as re-saving the file with an @: prefix).
+1. You can use the [DOS](#dos) command and make the user perform actions necessary to recover from an error (such as re-saving the file with an @: prefix).
 2. You can read the error yourself, using the following BASIC code:
 
 ```BASIC
@@ -220,10 +220,10 @@ There are several new statement and functions. Note that all BASIC keywords (suc
 **EXAMPLE of the ABS Function:**
 
 ```BASIC
-?ABS(-24)
+PRINT ABS(-24)
  24
 
-?ABS(50)
+PRINT ABS(50)
  50
 ```
 
@@ -292,15 +292,15 @@ When evaluating a number for true or false, the computer assumes the number is t
 **TYPE: Integer Function**  
 **FORMAT: ASC(&lt;string&gt;)**
 
-**Action:** Returns an integer value representing the `PETSCII` code for the first character of &lt;string&gt;. If &lt;string&gt; is an empty ("") string, `ASC` returns 0.
+**Action:** Returns an integer value representing the [PETSCII](X16%20Reference%20-%20Appendix%20I%20-%20Character%20Sets.md#pet-uppercase--graphics) code for the first character of &lt;string&gt;. If &lt;string&gt; is an empty ("") string, `ASC` returns 0.
 
 **EXAMPLE of the ASC Function:**
 
 ```BASIC
-?ASC("A")
+PRINT ASC("A")
  65
 
-?ASC("")
+PRINT ASC("")
  0
 ```
 
@@ -311,7 +311,7 @@ When evaluating a number for true or false, the computer assumes the number is t
 
 **Action:** This mathematical function returns the arctangent of the number given.  The result is the angle (in radians) whose tangent is the number given.  The result is always in the range -&pi; / 2 to +&pi; / 2.
 
-**EXAMPLEs of ATN Function:**
+**EXAMPLES of the ATN Function:**
 
 ```BASIC
 10 PRINT ATN(5)
@@ -337,7 +337,7 @@ Note: In the above example, the `SYS $C063` in ROM bank 10 is a call to [ym_init
 
 Note: BANK uses its own register to store the command's desired bank numbers; this will not always be the same as the value stored in `$00` or `$01`. In fact, `$01` is always going to read `4` when PEEKing from BASIC. If you need to know the currently selected RAM and/or RAM banks, you should explicitly set them and use variables to track your selected bank number(s).
 
-Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the `BANK` command. The one exception is after a [BLOAD](#bload) or [BVERIFY](#bverify) inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
+Note: Memory address `$00`, which is the hardware RAM bank register, will usually report the bank set by the [BANK](#bank) command. The one exception is after a [BLOAD](#bload) or [BVERIFY](#bverify) inside of a running BASIC program.  `BLOAD` and `BVERIFY` change the RAM bank (as if you called `BANK`) to the bank that `BLOAD` or `BVERIFY` stopped at.
 
 ### BASLOAD
 
@@ -379,7 +379,7 @@ PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 
 ### BINPUT&#35;
 
-**TYPE: Command**  
+**TYPE: I/O Statement**  
 **FORMAT: BINPUT&#35; &lt;n&gt;,&lt;var$&gt;,&lt;len&gt;**
 
 **Action:** `BINPUT#` Reads a block of data from an open file and stores the data into a string variable. If there are fewer than `<len>` bytes available to be read from the file, fewer bytes will be stored.  If the end of the file is reached, `ST AND 64` will be true.
@@ -401,7 +401,7 @@ PRINT BIN$(45231) : REM PRINTS 1011000010101111 TO REPRESENT 16 BITS
 
 **Action:** Load and run a PRG file named `AUTOBOOT.X16` from device 8. If the file is not found, nothing is done and no error is printed.
 
-**EXAMPLE of the BOOT Statement:**
+**EXAMPLE of the BOOT Command:**
 
 ```BASIC
 BOOT
@@ -418,7 +418,7 @@ Note: If the file is loaded to high RAM (starting in the range `$A000-$BFFF`), a
 
 After a successful load, `$030D` and `$030E` will contain the address of the final byte loaded + 1.  If relevant, the value in memory location `$00` will point to the bank in which the next byte would have been loaded.
 
-**EXAMPLES of BLOAD:**
+**EXAMPLES of the BLOAD Command:**
 
 ```BASIC
 BLOAD "MYFILE.BIN",8,1,$A000:REM LOADS A FILE NAMED MYFILE.BIN FROM DEVICE 8 STARTING IN BANK 1 AT $A000.
@@ -432,23 +432,23 @@ BLOAD "WHO.PCX",8,10,$B000:REM LOADS A FILE NAMED WHO.PCX INTO RAM STARTING IN B
 
 **Action:** Saves a region of memory to a binary file.
 
-Note: The save will stop one byte before `end address`.
+Note: The save will stop one byte before &lt;end address&gt;.
 
-This command does not allow for automatic bank advancing, but you can achieve a similar result with successive BSAVE invocations to append additional memory locations to the same file.
+This command does not allow for automatic bank advancing, but you can achieve a similar result with successive `BSAVE` invocations to append additional memory locations to the same file.
 
-**EXAMPLES of BSAVE:**
+**EXAMPLES of the BSAVE Command:**
 
 ```BASIC
 BSAVE "MYFILE.BIN",8,1,$A000,$C000
 ```
 
-The above example saves a region of memory from \$A000 in bank 1 through and including \$BFFF, stopping before \$C000.
+The above example saves a region of memory from `$A000` in bank 1 through and including `$BFFF`, stopping before `$C000`.
 
 ```BASIC
 BSAVE "MYFILE.BIN,S,A",8,2,$A000,$B000
 ```
 
-The above example appends a region of memory from \$A000 through and including \$AFFF, stopping before \$B000.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
+The above example appends a region of memory from `$A000` through and including `$AFFF`, stopping before `$B000`.  Running both of the above examples in succession will result in a file MYFILE.BIN 12KiB in size.
 
 **Warning:** Appending to file involves a risk of corrupting the file system of the SD card! See [Appending to file](X16%20Reference%20-%2013%20-%20Working%20with%20CMDR-DOS.md#appending-to-file).
 
@@ -459,13 +459,13 @@ The above example appends a region of memory from \$A000 through and including \
 
 **Action:** Verifies that a file on disk matches RAM contents.
 
-**EXAMPLE of the BSAVE:**
+**EXAMPLE of the BVERIFY Command:**
 
 ```BASIC
 BVERIFY "MYFILE.BIN",8,1,$A000,$C000
 ```
 
-The above example compares a region of memory from \$A000 in bank 1 through and including \$BFFF, stopping before \$C000, against the filename listed.
+The above example compares a region of memory from `$A000` in bank 1 through and including `$BFFF`, stopping before `$C000`, against the filename listed.
 
 
 ### BVLOAD
@@ -475,7 +475,7 @@ The above example compares a region of memory from \$A000 in bank 1 through and 
 
 **Action:** Loads a binary file directly into VERA RAM.
 
-**EXAMPLES of BVLOAD:**
+**EXAMPLES of the BVLOAD Command:**
 
 ```BASIC
 BVLOAD "MYFILE.BIN", 8, 0, $4000  :REM LOADS MYFILE.BIN FROM DEVICE 8 TO VRAM $4000.
@@ -484,7 +484,7 @@ BVLOAD "MYFONT.BIN", 8, 1, $F000  :REM LOAD A FONT INTO THE DEFAULT FONT LOCATIO
 
 ### CHAR
 
-**TYPE: Command**  
+**TYPE: Statement**  
 **FORMAT: CHAR &lt;x&gt;,&lt;y&gt;,&lt;color&gt;,&lt;string&gt;**
 
 **Action:** This command draws a text string on the graphics screen in a given color.
@@ -528,7 +528,7 @@ The string can contain printable ASCII characters (`CHR$($20)` to `CHR$($7E)`), 
 **TYPE: I/O Statement**
 **FORMAT: CLOSE &lt;file number&gt;**
 
-**Action:** Closes any files used by `OPEN` statements.  The `CLOSE` statement takes a single argument that is the file number to be closed.
+**Action:** Closes any files used by [OPEN](#open) statements.  The `CLOSE` statement takes a single argument that is the file number to be closed.
 
 **EXAMPLE of the CLOSE I/O Statement:**
 
@@ -539,11 +539,11 @@ CLOSE 4   : REM CLOSE FILE OPENED AS 4
 
 ### CLR
 
-**TYPE: Command**  
+**TYPE: Statement**  
 **FORMAT: CLR**
 
 **Action:** This statement clears RAM that had been used, but is no longer needed. 
-The BASIC program in memory is untouched, but all variables, arrays, GOSUB addresses, FOR..NEXT loops, 
+The BASIC program in memory is untouched, but all variables, arrays, [GOSUB](#gosub) addresses, [FOR..NEXT](#for-to-step) loops, 
 user-defined functions, and files are erased from memory, and their space is made available to new 
 variables, etc.
 
@@ -572,12 +572,12 @@ CLS
 **TYPE: I/O Statement**  
 **FORMAT: CMD &lt;file number&gt;[, string]**
 
-**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, a printer, or an I/O device like the modem<sup>1</sup>.  The file number must be specified in a prior `OPEN` statemewnt.  The string, when specified, is sent to the file.  This is handy 
+**Action:** This statement switches the primary output device from the video display to the file specified. This file could be on disk, a printer, or an I/O device like the modem<sup>1</sup>.  The file number must be specified in a prior [OPEN](#open) statemewnt.  The string, when specified, is sent to the file.  This is handy 
 for titling printouts, etc.
 
-When this command is in effect, any `PRINT` statements and `LIST` commands will not display on the screen, but will send the text in the same format to the file.
+When this command is in effect, any [PRINT](#print) statements and [LIST](#list) commands will not display on the screen, but will send the text in the same format to the file.
 
-To re-direcet the output back to the screen, the `PRINT#` command should send a blank line to the `CMD` device before `CLOSE`ing, so it will stop expecting data.  This is called "un-listening" the device.
+To re-direcet the output back to the screen, the [PRINT#](#print-1) command should send a blank line to the [CMD](#cmd) device before [CLOSE](#close)ing, so it will stop expecting data.  This is called "un-listening" the device.
 
 Any system error (like `?SYNTAX ERROR`) will cause output to return to the screen.  Devices aren't un-listened by this, so you should send a blank line after an error condition.
 
@@ -600,12 +600,12 @@ PRINT# 4: CLOSE 4: REM Un-listens and closes printer
 
 ### COLOR
 
-**TYPE: Command**  
+**TYPE: Statement**  
 **FORMAT: COLOR &lt;fgcol&gt;[,&lt;bgcol&gt;]**
 
 **Action:** This command works sets the text mode foreground color, and optionally the background color.
 
-**EXAMPLES of COLOR Statement:**
+**EXAMPLES of the COLOR Statement:**
 
 ```BASIC
 COLOR 2   : REM SET FG COLOR TO RED, KEEP BG COLOR
@@ -617,7 +617,7 @@ COLOR 2,0 : REM SET FG COLOR TO RED, BG COLOR TO BLACK
 **TYPE: Command**  
 **FORMAT: CONT**
 
-**Action:** This command re-starts the execution of a program which was halted by a `STOP` or `END` statement, or the <mark >**RUN/STOP**</mark> key being pressed.  The program will re-start at the exact place from which it left off.
+**Action:** This command re-starts the execution of a program which was halted by a [STOP](#stop) or [END](#end) statement, or the <mark >**RUN/STOP**</mark> key being pressed.  The program will re-start at the exact place from which it left off.
 
 While the program is stopped, the user can inspect or change any variables or look at the program.  When debugging or examing a program, `STOP` statements can be placed at strategic locations to allow examination of variables and check the flow of the program.
 
@@ -641,7 +641,6 @@ This program calculats the value of PI.  Run this program, and after a few secon
 Where `x` is the line number where program execution was interrupted.
 
 Type the command `PRINT C` to see how far the Commander X16 has gotten.  Then use `CONT` to resume from where the Commander X16 left off.
-
 
 ### COS
 
