@@ -2166,7 +2166,7 @@ Holding down the <mark>**CTRL**</mark> key and hitting <mark>**9**</mark> will c
 
 **3. Color Controls**
 
-Holding down the <mark>**CTRL**</mark> or the Commander X16 Logo key with any of the 8 color keys will make a special reversed character which appears in quotes.  When the character is `PRINT`ed, then the color change will occur.
+Holding down the <mark>**CTRL**</mark> or the <mark>**ALT**</mark> key with any of the 8 color keys will make a special reversed character which appears in quotes.  When the character is `PRINT`ed, then the color change will occur.
 
 > | **KEY** | **COLOR** | **APPEARS AS** |
 > |--------:|:---------:|:--------------:|
@@ -2178,14 +2178,14 @@ Holding down the <mark>**CTRL**</mark> or the Commander X16 Logo key with any of
 > | <mark>**CTRL**</mark> <mark>**6**</mark> | Green | ![Reverse Up Arrow](images/rvs-up-arr.png) |
 > | <mark>**CTRL**</mark> <mark>**7**</mark> | Blue | ![Reverse Left Arrow](images/rvs-l-arr.png) |
 > | <mark>**CTRL**</mark> <mark>**8**</mark> | Yellow | ![Reverse Pi](images/rvs-pi.png) |
-> | <mark>**LOGO**</mark> <mark>**1**</mark> | Orange | ![Reverse Spade](images/rvs-spade.png) |
-> | <mark>**LOGO**</mark> <mark>**2**</mark> | Brown | ![Reverse Upper Left Corner](images/rvs-ul-corner.png) |
-> | <mark>**LOGO**</mark> <mark>**3**</mark> | Light Red | ![Reverse X Symbol](images/rvs-x-symbol.png) |
-> | <mark>**LOGO**</mark> <mark>**4**</mark> | Grey 1 | ![Reverse Circle](images/rvs-circle.png) |
-> | <mark>**LOGO**</mark> <mark>**5**</mark> | Grey 2 | ![Reverse Club](images/rvs-club.png) |
-> | <mark>**LOGO**</mark> <mark>**6**</mark> | Light Green | ![Reverse Right Offset Bar](images/rvs-r-offset-bar.png) |
-> | <mark>**LOGO**</mark> <mark>**7**</mark> | Light Blue | ![Reverse Diamond](images/rvs-diamond.png) |
-> | <mark>**LOGO**</mark> <mark>**8**</mark> | Grey 3 | ![Reverse Plus Symbol](images/rvs-plus-symbol.png) |
+> | <mark>**ALT**</mark> <mark>**1**</mark> | Orange | ![Reverse Spade](images/rvs-spade.png) |
+> | <mark>**ALT**</mark> <mark>**2**</mark> | Brown | ![Reverse Upper Left Corner](images/rvs-ul-corner.png) |
+> | <mark>**ALT**</mark> <mark>**3**</mark> | Light Red | ![Reverse X Symbol](images/rvs-x-symbol.png) |
+> | <mark>**ALT**</mark> <mark>**4**</mark> | Grey 1 | ![Reverse Circle](images/rvs-circle.png) |
+> | <mark>**ALT**</mark> <mark>**5**</mark> | Grey 2 | ![Reverse Club](images/rvs-club.png) |
+> | <mark>**ALT**</mark> <mark>**6**</mark> | Light Green | ![Reverse Right Offset Bar](images/rvs-r-offset-bar.png) |
+> | <mark>**ALT**</mark> <mark>**7**</mark> | Light Blue | ![Reverse Diamond](images/rvs-diamond.png) |
+> | <mark>**ALT**</mark> <mark>**8**</mark> | Grey 3 | ![Reverse Plus Symbol](images/rvs-plus-symbol.png) |
 
 If you wanted to print the word HELLO in cyan and the word THERE in white, type:
 
