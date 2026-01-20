@@ -1,47 +1,3 @@
-<!-- 
-The mark style will change the colors of the Markdown highlight feature based on 
-the viewer's dark mode settings.  Light mode will get white text on a black background,
-and dark mode should get black text on a white background.
-It also adds a border radius to the background to give the highlighted items a more
-"key-like" look.
- -->
-
-<style>
-/* Light mode is the default style. */
-mark {
-  background-color: #000000;
-  color: #f5f5f5;
-  border-radius: 5px; 
-  padding: 0 4px; 
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  mark {
-    background-color: #f5f5f5;
-    color: #000000;
-    border-radius: 5px; 
-    padding: 0 4px; 
-  }
-}
-
-marksq {
-  background-color: #000000;
-  color: #f5f5f5;
-  padding: 0 4px; 
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  marksq {
-    background-color: #f5f5f5;
-    color: #000000;
-    padding: 0 4px; 
-  }
-}
-
-</style>
-
 # Chapter 4: BASIC Programming
 
 <!--
@@ -49,6 +5,8 @@ marksq {
 NOTICE: This file uses two trailing spaces on some lines to indicate line breaks
 for GitHub's Markdown flavor. Do not remove!
 ********************************************************************************
+New styling features were used in this document and may not render correctly  
+when viewed on github.  PDF output appears correct.
 -->
 
 ## Table of BASIC statements and functions
