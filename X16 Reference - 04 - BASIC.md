@@ -9,7 +9,7 @@ New styling features were used in this document and may not render correctly
 when viewed on github.  PDF output appears correct.
 -->
 
-## Table of BASIC statements and functions
+## Table of BASIC Statements and Functions
 
 | Keyword | Type | Summary | Origin |
 | - | - | - | - |
