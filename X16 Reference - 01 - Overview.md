@@ -5,9 +5,13 @@ The Commander X16 is a modern 8-bit home computer in the philosophy of Commodore
 
 Unlike emulators or FPGA recreations of vintage hardware, the X16 is a *new* design with no original Commodore chips. It uses modern, available components while preserving the programming experience and spirit of classic 8-bit computing.
 
+## About This Guide
+
+This *Programmer's Reference Guide* is intended to be a comprehensive technical manual for software developers.  For a gentler introduction to using the Commander X16, see the [Commander X16 User Guide](https://github.com/X16Community/x16-user-guide).
+
 ## Features
 
-* **CPU:** 65C02S at 8 MHz ([*](#future-65c816-support))
+* **CPU:** 8 MHz 65C02S or 65C816
 * **RAM:** 512 KB banked RAM (upgradeable to 2 MB on the X16 Developer Edition)
 * **ROM:** 512 KB containing KERNAL, BASIC, DOS, character sets, and more
 * **Expansion:** Expansion Cards & Cartridges
@@ -23,7 +27,7 @@ Unlike emulators or FPGA recreations of vintage hardware, the X16 is a *new* des
   * VGA, NTSC composite, S-Video, and RGB output
 
 * **Audio:**
-  * Yamaha YM2151 (FM synthesis): 8 channels, 4-operator, stereo, 162 instruments
+  * Yamaha YM2151 or YM2164 (FM synthesis): 8 channels, 4-operator, stereo, 162 instruments
   * VERA PSG (waveform synthesis): 16 channels, 4 waveforms (pulse, sawtooth, triangle, noise), stereo
   * VERA PCM (sample playback): Up to 48 kHz, 16-bit, stereo
   * Audio upgrades available via onboard header or Expansion Cards.
@@ -40,7 +44,7 @@ The following block diagram shows how the major components of the Commander X16 
 
 ![Commander X16 Block Diagram](images/cx16_block_diagram.png)
 
-The 65C02 CPU communicates with RAM, ROM, and I/O devices through a shared address and data bus. The VERA handles all video output and also provides the PSG audio channels. The YM2151 FM synthesizer operates independently for rich sound capabilities. The System VIA (Versatile Interface Adapter) chip handles input from controllers, the PS/2 ports, the IEC serial bus. A second (optional) VIA provides flexible user port GPIOs.
+The CPU communicates with RAM, ROM, and I/O devices through a shared address and data bus. The VERA handles all video output and also provides the PSG audio channels. The FM synthesizer operates independently for rich sound capabilities. The System VIA (Versatile Interface Adapter) chip handles input from controllers, the PS/2 ports, the IEC serial bus. A second (optional) VIA provides flexible user port GPIOs.
 
 ## Commodore Compatibility
 
@@ -62,13 +66,6 @@ The system was deliberately designed to maximize compatibility with existing Com
 
 Pure BASIC programs and well-behaved machine language programs (those using only KERNAL calls) can often run on the X16 with little or no modification. The BASIC interpreter has been extended with many new commands for graphics, sound, and file handling, while retaining full compatibility with classic programs.
 
-## About This Guide
-
-This *Programmer's Reference Guide* is intended to be a comprehensive technical manual for software developers.  For a gentler introduction to using the Commander X16, see the [Commander X16 User Guide](https://github.com/X16Community/x16-user-guide).
-
-## Future 65C816 Support
-
-A future upgrade path for the X16 may involve the 65C816 processor. It is almost fully compatible with the 65C02 except for 4 instructions (`BBRx`, `BBSx`, `RMBx`, and `SMBx`). It is advisable not to use these instructions when writing programs for the X16.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
