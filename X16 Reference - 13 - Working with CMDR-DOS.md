@@ -277,7 +277,7 @@ And this table shows which of the standard commands are supported:
 | CHANGE DIRECTORY | `CD`[_path_]`:`_name_                                 | Change the current sub-directory| yes       |
 | CHANGE DIRECTORY | `CD`[_medium_]`:←`                                    | Change sub-directory up         | yes       |
 | CHANGE PARTITION | `CP` _num_                                            | Make a partition the default    | yes       |
-| COPY             | `C`[_path_a_]`:`_target_name_`=`[_path_b_]`:`_source_name_[`,`...] | Copy/concatenate files | yes   |
+| COPY             | `C`[_path_a_]`:`_target_name_`=`[_path_b_]`:`_source_name_[`,`...] | Copy/concatenate files | yes<sup>7</sup>   |
 | COPY             | `C`_dst_medium_`=`_src_medium_                        | Copy all files between disk     | no<sup>1</sup>|
 | DUPLICATE        | `D:`_dst_medium_``=``_src_medium_                     | Duplicate disk                  | no<sup>1</sup>|
 | FILE LOCK        | `F-L`[_path_]`:`_name_[`,`...]                        | Enable file write-protect       | yes       |
@@ -333,6 +333,7 @@ And this table shows which of the standard commands are supported:
 * <sup>4</sup>: CMDR-DOS was architected to run on the main computer, so it shouldn't be DOS that keeps track of the time
 * <sup>5</sup>: Instead of testing the ROM, this command currently verifies that no buffers are allocated, otherwise it halts. This is used by unit tests to detect leaks.
 * <sup>6</sup>: Repurposed for SD card read and write mode. _flag_ selects whether fast read (auto_tx) and fast writes are enabled. 0=none, 1=auto_tx, 2=fast writes, 3=both
+* <sup>7</sup>: Doesn't work in the emulator and hostfs. With the emulator, a mounted SD card image is required.
 
 The following special file syntax and `OPEN` options are specific to CMDR-DOS:
 
