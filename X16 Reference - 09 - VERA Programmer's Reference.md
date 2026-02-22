@@ -1017,7 +1017,7 @@ At reset, the palette will contain a predefined palette:
 | 2                     | 32 pixels   |
 | 3                     | 64 pixels   |
 
-**Rendering Priority** The sprite memory location dictates the order in which it is rendered. The sprite whose attributes are at the lowest location will be rendered in front of all other sprites; the sprite at the highest location will be rendered behind all other sprites, and so forth.
+**Rendering Priority** Sprites are rendered in ascending order in memory. If a pixel have already been rendered by a sprite with a given Z-depth, it will not be rendered again by another sprite with the same Z-depth. If Z-depth of the new sprite is higher, the pixel is overwritten.
 
 **Palette offset** works in the same way as with the layers.
 
@@ -1059,6 +1059,39 @@ FX features are controlled mainly by registers $9F29-$9F2C with DCSEL set to 2 t
 
 Preliminary documentation for the feature can be found in [Chapter 10](X16%20Reference%20-%2010%20-%20VERA%20FX%20Reference.md#chapter-10-vera-fx-reference), but as this is a brand new
  feature, examples and documentation still need to be written.
+
+
+## Video pipeline
+The active area of the screen consist of layers stacked in this order. They are rendered from bottom to top, by the display composer.
+- Sprite, if Z=3
+- Layer 1
+- Sprite, if Z=2
+- Layer 0
+- Sprite, if Z=1
+- Black
+
+If a pixel in a layer is transparent (color index 0), or, the entire layer is hidden (**DC_VIDEO**), the output becomes what is visible in the layer(s) below.
+
+### Sprite renderer / line buffer
+There are 128 sprites, which are rendered to a double scanline buffer. This buffer contains, for each pixel:
+- Color index (transparent if 0)
+- Z depth
+- Sprite collision mask
+
+The display composer reads the pre-rendered data from line buffer A, pixel by pixel. At the same time, it requests the sprite renderer to render the next line to line buffer B. One scanline is written to the VGA port in 800 clock cycles. Which means that rendering all the sprite pixels for the next line must be done within 800 cycles.
+
+Cost:
+- Evaluating one sprite: 1 cycle
+- Fetching 32 bits of sprite image data: 1 cycle
+- Rendering one pixel: 1 cycle
+
+Example:
+- Unrendered sprite: 1 cycle
+- Smallest (4bpp 8px): 1 + 8 + 1 = 10 cycles
+- Biggest (8bpp 64px): 1 + 64 + 16 = 81 cycles
+
+Sprites are rendered from lowest to highest index. If a sprite is to be rendered, the image data is loaded from video ram. Then, individual non-transparent pixels are written to the buffer IF the Z-depth is bigger than existing pixel, OR if existing pixel is transparent. Sprite collision mask may reveal a collision between sprites.
+
 
 ## Audio
 
