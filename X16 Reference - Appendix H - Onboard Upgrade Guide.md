@@ -18,7 +18,7 @@ These instructions will guide you how to update your X16 firmware from any previ
 
 | Firmware        | Version | Date       | Link                                                               |
 |-----------------|---------|------------|--------------------------------------------------------------------|
-| ROM             | R48     | 2024-09-06 | https://github.com/X16Community/x16-rom/releases/tag/r48           |
+| ROM             | R49     | 2025-11-19 | https://github.com/X16Community/x16-rom/releases/tag/r49           |
 | SMC             | 48.0.0  | 2024-12-23 | https://github.com/X16Community/x16-smc/releases/tag/r48.0.0       |
 | VERA            | 48.0.1  | 2025-01-08 | https://github.com/X16Community/vera-module/releases/tag/v48.0.1   |
 | SMC bootloader  | 3       | 2024-09-13 | https://github.com/X16Community/x16-smc-bootloader/releases/tag/v3 |
@@ -105,9 +105,9 @@ To organize multiple ROM and VERA versions on the SD card, you may e.g. add fold
 		- Download Assets -> VERA_48.0.1.BIN
     - https://github.com/mooinglemur/flashvera/releases/tag/v0.2
 		- Download Assets -> FLASHVERA.PRG
-- ROM R48
-	- https://github.com/X16Community/x16-rom/releases/tag/r48
-		- Download Assets -> Release.R48.ROM.Image.zip
+- ROM R49
+	- https://github.com/X16Community/x16-rom/releases/tag/r49
+		- Download Assets -> Release.R49.ROM.Image.zip
 			- Extract "rom.bin"
 	- https://github.com/FlightControl-User/x16-flash/releases/tag/r3.0.0
 		- Download Assets -> CX16-UPDATE-R3.0.0.PRG
@@ -152,7 +152,7 @@ RUN
 
 - After programming, restart machine and type `HELP` to verify VERA version.
 
-### Step 5: Update ROM to R48
+### Step 5: Update ROM to R49
 - Minimum SMC version: 43.0.0
 - Minimum VERA version: 0.3.1
 - You may follow this guide: https://github.com/FlightControl-User/x16-flash
@@ -235,6 +235,7 @@ With Boot V3 failsafe installed, you have a fallback mechanism in case SMC firmw
 ## Appendix: Release history
 | Date       | ROM               | SMC     | VERA   | SMC bootloader | Notes                           |
 |------------|-------------------|---------|--------|----------------|---------------------------------|
+| 2025-11-19 | R49               |         |        |                | Release R49 ("Pyrite")          |
 | 2025-01-08 |                   |         | 48.0.1 |                | XOR Sawtooth + bus stability    |
 | 2024-12-23 |                   | 48.0.0  |        |                | Kbd initstate, read fuse++      |
 | 2024-09-13 |                   |         |        | 3              | Boot v3, with failsafe          |
