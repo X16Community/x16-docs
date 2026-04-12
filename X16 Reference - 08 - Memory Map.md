@@ -139,6 +139,7 @@ This is the memory map of the I/O Area:
 |\$9FB0-\$9FBF|Used by emulator. [Details](https://github.com/X16Community/x16-emulator?tab=readme-ov-file#emulator-io-registers) | --- |
 |\$9FC0-\$9FDF|Expansion Card Memory Mapped IO6     |2 MHz|
 |\$9FE0-\$9FFF|Cartidge/Expansion Memory Mapped IO7 |2 MHz|
+|\$9FFF       |POST code. [Details](X16%20Reference%20-%20Appendix%20E%20-%20Diagnostic%20Bank.md#post) |2 MHz|
 
 ### Expansion Cards & Cartridges
 

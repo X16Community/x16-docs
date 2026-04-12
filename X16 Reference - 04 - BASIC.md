@@ -2697,6 +2697,30 @@ SCREEN 0 : REM SWITCH TO 80 CHARACTER MODE
 SCREEN -1 : REM SWITCH BETWEEN 40 and 80 CHARACTER MODE
 ```
 
+To edit text on the screen, refer to the following commands:
+* [CHAR](#char)
+* [COLOR](#color)
+* [LOCATE](#locate)
+* [POS](#pos)
+* [TATTR](#tattr)
+* [TDATA](#tdata)
+* [TILE](#tile)
+
+To edit bitmap data in screen mode $80, refer to the following commands:
+* [FRAME](#frame)
+* [LINE](#line)
+* [OVAL](#oval)
+* [PSET](#pset)
+* [RECT](#rect)
+* [RING](#ring)
+
+Direct writing of the VERA's memory can be performed via [VPOKE](#vpoke).
+
+Details about programming for the VERA video adapter can be found in [Chapter 9: VERA Programmer's Reference](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md). In particular, please refer to the sections on [VRAM Address Space Layout](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#vram-address-space-layout) and [Tile mode 1 bpp (16 color text mode)](X16%20Reference%20-%2009%20-%20VERA%20Programmer's%20Reference.md#tile-mode-1-bpp-16-color-text-mode). All text modes use Tile mode 1 bpp (16 color text mode), with 128 tiles per line and 64 lines, even though the display will not show the entire range at once.
+
+The video memory for all text modes start at VERA bank 1, address $B000. (e.g. `VPOKE 1, $B000, 0`).
+For mode $80, bitmap memory starts at VERA bank 0, address $0000. (e.g. `VPOKE 0, $0000, 0`).
+
 ### SGN
 
 **TYPE: Integer Function**  
