@@ -27,7 +27,7 @@ Mode $80 contains two layers: a text layer on top of a graphics screen. In this 
 
 To switch modes, use the BASIC statement `SCREEN` or the KERNAL API `screen_mode`. In the BASIC editor, the F4 key toggles between modes 0 (80x60) and 3 (40x30).
 
-All text layers uses layer 1, uppermost layer.
+All modes use layer 1 (the uppermost layer) for text. Mode $80 also uses layer 0 for graphics.
 
 <!-- For PDF formatting -->
 <div class="page-break"></div>
