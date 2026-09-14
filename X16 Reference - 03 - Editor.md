@@ -71,7 +71,7 @@ ISO mode can be enabled and disabled using two new control codes:
 
 You can also enable ISO mode in direct mode by pressing Ctrl+`O`.
 
-**Important:** In ISO mode, BASIC keywords need to be written in upper case, that is, they have to be entered with the Shift key down, and abbreviating keywords is no longer possible.
+**Important:** In ISO mode, while BASIC keywords can be written in either case, the variable names and hex literals need to be written in upper case, that is, they have to be entered with the Shift key down. Also, abbreviating keywords is no longer possible.
 
 ## Background Color
 
