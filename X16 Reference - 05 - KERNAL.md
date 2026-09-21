@@ -238,6 +238,34 @@ Additional KERNAL indirect vectors have been added as part of the KERNAL's 65C81
 \$033E-\$033F: `INCOP` - COP Instruction Interrupt Routine (native mode)  
 \$0340-\$0341: `INABORT` - ABORT Routine (native mode)  
 
+#### Handling IRQ
+
+If the IRQ vector is replaced with a user function and that function does not call back to the replaced IRQ routine, it will have to handle all necessary IO communication by it self. Such as fetching PS2 data, getting mouse, keyboard and joystick updates etc. It is also necessary to acknowledge the interrupt source and perform some cleanup before returning.  
+Before the user IRQ function is called, the KERNAL pushes the CBM IRQ stackframe onto the stack. The CBM IRQ stackframe consists of registers `a`, `x` & `y` in that order.  
+These values will need to be popped before returning from the interrupt function.
+```
+.proc my_tight_interrrupt_function
+	...
+
+	lda	#1
+	sta	$9F27	; Acknowledge VBLANK by writing to VERA_ISR
+	ply
+	plx
+	pla
+	rti
+.endproc
+```
+For many custom interrupt handlers, it will be sufficient to simply call the original IRQ routine and let the kernal handle IO communication, acknowledging interrupt and restoring registers.
+```
+.proc my_interrupt_function
+	...
+
+	jmp	(kernal_isr)	; kernal_isr should hold the address previously at $0314
+.endproc
+```
+
+---
+
 #### Handling NMI
 
 If the NMI vector is replaced with a user function and that function does not call 
@@ -247,10 +275,10 @@ values will need to be popped before returning from the NMI:
 
 ```
 .proc my_awesome_nmi
-        ...
+	...
 
 	pla
-	sta $01
+	sta	$01
 	pla
 	rti
 .endproc
