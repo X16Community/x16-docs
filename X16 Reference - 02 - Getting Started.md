@@ -223,6 +223,13 @@ language programs at your keyboard.
 **F8** `DOS"` allows you to enter a disk command, such as CD:. More info can be
 found in chapter 13.
 
+## Joystick
+
+The machine supports 4 SNES-style joysticks.
+
+There is also a "keyboard joystick", a set of keyboard keys that map to the SNES controller layout.
+See [`joystick_get`](X16%20Reference%20-%2005%20-%20KERNAL.md#function-name-joystick_get) for details.
+
 ## WHAT IS `PC  RA RO AC XR YR SP NV#BDIZC`?
 
 There are times when the computer will drop to the MONITOR prompt. That looks
